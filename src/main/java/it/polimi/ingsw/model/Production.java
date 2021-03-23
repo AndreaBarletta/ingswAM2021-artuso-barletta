@@ -5,16 +5,16 @@ import java.util.Map;
 
 public class Production {
     private Map<ResType,Integer> ingredients;
-    private Map<ResType,Integer> product;
+    private Map<ResType,Integer> products;
 
     public Production(){
-        product=new HashMap<>();
+        products=new HashMap<>();
         ingredients=new HashMap<>();
     }
 
-    public Production(Map<ResType,Integer> ingredients,Map<ResType,Integer> product){
+    public Production(Map<ResType,Integer> ingredients,Map<ResType,Integer> products){
         this.ingredients=ingredients;
-        this.product=product;
+        this.products=products;
     }
 
     public Map<ResType, Integer> getIngredients() {
@@ -22,14 +22,6 @@ public class Production {
     }
 
     public Map<ResType, Integer> getProduct() {
-        return product;
-    }
-
-    public void setIngredients(Map<ResType, Integer> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public void setProduct(Map<ResType, Integer> product) {
-        this.product = product;
+        return products;
     }
 }
