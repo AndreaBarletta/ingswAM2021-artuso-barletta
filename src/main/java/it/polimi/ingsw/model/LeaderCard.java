@@ -13,10 +13,18 @@ public abstract class LeaderCard {
         this.requirements=requirements;
     }
 
+    /**
+     *
+     * @return Victory points of the leader card
+     */
     public int getVictoryPoints() {
         return victoryPoints;
     }
 
+    /**
+     *
+     * @return Whether or not the card has already been played
+     */
     public boolean isPlayed() {
         return isPlayed;
     }
