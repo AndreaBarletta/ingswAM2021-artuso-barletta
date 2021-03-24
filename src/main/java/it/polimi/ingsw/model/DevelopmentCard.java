@@ -33,8 +33,8 @@ public class DevelopmentCard {
         return cardType;
     }
 
-    public Production getProduction() {
-        return production;
+    public Map<ResType, Integer> produce() {
+        return production.getProduct();
     }
 
     public Map<ResType, Integer> getIngredients(){
