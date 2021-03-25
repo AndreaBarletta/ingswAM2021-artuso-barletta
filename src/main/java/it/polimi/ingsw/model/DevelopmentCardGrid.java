@@ -4,13 +4,13 @@ import java.util.Stack;
 
 public class DevelopmentCardGrid {
 
-    private Stack<DevelopmentCard>[][] cardGrid;
+    private DevelopmentCardGridCell[][] cardGrid;
 
-    public DevelopmentCardGrid(Stack<DevelopmentCard>[][] cardGrid) {
-        this.cardGrid = new Stack<DevelopmentCard>[4][3];
+    public DevelopmentCardGrid() {
+        cardGrid = new DevelopmentCardGridCell[3][4];
     }
 
-    public Stack<DevelopmentCard>[][] getCardGrid() {
+    public DevelopmentCardGridCell[][] getCardGrid() {
         return cardGrid;
     }
 }
