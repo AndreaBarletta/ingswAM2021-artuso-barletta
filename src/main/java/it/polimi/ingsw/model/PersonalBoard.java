@@ -16,6 +16,7 @@ public class PersonalBoard {
         //developmentCardSlots=new DevelopmentCardSlots[3];
         baseProduction=new Production();
         storages=new Storage[3];
+        //faithtTrack=new FaithTrack();
     }
 
     /**
@@ -41,5 +42,9 @@ public class PersonalBoard {
             );
         }
         return true;
+    }
+
+    public void buyDevCard(DevelopmentCard card, ResType discount){
+
     }
 }

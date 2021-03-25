@@ -4,8 +4,10 @@ import java.util.Map;
 
 public abstract class LeaderCard {
     private boolean isPlayed;
-    private final int victoryPoints;
+    private int victoryPoints;
     private Map<ResType, Integer> requirements;
+
+    public LeaderCard(){}
 
     public LeaderCard(int victoryPoints, Map<ResType, Integer> requirements){
         this.victoryPoints=victoryPoints;
