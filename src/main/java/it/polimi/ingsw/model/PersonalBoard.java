@@ -11,8 +11,8 @@ public class PersonalBoard {
     private Chest chest;
     private Storage[] storages;
 
-    public PersonalBoard(){
-        leaderCards=new LeaderCard[2];
+    public PersonalBoard(LeaderCard[] leaderCards){
+        this.leaderCards=leaderCards;
         //developmentCardSlots=new DevelopmentCardSlots[3];
         baseProduction=new Production();
         storages=new Storage[3];
@@ -46,5 +46,9 @@ public class PersonalBoard {
 
     public void buyDevCard(DevelopmentCard card, ResType discount){
 
+    }
+
+    public void setLeaderCards(LeaderCard[] leaderCards){
+        this.leaderCards=leaderCards;
     }
 }
