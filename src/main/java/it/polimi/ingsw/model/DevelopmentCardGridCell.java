@@ -33,4 +33,8 @@ public class DevelopmentCardGridCell {
     public boolean isEmpty(){
         return cardGridCell.empty();
     }
+
+    public int size(){
+        return cardGridCell.size();
+    }
 }
