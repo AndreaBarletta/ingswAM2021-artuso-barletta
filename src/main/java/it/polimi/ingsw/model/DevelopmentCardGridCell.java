@@ -15,6 +15,7 @@ public class DevelopmentCardGridCell {
      */
     public void addCard(DevelopmentCard newCard){
         cardGridCell.push(newCard);
+
     }
 
     /**
