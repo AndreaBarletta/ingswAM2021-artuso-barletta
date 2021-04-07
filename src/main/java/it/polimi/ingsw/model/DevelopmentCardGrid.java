@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class DevelopmentCardGrid {
     private DevelopmentCardGridCell[][] cardGrid;
 
@@ -38,5 +42,33 @@ public class DevelopmentCardGrid {
      */
     public void addCard(DevelopmentCard card){
         cardGrid[card.getLevel()-1][card.getCardType().ordinal()].addCard(card);
+    }
+
+    /**
+     * Shuffle the cards, keeping them separated by level and card type
+     */
+    public void shuffle(){
+        for (int row = 0; row < 3; row ++){
+            for (int col = 0; col < 4; col++){
+                List<DevelopmentCard> cards=new ArrayList<>();
+                while(!cardGrid[row][col].isEmpty()){
+                    cards.add(cardGrid[row][col].removeCard());
+                }
+                Collections.shuffle(cards);
+                for(DevelopmentCard card:cards){
+                    cardGrid[row][col].addCard(card);
+                }
+            }
+        }
+    }
+
+    public int size(){
+        int size=0;
+        for (int row = 0; row < 3; row ++){
+            for (int col = 0; col < 4; col++){
+                size+=cardGrid[row][col].size();
+            }
+        }
+        return size;
     }
 }
