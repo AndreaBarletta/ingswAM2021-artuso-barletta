@@ -30,6 +30,12 @@ public class Game implements GameEventListener {
         eventListeners.add(newEventListener);
     }
 
+
+    /**
+     * Loads developments cards from a json file and creates the development card grid, putting the cards in the right cells based on the level and card type
+     * @param path Path of the json file containing the  list of development cards
+     * @throws IOException
+     */
     public void loadDevelopmentCardsFromFile(String path) throws IOException {
         File file=new File(path);
         String content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
