@@ -21,7 +21,15 @@ public class Production {
         return ingredients;
     }
 
+    public void setIngredients(Map<ResType, Integer> ingredients) {
+        this.ingredients = ingredients;
+    }
+
     public Map<ResType, Integer> getProduct() {
         return products;
+    }
+
+    public void setProducts(Map<ResType, Integer> products) {
+        this.products = products;
     }
 }
