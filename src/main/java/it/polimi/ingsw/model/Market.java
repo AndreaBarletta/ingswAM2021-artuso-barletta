@@ -6,6 +6,10 @@ public class Market {
     private ResType[][] marketTray;
     private ResType leftoverMarble;
 
+    public Market(){
+
+    }
+
     public Market(ResType leftoverMarble) {
         this.marketTray = new ResType[3][4];
         this.leftoverMarble = leftoverMarble;
