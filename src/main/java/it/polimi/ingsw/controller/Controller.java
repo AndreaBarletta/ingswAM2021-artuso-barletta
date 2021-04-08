@@ -1,11 +1,12 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.view.ViewEventListener;
+import it.polimi.ingsw.model.PlayerEventListener;
+import it.polimi.ingsw.model.GameEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller implements ViewEventListener{
+public class Controller implements PlayerEventListener,GameEventListener {
     private List<ControllerEventListener> eventListeners;
 
     public Controller(){

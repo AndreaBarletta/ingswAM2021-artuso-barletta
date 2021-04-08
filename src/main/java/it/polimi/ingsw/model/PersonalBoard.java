@@ -1,9 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.ControllerEventListener;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class PersonalBoard {
+public class PersonalBoard implements ControllerEventListener {
     private String playerNickname;
     private LeaderCard[] leaderCards;
     //private FaithTrack faithTrack;
@@ -11,6 +15,19 @@ public class PersonalBoard {
     private Production baseProduction;
     private Chest chest;
     private Storage[] storages;
+    private List<PlayerEventListener> eventListeners;
+
+    public PersonalBoard(){
+        eventListeners=new ArrayList<>();
+    }
+
+    /**
+     * Adds a new view event listener to the listener list
+     * @param newEventListener new view event listener to be added to the listeners list
+     */
+    public void addEventListener(PlayerEventListener newEventListener){
+        eventListeners.add(newEventListener);
+    }
 
     public PersonalBoard(String playerNickname){
         this.playerNickname=playerNickname;
