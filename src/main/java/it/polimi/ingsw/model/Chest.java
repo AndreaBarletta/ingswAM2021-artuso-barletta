@@ -28,11 +28,13 @@ public class Chest {
     }
 
     /**
-     * removes the resources taken from input
+     * removes an amount of a resource
+     * @param resToRem the resource
+     * @param quantity the amount
      */
-    public void remove(ResType resToAdd, int quantity){
-        quantity-=resources.get(resToAdd);
+    public void remove(ResType resToRem, int quantity){
+        quantity-=resources.get(resToRem);
         //if(quantity<0)  quantity=0;
-        resources.put(resToAdd,quantity);
+        resources.put(resToRem,quantity);
     }
 }
