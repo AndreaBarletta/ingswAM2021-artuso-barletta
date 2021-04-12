@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.exceptions.DepotException;
+import it.polimi.ingsw.model.exceptions.DepotResourceTypeException;
+import it.polimi.ingsw.model.exceptions.DepotSpaceException;
+
 import java.util.AbstractMap;
 
 public class Depot {
@@ -7,10 +11,11 @@ public class Depot {
     private final int capacity;
     // Number of resources currently present in the depot
     private int counter;
+    // Type of resource currently present in the depot
     private ResType depotResource;
 
     /**
-     * Creates a
+     * Creates a new depot
      * @param capacity Maximum capacity of the depot
      */
     public Depot(int capacity){
@@ -18,6 +23,10 @@ public class Depot {
         this.counter=0;
     }
 
+    /**
+     * Changes the type of resource currently stored in the depot
+     * @param depotResource New type of resource
+     */
     public void setDepotResource(ResType depotResource){
         this.depotResource=depotResource;
     }
@@ -26,17 +35,15 @@ public class Depot {
         return depotResource;
     }
 
-    public boolean add(ResType resourceType,int quantity){
-        if(checkResType(resourceType)){
-            if(checkSpace(counter+quantity)){
-                counter+=quantity;
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            return false;
+    public void add(ResType resourceType,int quantity) throws DepotException {
+        if(!checkResType(resourceType)) {
+            throw new DepotResourceTypeException();
         }
+
+        if(!checkSpace(counter+quantity)){
+            throw new DepotSpaceException();
+        }
+        counter+=quantity;
     }
 
     private boolean checkResType(ResType resourceType){
