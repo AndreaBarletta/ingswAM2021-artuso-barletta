@@ -14,7 +14,7 @@ public class PersonalBoard implements ControllerEventListener {
     //private DevelopmentCardSlot[] developmentCardSlots;
     private Production baseProduction;
     private Chest chest;
-    private Storage[] storages;
+    private Depot[] depots;
     private List<PlayerEventListener> eventListeners;
 
     public PersonalBoard(){
@@ -33,7 +33,7 @@ public class PersonalBoard implements ControllerEventListener {
         this.playerNickname=playerNickname;
         //developmentCardSlots=new DevelopmentCardSlots[3];
         baseProduction=new Production();
-        storages=new Storage[3];
+        depots =new Depot[3];
         //faithTrack=new FaithTrack();
     }
 
