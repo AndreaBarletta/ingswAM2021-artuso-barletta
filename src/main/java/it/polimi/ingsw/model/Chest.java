@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.util.AbstractMap;
 import java.util.Map;
 
 public class Chest {
