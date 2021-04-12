@@ -2,18 +2,28 @@ package it.polimi.ingsw.model;
 
 import java.util.AbstractMap;
 
-public class Storage {
+public class Depot {
+    // Maximum capacity of the depot
     private final int capacity;
+    // Number of resources currently present in the depot
     private int counter;
-    private ResType storageResource;
+    private ResType depotResource;
 
-    public Storage(int capacity){
+    /**
+     * Creates a
+     * @param capacity Maximum capacity of the depot
+     */
+    public Depot(int capacity){
         this.capacity=capacity;
         this.counter=0;
     }
 
-    public void setStorageResource(ResType storageResource){
-        this.storageResource=storageResource;
+    public void setDepotResource(ResType depotResource){
+        this.depotResource=depotResource;
+    }
+
+    public ResType getDepotResources(){
+        return depotResource;
     }
 
     public boolean add(ResType resourceType,int quantity){
@@ -30,7 +40,7 @@ public class Storage {
     }
 
     private boolean checkResType(ResType resourceType){
-        return storageResource==resourceType;
+        return depotResource==resourceType;
     }
 
     private boolean checkSpace(int newCounter){
@@ -38,6 +48,6 @@ public class Storage {
     }
 
     public AbstractMap.SimpleEntry<ResType,Integer> getContent(){
-        return new AbstractMap.SimpleEntry<>(storageResource, counter);
+        return new AbstractMap.SimpleEntry<>(depotResource, counter);
     }
 }
