@@ -57,6 +57,7 @@ public class DevelopmentCard {
     public Map<ResType, Integer> produce() {
         return production.getProduct();
     }
+
     /**
      *
      * @return Resources required by the development card to activate production
