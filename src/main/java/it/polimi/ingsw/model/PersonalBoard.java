@@ -13,7 +13,7 @@ public class PersonalBoard implements ControllerEventListener {
     //private FaithTrack faithTrack;
     //private DevelopmentCardSlot[] developmentCardSlots;
     private Production baseProduction;
-    private Chest chest;
+    private Strongbox strongbox;
     private Depot[] depots;
     private List<PlayerEventListener> eventListeners;
 

@@ -1,13 +1,15 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.exceptions.StrongboxNegQuantityException;
+
 import java.util.Map;
 
-public class Chest {
+public class Strongbox {
     //attributes
     private Map<ResType,Integer> resources;
 
     //constructor
-    public Chest(Map<ResType,Integer> resources){
+    public Strongbox(Map<ResType,Integer> resources){
         this.resources=resources;
     }
 
@@ -31,9 +33,9 @@ public class Chest {
      * @param resToRem the resource
      * @param quantity the amount
      */
-    public void remove(ResType resToRem, int quantity){
+    public void remove(ResType resToRem, int quantity) throws StrongboxNegQuantityException {
         quantity-=resources.get(resToRem);
-        //if(quantity<0)  quantity=0;
+        if(quantity < 0) throw new StrongboxNegQuantityException();
         resources.put(resToRem,quantity);
     }
 }
