@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.exceptions.StrongboxNegQuantityException;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Strongbox {
@@ -13,6 +14,9 @@ public class Strongbox {
         this.resources=resources;
     }
 
+    public Strongbox(){
+        resources=new HashMap<>();
+    }
     //methods
     public Map<ResType,Integer> getContent(){
         return resources;
@@ -20,22 +24,26 @@ public class Strongbox {
 
     /**
      * adds an amount of a resource
-     * @param resToAdd the resource
-     * @param quantity the amount
+     * @param newResources Resources to be added to the strongbox
      */
-    public void add(ResType resToAdd, int quantity){
-        quantity+=resources.get(resToAdd);
-        resources.put(resToAdd,quantity);
+    public void add(Map<ResType,Integer> newResources){
+        newResources.forEach((k,v)->resources.merge(k,v,Integer::sum));
     }
 
     /**
      * removes an amount of a resource
-     * @param resToRem the resource
-     * @param quantity the amount
+     * @param toRemove Resources to remove from the strongbox
      */
-    public void remove(ResType resToRem, int quantity) throws StrongboxNegQuantityException {
-        quantity-=resources.get(resToRem);
-        if(quantity < 0) throw new StrongboxNegQuantityException();
-        resources.put(resToRem,quantity);
+    public void remove(Map<ResType,Integer> toRemove) throws StrongboxNegQuantityException {
+        HashMap<ResType,Integer> tempResources=new HashMap<>(resources);
+        for (Map.Entry<ResType, Integer> entry : toRemove.entrySet()) {
+            ResType k = entry.getKey();
+            Integer v = entry.getValue();
+            resources.merge(k, -v, Integer::sum);
+            if (resources.get(k) < 0) {
+                resources = new HashMap<>(tempResources);
+                throw new StrongboxNegQuantityException();
+            }
+        }
     }
 }
