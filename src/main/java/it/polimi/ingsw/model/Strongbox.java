@@ -10,10 +10,6 @@ public class Strongbox {
     private Map<ResType,Integer> resources;
 
     //constructor
-    public Strongbox(Map<ResType,Integer> resources){
-        this.resources=resources;
-    }
-
     public Strongbox(){
         resources=new HashMap<>();
     }
