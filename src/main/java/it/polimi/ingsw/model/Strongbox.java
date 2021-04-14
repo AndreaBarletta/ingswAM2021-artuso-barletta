@@ -13,6 +13,7 @@ public class Strongbox {
     public Strongbox(){
         resources=new HashMap<>();
     }
+
     //methods
     public Map<ResType,Integer> getContent(){
         return resources;
