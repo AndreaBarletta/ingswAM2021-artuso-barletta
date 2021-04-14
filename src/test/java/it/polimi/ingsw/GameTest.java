@@ -16,11 +16,8 @@ public class GameTest {
     @Test
     public void testLoadFromFile(){
         Game game=new Game();
-        try {
-            game.loadDevelopmentCardsFromFile("src/main/java/it/polimi/ingsw/resources/developmentCards.json");
-        }catch(IOException e){
-            System.out.println("Error while loading development cards from file");
-        }
+        assertTrue(game.loadDevelopmentCardsFromFile("src/main/java/it/polimi/ingsw/resources/developmentCards.json"));
+        assertTrue(game.loadPopeFavorCardsFromFile("src/main/java/it/polimi/ingsw/resources/developmentCards.json"));
 
         assertEquals(game.getDevelopmentCardGrid().size(),48);
     }

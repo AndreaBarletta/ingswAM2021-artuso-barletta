@@ -15,6 +15,7 @@ public class Game implements GameEventListener {
     private PersonalBoard[] personalBoards;
     private Market market;
     private DevelopmentCardGrid developmentCardGrid;
+    private PopeFavourCard[] popeFavourCards;
     private List<GameEventListener> eventListeners;
 
     public Game(){
@@ -31,15 +32,23 @@ public class Game implements GameEventListener {
         eventListeners.add(newEventListener);
     }
 
-
     /**
-     * Loads developments cards from a json file and creates the development card grid, putting the cards in the right cells based on the level and card type
+     * Loads developments cards from a json file and creates the development card grid,
+     * putting the cards in the right cells based on the level and card type
      * @param path Path of the json file containing the  list of development cards
-     * @throws IOException Error while reading file i.e. wrong path
+     * @return Whether or not the development cards were loaded successfully and the card grid was created
      */
-    public void loadDevelopmentCardsFromFile(String path) throws IOException {
+    public boolean loadDevelopmentCardsFromFile(String path){
+        String content;
+
         File file=new File(path);
-        String content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        try{
+            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        }catch(IOException e){
+            System.out.println("Error reading from file while loading development cards i.e. wrong path");
+            return false;
+        }
+
         Gson gson=new Gson();
         try{
             DevelopmentCard[] developmentCards=gson.fromJson(content, DevelopmentCard[].class);
@@ -48,7 +57,37 @@ public class Game implements GameEventListener {
             }
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for development cards");
+            return false;
         }
+
+        return true;
+    }
+
+    /**
+     * Loads the pope favour cards from a json file, which are then assigned to the players at the beginning
+     * of the game
+     * @param path Path of the json file containing the list of pope favour cards
+     */
+    public boolean loadPopeFavorCardsFromFile(String path) {
+        String content;
+
+        File file=new File(path);
+        try{
+            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        }catch(IOException e){
+            System.out.println("Error reading from file while loading popefavour cards i.e. wrong path");
+            return false;
+        }
+
+        Gson gson=new Gson();
+        try{
+            DevelopmentCard[] developmentCards=gson.fromJson(content, DevelopmentCard[].class);
+        }catch(JsonSyntaxException e){
+            System.out.println("Error loading json file for development cards");
+            return false;
+        }
+
+        return true;
     }
 
     public DevelopmentCardGrid getDevelopmentCardGrid(){
