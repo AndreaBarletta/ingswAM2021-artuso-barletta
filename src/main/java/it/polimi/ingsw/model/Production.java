@@ -25,7 +25,7 @@ public class Production {
         this.ingredients = ingredients;
     }
 
-    public Map<ResType, Integer> getProduct() {
+    public Map<ResType, Integer> getProducts() {
         return products;
     }
 

@@ -22,8 +22,8 @@ public class ProductionTest {
         Production production=new Production(ingredients,products);
 
         assertEquals(production.getIngredients(),ingredients);
-        assertEquals(production.getProduct(),products);
-        assertEquals(production.getProduct().get(ResType.FAITH),1);
+        assertEquals(production.getProducts(),products);
+        assertEquals(production.getProducts().get(ResType.FAITH),1);
     }
 
 }

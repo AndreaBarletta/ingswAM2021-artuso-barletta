@@ -66,8 +66,8 @@ public class DevelopmentCard {
      * Gets the resources produced by the production of the card
      * @return Resources produced by the development card
      */
-    public Map<ResType, Integer> produce() {
-        return production.getProduct();
+    public Map<ResType, Integer> getProducts() {
+        return production.getProducts();
     }
 
     /**
