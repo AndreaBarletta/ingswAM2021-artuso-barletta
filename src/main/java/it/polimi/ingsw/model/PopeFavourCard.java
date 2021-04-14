@@ -5,6 +5,10 @@ public class PopeFavourCard {
     private boolean isActive;
     private boolean isDiscarded;
 
+    /**
+     * Create a Pope favour card
+     * @param victoryPoints victory points given by the pope favour card when activated
+     */
     public PopeFavourCard(int victoryPoints){
         this.victoryPoints=victoryPoints;
         isActive=false;
