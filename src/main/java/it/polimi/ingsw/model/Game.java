@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
@@ -28,8 +27,8 @@ public class Game implements GameEventListener {
     }
 
     /**
-     * Adds a new view event listener to the listener list
-     * @param newEventListener new view event listener to be added to the listeners list
+     * Adds a new game event listener to the listener list
+     * @param newEventListener new game event listener to be added to the listeners list
      */
     public void addEventListener(GameEventListener newEventListener){
         eventListeners.add(newEventListener);
@@ -59,7 +58,7 @@ public class Game implements GameEventListener {
                 developmentCardGrid.addCard(d);
             }
         }catch(JsonSyntaxException e){
-            System.out.println("Error loading json file for development cards");
+            System.out.println("Error parsing json file for development cards");
             return false;
         }
 
@@ -70,42 +69,34 @@ public class Game implements GameEventListener {
      * Loads the pope favour cards from a json file, which are then assigned to the players at the beginning
      * of the game
      * @param path Path of the json file containing the list of pope favour cards
+     * @return Whether or not the pope favour cards were loaded successfully
      */
-    public boolean loadPopeFavorCardsFromFile(String path) {
+    public boolean loadPopeFavourCardsFromFile(String path) {
         String content;
 
         File file=new File(path);
         try{
             content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         }catch(IOException e){
-            System.out.println("Error reading from file while loading popefavour cards i.e. wrong path");
+            System.out.println("Error reading from file while loading pope favour cards i.e. wrong path");
             return false;
         }
 
         Gson gson=new Gson();
         try{
-            DevelopmentCard[] developmentCards=gson.fromJson(content, DevelopmentCard[].class);
+            popeFavourCards=gson.fromJson(content, PopeFavourCard[].class);
         }catch(JsonSyntaxException e){
-            System.out.println("Error loading json file for development cards");
+            System.out.println("Error parsing json file for pope favour cards");
             return false;
         }
 
         return true;
     }
 
-    public DevelopmentCardGrid getDevelopmentCardGrid(){
-        return developmentCardGrid;
-    }
-
-    public void giveInkwell(){
-        Random i = new Random();
-        personalBoards[i.nextInt(personalBoards.length)].receiveInkwell();
-    }
-
     /**
-     * Loads the leader cards from a json file.
-     * @param path Path of the json file containing the list of leader cards.
-     * @return Whether or not the leader cards were loaded successfully.
+     * Loads the leader cards from a json file
+     * @param path Path of the json file containing the list of leader cards
+     * @return Whether or not the leader cards were loaded successfully
      */
     public boolean loadLeaderCardsFromFile(String path){
         String content;
@@ -129,6 +120,18 @@ public class Game implements GameEventListener {
         }
 
         return true;
+    }
+
+    public DevelopmentCardGrid getDevelopmentCardGrid(){
+        return developmentCardGrid;
+    }
+
+    /**
+     * Assign the inkwell to a random player
+     */
+    public void giveInkwell(){
+        Random i = new Random();
+        personalBoards[i.nextInt(personalBoards.length)].receiveInkwell();
     }
 
     public void showLeaderCard(){
