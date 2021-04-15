@@ -46,6 +46,7 @@ public class DevelopmentCardSlotTest {
 
     }
 
+    @Test
     public void testGetCards(){
         DevelopmentCardSlot devCardSlot = new DevelopmentCardSlot();
 
