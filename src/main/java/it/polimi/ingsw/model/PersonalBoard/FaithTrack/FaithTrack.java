@@ -44,12 +44,13 @@ public class FaithTrack {
     }
 
     /**
-     * sums the points of each vatican report
+     * sums the points of each vatican report and the points earned by advancements
      * @return total points
      */
     public int getVictoryPoints(){
         int victoryPoints=0;
         for (VaticanReport v:vaticanReports)    victoryPoints+=v.getVictoryPoints();
+        victoryPoints+=this.victoryPoints.get(faithMarker);
         return victoryPoints;
     }
 }
