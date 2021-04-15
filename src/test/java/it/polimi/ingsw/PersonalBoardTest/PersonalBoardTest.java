@@ -11,4 +11,8 @@ public class PersonalBoardTest {
         PersonalBoard personalBoard=new PersonalBoard("test");
         assertTrue(personalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json"));
     }
+
+    public void testChooseLeaderCards(){
+
+    }
 }
