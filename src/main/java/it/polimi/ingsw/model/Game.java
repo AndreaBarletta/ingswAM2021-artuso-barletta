@@ -11,10 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Game implements GameEventListener {
     private PersonalBoard[] personalBoards;
@@ -105,6 +102,11 @@ public class Game implements GameEventListener {
         personalBoards[i.nextInt(personalBoards.length)].receiveInkwell();
     }
 
+    /**
+     * Loads the leader cards from a json file.
+     * @param path Path of the json file containing the list of leader cards.
+     * @return Whether or not the leader cards were loaded successfully.
+     */
     public boolean loadLeaderCardsFromFile(String path){
         String content;
 
@@ -130,7 +132,13 @@ public class Game implements GameEventListener {
     }
 
     public void showLeaderCard(){
-
+        List<LeaderCard> leaderCardList= Arrays.asList(leaderCards);
+        Collections.shuffle(leaderCardList);
+        for(int i = 0; i<personalBoards.length; i++){
+            LeaderCard[] leaderCardsToShow = new LeaderCard[4];
+            leaderCardList.subList(i*4, (i+1)*4-1).toArray(leaderCardsToShow);
+            personalBoards[i].chooseLeaderCards(leaderCardsToShow);
+        }
     }
 
 
