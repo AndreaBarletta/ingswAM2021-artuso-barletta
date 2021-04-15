@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.PersonalBoard;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
@@ -7,6 +9,10 @@ import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoardEventListener;
 import it.polimi.ingsw.model.ResType;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,24 +30,53 @@ public class PersonalBoard implements ControllerEventListener {
     private boolean inkwell = false;
 
 
-    public PersonalBoard(){
+    public PersonalBoard(String playerNickname){
+        this.playerNickname=playerNickname;
         eventListeners=new ArrayList<>();
+
+        //Create components
+        developmentCardSlots=new DevelopmentCardSlot[3];
+        baseProduction=new Production();
+        //Create depots
+        depots=new Depot[3];
+        for(int i=0;i<depots.length;i++){
+            depots[i]=new Depot(i+1);
+        }
     }
 
     /**
-     * Adds a new view event listener to the listener list
-     * @param newEventListener new view event listener to be added to the listeners list
+     * Adds a new personal board event listener to the listener list
+     * @param newEventListener new personal board event listener to be added to the listeners list
      */
     public void addEventListener(PersonalBoardEventListener newEventListener){
         eventListeners.add(newEventListener);
     }
 
-    public PersonalBoard(String playerNickname){
-        this.playerNickname=playerNickname;
-        developmentCardSlots=new DevelopmentCardSlot[3];
-        baseProduction=new Production();
-        depots =new Depot[3];
-        faithTrack=new FaithTrack();
+    /**
+     * Loads the faith track from a json file
+     * @param path Path of the json file containing the faith track information
+     * @return Whether or not the faith track was loaded successfully
+     */
+    public boolean loadFaithTrackFromFile(String path){
+        String content;
+
+        File file=new File(path);
+        try{
+            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        }catch(IOException e){
+            System.out.println("Error reading from file while loading faith track i.e. wrong path");
+            return false;
+        }
+
+        Gson gson=new Gson();
+        try{
+            faithTrack=gson.fromJson(content, FaithTrack.class);
+        }catch(JsonSyntaxException e){
+            System.out.println("Error parsing json file for faith track");
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -53,7 +88,7 @@ public class PersonalBoard implements ControllerEventListener {
     }
 
     /**
-     *
+     * Checks if the given productions can be activated
      * @param productions Productions to activate (including base production, leader card productions and development cards)
      * @return Whether or not there are enough resources to activate the production
      */
@@ -95,7 +130,6 @@ public class PersonalBoard implements ControllerEventListener {
      * @param newResources Resourced to be added
      */
     public void addResourcesToStorage(ResType[] newResources){
-
     }
 
     public boolean hasInkwell(){
