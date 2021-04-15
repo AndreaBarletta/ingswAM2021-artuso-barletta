@@ -33,11 +33,15 @@ public class GameTest {
     public void testGiveLeaderCards(){
         Game game=new Game();
         Controller controller=new Controller();
-        PersonalBoard personalBoard=new PersonalBoard("test");
         controller.addEventListener(game);
         game.addEventListener(controller);
 
+        game.addPlayer("player 1");
+        game.addPlayer("player 2");
+
         game.loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
+
+        game.showLeaderCard();
 
     }
 }
