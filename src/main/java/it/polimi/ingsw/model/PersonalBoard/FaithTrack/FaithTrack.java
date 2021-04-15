@@ -1,5 +1,14 @@
 package it.polimi.ingsw.model.PersonalBoard.FaithTrack;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+
 public class FaithTrack {
     //attributes
     private int blackCrossMarker;
@@ -7,7 +16,6 @@ public class FaithTrack {
     private VaticanReport[] vaticanReports;
 
     //constructor
-    // to be implemented input from file of vatican report
     public FaithTrack() {
         this.faithMarker=0;
         this.blackCrossMarker=0;
@@ -15,6 +23,20 @@ public class FaithTrack {
     }
 
     //methods
+    public boolean loadVaticanReportsFromFile(String path){
+        String content;
+
+        File file=new File(path);
+        try{
+            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        }catch(IOException e){
+            System.out.println("Error reading from file while loading Vatican Reports i.e. wrong path");
+            return false;
+        }
+        //vaticanReports = content;
+        return true;
+    }
+
     /**
      * move the faithMarker forward of faithPoint's number
      * @param faithPoint number of faith point made
