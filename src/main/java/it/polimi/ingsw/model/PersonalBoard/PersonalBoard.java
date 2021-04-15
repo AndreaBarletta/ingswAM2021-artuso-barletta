@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
+import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
 import java.io.File;

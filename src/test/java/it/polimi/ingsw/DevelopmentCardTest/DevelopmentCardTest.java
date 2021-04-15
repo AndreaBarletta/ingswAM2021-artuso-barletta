@@ -2,7 +2,7 @@ package it.polimi.ingsw.DevelopmentCardTest;
 
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
-import it.polimi.ingsw.model.PersonalBoard.Production;
+import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

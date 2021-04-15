@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.PersonalBoard;
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.ResType;
 

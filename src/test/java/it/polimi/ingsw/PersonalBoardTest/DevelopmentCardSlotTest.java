@@ -3,14 +3,13 @@ package it.polimi.ingsw.PersonalBoardTest;
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
-import it.polimi.ingsw.model.PersonalBoard.Production;
+import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.model.exceptions.LevelException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -2,9 +2,8 @@ package it.polimi.ingsw.model.PersonalBoard.LeaderCard;
 
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
-import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
-import it.polimi.ingsw.model.PersonalBoard.Production;
+import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
 import java.util.Map;
