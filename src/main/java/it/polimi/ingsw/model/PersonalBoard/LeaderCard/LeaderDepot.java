@@ -11,11 +11,12 @@ import java.util.Map;
 public class LeaderDepot extends LeaderCard {
     private Depot depot;
 
-    public LeaderDepot(int victoryPoints, Map<CardType, Integer> requirements, int capacity, ResType resource){
-        super(victoryPoints,requirements);
+    public LeaderDepot(int victoryPoints, Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements,Map<ResType, Integer> resourceRequirements, int capacity, ResType resource){
+        super(victoryPoints,levelRequirements,cardRequirements,resourceRequirements);
         depot=new Depot(capacity);
         depot.setDepotResource(resource);
     }
+
     public void effectOnDraw(PersonalBoard personalBoard){}
     public void effectOnMarketBuy(PersonalBoard personalBoard){}
     public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
