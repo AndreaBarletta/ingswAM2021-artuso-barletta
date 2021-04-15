@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.ControllerEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CliView implements ControllerEventListener{
+public class CliView{
     private List<ViewEventListener> eventListeners;
 
     public CliView(){
