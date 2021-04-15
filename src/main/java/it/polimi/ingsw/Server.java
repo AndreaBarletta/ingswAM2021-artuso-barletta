@@ -11,12 +11,5 @@ import java.util.Map;
 
 public class Server {
     public static void main(String[] args){
-        Game game=new Game();
-
-        if (game.loadLeaderCardsFromFile("src/main/resources/leaderCards.json")) {
-            System.out.println("OK");
-        } else {
-            System.out.println("NO");
-        }
     }
 }
