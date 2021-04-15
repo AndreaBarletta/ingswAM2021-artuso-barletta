@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.PersonalBoard.FaithTrack;
 
-import java.util.Map;
-
 public class FaithTrack {
     //attributes
     private int[] victoryPoints;
@@ -14,6 +12,7 @@ public class FaithTrack {
         this.faithMarker=0;
         this.blackCrossMarker=0;
         this.vaticanReports = new VaticanReport[3];
+        this.victoryPoints = new int[24];
     }
 
     /**
@@ -48,8 +47,8 @@ public class FaithTrack {
      * @return total points
      */
     public int getVictoryPoints(){
-        int victoryPoints = this.victoryPoints[faithMarker];;
-        for (VaticanReport v:vaticanReports)    victoryPoints+=v.getVictoryPoints();
+        int victoryPoints = this.victoryPoints[faithMarker];
+        for (VaticanReport v:vaticanReports)    victoryPoints += v.getVictoryPoints();
         return victoryPoints;
     }
 }
