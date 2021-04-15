@@ -23,7 +23,9 @@ public class DevelopmentCardSlot {
     }
 
     public void addCard(DevelopmentCard devCard) throws LevelException {
-        if(devCard.getLevel() == devCardsSlot.peek().getLevel() + 1){
+        if((devCardsSlot.size()==0)&&(devCard.getLevel()==1)){
+            devCardsSlot.push(devCard);
+        }else if(devCard.getLevel() == devCardsSlot.peek().getLevel() + 1){
             devCardsSlot.push(devCard);
         }else{
             throw new LevelException();
