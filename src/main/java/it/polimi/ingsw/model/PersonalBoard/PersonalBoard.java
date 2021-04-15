@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
-import it.polimi.ingsw.model.PersonalBoardEventListener;
 import it.polimi.ingsw.model.ResType;
 
 import java.io.File;
@@ -19,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class PersonalBoard implements ControllerEventListener {
-    private String playerNickname;
-    private LeaderCard[] leaderCards;
+    private String playerName;
+    private List<LeaderCard> leaderCards;
     private FaithTrack faithTrack;
     private DevelopmentCardSlot[] developmentCardSlots;
     private Production baseProduction;
@@ -31,7 +30,7 @@ public class PersonalBoard implements ControllerEventListener {
 
 
     public PersonalBoard(String playerNickname){
-        this.playerNickname=playerNickname;
+        this.playerName =playerNickname;
         eventListeners=new ArrayList<>();
 
         //Create components
@@ -80,6 +79,14 @@ public class PersonalBoard implements ControllerEventListener {
     }
 
     /**
+     * Gets the name of the player associated with this player board
+     * @return Name of the player
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    /**
      *
      * @return Whether or not the production was successful
      */
@@ -114,7 +121,12 @@ public class PersonalBoard implements ControllerEventListener {
      * @param leaderCards 4 leader cards given by the game
      */
     public void chooseLeaderCards(LeaderCard[] leaderCards){
-
+        for(PersonalBoardEventListener p:eventListeners){
+            int[] indices=p.chooseLeaderCards(leaderCards);
+            for(int i:indices){
+                this.leaderCards.add(leaderCards[i]);
+            }
+        }
     }
 
     /**
