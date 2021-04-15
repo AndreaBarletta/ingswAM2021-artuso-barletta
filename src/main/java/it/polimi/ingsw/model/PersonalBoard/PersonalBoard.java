@@ -78,7 +78,7 @@ public class PersonalBoard implements ControllerEventListener {
      * Pick 2 leader cards among 4 given by the game
      * @param leaderCards 4 leader cards given by the game
      */
-    public void ChooseLeaderCards(LeaderCard[] leaderCards){
+    public void chooseLeaderCards(LeaderCard[] leaderCards){
 
     }
 
