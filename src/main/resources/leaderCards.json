@@ -1,0 +1,194 @@
+[
+  {
+    "type": "converter",
+    "victoryPoints":5,
+    "cardRequirements":{
+      "GREEN":2,
+      "PURPLE":1
+    },
+    "convertedResource": "SHIELD"
+  },
+  {
+    "type": "converter",
+    "victoryPoints":5,
+    "cardRequirements":{
+      "BLUE":2,
+      "YELLOW":1
+    },
+    "convertedResource": "STONE"
+  },
+  {
+    "type": "converter",
+    "victoryPoints":5,
+    "cardRequirements":{
+      "PURPLE":2,
+      "GREEN":1
+    },
+    "convertedResource": "COIN"
+  },
+  {
+    "type": "converter",
+    "victoryPoints":5,
+    "cardRequirements":{
+      "YELLOW":2,
+      "BLUE":1
+    },
+    "convertedResource": "SERVANT"
+  },
+  {
+    "type": "depot",
+    "victoryPoints":3,
+    "resourceRequirements":{
+      "SHIELD":5
+    },
+    "depot": {
+      "capacity": 2,
+      "counter": 0,
+      "depotResource": "COIN"
+    }
+  },
+  {
+    "type": "depot",
+    "victoryPoints":3,
+    "resourceRequirements":{
+      "STONE":5
+    },
+    "depot": {
+      "capacity": 2,
+      "counter": 0,
+      "depotResource": "SERVANT"
+    }
+  },
+  {
+    "type": "depot",
+    "victoryPoints":3,
+    "resourceRequirements":{
+      "COIN":5
+    },
+    "depot": {
+      "capacity": 2,
+      "counter": 0,
+      "depotResource": "STONE"
+    }
+  },
+  {
+    "type": "depot",
+    "victoryPoints":3,
+    "resourceRequirements":{
+      "SERVANT":5
+    },
+    "depot": {
+      "capacity": 2,
+      "counter": 0,
+      "depotResource": "SHIELD"
+    }
+  },
+  {
+    "type": "producer",
+    "victoryPoints":4,
+    "levelRequirements":{
+      "YELLOW":2
+    },
+    "production":{
+      "ingredients":{
+        "SHIELD":1
+      },
+      "products":{
+        "ANY":1,
+        "FAITH": 1
+      }
+    }
+  },
+  {
+    "type": "producer",
+    "victoryPoints":4,
+    "levelRequirements":{
+      "PURPLE":2
+    },
+    "production":{
+      "ingredients":{
+        "STONE":1
+      },
+      "products":{
+        "ANY":1,
+        "FAITH": 1
+      }
+    }
+  },
+  {
+    "type": "producer",
+    "victoryPoints":4,
+    "levelRequirements":{
+      "GREEN":2
+    },
+    "production":{
+      "ingredients":{
+        "COIN":1
+      },
+      "products":{
+        "ANY":1,
+        "FAITH": 1
+      }
+    }
+  },
+  {
+    "type": "producer",
+    "victoryPoints":4,
+    "levelRequirements":{
+      "BLUE":2
+    },
+    "production":{
+      "ingredients":{
+        "SERVANT":1
+      },
+      "products":{
+        "ANY":1,
+        "FAITH": 1
+      }
+    }
+  },
+  {
+    "type": "discounter",
+    "victoryPoints":2,
+    "cardRequirements":{
+      "YELLOW":1,
+      "PURPLE":1
+    },
+    "discounts": {
+      "COIN": 1
+    }
+  },
+  {
+    "type": "discounter",
+    "victoryPoints":2,
+    "cardRequirements":{
+      "YELLOW":1,
+      "GREEN":1
+    },
+    "discounts": {
+      "SERVANT": 1
+    }
+  },
+  {
+    "type": "discounter",
+    "victoryPoints":2,
+    "cardRequirements":{
+      "BLUE":1,
+      "PURPLE":1
+    },
+    "discounts": {
+      "SHIELD": 1
+    }
+  },
+  {
+    "type": "discounter",
+    "victoryPoints":2,
+    "cardRequirements":{
+      "GREEN":1,
+      "BLUE":1
+    },
+    "discounts": {
+      "STONE": 1
+    }
+  }
+]
