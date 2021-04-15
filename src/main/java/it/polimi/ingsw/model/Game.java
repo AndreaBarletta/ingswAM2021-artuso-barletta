@@ -159,7 +159,7 @@ public class Game implements ControllerEventListener {
         Collections.shuffle(leaderCardList);
         for(int i=0;i<personalBoards.size();i++){
             LeaderCard[] leaderCardsToShow = new LeaderCard[4];
-            leaderCardList.subList(i*4, (i+1)*4-1).toArray(leaderCardsToShow);
+            leaderCardList.subList(i*4, (i+1)*4).toArray(leaderCardsToShow);
             personalBoards.get(i).chooseLeaderCards(leaderCardsToShow);
         }
     }
