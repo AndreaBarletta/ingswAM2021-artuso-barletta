@@ -25,8 +25,15 @@ public class GameTest {
         controller.addEventListener(game);
         game.addEventListener(controller);
 
-        game.addPlayer("player 1");
-        game.addPlayer("player 2");
+        assertTrue(game.addPlayer("player 1"));
+        assertTrue(game.addPlayer("player 2"));
+
+        assertEquals(game.getNumberOfPlayer(),2);
+
+        assertTrue(game.addPlayer("player 1"));
+        assertTrue(game.addPlayer("player 2"));
+        assertFalse(game.addPlayer("player 1"));
+        assertFalse(game.addPlayer("player 2"));
     }
 
     @Test
@@ -42,6 +49,7 @@ public class GameTest {
         game.loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
 
         game.showLeaderCard();
+
 
     }
 }
