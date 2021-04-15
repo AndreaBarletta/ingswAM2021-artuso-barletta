@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.PersonalBoard.LeaderCard;
 
+import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.ResType;
@@ -9,11 +10,11 @@ import java.util.Map;
 public abstract class LeaderCard {
     private boolean isPlayed;
     private int victoryPoints;
-    private Map<ResType, Integer> requirements;
+    private Map<CardType, Integer> requirements;
 
     public LeaderCard(){}
 
-    public LeaderCard(int victoryPoints, Map<ResType, Integer> requirements){
+    public LeaderCard(int victoryPoints, Map<CardType, Integer> requirements){
         this.victoryPoints=victoryPoints;
         isPlayed=false;
         this.requirements=requirements;
