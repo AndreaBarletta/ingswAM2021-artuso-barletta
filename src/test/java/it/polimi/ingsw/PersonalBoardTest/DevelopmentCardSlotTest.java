@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.model.exceptions.LevelException;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -59,15 +60,13 @@ public class DevelopmentCardSlotTest {
         products.put(ResType.SHIELD, 2);
         production = new Production(products, ingredients);
 
-        DevelopmentCard[] devCards = new DevelopmentCard[2];
+        ArrayList<DevelopmentCard> devCards=new ArrayList<>();
 
-        devCards[0] = new DevelopmentCard(1, cost, 3, CardType.BLUE, production);
-        devCards[1] = new DevelopmentCard(2, cost, 3, CardType.BLUE, production);
+        devCards.add(new DevelopmentCard(1, cost, 3, CardType.BLUE, production));
+        devCards.add(new DevelopmentCard(2, cost, 3, CardType.BLUE, production));
 
-        try{
-            devCardSlot.addCard(devCards[0]);
-            devCardSlot.addCard(devCards[1]);
-        }catch (LevelException e){
+        for(DevelopmentCard d:devCards) {
+            assertDoesNotThrow(() -> devCardSlot.addCard(d));
         }
 
         assertEquals(devCardSlot.getCards(), devCards);

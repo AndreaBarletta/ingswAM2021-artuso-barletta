@@ -4,9 +4,7 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.model.exceptions.LevelException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class DevelopmentCardSlot {
     //attributes
@@ -40,9 +38,7 @@ public class DevelopmentCardSlot {
         return devCardsSlot.peek().getIngredients();
     }
 
-    public DevelopmentCard[] getCards(){
-        DevelopmentCard[] cards=new DevelopmentCard[devCardsSlot.size()];
-        devCardsSlot.toArray(cards);
-        return cards;
+    public List<DevelopmentCard> getCards(){
+        return new ArrayList<>(devCardsSlot);
     }
 }
