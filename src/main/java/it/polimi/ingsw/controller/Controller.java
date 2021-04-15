@@ -45,7 +45,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * @param leaderCards 4 leader cards given by the game
      * @return index of the choose cards
      */
-    public int[] chooseLeaderCards(LeaderCard[] leaderCards){
+    public int[] chooseLeaderCards(LeaderCard[] leaderCards,String playerName){
+        System.out.println("Ask player "+playerName+" to choose 2 leader cards");
         return new int[]{1, 2};
     }
 }
