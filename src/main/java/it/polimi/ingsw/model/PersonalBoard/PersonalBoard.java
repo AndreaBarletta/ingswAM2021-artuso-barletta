@@ -36,6 +36,7 @@ public class PersonalBoard implements ControllerEventListener {
         //Create components
         developmentCardSlots=new DevelopmentCardSlot[3];
         baseProduction=new Production();
+        leaderCards=new ArrayList<>();
         //Create depots
         depots=new Depot[3];
         for(int i=0;i<depots.length;i++){
@@ -122,7 +123,7 @@ public class PersonalBoard implements ControllerEventListener {
      */
     public void chooseLeaderCards(LeaderCard[] leaderCards){
         for(PersonalBoardEventListener p:eventListeners){
-            int[] indices=p.chooseLeaderCards(leaderCards);
+            int[] indices=p.chooseLeaderCards(leaderCards,playerName);
             for(int i:indices){
                 this.leaderCards.add(leaderCards[i]);
             }
