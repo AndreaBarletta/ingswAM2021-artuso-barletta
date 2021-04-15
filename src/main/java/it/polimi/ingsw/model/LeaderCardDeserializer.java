@@ -16,7 +16,7 @@ public class LeaderCardDeserializer implements JsonDeserializer<LeaderCard> {
                 return context.deserialize(json, LeaderDepot.class);
             case "discounter":
                 return context.deserialize(json, LeaderDevCardDiscounter.class);
-            case "production":
+            case "producer":
                 return context.deserialize(json, LeaderProduction.class);
             case "converter":
                 return context.deserialize(json, LeaderWhiteMarbleConverter.class);
