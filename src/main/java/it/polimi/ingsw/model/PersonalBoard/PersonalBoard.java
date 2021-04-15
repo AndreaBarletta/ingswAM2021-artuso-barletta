@@ -2,8 +2,9 @@ package it.polimi.ingsw.model.PersonalBoard;
 
 import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
-import it.polimi.ingsw.model.PlayerEventListener;
+import it.polimi.ingsw.model.PersonalBoardEventListener;
 import it.polimi.ingsw.model.ResType;
 
 import java.util.ArrayList;
@@ -14,12 +15,12 @@ import java.util.Map;
 public class PersonalBoard implements ControllerEventListener {
     private String playerNickname;
     private LeaderCard[] leaderCards;
-    //private FaithTrack faithTrack;
-    //private DevelopmentCardSlot[] developmentCardSlots;
+    private FaithTrack faithTrack;
+    private DevelopmentCardSlot[] developmentCardSlots;
     private Production baseProduction;
     private Strongbox strongbox;
     private Depot[] depots;
-    private List<PlayerEventListener> eventListeners;
+    private List<PersonalBoardEventListener> eventListeners;
 
     public PersonalBoard(){
         eventListeners=new ArrayList<>();
@@ -29,7 +30,7 @@ public class PersonalBoard implements ControllerEventListener {
      * Adds a new view event listener to the listener list
      * @param newEventListener new view event listener to be added to the listeners list
      */
-    public void addEventListener(PlayerEventListener newEventListener){
+    public void addEventListener(PersonalBoardEventListener newEventListener){
         eventListeners.add(newEventListener);
     }
 
