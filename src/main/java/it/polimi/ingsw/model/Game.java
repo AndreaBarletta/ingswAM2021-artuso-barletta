@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -117,9 +116,11 @@ public class Game implements GameEventListener {
             return false;
         }
 
-        Gson gson=new Gson();
+        GsonBuilder gsonBuilder=new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LeaderCard.class,new LeaderCardDeserializer());
+        Gson gson=gsonBuilder.create();
         try{
-            LeaderCard[] leaderCards=gson.fromJson(content, LeaderCard[].class);
+            leaderCards=gson.fromJson(content, LeaderCard[].class);
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for leader cards");
             return false;
