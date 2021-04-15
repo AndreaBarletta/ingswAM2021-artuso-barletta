@@ -15,7 +15,6 @@ public class FaithTrack {
     }
 
     //methods
-
     /**
      * move the faithMarker forward of faithPoint's number
      * @param faithPoint number of faith point made

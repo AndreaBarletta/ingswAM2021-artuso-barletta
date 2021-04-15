@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.DevelopmentCardTest;
 
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;

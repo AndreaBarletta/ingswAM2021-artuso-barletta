@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.PersonalBoardTest;
 
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.model.PersonalBoard.Strongbox;
