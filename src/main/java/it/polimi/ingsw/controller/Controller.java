@@ -1,12 +1,12 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.PlayerEventListener;
+import it.polimi.ingsw.model.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller implements PlayerEventListener,GameEventListener {
+public class Controller implements PersonalBoardEventListener,GameEventListener {
     private List<ControllerEventListener> eventListeners;
 
     public Controller(){
