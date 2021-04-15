@@ -1,4 +1,11 @@
 package it.polimi.ingsw.model.PersonalBoard.LeaderCard;
 
-public class LeaderWhiteMarbleConverter {
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
+
+public class LeaderWhiteMarbleConverter extends LeaderCard{
+    public void effectOnDraw(PersonalBoard personalBoard){}
+    public void effectOnMarketBuy(PersonalBoard personalBoard){}
+    public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
+    public void effectOnDiscard(PersonalBoard personalBoard){}
 }
