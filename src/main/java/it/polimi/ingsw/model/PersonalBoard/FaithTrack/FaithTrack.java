@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class FaithTrack {
     //attributes
-    private Map<Integer,Integer> victoryPoints;
+    private int[] victoryPoints;
     private int blackCrossMarker;
     private int faithMarker;
     private VaticanReport[] vaticanReports;
@@ -44,13 +44,12 @@ public class FaithTrack {
     }
 
     /**
-     * sums the points of each vatican report and the points earned by advancements
+     * sums the points earned by advancements and the points of each vatican report
      * @return total points
      */
     public int getVictoryPoints(){
-        int victoryPoints=0;
+        int victoryPoints = this.victoryPoints[faithMarker];;
         for (VaticanReport v:vaticanReports)    victoryPoints+=v.getVictoryPoints();
-        victoryPoints+=this.victoryPoints.get(faithMarker);
         return victoryPoints;
     }
 }
