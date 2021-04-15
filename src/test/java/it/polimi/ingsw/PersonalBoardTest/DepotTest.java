@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PersonalBoardTest;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.exceptions.DepotResourceTypeException;
 import it.polimi.ingsw.model.exceptions.DepotSpaceException;
 import org.junit.jupiter.api.Test;
