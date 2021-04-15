@@ -1,6 +1,10 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.PersonalBoard;
 
 import it.polimi.ingsw.controller.ControllerEventListener;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
+import it.polimi.ingsw.model.PlayerEventListener;
+import it.polimi.ingsw.model.ResType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

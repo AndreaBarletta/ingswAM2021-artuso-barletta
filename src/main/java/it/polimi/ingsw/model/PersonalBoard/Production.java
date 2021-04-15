@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.PersonalBoard;
+
+import it.polimi.ingsw.model.ResType;
 
 import java.util.HashMap;
 import java.util.Map;

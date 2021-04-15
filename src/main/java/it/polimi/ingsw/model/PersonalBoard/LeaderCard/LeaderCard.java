@@ -1,4 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.PersonalBoard.LeaderCard;
+
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
+import it.polimi.ingsw.model.ResType;
 
 import java.util.Map;
 
@@ -33,6 +37,6 @@ public abstract class LeaderCard {
 
     public abstract void effectOnDraw(PersonalBoard personalBoard);
     public abstract void effectOnMarketBuy(PersonalBoard personalBoard);
-    public abstract void effectOnDevCardBuy(PersonalBoard personalBoard,DevelopmentCard developmentCard);
+    public abstract void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard);
     public abstract void effectOnDiscard(PersonalBoard personalBoard);
 }

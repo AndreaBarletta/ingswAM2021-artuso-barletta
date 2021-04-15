@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.Production;
+import it.polimi.ingsw.model.PersonalBoard.Production;
 import it.polimi.ingsw.model.ResType;
 import org.junit.jupiter.api.Test;
 

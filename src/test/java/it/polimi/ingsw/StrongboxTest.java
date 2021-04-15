@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.model.Strongbox;
+import it.polimi.ingsw.model.PersonalBoard.Strongbox;
 import it.polimi.ingsw.model.exceptions.StrongboxNegQuantityException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
