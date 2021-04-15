@@ -10,14 +10,18 @@ import java.util.Map;
 public abstract class LeaderCard {
     private boolean isPlayed;
     private int victoryPoints;
-    private Map<CardType, Integer> requirements;
+    private Map<CardType, Integer> levelRequirements;
+    private Map<CardType, Integer> cardRequirements;
+    private Map<ResType, Integer> resourceRequirements;
 
     public LeaderCard(){}
 
-    public LeaderCard(int victoryPoints, Map<CardType, Integer> requirements){
+    public LeaderCard(int victoryPoints,Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements,Map<ResType, Integer> resourceRequirements){
         this.victoryPoints=victoryPoints;
         isPlayed=false;
-        this.requirements=requirements;
+        this.levelRequirements=levelRequirements;
+        this.cardRequirements=cardRequirements;
+        this.resourceRequirements=resourceRequirements;
     }
 
     /**
