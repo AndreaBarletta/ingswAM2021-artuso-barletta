@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model;
 
 public enum ResType {
-    COIN,STONE,SERVANT,SHIELD,FAITH,WHITEMARBLE
+    COIN,STONE,SERVANT,SHIELD,FAITH,WHITEMARBLE,ANY
 }
