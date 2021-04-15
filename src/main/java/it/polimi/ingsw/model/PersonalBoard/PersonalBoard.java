@@ -38,10 +38,10 @@ public class PersonalBoard implements ControllerEventListener {
 
     public PersonalBoard(String playerNickname){
         this.playerNickname=playerNickname;
-        //developmentCardSlots=new DevelopmentCardSlots[3];
+        developmentCardSlots=new DevelopmentCardSlot[3];
         baseProduction=new Production();
         depots =new Depot[3];
-        //faithTrack=new FaithTrack();
+        faithTrack=new FaithTrack();
     }
 
     /**
@@ -74,8 +74,12 @@ public class PersonalBoard implements ControllerEventListener {
 
     }
 
-    public void setLeaderCards(LeaderCard[] leaderCards){
-        this.leaderCards=leaderCards;
+    /**
+     * Pick 2 leader cards among 4 given by the game
+     * @param leaderCards 4 leader cards given by the game
+     */
+    public void ChooseLeaderCards(LeaderCard[] leaderCards){
+
     }
 
     /**
