@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.*;
+import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
@@ -12,8 +13,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-public class Game implements GameEventListener {
-    private PersonalBoard[] personalBoards;
+public class Game implements ControllerEventListener {
+    private List<PersonalBoard> personalBoards;
     private Market market;
     private DevelopmentCardGrid developmentCardGrid;
     private PopeFavourCard[] popeFavourCards;
@@ -21,6 +22,7 @@ public class Game implements GameEventListener {
     private List<GameEventListener> eventListeners;
 
     public Game(){
+        personalBoards=new ArrayList<>();
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();
         eventListeners=new ArrayList<>();
@@ -122,6 +124,19 @@ public class Game implements GameEventListener {
         return true;
     }
 
+    public boolean addPlayer(String playerNickname){
+        if(personalBoards.size()<4){
+            PersonalBoard newPersonalBoard=new PersonalBoard(playerNickname);
+            personalBoards.add(newPersonalBoard);
+            for(GameEventListener g:eventListeners){
+                g.newPersonalBoard(newPersonalBoard);
+            }
+            return true;
+        }
+        return false;
+    }
+
+
     public DevelopmentCardGrid getDevelopmentCardGrid(){
         return developmentCardGrid;
     }
@@ -130,17 +145,22 @@ public class Game implements GameEventListener {
      * Assign the inkwell to a random player
      */
     public void giveInkwell(){
-        Random i = new Random();
-        personalBoards[i.nextInt(personalBoards.length)].receiveInkwell();
+        Random random = new Random();
+        int i=random.nextInt(personalBoards.size());
+        personalBoards.get(i).receiveInkwell();
+
+        for(GameEventListener g:eventListeners){
+            g.inkwellGiven(personalBoards.get(i).getPlayerName());
+        }
     }
 
     public void showLeaderCard(){
         List<LeaderCard> leaderCardList= Arrays.asList(leaderCards);
         Collections.shuffle(leaderCardList);
-        for(int i = 0; i<personalBoards.length; i++){
+        for(int i=0;i<personalBoards.size();i++){
             LeaderCard[] leaderCardsToShow = new LeaderCard[4];
             leaderCardList.subList(i*4, (i+1)*4-1).toArray(leaderCardsToShow);
-            personalBoards[i].chooseLeaderCards(leaderCardsToShow);
+            personalBoards.get(i).chooseLeaderCards(leaderCardsToShow);
         }
     }
 
