@@ -1,5 +1,6 @@
 package it.polimi.ingsw.PersonalBoardTest;
 
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
