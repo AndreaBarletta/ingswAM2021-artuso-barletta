@@ -136,6 +136,10 @@ public class Game implements ControllerEventListener {
         return false;
     }
 
+    public int getNumberOfPlayer(){
+        return personalBoards.size();
+    }
+
 
     public DevelopmentCardGrid getDevelopmentCardGrid(){
         return developmentCardGrid;
