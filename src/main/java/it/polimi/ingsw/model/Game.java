@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
+import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 
 import java.io.File;
@@ -12,13 +13,16 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Game implements GameEventListener {
     private PersonalBoard[] personalBoards;
     private Market market;
     private DevelopmentCardGrid developmentCardGrid;
     private PopeFavourCard[] popeFavourCards;
+    private LeaderCard[] leaderCards;
     private List<GameEventListener> eventListeners;
 
     public Game(){
@@ -96,4 +100,37 @@ public class Game implements GameEventListener {
     public DevelopmentCardGrid getDevelopmentCardGrid(){
         return developmentCardGrid;
     }
+
+    public void giveInkwell(){
+        Random i = new Random();
+        personalBoards[i.nextInt(personalBoards.length)].receiveInkwell();
+    }
+
+    public boolean loadLeaderCardsFromFile(String path){
+        String content;
+
+        File file=new File(path);
+        try{
+            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        }catch(IOException e){
+            System.out.println("Error reading from file while loading leader cards i.e. wrong path");
+            return false;
+        }
+
+        Gson gson=new Gson();
+        try{
+            LeaderCard[] leaderCards=gson.fromJson(content, LeaderCard[].class);
+        }catch(JsonSyntaxException e){
+            System.out.println("Error loading json file for leader cards");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void showLeaderCard(){
+
+    }
+
+
 }

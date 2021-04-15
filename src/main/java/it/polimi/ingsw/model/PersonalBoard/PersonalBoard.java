@@ -21,6 +21,8 @@ public class PersonalBoard implements ControllerEventListener {
     private Strongbox strongbox;
     private Depot[] depots;
     private List<PersonalBoardEventListener> eventListeners;
+    private boolean inkwell = false;
+
 
     public PersonalBoard(){
         eventListeners=new ArrayList<>();
@@ -91,4 +93,13 @@ public class PersonalBoard implements ControllerEventListener {
     public void addResourcesToStorage(ResType[] newResources){
 
     }
+
+    public boolean hasInkwell(){
+        return inkwell;
+    }
+
+    public void receiveInkwell(){
+        inkwell = true;
+    }
+
 }
