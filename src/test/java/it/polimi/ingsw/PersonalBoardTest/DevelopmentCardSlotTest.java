@@ -5,12 +5,13 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
 import it.polimi.ingsw.model.PersonalBoard.Production;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.model.exceptions.LevelException;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Stack;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DevelopmentCardSlotTest {
     @Test
@@ -27,17 +28,31 @@ public class DevelopmentCardSlotTest {
         products.put(ResType.SHIELD, 2);
         production = new Production(products, ingredients);
 
-        DevelopmentCard devCard = new DevelopmentCard(1, cost, 3, CardType.BLUE, production);
+        DevelopmentCard devCard1 = new DevelopmentCard(1, cost, 3, CardType.BLUE, production);
+        DevelopmentCard devCard2 = new DevelopmentCard(2, cost, 3, CardType.BLUE, production);
+        DevelopmentCard devCard3 = new DevelopmentCard(3, cost, 3, CardType.BLUE, production);
 
-        devCardSlot.addCard(devCard);
+        assertThrows(LevelException.class,()->devCardSlot.addCard(devCard3));
+        assertDoesNotThrow(() -> devCardSlot.addCard(devCard1));
+        assertThrows(LevelException.class,()->devCardSlot.addCard(devCard3));
+        assertDoesNotThrow(() -> devCardSlot.addCard(devCard2));
+        assertDoesNotThrow(() -> devCardSlot.addCard(devCard3));
 
-        int expectedNum = 1;
+
+        int expectedNum = 3;
         assertEquals(devCardSlot.getCardsInSlot(), expectedNum);
 
-        HashMap<ResType, Integer> expectedProduction = new HashMap<>();
-        expectedProduction.put(ResType.SERVANT, 1);
-        expectedProduction.put(ResType.SHIELD, 2);
-        assertEquals(devCardSlot.getIngredients(), expectedProduction);
+        assertEquals(devCardSlot.getIngredients(), ingredients);
 
+    }
+
+    public void testGetCards(){
+        DevelopmentCardSlot devCardSlot = new DevelopmentCardSlot();
+        DevelopmentCard[] devCards = new DevelopmentCard[2];
+        for(DevelopmentCard d: devCards){
+            assertDoesNotThrow(() -> devCardSlot.addCard(d));
+        }
+
+        assertEquals(devCardSlot.getCards(), devCards);
     }
 }
