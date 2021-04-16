@@ -6,9 +6,11 @@ public class FaithTrack {
     private int blackCrossMarker;
     private int faithMarker;
     private VaticanReport[] vaticanReports;
+    private boolean isAtEnd;
 
     //constructor
     public FaithTrack() {
+        isAtEnd=false;
         this.faithMarker=0;
         this.blackCrossMarker=0;
         this.vaticanReports = new VaticanReport[3];
@@ -21,10 +23,18 @@ public class FaithTrack {
      */
     public void incrementFaithTrack(int faithPoint) {
         faithMarker+=faithPoint;
+        if(faithMarker>victoryPoints.length){
+            faithMarker=victoryPoints.length;
+            isAtEnd=true;
+        }
     }
 
     public int getPosition() {
         return faithMarker;
+    }
+
+    public boolean isAtEnd(){
+        return isAtEnd;
     }
 
     /**
