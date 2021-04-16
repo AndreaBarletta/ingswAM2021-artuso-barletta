@@ -1,12 +1,15 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.CardType;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
+import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Controller implements PersonalBoardEventListener,GameEventListener {
     private List<ControllerEventListener> eventListeners;
@@ -41,12 +44,37 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     }
 
     /**
-     * Ask for the player to choose 2 leader cards among the 4 given
+     * Ask the player to choose 2 leader cards among the 4 given
      * @param leaderCards 4 leader cards given by the game
+     * @param playerName The name of the player
      * @return index of the choose cards
      */
     public int[] chooseLeaderCards(LeaderCard[] leaderCards,String playerName){
         System.out.println("Ask player "+playerName+" to choose 2 leader cards");
         return new int[]{1, 2};
+    }
+
+    /**
+     * Ask the player to choose a development card from the grid
+     * @param cardGrid The card grid
+     * @param playerName The name of the player
+     * @return The card selected
+     */
+    public DevelopmentCard chooseDevelopmentCard(DevelopmentCardGrid cardGrid, String playerName){
+        System.out.println("Ask player "+playerName+" which card to buy");
+        return cardGrid.getTopCard(1,CardType.GREEN);
+    }
+
+    public int chooseDevelopmentCardSlot(DevelopmentCardSlot[] developmentCardSlots, DevelopmentCard card, String playerName){
+        System.out.println("Ask player "+playerName+" where to put the card");
+        return 0;
+    }
+
+    /**
+     * Sends an error message to the player
+     * @param error Error message
+     */
+    public void error(String error){
+        System.out.println(error);
     }
 }
