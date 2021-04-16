@@ -20,12 +20,14 @@ public class Game implements ControllerEventListener {
     private PopeFavourCard[] popeFavourCards;
     private LeaderCard[] leaderCards;
     private List<GameEventListener> eventListeners;
+    private boolean gameDone;
 
     public Game(){
         personalBoards=new ArrayList<>();
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();
         eventListeners=new ArrayList<>();
+        gameDone=false;
     }
 
     /**
@@ -124,14 +126,51 @@ public class Game implements ControllerEventListener {
         return true;
     }
 
-    public boolean addPlayer(String playerNickname){
+    /**
+     * Start the game
+     */
+    public void start(){
+        showLeaderCard();
+        giveInkwell();
+        int i=0;
+        do{
+            personalBoards.get(i).playTurn();
+            i=(i+1)%personalBoards.size();
+        }while(!gameDone);
+        //Play the rest of the turns
+        for(;i<personalBoards.size();i++){
+            personalBoards.get(i).playTurn();
+        }
+
+        //Pick a winner
+        int winner=0;
+        int maxPoints=0;
+        for(int j=0;j<personalBoards.size();j++){
+            int points=personalBoards.get(j).getVictoryPoints();
+            if(points>maxPoints){
+                winner=j;
+                maxPoints=points;
+            }
+        }
+
+        for(GameEventListener g:eventListeners){
+            g.announceWinner(personalBoards.get(winner).getPlayerName());
+        }
+    }
+
+    /**
+     * Adds a new player to the game and create their personal board
+     * @param playerName Name of the new player
+     * @return Whether or not the player could be added to the game and the board was successfully loaded
+     */
+    public boolean addPlayer(String playerName){
         if(personalBoards.size()<4){
-            PersonalBoard newPersonalBoard=new PersonalBoard(playerNickname);
+            PersonalBoard newPersonalBoard=new PersonalBoard(playerName,developmentCardGrid,market);
             personalBoards.add(newPersonalBoard);
             for(GameEventListener g:eventListeners){
                 g.newPersonalBoard(newPersonalBoard);
             }
-            return true;
+            return newPersonalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json");
         }
         return false;
     }
@@ -149,15 +188,17 @@ public class Game implements ControllerEventListener {
      * Assign the inkwell to a random player
      */
     public void giveInkwell(){
-        Random random = new Random();
-        int i=random.nextInt(personalBoards.size());
-        personalBoards.get(i).receiveInkwell();
+        Collections.shuffle(personalBoards);
+        personalBoards.get(0).receiveInkwell();
 
         for(GameEventListener g:eventListeners){
-            g.inkwellGiven(personalBoards.get(i).getPlayerName());
+            g.inkwellGiven(personalBoards.get(0).getPlayerName());
         }
     }
 
+    /**
+     * Shows the 4 leader cards to the players and ask them to choose 2
+     */
     public void showLeaderCard(){
         List<LeaderCard> leaderCardList= Arrays.asList(leaderCards);
         Collections.shuffle(leaderCardList);
@@ -168,5 +209,5 @@ public class Game implements ControllerEventListener {
         }
     }
 
-
+    public void discardResources(int numberOfResources,String playerName){}
 }
