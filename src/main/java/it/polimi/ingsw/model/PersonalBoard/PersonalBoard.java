@@ -114,37 +114,37 @@ public class PersonalBoard implements ControllerEventListener {
      * @return Whether or not the game has finished
      */
     public boolean playTurn(){
-        //Ask for leader action
+
         for(PersonalBoardEventListener p:eventListeners){
+            //Ask for leader action
             if(p.askForLeaderAction(playerName)){
                 //Ask which leader action to play
             }
-        }
 
-        for(PersonalBoardEventListener p:eventListeners){
             //Ask player which turn action to play
-            TurnAction turnAction=p.askForTurnAction(playerName);
             boolean success=false;
-            switch(turnAction){
-                case ACTIVATEPRODUCTION:
-                    success=activateProduction();
-                    break;
-                case BUYDEVCARD:
-                    buyCard(cardGrid);
-                    break;
-                case GETRESOURCES:
-                    visitMarket();
-                    break;
-            }
-        }
+            do{
+                TurnAction turnAction=p.askForTurnAction(playerName);
+                switch(turnAction){
+                    case ACTIVATEPRODUCTION:
+                        success=activateProduction();
+                        break;
+                    case BUYDEVCARD:
+                        buyCard(cardGrid);
+                        break;
+                    case GETRESOURCES:
+                        visitMarket();
+                        success=true;
+                        break;
+                }
+            }while(!success);
 
-        //Ask for leader action
-        for(PersonalBoardEventListener p:eventListeners){
+            //Ask for leader action
             if(p.askForLeaderAction(playerName)){
                 //Ask which leader action to play
             }
         }
-        return true;
+        return faithTrack.isAtEnd();
     }
 
     /**
