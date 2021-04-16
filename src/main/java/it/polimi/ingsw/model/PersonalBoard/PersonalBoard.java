@@ -54,6 +54,11 @@ public class PersonalBoard implements ControllerEventListener {
         for(int i=0;i<3;i++){
             depots.add(new Depot(i+1));
         }
+        Map<ResType,Integer> baseIngredients=new HashMap<>();
+        baseIngredients.put(ResType.ANY,2);
+        Map<ResType,Integer> basseProducts=new HashMap<>();
+        basseProducts.put(ResType.ANY,1);
+        baseProduction=new Production(baseIngredients,basseProducts);
     }
 
     /**
@@ -74,6 +79,7 @@ public class PersonalBoard implements ControllerEventListener {
          faithTrack.incrementFaithTrack(numberOfResources);
      }
     }
+
     /**
      * Loads the faith track from a json file
      * @param path Path of the json file containing the faith track information
@@ -163,12 +169,36 @@ public class PersonalBoard implements ControllerEventListener {
         return resources;
     }
 
+    /**
+     * Adds a leader depot to the leader depot list
+     * @param newLeaderDepot New depot to be added
+     */
     public void addLeaderDepot(Depot newLeaderDepot){
         leaderDepots.add(newLeaderDepot);
     }
 
+    /**
+     * Removes a leader depot from the leader depot list
+     * @param leaderDepot Depot to be removed
+     */
+    public void removeLeaderDepot(Depot leaderDepot){
+        leaderDepots.remove(leaderDepot);
+    }
+
+    /**
+     * Adds a leader production to the leader production list
+     * @param newLeaderProduction New production to be added
+     */
     public void addLeaderProduction(Production newLeaderProduction){
         leaderProductions.add(newLeaderProduction);
+    }
+
+    /**
+     * Remove a leader production from the leader production list
+     * @param leaderProduction Production to be removed
+     */
+    public void removeLeaderProduction(Production leaderProduction){
+        leaderProductions.remove(leaderProduction);
     }
 
     /**
@@ -176,6 +206,23 @@ public class PersonalBoard implements ControllerEventListener {
      * @return Whether or not the production was successful
      */
     public boolean activateProduction(){
+        for(PersonalBoardEventListener p:eventListeners){
+            //Create a list of all the productions
+            List<Production> productions=new ArrayList<>();
+            for(Production lp:leaderProductions){
+                productions.add(lp);
+            }
+            for(DevelopmentCardSlot d:developmentCardSlots){
+                productions.add(d.getTopCard().getProduction());
+            }
+            productions.add(baseProduction);
+            List<Production> selectedProductions=p.chooseProductions(productions,playerName);
+            if(canProduce(selectedProductions)){
+
+            }else{
+                return false;
+            }
+        }
         return true;
     }
 
@@ -184,7 +231,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param productions Productions to activate (including base production, leader card productions and development cards)
      * @return Whether or not there are enough resources to activate the production
      */
-    private boolean canProduce(Production[] productions){
+    private boolean canProduce(List<Production> productions){
         //Get chest and storage contents
         Map<ResType,Integer> resources=getResources();
         //Get the ingredients requires by the productions that have been selected
@@ -259,7 +306,6 @@ public class PersonalBoard implements ControllerEventListener {
             }
         }
     }
-
 
     private void visitMarket(){
         for(PersonalBoardEventListener p:eventListeners){
@@ -339,6 +385,10 @@ public class PersonalBoard implements ControllerEventListener {
         inkwell = true;
     }
 
+    /**
+     * Gets the total amount of victory points, given by faith track, resources, leader cards and development cards
+     * @return The total amount of victory points
+     */
     public int getVictoryPoints(){
         int victoryPoints=0;
 
