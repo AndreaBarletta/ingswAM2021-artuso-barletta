@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 import it.polimi.ingsw.model.PersonalBoard.TurnAction;
+import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
 import java.util.*;
@@ -135,5 +136,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         for(ControllerEventListener c:eventListeners){
 
         }
+    }
+
+    public List<Production> chooseProductions(List<Production> productions, String playerName){
+        System.out.println("Ask player "+playerName+" what productions to activate");
+        return productions.subList(0,1);
     }
 }

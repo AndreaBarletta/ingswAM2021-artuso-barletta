@@ -4,9 +4,11 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
+import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
 import java.util.AbstractMap;
+import java.util.List;
 import java.util.Map;
 
 public interface PersonalBoardEventListener {
@@ -19,4 +21,5 @@ public interface PersonalBoardEventListener {
     void showMarket(Market market,String playerName);
     AbstractMap.SimpleEntry<Boolean,Integer> askMarketRowColumn(String playerName);
     void notEnoughDepotSpace(ResType[] resources,String playerName);
+    List<Production> chooseProductions(List<Production> productions, String playerName);
 }
