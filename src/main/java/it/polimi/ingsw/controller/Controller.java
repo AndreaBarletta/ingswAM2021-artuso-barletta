@@ -113,7 +113,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * Show the player the market
      * @param market The resource market to be shown
      */
-    public void showMarket(Market market,String playerName){
+        public void showMarket(Market market,String playerName){
         System.out.println("Show player "+playerName+" the market");
     }
 
