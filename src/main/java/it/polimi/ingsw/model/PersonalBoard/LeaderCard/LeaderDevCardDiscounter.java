@@ -15,8 +15,8 @@ public class LeaderDevCardDiscounter extends LeaderCard {
         this.discounts=discounts;
     }
 
-    public void effectOnDraw(PersonalBoard personalBoard){}
-    public void effectOnMarketBuy(PersonalBoard personalBoard){}
+    public void effectOnActivate(PersonalBoard personalBoard){}
+    public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){}
     public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
     public void effectOnDiscard(PersonalBoard personalBoard){}
 }

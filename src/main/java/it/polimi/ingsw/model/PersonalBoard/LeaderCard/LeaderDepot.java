@@ -17,8 +17,10 @@ public class LeaderDepot extends LeaderCard {
         depot.setDepotResource(resource);
     }
 
-    public void effectOnDraw(PersonalBoard personalBoard){}
-    public void effectOnMarketBuy(PersonalBoard personalBoard){}
+    public void effectOnActivate(PersonalBoard personalBoard){
+        personalBoard.addLeaderDepot(depot);
+    }
+    public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){}
     public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
     public void effectOnDiscard(PersonalBoard personalBoard){}
 }

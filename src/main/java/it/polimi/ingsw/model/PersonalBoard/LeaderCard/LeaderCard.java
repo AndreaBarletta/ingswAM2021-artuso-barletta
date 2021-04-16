@@ -38,8 +38,8 @@ public abstract class LeaderCard {
         return isPlayed;
     }
 
-    public abstract void effectOnDraw(PersonalBoard personalBoard);
-    public abstract void effectOnMarketBuy(PersonalBoard personalBoard);
+    public abstract void effectOnActivate(PersonalBoard personalBoard);
+    public abstract void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources);
     public abstract void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard);
     public abstract void effectOnDiscard(PersonalBoard personalBoard);
 }
