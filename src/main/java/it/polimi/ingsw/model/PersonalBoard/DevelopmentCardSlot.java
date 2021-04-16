@@ -41,4 +41,8 @@ public class DevelopmentCardSlot {
     public List<DevelopmentCard> getCards(){
         return new ArrayList<>(devCardsSlot);
     }
+
+    public DevelopmentCard getTopCard() {
+        return devCardsSlot.peek();
+    }
 }
