@@ -35,7 +35,7 @@ public class DevelopmentCardSlot {
     }
 
     public Map<ResType, Integer> getIngredients() {
-        return devCardsSlot.peek().getIngredients();
+        return devCardsSlot.peek().getProduction().getIngredients();
     }
 
     public List<DevelopmentCard> getCards(){

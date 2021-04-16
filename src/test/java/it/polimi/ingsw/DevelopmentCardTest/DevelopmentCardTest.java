@@ -27,6 +27,6 @@ public class DevelopmentCardTest {
         DevelopmentCard developmentCard=new DevelopmentCard(1,cost,10, CardType.GREEN,production);
 
         assertEquals(cost,developmentCard.getCost());
-        assertEquals(ingredients,developmentCard.getIngredients());
+        assertEquals(ingredients,developmentCard.getProduction().getIngredients());
     }
 }
