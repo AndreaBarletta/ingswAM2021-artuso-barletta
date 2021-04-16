@@ -3,11 +3,15 @@ package it.polimi.ingsw.model.PersonalBoard;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.ControllerEventListener;
+import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.model.exceptions.LevelException;
+import it.polimi.ingsw.model.exceptions.ResourcesException;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class PersonalBoard implements ControllerEventListener {
     private String playerName;
@@ -24,8 +29,10 @@ public class PersonalBoard implements ControllerEventListener {
     private FaithTrack faithTrack;
     private DevelopmentCardSlot[] developmentCardSlots;
     private Production baseProduction;
+    private Production[] leaderProductions;
     private Strongbox strongbox;
     private Depot[] depots;
+    private Depot[] leaderDepots;
     private List<PersonalBoardEventListener> eventListeners;
     private boolean inkwell = false;
 
@@ -38,6 +45,8 @@ public class PersonalBoard implements ControllerEventListener {
         developmentCardSlots=new DevelopmentCardSlot[3];
         baseProduction=new Production();
         leaderCards=new ArrayList<>();
+        leaderDepots=new Depot[2];
+        leaderProductions=new Production[2];
         //Create depots
         depots=new Depot[3];
         for(int i=0;i<depots.length;i++){
@@ -89,6 +98,22 @@ public class PersonalBoard implements ControllerEventListener {
     }
 
     /**
+     * Gets the resources stored in the player board
+     * @return The resources stored
+     */
+    public Map<ResType,Integer> getResources(){
+        Map<ResType,Integer> resources=new HashMap<>();
+        for(Depot d:depots){
+            resources.merge(d.getContent().getKey(),d.getContent().getValue(),Integer::sum);
+        }
+        for(Depot d:leaderDepots){
+            resources.merge(d.getContent().getKey(),d.getContent().getValue(),Integer::sum);
+        }
+        strongbox.getContent().forEach((k,v)-> resources.merge(k,v,Integer::sum));
+        return resources;
+    }
+
+    /**
      *
      * @return Whether or not the production was successful
      */
@@ -103,7 +128,7 @@ public class PersonalBoard implements ControllerEventListener {
      */
     private boolean canProduce(Production[] productions){
         //Get chest and storage contents
-
+        Map<ResType,Integer> resources=getResources();
         //Get the ingredients requires by the productions that have been selected
         Map<ResType,Integer> requirements=new HashMap<>();
         for(Production p:productions){
@@ -111,11 +136,57 @@ public class PersonalBoard implements ControllerEventListener {
                     (key,value)->requirements.merge(key,value, Integer::sum)
             );
         }
+
+        //Checks if there are enough resources
+        for (Map.Entry<ResType, Integer> entry : resources.entrySet()) {
+            if(requirements.get(entry.getKey())>entry.getValue()){
+                return false;
+            }
+        }
+
         return true;
     }
 
-    public void buyDevCard(DevelopmentCard card){
+    /**
+     * Buy a card from the card grid
+     * @param cardGrid The card grid
+     */
+    public void buyCard(DevelopmentCardGrid cardGrid){
+        for(PersonalBoardEventListener p:eventListeners){
+            boolean success=false;
+            do {
+                DevelopmentCard card=p.chooseDevelopmentCard(cardGrid,playerName);
+                try{
+                    addCardToSlot(card);
+                    cardGrid.removeCard(card.getLevel(),card.getCardType());
+                    success=true;
+                }catch(LevelException e){
+                    p.error("No card of high enough level present in any on the slots");
+                }catch(ResourcesException e){
+                    p.error("Not enough resources");
+                }
+            }while(!success);
+        }
+    }
 
+    /**
+     * Add a card to a development slot
+     * @param card The card to be added
+     * @throws LevelException No card of high enough level present in any on the slots
+     * @throws ResourcesException Not enough resources
+     */
+    private void addCardToSlot(DevelopmentCard card) throws LevelException, ResourcesException {
+        Map<ResType,Integer> resources=getResources();
+        for (Map.Entry<ResType, Integer> entry : resources.entrySet()) {
+           if(card.getCost().get(entry.getKey())>entry.getValue()){
+               throw new ResourcesException();
+           }
+        }
+
+        for(PersonalBoardEventListener p:eventListeners){
+            int i=p.chooseDevelopmentCardSlot(developmentCardSlots,card,playerName);
+            developmentCardSlots[i].addCard(card);
+        }
     }
 
     /**
