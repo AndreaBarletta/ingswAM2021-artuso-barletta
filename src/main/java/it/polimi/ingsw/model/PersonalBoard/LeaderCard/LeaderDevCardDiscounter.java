@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.ResType;
 
+import java.util.AbstractMap;
 import java.util.Map;
 
 public class LeaderDevCardDiscounter extends LeaderCard {
@@ -17,6 +18,8 @@ public class LeaderDevCardDiscounter extends LeaderCard {
 
     public void effectOnActivate(PersonalBoard personalBoard){}
     public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){}
-    public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
+    public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){
+        discounts.forEach((k,v)->developmentCard.getCost().put(k,developmentCard.getCost().get(k)-v));
+    }
     public void effectOnDiscard(PersonalBoard personalBoard){}
 }
