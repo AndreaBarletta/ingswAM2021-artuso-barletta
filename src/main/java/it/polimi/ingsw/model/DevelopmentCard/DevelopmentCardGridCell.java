@@ -39,4 +39,12 @@ public class DevelopmentCardGridCell {
     public int size(){
         return cardGridCell.size();
     }
+
+    /**
+     * Gets the first card on top of the stack
+     * @return The first card on top of the stack
+     */
+    public DevelopmentCard getTopCard(){
+        return cardGridCell.peek();
+    }
 }
