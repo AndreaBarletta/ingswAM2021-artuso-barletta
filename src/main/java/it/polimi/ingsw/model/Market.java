@@ -1,18 +1,42 @@
 package it.polimi.ingsw.model;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Market {
 
     private ResType[][] marketTray;
     private ResType leftoverMarble;
 
-    public Market(){
+    /**
+     * Create market and shuffle the marbles
+     */
+    public Market() {
+        marketTray = new ResType[3][4];
 
-    }
+        List<ResType> marbles=new ArrayList<>();
+        marbles.add(ResType.WHITEMARBLE);
+        marbles.add(ResType.WHITEMARBLE);
+        marbles.add(ResType.WHITEMARBLE);
+        marbles.add(ResType.WHITEMARBLE);
+        marbles.add(ResType.SHIELD);
+        marbles.add(ResType.SHIELD);
+        marbles.add(ResType.STONE);
+        marbles.add(ResType.STONE);
+        marbles.add(ResType.COIN);
+        marbles.add(ResType.COIN);
+        marbles.add(ResType.SERVANT);
+        marbles.add(ResType.SERVANT);
+        marbles.add(ResType.FAITH);
+        Collections.shuffle(marbles);
 
-    public Market(ResType leftoverMarble) {
-        this.marketTray = new ResType[3][4];
-        this.leftoverMarble = leftoverMarble;
+        for(int i=0;i<3;i++){
+            marbles.subList(i*4,(i+1)*4).toArray(marketTray[i]);
+        }
+
+        leftoverMarble = marbles.get(12);
     }
 
     /**
