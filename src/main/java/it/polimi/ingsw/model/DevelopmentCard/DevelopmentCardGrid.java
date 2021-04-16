@@ -20,14 +20,6 @@ public class DevelopmentCardGrid {
 
     /**
      *
-     * @return Actual card grid
-     */
-    public DevelopmentCardGridCell[][] getCardGrid() {
-        return cardGrid;
-    }
-
-    /**
-     *
      * @param level level of the card to remove
      * @param cardType card type of the card to remove
      * @return returns the card removed
@@ -35,6 +27,16 @@ public class DevelopmentCardGrid {
      */
     public DevelopmentCard removeCard(int level, CardType cardType){
         return cardGrid[level-1][cardType.ordinal()].removeCard();
+    }
+
+    /**
+     * Gets the first card on top of the stack of a given level and type
+     * @param level The level of the card
+     * @param cardType The type of the card
+     * @return The card on top of the stack
+     */
+    public DevelopmentCard getTopCard(int level, CardType cardType){
+        return cardGrid[level-1][cardType.ordinal()].getTopCard();
     }
 
     /**
