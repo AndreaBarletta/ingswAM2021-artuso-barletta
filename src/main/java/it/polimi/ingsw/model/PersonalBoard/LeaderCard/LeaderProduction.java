@@ -18,6 +18,7 @@ public class LeaderProduction extends LeaderCard{
 
     public void effectOnActivate(PersonalBoard personalBoard){
         personalBoard.addLeaderProduction(production);
+        isPlayed=true;
     }
     public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){}
     public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}

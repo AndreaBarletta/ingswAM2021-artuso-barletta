@@ -8,11 +8,11 @@ import it.polimi.ingsw.model.ResType;
 import java.util.Map;
 
 public abstract class LeaderCard {
-    private boolean isPlayed;
-    private int victoryPoints;
-    private Map<CardType, Integer> levelRequirements;
-    private Map<CardType, Integer> cardRequirements;
-    private Map<ResType, Integer> resourceRequirements;
+    protected boolean isPlayed;
+    protected int victoryPoints;
+    protected Map<CardType, Integer> levelRequirements;
+    protected Map<CardType, Integer> cardRequirements;
+    protected Map<ResType, Integer> resourceRequirements;
 
     public LeaderCard(int victoryPoints,Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements,Map<ResType, Integer> resourceRequirements){
         this.victoryPoints=victoryPoints;

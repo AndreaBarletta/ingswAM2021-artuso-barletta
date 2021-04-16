@@ -16,7 +16,9 @@ public class LeaderWhiteMarbleConverter extends LeaderCard{
         this.convertedResource=convertedResource;
     }
 
-    public void effectOnActivate(PersonalBoard personalBoard){}
+    public void effectOnActivate(PersonalBoard personalBoard){
+        isPlayed=true;
+    }
     public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){
         for(ResType r:newResources){
             if(r==ResType.WHITEMARBLE){
