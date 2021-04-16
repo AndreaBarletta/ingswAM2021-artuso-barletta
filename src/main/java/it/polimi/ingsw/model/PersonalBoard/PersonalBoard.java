@@ -1,15 +1,17 @@
 package it.polimi.ingsw.model.PersonalBoard;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.model.CardType;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
+import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.model.exceptions.DepotException;
+import it.polimi.ingsw.model.exceptions.DepotSpaceException;
 import it.polimi.ingsw.model.exceptions.LevelException;
 import it.polimi.ingsw.model.exceptions.ResourcesException;
 
@@ -17,10 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PersonalBoard implements ControllerEventListener {
     private String playerName;
@@ -28,28 +29,30 @@ public class PersonalBoard implements ControllerEventListener {
     private FaithTrack faithTrack;
     private DevelopmentCardSlot[] developmentCardSlots;
     private Production baseProduction;
-    private Production[] leaderProductions;
+    private List<Production> leaderProductions;
     private Strongbox strongbox;
-    private Depot[] depots;
-    private Depot[] leaderDepots;
+    private List<Depot> depots;
+    private List<Depot> leaderDepots;
     private List<PersonalBoardEventListener> eventListeners;
     private boolean inkwell = false;
+    private DevelopmentCardGrid cardGrid;
+    private Market market;
 
-
-    public PersonalBoard(String playerNickname){
+    public PersonalBoard(String playerNickname, DevelopmentCardGrid cardGrid, Market market){
         this.playerName =playerNickname;
-        eventListeners=new ArrayList<>();
-
+        this.cardGrid=cardGrid;
+        this.market=market;
         //Create components
+        eventListeners=new ArrayList<>();
         developmentCardSlots=new DevelopmentCardSlot[3];
         baseProduction=new Production();
         leaderCards=new ArrayList<>();
-        leaderDepots=new Depot[2];
-        leaderProductions=new Production[2];
+        leaderDepots=new ArrayList<>();
+        leaderProductions=new ArrayList<>();
         //Create depots
-        depots=new Depot[3];
-        for(int i=0;i<depots.length;i++){
-            depots[i]=new Depot(i+1);
+        depots=new ArrayList<>();
+        for(int i=0;i<3;i++){
+            depots.add(new Depot(i+1));
         }
     }
 
@@ -61,6 +64,16 @@ public class PersonalBoard implements ControllerEventListener {
         eventListeners.add(newEventListener);
     }
 
+    /**
+     * A player has discarded some resources, advance faith track
+     * @param numberOfResources Number of resources discarded
+     * @param playerName Name of the player that discarded the resources
+     */
+    public void discardResources(int numberOfResources,String playerName) {
+     if(this.playerName!=playerName){
+         faithTrack.incrementFaithTrack(numberOfResources);
+     }
+    }
     /**
      * Loads the faith track from a json file
      * @param path Path of the json file containing the faith track information
@@ -97,10 +110,48 @@ public class PersonalBoard implements ControllerEventListener {
     }
 
     /**
+     * Play the player's turn
+     * @return Whether or not the game has finished
+     */
+    public boolean playTurn(){
+        //Ask for leader action
+        for(PersonalBoardEventListener p:eventListeners){
+            if(p.askForLeaderAction(playerName)){
+                //Ask which leader action to play
+            }
+        }
+
+        for(PersonalBoardEventListener p:eventListeners){
+            //Ask player which turn action to play
+            TurnAction turnAction=p.askForTurnAction(playerName);
+            boolean success=false;
+            switch(turnAction){
+                case ACTIVATEPRODUCTION:
+                    success=activateProduction();
+                    break;
+                case BUYDEVCARD:
+                    buyCard(cardGrid);
+                    break;
+                case GETRESOURCES:
+                    visitMarket();
+                    break;
+            }
+        }
+
+        //Ask for leader action
+        for(PersonalBoardEventListener p:eventListeners){
+            if(p.askForLeaderAction(playerName)){
+                //Ask which leader action to play
+            }
+        }
+        return true;
+    }
+
+    /**
      * Gets the resources stored in the player board
      * @return The resources stored
      */
-    public Map<ResType,Integer> getResources(){
+    private Map<ResType,Integer> getResources(){
         Map<ResType,Integer> resources=new HashMap<>();
         for(Depot d:depots){
             resources.merge(d.getContent().getKey(),d.getContent().getValue(),Integer::sum);
@@ -110,6 +161,14 @@ public class PersonalBoard implements ControllerEventListener {
         }
         strongbox.getContent().forEach((k,v)-> resources.merge(k,v,Integer::sum));
         return resources;
+    }
+
+    public void addLeaderDepot(Depot newLeaderDepot){
+        leaderDepots.add(newLeaderDepot);
+    }
+
+    public void addLeaderProduction(Production newLeaderProduction){
+        leaderProductions.add(newLeaderProduction);
     }
 
     /**
@@ -201,19 +260,75 @@ public class PersonalBoard implements ControllerEventListener {
         }
     }
 
+
+    private void visitMarket(){
+        for(PersonalBoardEventListener p:eventListeners){
+            p.showMarket(market,playerName);
+            AbstractMap.SimpleEntry<Boolean,Integer> params;
+            params=p.askMarketRowColumn(playerName);
+            if(params.getKey()){
+                //Acquire from row
+                acquireResources(market.acquireRow(params.getValue()));
+            }else{
+                //Acquire from
+                acquireResources(market.acquireColumn(params.getValue()));
+            }
+        }
+    }
     /**
      * Add resources acquired from the market to the storage
      * @param newResources Resources to be added
      */
-    public void acquireResources(ResType[] newResources){
+    private void acquireResources(ResType[] newResources){
+        for(LeaderCard l:leaderCards){
+            l.effectOnMarketBuy(this,newResources);
+        }
 
+        //Try adding resource to the depots
+        try{
+            addResourcesToDepot(newResources);
+        }catch(DepotSpaceException e) {
+            for(PersonalBoardEventListener p:eventListeners){
+                p.notEnoughDepotSpace(newResources,playerName);
+            }
+        }
     }
 
     /**
-     * Add resources to storage
+     * Add resources to depot
      * @param newResources Resourced to be added
      */
-    public void addResourcesToStorage(ResType[] newResources){
+    public void addResourcesToDepot(ResType[] newResources) throws DepotSpaceException {
+        Map<ResType,Integer> resources=new HashMap<>();
+        for(ResType r:newResources){
+            if(resources.get(r)==null){
+                resources.put(r,1);
+            }else{
+                resources.put(r,resources.get(r)+1);
+            }
+        }
+
+        for(ResType r:newResources){
+            if(r==ResType.FAITH){
+                faithTrack.incrementFaithTrack(1);
+                r=null;
+            }else{
+                //Try adding to depots and leader depots
+                for(Depot d: Stream.concat(depots.stream(),leaderDepots.stream()).collect(Collectors.toList())){
+                    try{
+                        d.add(r,1);
+                        r=null;
+                    } catch (DepotException e) {}
+                }
+            }
+        }
+
+        for(ResType r:newResources){
+            if(r!=null){
+                throw new DepotSpaceException();
+            }
+        }
+
     }
 
     public boolean hasInkwell(){
@@ -224,4 +339,28 @@ public class PersonalBoard implements ControllerEventListener {
         inkwell = true;
     }
 
+    public int getVictoryPoints(){
+        int victoryPoints=0;
+
+        for(DevelopmentCardSlot s:developmentCardSlots){
+            for(DevelopmentCard d:s.getCards()){
+                victoryPoints+=d.getVictoryPoints();
+            }
+        }
+
+        victoryPoints+= faithTrack.getVictoryPoints();
+
+        for(LeaderCard l:leaderCards){
+            victoryPoints+=l.getVictoryPoints();
+        }
+
+        int numberOfResources=0;
+        for(Map.Entry<ResType,Integer> e:getResources().entrySet()){
+            numberOfResources+=e.getValue();
+        }
+
+        victoryPoints+=Math.floor((float)numberOfResources/5);
+
+        return victoryPoints;
+    }
 }

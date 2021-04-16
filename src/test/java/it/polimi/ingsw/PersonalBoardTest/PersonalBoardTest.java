@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PersonalBoardTest;
 
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
+import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,11 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PersonalBoardTest {
     @Test
     public void testLoadFaithTrackFromFile(){
-        PersonalBoard personalBoard=new PersonalBoard("test");
+        PersonalBoard personalBoard=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
         assertTrue(personalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json"));
-    }
-
-    public void testChooseLeaderCards(){
-
     }
 }
