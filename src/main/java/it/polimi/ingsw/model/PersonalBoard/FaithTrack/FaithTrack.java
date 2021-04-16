@@ -2,10 +2,10 @@ package it.polimi.ingsw.model.PersonalBoard.FaithTrack;
 
 public class FaithTrack {
     //attributes
-    private int[] victoryPoints;
     private int blackCrossMarker;
     private int faithMarker;
     private VaticanReport[] vaticanReports;
+    private int[] victoryPoints;
     private boolean isAtEnd;
 
     //constructor
@@ -13,8 +13,6 @@ public class FaithTrack {
         isAtEnd=false;
         this.faithMarker=0;
         this.blackCrossMarker=0;
-        this.vaticanReports = new VaticanReport[3];
-        this.victoryPoints = new int[24];
     }
 
     /**
@@ -47,9 +45,10 @@ public class FaithTrack {
         return false;
     }
 
-    //to be implemented input from file of vatican report
-    public void sendVaticanReport(VaticanReport vaticanReport) {
-        vaticanReport.sendReport(faithMarker);
+    public void sendVaticanReport() {
+        for (VaticanReport v:vaticanReports)
+            if(v.canSendReport(faithMarker)) v.sendReport(faithMarker);
+
     }
 
     /**
