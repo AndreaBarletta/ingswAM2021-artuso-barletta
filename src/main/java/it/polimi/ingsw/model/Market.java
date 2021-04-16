@@ -54,7 +54,7 @@ public class Market {
      */
     private void updateRow(int row) {
         ResType newLeftoverMarble = marketTray[row][0];
-        System.arraycopy(marketTray[row], 1, marketTray[row], 0, 4);
+        System.arraycopy(marketTray[row], 1, marketTray[row], 0, 3);
         marketTray[row][3] = leftoverMarble;
         leftoverMarble = newLeftoverMarble;
     }
@@ -66,7 +66,7 @@ public class Market {
      */
     private void updateColumn(int column) {
         ResType newLeftoverMarble = marketTray[0][column];
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             marketTray[i][column] = marketTray[i + 1][column];
         }
         marketTray[2][column] = leftoverMarble;
