@@ -14,8 +14,6 @@ public abstract class LeaderCard {
     private Map<CardType, Integer> cardRequirements;
     private Map<ResType, Integer> resourceRequirements;
 
-    public LeaderCard(){}
-
     public LeaderCard(int victoryPoints,Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements,Map<ResType, Integer> resourceRequirements){
         this.victoryPoints=victoryPoints;
         isPlayed=false;
