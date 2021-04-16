@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.PersonalBoard;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.CardType;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
