@@ -2,7 +2,7 @@ package it.polimi.ingsw.PersonalBoardTest;
 
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.model.PersonalBoard.Strongbox;
-import it.polimi.ingsw.model.exceptions.StrongboxNegQuantityException;
+import it.polimi.ingsw.model.exceptions.NegQuantityException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashMap;
@@ -30,14 +30,14 @@ public class StrongboxTest {
 
         //Removal of too much of a given resource
         toRemove.put(ResType.COIN,20);
-        assertThrows(StrongboxNegQuantityException.class,()->strongbox.remove(toRemove));
+        assertThrows(NegQuantityException.class,()->strongbox.remove(toRemove));
 
         //Check if changes reverted after failed remove
         assertEquals(strongbox.getContent(),expected);
 
         //Removal of a resource not present in the storage
         toRemove.put(ResType.STONE,20);
-        assertThrows(StrongboxNegQuantityException.class,()->strongbox.remove(toRemove));
+        assertThrows(NegQuantityException.class,()->strongbox.remove(toRemove));
 
         //Check if changes reverted after failed remove
         assertEquals(strongbox.getContent(),expected);

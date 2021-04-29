@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.PersonalBoard;
 
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.model.exceptions.StrongboxNegQuantityException;
+import it.polimi.ingsw.model.exceptions.NegQuantityException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class Strongbox {
      * removes an amount of a resource
      * @param toRemove Resources to remove from the strongbox
      */
-    public void remove(Map<ResType,Integer> toRemove) throws StrongboxNegQuantityException {
+    public void remove(Map<ResType,Integer> toRemove) throws NegQuantityException {
         HashMap<ResType,Integer> tempResources=new HashMap<>(resources);
         for (Map.Entry<ResType, Integer> entry : toRemove.entrySet()) {
             ResType k = entry.getKey();
@@ -40,7 +40,7 @@ public class Strongbox {
             resources.merge(k, -v, Integer::sum);
             if (resources.get(k) < 0) {
                 resources = new HashMap<>(tempResources);
-                throw new StrongboxNegQuantityException();
+                throw new NegQuantityException();
             }
         }
     }

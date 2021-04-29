@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.model.exceptions.DepotException;
 import it.polimi.ingsw.model.exceptions.DepotResourceTypeException;
 import it.polimi.ingsw.model.exceptions.DepotSpaceException;
+import it.polimi.ingsw.model.exceptions.NegQuantityException;
 
 import java.util.AbstractMap;
 
@@ -55,6 +56,23 @@ public class Depot {
             throw new DepotSpaceException();
         }
         counter+=quantity;
+    }
+
+    /**
+     * remove a specified quantity and type of resources from the depot
+     * @param resourceType Type of the resource to be removed
+     * @param quantity Quantity of the resource to be removed
+     * @throws DepotException The depot is storing a resource of another type or if it's trying to remove more than there is
+     */
+    public void remove(ResType resourceType, int quantity) throws NegQuantityException, DepotResourceTypeException {
+        if(depotResource!=resourceType) {
+            throw new DepotResourceTypeException();
+        }
+
+        if(counter-quantity<0){
+            throw new NegQuantityException();
+        }
+        counter-=quantity;
     }
 
     /**
