@@ -1,10 +1,18 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.Game;
+
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
     static final int defaultPortNumber=4545;
+    static Map<String,Controller> games=new HashMap<>();
 
     public static void main(String[] args){
         int portNumber;
@@ -24,14 +32,16 @@ public class Server {
             System.out.print("Error while opening server socket");
             return;
         }
-        System.out.print("Hello");
-        try {
-            Socket clientSocket = serverSocket.accept();
-        }catch(Exception e){
-            System.out.println("Error while accepting client socket");
-            return;
-        }
 
-        System.out.println("Accepted client");
+        ExecutorService executor= Executors.newCachedThreadPool();
+        while(true){
+            try {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("New client connected"+clientSocket.getInetAddress());
+                executor.submit(new ClientHandler(clientSocket,games));
+            }catch(Exception e){
+                System.out.println("Error while accepting client socket: "+e.getMessage());
+            }
+        }
     }
 }

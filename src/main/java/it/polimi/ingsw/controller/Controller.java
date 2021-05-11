@@ -1,25 +1,28 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.CardType;
+import it.polimi.ingsw.ClientHandler;
+import it.polimi.ingsw.Message;
+import it.polimi.ingsw.MessageType;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
-import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 import it.polimi.ingsw.model.PersonalBoard.TurnAction;
-import it.polimi.ingsw.model.Production;
-import it.polimi.ingsw.model.ResType;
 
 import java.util.*;
 
 public class Controller implements PersonalBoardEventListener,GameEventListener {
     private List<ControllerEventListener> eventListeners;
+    private List<ClientHandler> clientHandlers;
+    private Game game;
 
     public Controller(){
         eventListeners=new ArrayList<>();
+        clientHandlers=new ArrayList<>();
     }
 
     /**
@@ -30,15 +33,21 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         eventListeners.add(newEventListener);
     }
 
-    /**
-     * Inform the other players a new player has joined the game and add the controller to the newly-creates personal board's event listener
-     * @param newPersonalBoard New personal board
-     */
-    public void newPersonalBoard(PersonalBoard newPersonalBoard){
-        System.out.println("Player "+newPersonalBoard.getPlayerName()+" has joined");
-        newPersonalBoard.addEventListener(this);
+
+    public void createGame(ClientHandler clientHandler, String gameName){
+        clientHandlers.add(clientHandler);
+        System.out.println("Player has created the game "+gameName);
+        game=new Game(gameName);
+        game.addPlayer(clientHandler.getPlayerName());
     }
 
+    public void joinGame(ClientHandler clientHandler){
+        clientHandlers.add(clientHandler);
+        System.out.println("Player has joined the game ");
+        for(ClientHandler c:clientHandlers){
+            c.send(new Message(MessageType.NEWPLAYER,new String[]{clientHandler.getPlayerName()}));
+        }
+    }
     /**
      * Inform the other player who has recieved the inkwell
      * @param playerName name of the player that recieved the inkwell
