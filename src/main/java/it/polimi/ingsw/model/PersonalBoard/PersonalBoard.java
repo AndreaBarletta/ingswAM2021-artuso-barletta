@@ -75,9 +75,9 @@ public class PersonalBoard implements ControllerEventListener {
      * @param playerName Name of the player that discarded the resources
      */
     public void discardResources(int numberOfResources,String playerName) {
-     if(this.playerName!=playerName){
-         faithTrack.incrementFaithTrack(numberOfResources);
-     }
+        if(this.playerName!=playerName){
+            faithTrack.incrementFaithTrack(numberOfResources);
+        }
     }
 
     /**
@@ -218,12 +218,18 @@ public class PersonalBoard implements ControllerEventListener {
             productions.add(baseProduction);
             List<Production> selectedProductions=p.chooseProductions(productions,playerName);
             if(canProduce(selectedProductions)){
-
+                for(Production pr:selectedProductions){
+                    addResourcesToStrongbox(pr.getProducts());
+                }
             }else{
                 return false;
             }
         }
         return true;
+    }
+
+    public void addResourcesToStrongbox(Map<ResType,Integer> newResources){
+        strongbox.add(newResources);
     }
 
     /**
@@ -283,9 +289,9 @@ public class PersonalBoard implements ControllerEventListener {
     private void addCardToSlot(DevelopmentCard card) throws LevelException, ResourcesException {
         Map<ResType,Integer> resources=getResources();
         for (Map.Entry<ResType, Integer> entry : resources.entrySet()) {
-           if(card.getCost().get(entry.getKey())>entry.getValue()){
-               throw new ResourcesException();
-           }
+            if(card.getCost().get(entry.getKey())>entry.getValue()){
+                throw new ResourcesException();
+            }
         }
 
         for(PersonalBoardEventListener p:eventListeners){
