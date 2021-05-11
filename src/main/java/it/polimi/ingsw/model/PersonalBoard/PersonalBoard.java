@@ -218,12 +218,18 @@ public class PersonalBoard implements ControllerEventListener {
             productions.add(baseProduction);
             List<Production> selectedProductions=p.chooseProductions(productions,playerName);
             if(canProduce(selectedProductions)){
-
+                for(Production pr:selectedProductions){
+                    addResourcesToStrongbox(pr.getProducts());
+                }
             }else{
                 return false;
             }
         }
         return true;
+    }
+
+    public void addResourcesToStrongbox(Map<ResType,Integer> newResources){
+        strongbox.add(newResources);
     }
 
     /**
