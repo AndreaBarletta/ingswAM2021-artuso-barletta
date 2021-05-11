@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class Game implements ControllerEventListener {
+    private String gameName;
     private List<PersonalBoard> personalBoards;
     private Market market;
     private DevelopmentCardGrid developmentCardGrid;
@@ -22,7 +23,8 @@ public class Game implements ControllerEventListener {
     private List<GameEventListener> eventListeners;
     private boolean gameDone;
 
-    public Game(){
+    public Game(String gameName){
+        this.gameName=gameName;
         personalBoards=new ArrayList<>();
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();
@@ -161,18 +163,12 @@ public class Game implements ControllerEventListener {
     /**
      * Adds a new player to the game and create their personal board
      * @param playerName Name of the new player
-     * @return Whether or not the player could be added to the game and the board was successfully loaded
+     * @return Whether or not the board was successfully loaded
      */
     public boolean addPlayer(String playerName){
-        if(personalBoards.size()<4){
-            PersonalBoard newPersonalBoard=new PersonalBoard(playerName,developmentCardGrid,market);
-            personalBoards.add(newPersonalBoard);
-            for(GameEventListener g:eventListeners){
-                g.newPersonalBoard(newPersonalBoard);
-            }
-            return newPersonalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json");
-        }
-        return false;
+        PersonalBoard newPersonalBoard=new PersonalBoard(playerName,developmentCardGrid,market);
+        personalBoards.add(newPersonalBoard);
+        return newPersonalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json");
     }
 
     public int getNumberOfPlayer(){
