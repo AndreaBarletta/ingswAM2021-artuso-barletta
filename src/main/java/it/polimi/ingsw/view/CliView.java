@@ -56,7 +56,25 @@ public class CliView{
             System.out.println(inputSplit[0]);
             switch(inputSplit[0]){
                 case "connect":
-                    out.println(new Message(MessageType.CONNECT,new String[]{inputSplit[1]}));
+                    if(inputSplit.length==2){
+                        out.println(new Message(MessageType.CONNECT,new String[]{inputSplit[1]}));
+                    }else{
+                        System.out.println("Too few arguments");
+                    }
+                    break;
+                case "creategame":
+                    if(inputSplit.length==3){
+                        out.println(new Message(MessageType.CREATEGAME,new String[]{inputSplit[1],inputSplit[2]}));
+                    }else{
+                        System.out.println("Too few arguments");
+                    }
+                    break;
+                case "joingame":
+                    if(inputSplit.length==2){
+                        out.println(new Message(MessageType.JOINGAME,new String[]{inputSplit[1]}));
+                    }else{
+                        System.out.println("Too few arguments");
+                    }
                     break;
             }
         }
