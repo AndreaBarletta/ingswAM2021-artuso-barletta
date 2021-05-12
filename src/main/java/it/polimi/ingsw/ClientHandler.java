@@ -36,9 +36,8 @@ public class ClientHandler implements Runnable{
                 Message message=gson.fromJson(messageString,Message.class);
                 switch(message.messageType){
                     case CREATEGAME:
-                        if(message.params.length!=2){
+                        if(message.params.length==2){
                             if(games.get(message.params[0])==null){
-
                                 Controller newController=new Controller();
                                 newController.createGame(this,message.params[0],Integer.valueOf(message.params[1]));
                                 games.put(message.params[0],newController);
@@ -57,6 +56,7 @@ public class ClientHandler implements Runnable{
                         }
                         break;
                     case CONNECT:
+                        System.out.println("Player "+message.params[0]+"has connected");
                         this.playerName=message.params[0];
                         break;
                 }
