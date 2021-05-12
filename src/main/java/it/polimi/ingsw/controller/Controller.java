@@ -62,6 +62,9 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      */
     public void inkwellGiven(String playerName){
         System.out.println("Player "+playerName+" has recieved the inkwell");
+        for(ClientHandler c:clientHandlers){
+            c.send(new Message(MessageType.INKWELLGIVEN,new String[]{playerName}));
+        }
     }
 
     /**
