@@ -17,6 +17,7 @@ public class ClientHandler implements Runnable{
     private BufferedReader in;
     private Map<String, Controller> games;
     private String playerName;
+    private Controller currentGame;
 
     public ClientHandler(Socket clientSocket,Map<String,Controller> games){
         this.clientSocket=clientSocket;
@@ -35,17 +36,24 @@ public class ClientHandler implements Runnable{
                 Message message=gson.fromJson(messageString,Message.class);
                 switch(message.messageType){
                     case CREATEGAME:
-                        if(games.get(message.params[0])==null){
-                            Controller newController=new Controller();
-                            newController.createGame(this,message.params[0]);
-                            games.put(message.params[0],newController);
-                        }else{
-                            //Game with the same name already created
+                        if(message.params.length!=2){
+                            if(games.get(message.params[0])==null){
+
+                                Controller newController=new Controller();
+                                newController.createGame(this,message.params[0],Integer.valueOf(message.params[1]));
+                                games.put(message.params[0],newController);
+                                currentGame=newController;
+                            }else{
+                                //Game with the same name already created
+                                //send(new Message);
+                            }
                         }
                         break;
                     case JOINGAME:
-                        if(games.get(message.params[0])!=null){
-                            games.get(message.params[0]).joinGame(this);
+                        Controller game=games.get(message.params[0]);
+                        if(game!=null){
+                            game.joinGame(this);
+                            currentGame=game;
                         }
                         break;
                     case CONNECT:

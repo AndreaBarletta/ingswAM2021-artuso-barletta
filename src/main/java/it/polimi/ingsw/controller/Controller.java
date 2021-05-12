@@ -34,19 +34,27 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     }
 
 
-    public void createGame(ClientHandler clientHandler, String gameName){
+    public synchronized void createGame(ClientHandler clientHandler, String gameName,int maximumPlayers){
         clientHandlers.add(clientHandler);
         System.out.println("Player has created the game "+gameName);
-        game=new Game(gameName);
-        game.addPlayer(clientHandler.getPlayerName());
+        game=new Game(gameName,maximumPlayers);
+        try {
+            game.addPlayer(clientHandler.getPlayerName());
+        }catch(Exception e){}
     }
 
-    public void joinGame(ClientHandler clientHandler){
-        clientHandlers.add(clientHandler);
+    public synchronized void joinGame(ClientHandler clientHandler){
         System.out.println("Player has joined the game ");
+        //Notify other players
         for(ClientHandler c:clientHandlers){
             c.send(new Message(MessageType.NEWPLAYER,new String[]{clientHandler.getPlayerName()}));
         }
+
+        clientHandlers.add(clientHandler);
+
+        try{
+            game.addPlayer(clientHandler.getPlayerName());
+        }catch(Exception e){}
     }
     /**
      * Inform the other player who has recieved the inkwell
