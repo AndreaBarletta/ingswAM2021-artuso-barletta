@@ -7,6 +7,10 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
+import it.polimi.ingsw.model.exceptions.DuplicatedIdException;
+import it.polimi.ingsw.model.exceptions.GameSizeExceeded;
+import it.polimi.ingsw.model.exceptions.ParsingException;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,14 +26,16 @@ public class Game implements ControllerEventListener {
     private LeaderCard[] leaderCards;
     private List<GameEventListener> eventListeners;
     private boolean gameDone;
+    private int maximumPlayers;
 
-    public Game(String gameName){
+    public Game(String gameName,int maximumPlayers){
         this.gameName=gameName;
         personalBoards=new ArrayList<>();
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();
         eventListeners=new ArrayList<>();
         gameDone=false;
+        this.maximumPlayers=maximumPlayers;
     }
 
     /**
@@ -165,10 +171,21 @@ public class Game implements ControllerEventListener {
      * @param playerName Name of the new player
      * @return Whether or not the board was successfully loaded
      */
-    public boolean addPlayer(String playerName){
-        PersonalBoard newPersonalBoard=new PersonalBoard(playerName,developmentCardGrid,market);
-        personalBoards.add(newPersonalBoard);
-        return newPersonalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json");
+    public void addPlayer(String playerName) throws GameSizeExceeded, ParsingException, DuplicatedIdException {
+        if(personalBoards.size()<maximumPlayers){
+            for(Iterator<PersonalBoard> pbIterator=personalBoards.iterator();pbIterator.hasNext();){
+                if(pbIterator.next().getPlayerName()==playerName){
+                    throw new DuplicatedIdException();
+                }
+            }
+            PersonalBoard newPersonalBoard=new PersonalBoard(playerName,developmentCardGrid,market);
+            personalBoards.add(newPersonalBoard);
+            if(!newPersonalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json")){
+                throw new ParsingException();
+            }
+        }else{
+            throw new GameSizeExceeded();
+        }
     }
 
     public int getNumberOfPlayer(){
