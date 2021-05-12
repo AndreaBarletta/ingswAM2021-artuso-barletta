@@ -44,8 +44,11 @@ public class ClientHandler implements Runnable{
                                 currentGame=newController;
                             }else{
                                 //Game with the same name already created
+                                send(new Message(MessageType.GAMEALREADYEXISTING,new String[]{}));
                                 //send(new Message);
                             }
+                        }else{
+                            send(new Message(MessageType.NOTENOUGHARGUMENTS,new String[]{}));
                         }
                         break;
                     case JOINGAME:
@@ -56,7 +59,7 @@ public class ClientHandler implements Runnable{
                         }
                         break;
                     case CONNECT:
-                        System.out.println("Player "+message.params[0]+"has connected");
+                        System.out.println("Player "+message.params[0]+" has connected");
                         this.playerName=message.params[0];
                         break;
                 }
