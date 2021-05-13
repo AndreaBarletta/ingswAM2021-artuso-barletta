@@ -92,7 +92,7 @@ public class CliView{
                         break;
                 }
             }
-            isValid=true;
+            isValid=false;
             try{
                 message=gson.fromJson(in.readLine(),Message.class);
                 System.out.println(message);
