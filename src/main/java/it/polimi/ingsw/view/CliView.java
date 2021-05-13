@@ -43,7 +43,6 @@ public class CliView{
             System.out.print("Error while creating buffers");
         }
 
-
         while(true){
             String input;
             Scanner inConsole = new Scanner(System.in);
@@ -53,7 +52,6 @@ public class CliView{
                 return;
             }
             String[] inputSplit=input.split(" ");
-            System.out.println(inputSplit[0]);
             switch(inputSplit[0]){
                 case "connect":
                     if(inputSplit.length==2){
