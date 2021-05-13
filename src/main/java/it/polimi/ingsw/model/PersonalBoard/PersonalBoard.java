@@ -419,4 +419,8 @@ public class PersonalBoard implements ControllerEventListener {
 
         return victoryPoints;
     }
+
+    public void incrementFaithTrack(int faithPoint){
+        faithTrack.incrementFaithTrack(faithPoint);
+    }
 }
