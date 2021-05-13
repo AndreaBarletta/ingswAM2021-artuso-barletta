@@ -29,12 +29,18 @@ public class ClientHandler implements Runnable{
         try{
             out=new PrintWriter(clientSocket.getOutputStream(),true);
             in=new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out.println(new Message(MessageType.OK,new String[]{"true"}));
             String messageString=in.readLine();
             Gson gson=new Gson();
             while(messageString!=null){
                 System.out.println(messageString);
                 Message message=gson.fromJson(messageString,Message.class);
                 switch(message.messageType){
+                    case CONNECT:
+                        System.out.println("Player "+message.params[0]+" has connected");
+                        this.playerName=message.params[0];
+                        out.println(new Message(MessageType.OK,new String[]{"true"}));
+                        break;
                     case CREATEGAME:
                         if(message.params.length==2){
                             if(games.get(message.params[0])==null){
@@ -42,6 +48,7 @@ public class ClientHandler implements Runnable{
                                 newController.createGame(this,message.params[0],Integer.valueOf(message.params[1]));
                                 games.put(message.params[0],newController);
                                 currentGame=newController;
+                                out.println(new Message(MessageType.OK,new String[]{"false"}));
                             }else{
                                 //Game with the same name already created
                                 send(new Message(MessageType.GAMEALREADYEXISTING,new String[]{}));
@@ -56,11 +63,8 @@ public class ClientHandler implements Runnable{
                         if(game!=null){
                             game.joinGame(this);
                             currentGame=game;
+                            out.println(new Message(MessageType.OK,new String[]{"false"}));
                         }
-                        break;
-                    case CONNECT:
-                        System.out.println("Player "+message.params[0]+" has connected");
-                        this.playerName=message.params[0];
                         break;
                 }
                 messageString=in.readLine();

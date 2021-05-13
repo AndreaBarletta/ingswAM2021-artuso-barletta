@@ -1,4 +1,5 @@
 package it.polimi.ingsw.view;
+import com.google.gson.Gson;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.controller.ControllerEventListener;
@@ -42,46 +43,72 @@ public class CliView{
         }catch(Exception e){
             System.out.print("Error while creating buffers");
         }
-
+        String input;
+        Scanner inConsole = new Scanner(System.in);
+        String[] inputSplit;
+        boolean canWrite=false;
+        boolean isValid=true;
+        Gson gson=new Gson();
+        Message message;
         while(true){
-            String input;
-            System.out.println("Enter command: ");
-            Scanner inConsole = new Scanner(System.in);
-            try {
-                input = inConsole.nextLine();
-            }catch(Exception e){
-                return;
+            while(canWrite&&isValid) {
+                System.out.print("Enter command: ");
+                try {
+                    input = inConsole.nextLine();
+                } catch (Exception e) {
+                    return;
+                }
+                inputSplit = input.split(" ");
+                switch (inputSplit[0]) {
+                    case "connect":
+                        if (inputSplit.length == 2) {
+                            out.println(new Message(MessageType.CONNECT, new String[]{inputSplit[1]}));
+                            System.out.println("connect request sent");
+                            canWrite=false;
+                        } else {
+                            System.out.println("Too few arguments");
+                            isValid=false;
+                        }
+                        break;
+                    case "creategame":
+                        if (inputSplit.length == 3) {
+                            out.println(new Message(MessageType.CREATEGAME, new String[]{inputSplit[1], inputSplit[2]}));
+                            System.out.println("creategame request sent");
+                            canWrite=false;
+                        } else {
+                            System.out.println("Too few arguments");
+                            isValid=false;
+                        }
+                        break;
+                    case "joingame":
+                        if (inputSplit.length == 2) {
+                            out.println(new Message(MessageType.JOINGAME, new String[]{inputSplit[1]}));
+                            System.out.println("joingame request sent");
+                            canWrite=false;
+                        } else {
+                            System.out.println("Too few arguments");
+                            isValid=false;
+                        }
+                        break;
+                    default:
+                        System.out.println("Command not recognized");
+                        isValid=false;
+                        break;
+                }
             }
-            String[] inputSplit=input.split(" ");
-            switch(inputSplit[0]){
-                case "connect":
-                    if(inputSplit.length==2){
-                        out.println(new Message(MessageType.CONNECT,new String[]{inputSplit[1]}));
-                        System.out.println("connect request sent");
-                    }else{
-                        System.out.println("Too few arguments");
+            isValid=true;
+            try{
+                System.out.println("Wait for message");
+                message=gson.fromJson(in.readLine(),Message.class);
+                System.out.println(message);
+                switch(message.messageType){
+                    case OK:{
+                        if(message.params.length==1){
+                            canWrite=Boolean.parseBoolean(message.params[0]);
+                        }
                     }
-                    break;
-                case "creategame":
-                    if(inputSplit.length==3){
-                        out.println(new Message(MessageType.CREATEGAME,new String[]{inputSplit[1],inputSplit[2]}));
-                        System.out.println("creategame request sent");
-                    }else{
-                        System.out.println("Too few arguments");
-                    }
-                    break;
-                case "joingame":
-                    if(inputSplit.length==2){
-                        out.println(new Message(MessageType.JOINGAME,new String[]{inputSplit[1]}));
-                        System.out.println("joingame request sent");
-                    }else{
-                        System.out.println("Too few arguments");
-                    }
-                    break;
-                default:
-                    System.out.println("Command not recognized");
-                    break;
-            }
+                }
+            }catch(Exception e){}
         }
     }
 }
