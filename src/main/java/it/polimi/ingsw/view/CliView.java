@@ -99,6 +99,9 @@ public class CliView{
                     case OK:
                         if(message.params.length==1){
                             canWrite=Boolean.parseBoolean(message.params[0]);
+                        }else if(message.params.length==2){
+                            canWrite=Boolean.parseBoolean(message.params[0]);
+                            System.out.println(message.params[1]);
                         }
                     break;
                     case NEWPLAYER:

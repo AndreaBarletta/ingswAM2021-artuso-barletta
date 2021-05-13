@@ -48,7 +48,7 @@ public class ClientHandler implements Runnable{
                                 newController.createGame(this,message.params[0],Integer.valueOf(message.params[1]));
                                 games.put(message.params[0],newController);
                                 currentGame=newController;
-                                out.println(new Message(MessageType.OK,new String[]{"false"}));
+                                out.println(new Message(MessageType.OK,new String[]{"false","Waiting for other players..."}));
                             }else{
                                 //Game with the same name already created
                                 send(new Message(MessageType.ERROR,new String[]{"Game with the same name already exists"}));
@@ -61,9 +61,9 @@ public class ClientHandler implements Runnable{
                     case JOINGAME:
                         Controller game=games.get(message.params[0]);
                         if(game!=null){
+                            out.println(new Message(MessageType.OK,new String[]{"false","Waiting for other players..."}));
                             game.joinGame(this);
                             currentGame=game;
-                            out.println(new Message(MessageType.OK,new String[]{"false"}));
                         }
                         break;
                 }

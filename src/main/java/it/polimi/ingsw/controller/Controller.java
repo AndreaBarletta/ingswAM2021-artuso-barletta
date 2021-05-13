@@ -37,12 +37,17 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
 
     public synchronized void createGame(ClientHandler clientHandler, String gameName,int maximumPlayers){
-        clientHandlers.add(clientHandler);
-        System.out.println("Player has created the game "+gameName);
-        game=new Game(gameName,maximumPlayers);
-        try {
-            game.addPlayer(clientHandler.getPlayerName());
-        }catch(Exception e){}
+        if(maximumPlayers>1&&maximumPlayers<4){
+            clientHandlers.add(clientHandler);
+            System.out.println("Player has created the game "+gameName);
+            game=new Game(gameName,maximumPlayers);
+            try {
+                game.addPlayer(clientHandler.getPlayerName());
+            }catch(Exception e){}
+        }else{
+            clientHandler.send(new Message(MessageType.ERROR,new String[]{"Invalid number of players"}));
+        }
+
     }
 
     public synchronized void joinGame(ClientHandler clientHandler){
