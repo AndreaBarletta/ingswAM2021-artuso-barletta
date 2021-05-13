@@ -73,7 +73,7 @@ public class ClientHandler implements Runnable{
             System.out.println("Error starting client handler for "+clientSocket.getInetAddress());
             return;
         }
-        currentGame.
+        currentGame.disconnected(this);
     }
 
     public void send(Message message){
