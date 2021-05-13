@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.ClientHandler;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
+import it.polimi.ingsw.exceptions.DuplicatedIdException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
@@ -54,6 +55,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
         try{
             game.addPlayer(clientHandler.getPlayerName());
+        }catch(DuplicatedIdException e){
+            clientHandler.send(new Message(MessageType.ERROR,new String[]{"Player name taken"}));
         }catch(Exception e){}
     }
 

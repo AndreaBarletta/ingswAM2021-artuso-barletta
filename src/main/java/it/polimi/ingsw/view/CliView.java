@@ -112,6 +112,9 @@ public class CliView{
                     case DISCONNECTED:
                         System.out.println("Player "+message.params[0]+" has left the game");
                         break;
+                    case ERROR:
+                        System.out.println(message.params[0]);
+                        break;
                 }
             }catch(Exception e){}
         }
