@@ -102,8 +102,16 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * @return index of the choose cards
      */
     public int[] chooseLeaderCards(LeaderCard[] leaderCards,String playerName){
-        System.out.println("Ask player "+playerName+" to choose 2 leader cards");
-        return new int[]{1, 2};
+        List<Integer> idList=new ArrayList<>();
+        for(LeaderCard l:leaderCards){
+            idList.add(l.getId());
+        }
+
+        for(ClientHandler c:clientHandlers){
+            c.send(new Message(MessageType.CHOOSELEADERCARDS,new String[]{idList.toArray().toString()}));
+        }
+
+        return new int[]{1,2};
     }
 
     /**

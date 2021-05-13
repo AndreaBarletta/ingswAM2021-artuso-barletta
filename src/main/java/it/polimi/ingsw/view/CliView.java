@@ -120,6 +120,9 @@ public class CliView{
                     case INKWELLGIVEN:
                         System.out.println("Player "+ message.params[0]+" has recieved the inkwell");
                         break;
+                    case CHOOSELEADERCARDS:
+                        System.out.println("Leader cards with ids "+message.params[0]);
+                        break;
                 }
             }catch(Exception e){}
         }
