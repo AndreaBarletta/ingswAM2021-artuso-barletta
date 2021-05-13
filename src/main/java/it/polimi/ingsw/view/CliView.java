@@ -98,15 +98,17 @@ public class CliView{
             }
             isValid=true;
             try{
-                System.out.println("Wait for message");
                 message=gson.fromJson(in.readLine(),Message.class);
                 System.out.println(message);
                 switch(message.messageType){
-                    case OK:{
+                    case OK:
                         if(message.params.length==1){
                             canWrite=Boolean.parseBoolean(message.params[0]);
                         }
-                    }
+                    break;
+                    case NEWPLAYER:
+                        System.out.println("New player connected: say hello to "+message.params[0]);
+                        break;
                 }
             }catch(Exception e){}
         }
