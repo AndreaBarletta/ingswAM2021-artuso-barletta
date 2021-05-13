@@ -77,6 +77,9 @@ public class CliView{
                         System.out.println("Too few arguments");
                     }
                     break;
+                default:
+                    System.out.println("Command not recognized");
+                    break;
             }
         }
     }
