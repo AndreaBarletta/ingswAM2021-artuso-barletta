@@ -47,11 +47,11 @@ public class CliView{
         Scanner inConsole = new Scanner(System.in);
         String[] inputSplit;
         boolean canWrite=false;
-        boolean isValid=true;
+        boolean isValid=false;
         Gson gson=new Gson();
         Message message;
         while(true){
-            while(canWrite&&isValid) {
+            while(canWrite&&!isValid) {
                 System.out.print("Enter command: ");
                 try {
                     input = inConsole.nextLine();
@@ -64,35 +64,31 @@ public class CliView{
                         if (inputSplit.length == 2) {
                             out.println(new Message(MessageType.CONNECT, new String[]{inputSplit[1]}));
                             System.out.println("connect request sent");
-                            canWrite=false;
+                            isValid=true;
                         } else {
                             System.out.println("Too few arguments");
-                            isValid=false;
                         }
                         break;
                     case "creategame":
                         if (inputSplit.length == 3) {
                             out.println(new Message(MessageType.CREATEGAME, new String[]{inputSplit[1], inputSplit[2]}));
                             System.out.println("creategame request sent");
-                            canWrite=false;
+                            isValid=true;
                         } else {
                             System.out.println("Too few arguments");
-                            isValid=false;
                         }
                         break;
                     case "joingame":
                         if (inputSplit.length == 2) {
                             out.println(new Message(MessageType.JOINGAME, new String[]{inputSplit[1]}));
                             System.out.println("joingame request sent");
-                            canWrite=false;
+                            isValid=true;
                         } else {
                             System.out.println("Too few arguments");
-                            isValid=false;
                         }
                         break;
                     default:
                         System.out.println("Command not recognized");
-                        isValid=false;
                         break;
                 }
             }
@@ -114,6 +110,7 @@ public class CliView{
                         break;
                     case ERROR:
                         System.out.println(message.params[0]);
+                        canWrite=true;
                         break;
                 }
             }catch(Exception e){}
