@@ -13,6 +13,7 @@ public abstract class LeaderCard {
     protected Map<CardType, Integer> levelRequirements;
     protected Map<CardType, Integer> cardRequirements;
     protected Map<ResType, Integer> resourceRequirements;
+    protected int id;
 
     public LeaderCard(int victoryPoints,Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements,Map<ResType, Integer> resourceRequirements){
         this.victoryPoints=victoryPoints;
@@ -30,6 +31,13 @@ public abstract class LeaderCard {
         return victoryPoints;
     }
 
+    /**
+     *
+     * @return The id of the card
+     */
+    public int getId(){
+        return id;
+    }
     /**
      *
      * @return Whether or not the card has already been played
