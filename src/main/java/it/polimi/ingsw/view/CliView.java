@@ -45,6 +45,7 @@ public class CliView{
 
         while(true){
             String input;
+            System.out.println("Enter command: ");
             Scanner inConsole = new Scanner(System.in);
             try {
                 input = inConsole.nextLine();
