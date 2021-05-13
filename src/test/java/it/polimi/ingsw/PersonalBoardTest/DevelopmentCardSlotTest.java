@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.model.exceptions.LevelException;
+import it.polimi.ingsw.exceptions.LevelException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

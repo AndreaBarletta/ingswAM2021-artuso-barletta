@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.PersonalBoard;
 
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.model.exceptions.NegQuantityException;
+import it.polimi.ingsw.exceptions.NegQuantityException;
 
 import java.util.HashMap;
 import java.util.Map;

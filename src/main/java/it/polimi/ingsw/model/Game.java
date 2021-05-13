@@ -7,9 +7,9 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
-import it.polimi.ingsw.model.exceptions.DuplicatedIdException;
-import it.polimi.ingsw.model.exceptions.GameSizeExceeded;
-import it.polimi.ingsw.model.exceptions.ParsingException;
+import it.polimi.ingsw.exceptions.DuplicatedIdException;
+import it.polimi.ingsw.exceptions.GameSizeExceeded;
+import it.polimi.ingsw.exceptions.ParsingException;
 
 import java.io.File;
 import java.io.IOException;

@@ -2,9 +2,8 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
-import it.polimi.ingsw.model.exceptions.DuplicatedIdException;
-import it.polimi.ingsw.model.exceptions.GameSizeExceeded;
+import it.polimi.ingsw.exceptions.DuplicatedIdException;
+import it.polimi.ingsw.exceptions.GameSizeExceeded;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.PersonalBoard;
 
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.model.exceptions.DepotException;
-import it.polimi.ingsw.model.exceptions.DepotResourceTypeException;
-import it.polimi.ingsw.model.exceptions.DepotSpaceException;
-import it.polimi.ingsw.model.exceptions.NegQuantityException;
+import it.polimi.ingsw.exceptions.DepotException;
+import it.polimi.ingsw.exceptions.DepotResourceTypeException;
+import it.polimi.ingsw.exceptions.DepotSpaceException;
+import it.polimi.ingsw.exceptions.NegQuantityException;
 
 import java.util.AbstractMap;
 

@@ -10,10 +10,10 @@ import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.model.exceptions.DepotException;
-import it.polimi.ingsw.model.exceptions.DepotSpaceException;
-import it.polimi.ingsw.model.exceptions.LevelException;
-import it.polimi.ingsw.model.exceptions.ResourcesException;
+import it.polimi.ingsw.exceptions.DepotException;
+import it.polimi.ingsw.exceptions.DepotSpaceException;
+import it.polimi.ingsw.exceptions.LevelException;
+import it.polimi.ingsw.exceptions.ResourcesException;
 
 import java.io.File;
 import java.io.IOException;

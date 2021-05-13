@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.PersonalBoard;
 
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.model.exceptions.LevelException;
+import it.polimi.ingsw.exceptions.LevelException;
 
 import java.util.*;
 

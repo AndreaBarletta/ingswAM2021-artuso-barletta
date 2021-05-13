@@ -2,7 +2,7 @@ package it.polimi.ingsw.PersonalBoardTest;
 
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.model.PersonalBoard.Strongbox;
-import it.polimi.ingsw.model.exceptions.NegQuantityException;
+import it.polimi.ingsw.exceptions.NegQuantityException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashMap;

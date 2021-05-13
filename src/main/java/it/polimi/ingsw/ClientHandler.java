@@ -71,7 +71,6 @@ public class ClientHandler implements Runnable{
             }
         }catch(Exception e){
             System.out.println("Error starting client handler for "+clientSocket.getInetAddress());
-            return;
         }
         currentGame.disconnected(this);
     }
