@@ -56,6 +56,13 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             game.addPlayer(clientHandler.getPlayerName());
         }catch(Exception e){}
     }
+
+    public synchronized void disconnected(ClientHandler clientHandler){
+        clientHandlers.remove(clientHandler);
+        for(ClientHandler c:clientHandlers){
+                c.send(new Message(MessageType.DISCONNECTED,new String[]{clientHandler.getPlayerName()}));
+        }
+    }
     /**
      * Inform the other player who has recieved the inkwell
      * @param playerName name of the player that recieved the inkwell

@@ -107,7 +107,10 @@ public class CliView{
                         }
                     break;
                     case NEWPLAYER:
-                        System.out.println("New player connected: say hello to "+message.params[0]);
+                        System.out.println("Player "+message.params[0]+" has joined the game");
+                        break;
+                    case DISCONNECTED:
+                        System.out.println("Player "+message.params[0]+" has left the game");
                         break;
                 }
             }catch(Exception e){}

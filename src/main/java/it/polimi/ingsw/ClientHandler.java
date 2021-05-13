@@ -73,6 +73,7 @@ public class ClientHandler implements Runnable{
             System.out.println("Error starting client handler for "+clientSocket.getInetAddress());
             return;
         }
+        currentGame.
     }
 
     public void send(Message message){
