@@ -35,7 +35,12 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         eventListeners.add(newEventListener);
     }
 
-
+    /**
+     * Creates a game and add the player who created it to the game
+     * @param clientHandler Player that created the game
+     * @param gameName Name of the game
+     * @param maximumPlayers Maximum number of player (between 2 and 4)
+     */
     public synchronized void createGame(ClientHandler clientHandler, String gameName,int maximumPlayers){
         if(maximumPlayers>=2&&maximumPlayers<=4){
             clientHandlers.add(clientHandler);
@@ -52,6 +57,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
     }
 
+    /**
+     * Adds a player to an existing game
+     * @param clientHandler The player that wants to join
+     */
     public synchronized void joinGame(ClientHandler clientHandler){
         System.out.println("Player has joined the game ");
 
@@ -77,6 +86,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         }catch(Exception e){}
     }
 
+    /**
+     * A player has disconnected from the game, notify the others
+     * @param clientHandler Player that disconnected from the game
+     */
     public synchronized void disconnected(ClientHandler clientHandler){
         clientHandlers.remove(clientHandler);
         game.removePlayer(clientHandler.getPlayerName());
