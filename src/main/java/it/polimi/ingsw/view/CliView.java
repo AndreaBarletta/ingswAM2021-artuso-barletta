@@ -56,6 +56,7 @@ public class CliView{
                 case "connect":
                     if(inputSplit.length==2){
                         out.println(new Message(MessageType.CONNECT,new String[]{inputSplit[1]}));
+                        System.out.println("connect request sent");
                     }else{
                         System.out.println("Too few arguments");
                     }
@@ -63,6 +64,7 @@ public class CliView{
                 case "creategame":
                     if(inputSplit.length==3){
                         out.println(new Message(MessageType.CREATEGAME,new String[]{inputSplit[1],inputSplit[2]}));
+                        System.out.println("creategame request sent");
                     }else{
                         System.out.println("Too few arguments");
                     }
@@ -70,6 +72,7 @@ public class CliView{
                 case "joingame":
                     if(inputSplit.length==2){
                         out.println(new Message(MessageType.JOINGAME,new String[]{inputSplit[1]}));
+                        System.out.println("joingame request sent");
                     }else{
                         System.out.println("Too few arguments");
                     }
