@@ -37,10 +37,12 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
 
     public synchronized void createGame(ClientHandler clientHandler, String gameName,int maximumPlayers){
-        if(maximumPlayers>1&&maximumPlayers<4){
+        if(maximumPlayers>=2&&maximumPlayers<=4){
             clientHandlers.add(clientHandler);
             System.out.println("Player has created the game "+gameName);
             game=new Game(gameName,maximumPlayers);
+            addEventListener(game);
+            game.addEventListener(this);
             try {
                 game.addPlayer(clientHandler.getPlayerName());
             }catch(Exception e){}
@@ -52,7 +54,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
     public synchronized void joinGame(ClientHandler clientHandler){
         System.out.println("Player has joined the game ");
-
 
         try{
             boolean canStart=game.addPlayer(clientHandler.getPlayerName());
@@ -67,6 +68,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 for(ClientHandler c:clientHandlers){
                     c.send(new Message(MessageType.STARTGAME,new String[]{}));
                 }
+                game.start();
             }
         }catch(DuplicatedIdException e){
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Player name taken"}));

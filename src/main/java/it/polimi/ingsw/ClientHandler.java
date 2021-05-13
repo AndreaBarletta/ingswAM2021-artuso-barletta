@@ -64,6 +64,8 @@ public class ClientHandler implements Runnable{
                             out.println(new Message(MessageType.OK,new String[]{"false","Waiting for other players..."}));
                             game.joinGame(this);
                             currentGame=game;
+                        }else{
+                            out.println(new Message(MessageType.ERROR,new String[]{"Game does not exist"}));
                         }
                         break;
                 }

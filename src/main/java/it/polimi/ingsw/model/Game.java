@@ -138,8 +138,8 @@ public class Game implements ControllerEventListener {
      * Start the game
      */
     public void start(){
-        showLeaderCard();
         giveInkwell();
+        showLeaderCard();
         int i=0;
         do{
             personalBoards.get(i).playTurn();
