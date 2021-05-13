@@ -169,12 +169,12 @@ public class Game implements ControllerEventListener {
     /**
      * Adds a new player to the game and create their personal board
      * @param playerName Name of the new player
-     * @return Whether or not the board was successfully loaded
+     * @return Whether or not the maximum number of players has been reached
      */
-    public void addPlayer(String playerName) throws GameSizeExceeded, ParsingException, DuplicatedIdException {
+    public boolean addPlayer(String playerName) throws GameSizeExceeded, ParsingException, DuplicatedIdException {
         if(personalBoards.size()<maximumPlayers){
             for(Iterator<PersonalBoard> pbIterator=personalBoards.iterator();pbIterator.hasNext();){
-                if(pbIterator.next().getPlayerName()==playerName){
+                if(pbIterator.next().getPlayerName().equals(playerName)){
                     throw new DuplicatedIdException();
                 }
             }
@@ -185,6 +185,16 @@ public class Game implements ControllerEventListener {
             }
         }else{
             throw new GameSizeExceeded();
+        }
+        return personalBoards.size()==maximumPlayers;
+    }
+
+    public void removePlayer(String playerName){
+        for(Iterator<PersonalBoard> pbIterator = personalBoards.iterator(); pbIterator.hasNext();){
+            if(pbIterator.next().getPlayerName().equals(playerName)){
+                pbIterator.remove();
+                break;
+            }
         }
     }
 

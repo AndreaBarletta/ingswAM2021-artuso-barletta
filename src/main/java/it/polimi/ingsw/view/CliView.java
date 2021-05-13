@@ -95,7 +95,6 @@ public class CliView{
             isValid=false;
             try{
                 message=gson.fromJson(in.readLine(),Message.class);
-                System.out.println(message);
                 switch(message.messageType){
                     case OK:
                         if(message.params.length==1){
@@ -109,8 +108,11 @@ public class CliView{
                         System.out.println("Player "+message.params[0]+" has left the game");
                         break;
                     case ERROR:
-                        System.out.println(message.params[0]);
+                        System.out.println("Error: "+message.params[0]);
                         canWrite=true;
+                        break;
+                    case STARTGAME:
+                        System.out.println("Game has started");
                         break;
                 }
             }catch(Exception e){}

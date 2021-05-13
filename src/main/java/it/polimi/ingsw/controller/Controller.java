@@ -4,11 +4,13 @@ import it.polimi.ingsw.ClientHandler;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.DuplicatedIdException;
+import it.polimi.ingsw.exceptions.GameSizeExceeded;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
+import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 import it.polimi.ingsw.model.PersonalBoard.TurnAction;
@@ -45,22 +47,32 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
     public synchronized void joinGame(ClientHandler clientHandler){
         System.out.println("Player has joined the game ");
-        //Notify other players
-        for(ClientHandler c:clientHandlers){
-            c.send(new Message(MessageType.NEWPLAYER,new String[]{clientHandler.getPlayerName()}));
-        }
 
-        clientHandlers.add(clientHandler);
 
         try{
-            game.addPlayer(clientHandler.getPlayerName());
+            boolean canStart=game.addPlayer(clientHandler.getPlayerName());
+            //Notify other players
+            for(ClientHandler c:clientHandlers){
+                c.send(new Message(MessageType.NEWPLAYER,new String[]{clientHandler.getPlayerName()}));
+            }
+
+            clientHandlers.add(clientHandler);
+            if(canStart){
+                //Notify all the players that the game can start
+                for(ClientHandler c:clientHandlers){
+                    c.send(new Message(MessageType.STARTGAME,new String[]{}));
+                }
+            }
         }catch(DuplicatedIdException e){
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Player name taken"}));
+        }catch(GameSizeExceeded e){
+            clientHandler.send(new Message(MessageType.ERROR,new String[]{"Game is full"}));
         }catch(Exception e){}
     }
 
     public synchronized void disconnected(ClientHandler clientHandler){
         clientHandlers.remove(clientHandler);
+        game.removePlayer(clientHandler.getPlayerName());
         for(ClientHandler c:clientHandlers){
                 c.send(new Message(MessageType.DISCONNECTED,new String[]{clientHandler.getPlayerName()}));
         }

@@ -51,7 +51,7 @@ public class ClientHandler implements Runnable{
                                 out.println(new Message(MessageType.OK,new String[]{"false"}));
                             }else{
                                 //Game with the same name already created
-                                send(new Message(MessageType.GAMEALREADYEXISTING,new String[]{}));
+                                send(new Message(MessageType.ERROR,new String[]{"Game with the same name already exists"}));
                             }
                         }else{
                             //Too few arguments
