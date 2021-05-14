@@ -148,6 +148,9 @@ public class Game implements ControllerEventListener {
      * Start the game
      */
     public void start(){
+        loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
+        loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
+        loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json");
         giveInkwell();
         showLeaderCard();
         chooseInitialResource();
@@ -239,7 +242,9 @@ public class Game implements ControllerEventListener {
         for(int i=0;i<personalBoards.size();i++){
             LeaderCard[] leaderCardsToShow = new LeaderCard[4];
             leaderCardList.subList(i*4, (i+1)*4).toArray(leaderCardsToShow);
-            personalBoards.get(i).chooseLeaderCards(leaderCardsToShow);
+            for(GameEventListener g:eventListeners){
+                g.chooseLeaderCards(leaderCardsToShow,personalBoards.get(i).getPlayerName());
+            }
         }
     }
 
@@ -248,8 +253,8 @@ public class Game implements ControllerEventListener {
     }
 
     private void chooseInitialResource() {
-        for(int playerNumber = 0;playerNumber<=4;playerNumber++) {
-            if(playerNumber == 2 || playerNumber == 3) {
+        for (int playerNumber = 1; playerNumber < personalBoards.size(); playerNumber++) {
+            if (playerNumber == 1 || playerNumber == 2) {
                 for (GameEventListener g : eventListeners) {
                     g.chooseOneInitialResource(personalBoards.get(playerNumber).getPlayerName());
                 }

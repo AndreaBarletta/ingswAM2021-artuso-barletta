@@ -9,4 +9,5 @@ public interface GameEventListener {
     void announceWinner(String playerName);
     void chooseOneInitialResource(String playerName);
     void chooseTwoInitialResource(String playerName);
+
 }

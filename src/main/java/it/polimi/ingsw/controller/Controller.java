@@ -80,7 +80,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 }
                 game.addPersonalBoardsEventListener(this);
                 game.start();
-                clientHandler.setExpectedMessageType(new MessageType[]{CHOO});
+                clientHandler.setExpectedMessageType(new MessageType[]{MessageType.CHOOSELEADERCARDS});
             }
         }catch(DuplicatedIdException e){
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Player name taken"}));
