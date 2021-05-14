@@ -1,5 +1,17 @@
 [
   {
+    "id": 0,
+    "type": "discounter",
+    "victoryPoints":2,
+    "cardRequirements":{
+      "GREEN":1,
+      "BLUE":1
+    },
+    "discounts": {
+      "STONE": 1
+    }
+  },
+  {
     "id": 1,
     "type": "converter",
     "victoryPoints":5,
@@ -193,18 +205,6 @@
     },
     "discounts": {
       "SHIELD": 1
-    }
-  },
-  {
-    "id": 16,
-    "type": "discounter",
-    "victoryPoints":2,
-    "cardRequirements":{
-      "GREEN":1,
-      "BLUE":1
-    },
-    "discounts": {
-      "STONE": 1
     }
   }
 ]
