@@ -10,7 +10,6 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
-import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 import it.polimi.ingsw.model.PersonalBoard.TurnAction;
@@ -79,8 +78,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 for(ClientHandler c:clientHandlers){
                     c.send(new Message(MessageType.STARTGAME,new String[]{}));
                 }
+                game.addPersonalBoardsEventListener(this);
                 game.start();
-                clientHandler.setExpectedMessageType(new MessageType[]{CHOO});
             }
         }catch(DuplicatedIdException e){
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Player name taken"}));
@@ -111,13 +110,13 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         }
     }
 
+
+    public synchronized void leaderCardsChosen(ClientHandler clientHandler,int[] leaderCardsId){
+    }
     /**
      * Add to the players to chosen resource
      */
     public void addInitialResource(String playerName, int playerNumber){
-
-
-
         System.out.println("resource chosen has been added to player "+playerName);
         for(ClientHandler c:clientHandlers){
             c.send(new Message(MessageType.GIVENINITIALRESOURCES,new String[]{playerName}));
@@ -128,19 +127,21 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * Ask the player to choose 2 leader cards among the 4 given
      * @param leaderCards 4 leader cards given by the game
      * @param playerName The name of the player
-     * @return index of the choose cards
      */
-    public int[] chooseLeaderCards(LeaderCard[] leaderCards,String playerName){
-        List<Integer> idList=new ArrayList<>();
-        for(LeaderCard l:leaderCards){
-            idList.add(l.getId());
-        }
-
+    public void chooseLeaderCards(LeaderCard[] leaderCards,String playerName){
         for(ClientHandler c:clientHandlers){
-            c.send(new Message(MessageType.CHOOSELEADERCARDS,new String[]{idList.toArray().toString()}));
-        }
+            if(c.getPlayerName().equals(playerName)){
+                c.setExpectedMessageType(new MessageType[]{MessageType.LEADERCARDSCHOSEN});
+                List<Integer> idList=new ArrayList<>();
+                for(LeaderCard l:leaderCards){
+                    idList.add(l.getId());
+                }
 
-        return new int[]{1,2};
+                c.send(new Message(MessageType.CHOOSELEADERCARDS,new String[]{Arrays.toString(idList.toArray())}));
+                c.send(new Message(MessageType.OK,new String[]{"true"}));
+                break;
+            }
+        }
     }
 
     /**
