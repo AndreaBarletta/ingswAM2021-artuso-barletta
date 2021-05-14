@@ -140,6 +140,7 @@ public class Game implements ControllerEventListener {
     public void start(){
         giveInkwell();
         showLeaderCard();
+        chooseInitialResource();
         int i=0;
         do{
             personalBoards.get(i).playTurn();
@@ -232,5 +233,25 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public void discardResources(int numberOfResources,String playerName){}
+    public void discardResources(int numberOfResources,String playerName){
+
+    }
+
+    private void chooseInitialResource() {
+        for(int playerNumber = 0;playerNumber<=4;playerNumber++) {
+            if(playerNumber == 2 || playerNumber == 3) {
+                for (GameEventListener g : eventListeners) {
+                    g.addInitialResource(personalBoards.get(playerNumber).getPlayerName());
+
+                }
+            }
+        }
+    }
+
+    /**
+     * add the initial resource selected
+     */
+    public void addInitialResource(ResType resource, int playerNumber) {
+        personalBoards.get(playerNumber).addResourcesToDepot(resource);
+    }
 }
