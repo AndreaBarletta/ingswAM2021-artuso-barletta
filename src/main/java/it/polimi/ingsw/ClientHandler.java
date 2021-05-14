@@ -80,6 +80,9 @@ public class ClientHandler implements Runnable{
                                 out.println(new Message(MessageType.ERROR,new String[]{"Game does not exist"}));
                             }
                             break;
+                        case LEADERCARDSCHOSEN:
+                            currentGame.leaderCardsChosen(this,new int[]{Integer.parseInt(message.params[0]),Integer.parseInt(message.params[1])});
+                            break;
                     }
                 }else{
                     send(new Message(MessageType.ERROR,new String[]{"Cannot use that command now"}));
