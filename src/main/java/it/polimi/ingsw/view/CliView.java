@@ -1,16 +1,19 @@
 package it.polimi.ingsw.view;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.LeaderCardDeserializer;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,7 +23,7 @@ public class CliView{
     static final int defaultPortNumber=4545;
     static private PrintWriter out;
     static private BufferedReader in;
-    static private List<LeaderCard> leaderCards;
+    static private LeaderCard[] leaderCards;
     static private List<DevelopmentCard> developmentCards;
     static private String playerName;
     static private String input;
@@ -32,6 +35,10 @@ public class CliView{
     static private Message message;
 
     public static void main(String[] args){
+        if(!loadLeaderCardsFromFile("src/main/resources/leaderCards.json")){
+            return;
+        }
+
         //Args[0]=server ip
         //Args[1]=server port
         int serverPort;
@@ -141,9 +148,42 @@ public class CliView{
                     System.out.println("Player "+ message.params[0]+" has recieved the inkwell");
                     break;
                 case CHOOSELEADERCARDS:
-                    System.out.println("Leader cards with ids "+message.params[0]);
+                    System.out.println("Choose between the following leader cards");
+                    for(int i:gson.fromJson(message.params[0],int[].class)){
+                        System.out.println(leaderCards[i].toString());
+                        System.out.println();
+                    }
                     break;
             }
         }catch(Exception e){}
+    }
+
+    /**
+     * Loads the leader cards from a json file
+     * @param path Path of the json file containing the list of leader cards
+     * @return Whether or not the leader cards were loaded successfully
+     */
+    public static boolean loadLeaderCardsFromFile(String path){
+        String content;
+
+        File file=new File(path);
+        try{
+            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        }catch(IOException e){
+            System.out.println("Error reading from file while loading leader cards i.e. wrong path");
+            return false;
+        }
+
+        GsonBuilder gsonBuilder=new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LeaderCard.class,new LeaderCardDeserializer());
+        Gson gson=gsonBuilder.create();
+        try{
+            leaderCards=gson.fromJson(content, LeaderCard[].class);
+        }catch(JsonSyntaxException e){
+            System.out.println("Error loading json file for leader cards");
+            return false;
+        }
+
+        return true;
     }
 }

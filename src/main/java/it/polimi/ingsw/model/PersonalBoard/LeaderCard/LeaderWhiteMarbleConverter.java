@@ -28,4 +28,10 @@ public class LeaderWhiteMarbleConverter extends LeaderCard{
     }
     public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
     public void effectOnDiscard(PersonalBoard personalBoard){}
+    public String toString(){
+        return "Id: "+id+"\nType:Converter\nConverts into: "+convertedResource+"\nVictory points: "+victoryPoints+
+                "\nRequirements: "+(cardRequirements!=null?cardRequirements:"")+
+                (levelRequirements!=null?levelRequirements:"")+
+                (resourceRequirements!=null?resourceRequirements:"");
+    }
 }
