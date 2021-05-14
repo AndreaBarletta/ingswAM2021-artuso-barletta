@@ -3,6 +3,8 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.controller.ControllerEventListener;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,6 +20,8 @@ public class CliView{
     static final int defaultPortNumber=4545;
     static private PrintWriter out;
     static private BufferedReader in;
+    static private List<LeaderCard> leaderCards;
+    static private List<DevelopmentCard> developmentCards;
 
     public static void main(String[] args){
         //Args[0]=server ip
@@ -63,7 +67,6 @@ public class CliView{
                     case "connect":
                         if (inputSplit.length == 2) {
                             out.println(new Message(MessageType.CONNECT, new String[]{inputSplit[1]}));
-                            System.out.println("connect request sent");
                             isValid=true;
                         } else {
                             System.out.println("Too few arguments");
@@ -72,7 +75,6 @@ public class CliView{
                     case "creategame":
                         if (inputSplit.length == 3) {
                             out.println(new Message(MessageType.CREATEGAME, new String[]{inputSplit[1], inputSplit[2]}));
-                            System.out.println("creategame request sent");
                             isValid=true;
                         } else {
                             System.out.println("Too few arguments");
@@ -81,7 +83,6 @@ public class CliView{
                     case "joingame":
                         if (inputSplit.length == 2) {
                             out.println(new Message(MessageType.JOINGAME, new String[]{inputSplit[1]}));
-                            System.out.println("joingame request sent");
                             isValid=true;
                         } else {
                             System.out.println("Too few arguments");
