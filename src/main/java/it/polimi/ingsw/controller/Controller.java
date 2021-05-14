@@ -20,6 +20,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     private List<ControllerEventListener> eventListeners;
     private List<ClientHandler> clientHandlers;
     private Game game;
+    private Thread gameThread;
 
     public Controller(){
         eventListeners=new ArrayList<>();
@@ -79,7 +80,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                     c.send(new Message(MessageType.STARTGAME,new String[]{}));
                 }
                 game.addPersonalBoardsEventListener(this);
-                game.start();
+                gameThread=new Thread(game);
+                gameThread.start();
                 clientHandler.setExpectedMessageType(new MessageType[]{MessageType.CHOOSELEADERCARDS});
             }
         }catch(DuplicatedIdException e){
@@ -113,6 +115,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
 
     public synchronized void leaderCardsChosen(ClientHandler clientHandler,int[] leaderCardsId){
+        game.setCanProceed(true);
+        game.notify();
     }
     /**
      * Add to the players to chosen resource

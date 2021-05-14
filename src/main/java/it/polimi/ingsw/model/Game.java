@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-public class Game implements ControllerEventListener {
+public class Game implements ControllerEventListener,Runnable {
     private String gameName;
     private List<PersonalBoard> personalBoards;
     private Market market;
@@ -28,6 +28,7 @@ public class Game implements ControllerEventListener {
     private List<GameEventListener> eventListeners;
     private boolean gameDone;
     private int maximumPlayers;
+    private boolean canProceed;
 
     public Game(String gameName,int maximumPlayers){
         this.gameName=gameName;
@@ -37,6 +38,7 @@ public class Game implements ControllerEventListener {
         eventListeners=new ArrayList<>();
         gameDone=false;
         this.maximumPlayers=maximumPlayers;
+        canProceed=false;
     }
 
     /**
@@ -147,12 +149,17 @@ public class Game implements ControllerEventListener {
     /**
      * Start the game
      */
-    public void start(){
+    public void run(){
         loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
         loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
         loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json");
         giveInkwell();
         showLeaderCard();
+        while(!canProceed){
+            try{
+                this.wait();
+            }catch(Exception e){}
+        }
         chooseInitialResource();
         int i=0;
         do{
@@ -272,5 +279,9 @@ public class Game implements ControllerEventListener {
      */
     public void addInitialResource(ResType resource) {
 
+    }
+
+    public void setCanProceed(boolean canProceed){
+        this.canProceed=canProceed;
     }
 }

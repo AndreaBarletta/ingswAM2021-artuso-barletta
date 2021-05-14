@@ -104,14 +104,14 @@ public class CliView{
                     }
                     break;
                     //TODO: fix leader cards picking
-                /*case "chooseleaders":
+                case "chooseleaders":
                     if(inputSplit.length==3){
                         out.println(new Message(MessageType.LEADERCARDSCHOSEN,new String[]{inputSplit[1],inputSplit[2]}));
                         isValid=true;
                     }else{
                         System.out.println("Invalid number of arguments, required 2");
                     }
-                    break;*/
+                    break;
                 default:
                     System.out.println("Command not recognized");
                     break;
