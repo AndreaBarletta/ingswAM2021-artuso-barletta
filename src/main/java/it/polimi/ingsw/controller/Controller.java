@@ -114,10 +114,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     /**
      * Add to the players to chosen resource
      */
-    public void addInitialResource(String playerName, int playerNumber){
-
-
-
+    public void addInitialResource(String playerName, ResType[] resources){
+        //add
         System.out.println("resource chosen has been added to player "+playerName);
         for(ClientHandler c:clientHandlers){
             c.send(new Message(MessageType.GIVENINITIALRESOURCES,new String[]{playerName}));

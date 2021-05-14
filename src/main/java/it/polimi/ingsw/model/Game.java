@@ -238,11 +238,15 @@ public class Game implements ControllerEventListener {
     }
 
     private void chooseInitialResource() {
-        for(int playerNumber = 0;playerNumber<=4;playerNumber++) {
-            if(playerNumber == 2 || playerNumber == 3) {
+        for(int playerNumber = 1; playerNumber<personalBoards.size(); playerNumber++) {
+            if(playerNumber == 1 || playerNumber == 2) {
                 for (GameEventListener g : eventListeners) {
-                    g.addInitialResource(personalBoards.get(playerNumber).getPlayerName());
-
+                    g.chooseOneInitialResource(personalBoards.get(playerNumber).getPlayerName());
+                }
+            }
+            if (playerNumber == 3) {
+                for (GameEventListener g : eventListeners) {
+                    g.chooseTwoInitialResource(personalBoards.get(playerNumber).getPlayerName());
                 }
             }
         }
@@ -251,7 +255,7 @@ public class Game implements ControllerEventListener {
     /**
      * add the initial resource selected
      */
-    public void addInitialResource(ResType resource, int playerNumber) {
-        personalBoards.get(playerNumber).addResourcesToDepot(resource);
+    public void addInitialResource(ResType resource) {
+
     }
 }
