@@ -179,6 +179,14 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         System.out.println("Player "+playerName+" has won the game");
     }
 
+    public void chooseOneInitialResource(String playerName) {
+
+    }
+
+    public void chooseTwoInitialResource(String playerName) {
+
+    }
+
     /**
      * Ask the player if the want to play a leader action
      * @return Whether or not the player wants to play a leader action
