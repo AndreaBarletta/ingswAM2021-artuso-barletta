@@ -7,5 +7,6 @@ public interface GameEventListener {
     void inkwellGiven(String playerName);
     void chooseLeaderCards(LeaderCard[] leaderCards, String playerName);
     void announceWinner(String playerName);
-    void addInitialResource(String playerName, int playerNumber);
+    void chooseOneInitialResource(String playerName);
+    void chooseTwoInitialResource(String playerName);
 }

@@ -80,6 +80,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 }
                 game.addPersonalBoardsEventListener(this);
                 game.start();
+                clientHandler.setExpectedMessageType(new MessageType[]{CHOO});
             }
         }catch(DuplicatedIdException e){
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Player name taken"}));
@@ -116,7 +117,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     /**
      * Add to the players to chosen resource
      */
-    public void addInitialResource(String playerName, int playerNumber){
+    public void addInitialResource(String playerName, ResType[] resources){
+        //add
         System.out.println("resource chosen has been added to player "+playerName);
         for(ClientHandler c:clientHandlers){
             c.send(new Message(MessageType.GIVENINITIALRESOURCES,new String[]{playerName}));
@@ -127,6 +129,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * Ask the player to choose 2 leader cards among the 4 given
      * @param leaderCards 4 leader cards given by the game
      * @param playerName The name of the player
+     * @return index of the choose cards
      */
     public void chooseLeaderCards(LeaderCard[] leaderCards,String playerName){
         for(ClientHandler c:clientHandlers){

@@ -148,9 +148,6 @@ public class Game implements ControllerEventListener {
      * Start the game
      */
     public void start(){
-        loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
-        loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
-        loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json");
         giveInkwell();
         showLeaderCard();
         chooseInitialResource();
@@ -242,9 +239,7 @@ public class Game implements ControllerEventListener {
         for(int i=0;i<personalBoards.size();i++){
             LeaderCard[] leaderCardsToShow = new LeaderCard[4];
             leaderCardList.subList(i*4, (i+1)*4).toArray(leaderCardsToShow);
-            for(GameEventListener g:eventListeners){
-                g.chooseLeaderCards(leaderCardsToShow,personalBoards.get(i).getPlayerName());
-            }
+            personalBoards.get(i).chooseLeaderCards(leaderCardsToShow);
         }
     }
 
@@ -256,7 +251,12 @@ public class Game implements ControllerEventListener {
         for(int playerNumber = 0;playerNumber<=4;playerNumber++) {
             if(playerNumber == 2 || playerNumber == 3) {
                 for (GameEventListener g : eventListeners) {
-                    g.addInitialResource(personalBoards.get(playerNumber).getPlayerName(),playerNumber);
+                    g.chooseOneInitialResource(personalBoards.get(playerNumber).getPlayerName());
+                }
+            }
+            if (playerNumber == 3) {
+                for (GameEventListener g : eventListeners) {
+                    g.chooseTwoInitialResource(personalBoards.get(playerNumber).getPlayerName());
                 }
             }
         }
@@ -265,7 +265,7 @@ public class Game implements ControllerEventListener {
     /**
      * add the initial resource selected
      */
-    public void addInitialResource(ResType resource, int playerNumber) {
-        //personalBoards.get(playerNumber).addResourcesToDepot(resource);
+    public void addInitialResource(ResType resource) {
+
     }
 }
