@@ -105,9 +105,22 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * @param playerName name of the player that recieved the inkwell
      */
     public void inkwellGiven(String playerName){
-        System.out.println("Player "+playerName+" has recieved the inkwell");
+        System.out.println("Player "+playerName+" has received the inkwell");
         for(ClientHandler c:clientHandlers){
             c.send(new Message(MessageType.INKWELLGIVEN,new String[]{playerName}));
+        }
+    }
+
+    /**
+     * Add to the players to chosen resource
+     */
+    public void addInitialResource(String playerName, int playerNumber){
+
+
+
+        System.out.println("resource chosen has been added to player "+playerName);
+        for(ClientHandler c:clientHandlers){
+            c.send(new Message(MessageType.GIVENINITIALRESOURCES,new String[]{playerName}));
         }
     }
 
