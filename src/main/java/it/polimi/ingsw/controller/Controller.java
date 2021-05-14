@@ -51,6 +51,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             try {
                 game.addPlayer(clientHandler.getPlayerName());
             }catch(Exception e){}
+            clientHandler.setExpectedMessageType(new MessageType[]{});
         }else{
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Invalid number of players"}));
         }
@@ -72,12 +73,14 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             }
 
             clientHandlers.add(clientHandler);
+            clientHandler.setExpectedMessageType(new MessageType[]{});
             if(canStart){
                 //Notify all the players that the game can start
                 for(ClientHandler c:clientHandlers){
                     c.send(new Message(MessageType.STARTGAME,new String[]{}));
                 }
                 game.start();
+                clientHandler.setExpectedMessageType(new MessageType[]{CHOO});
             }
         }catch(DuplicatedIdException e){
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Player name taken"}));
