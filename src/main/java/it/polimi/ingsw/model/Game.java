@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.exceptions.DuplicatedIdException;
 import it.polimi.ingsw.exceptions.GameSizeExceeded;
 import it.polimi.ingsw.exceptions.ParsingException;
+import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +47,15 @@ public class Game implements ControllerEventListener {
         eventListeners.add(newEventListener);
     }
 
+    /**
+     * Adds a new personal board event listener to all the listener lists of the personal boards
+     * @param newEventListener New event listener
+     */
+    public void addPersonalBoardsEventListener(PersonalBoardEventListener newEventListener){
+        for(PersonalBoard p:personalBoards){
+            p.addEventListener(newEventListener);
+        }
+    }
     /**
      * Loads developments cards from a json file and creates the development card grid,
      * putting the cards in the right cells based on the level and card type
@@ -138,6 +148,9 @@ public class Game implements ControllerEventListener {
      * Start the game
      */
     public void start(){
+        loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
+        loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
+        loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json");
         giveInkwell();
         showLeaderCard();
         chooseInitialResource();
@@ -229,7 +242,9 @@ public class Game implements ControllerEventListener {
         for(int i=0;i<personalBoards.size();i++){
             LeaderCard[] leaderCardsToShow = new LeaderCard[4];
             leaderCardList.subList(i*4, (i+1)*4).toArray(leaderCardsToShow);
-            personalBoards.get(i).chooseLeaderCards(leaderCardsToShow);
+            for(GameEventListener g:eventListeners){
+                g.chooseLeaderCards(leaderCardsToShow,personalBoards.get(i).getPlayerName());
+            }
         }
     }
 
@@ -241,8 +256,7 @@ public class Game implements ControllerEventListener {
         for(int playerNumber = 0;playerNumber<=4;playerNumber++) {
             if(playerNumber == 2 || playerNumber == 3) {
                 for (GameEventListener g : eventListeners) {
-                    g.addInitialResource(personalBoards.get(playerNumber).getPlayerName());
-
+                    g.addInitialResource(personalBoards.get(playerNumber).getPlayerName(),playerNumber);
                 }
             }
         }
@@ -252,6 +266,6 @@ public class Game implements ControllerEventListener {
      * add the initial resource selected
      */
     public void addInitialResource(ResType resource, int playerNumber) {
-        personalBoards.get(playerNumber).addResourcesToDepot(resource);
+        //personalBoards.get(playerNumber).addResourcesToDepot(resource);
     }
 }
