@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface PersonalBoardEventListener {
-    int[] chooseLeaderCards(LeaderCard[] leaderCards,String playerName);
     DevelopmentCard chooseDevelopmentCard(DevelopmentCardGrid cardGrid, String playerName);
     int chooseDevelopmentCardSlot(DevelopmentCardSlot[] developmentCardSlots,DevelopmentCard card, String playerName);
     void error(String error);

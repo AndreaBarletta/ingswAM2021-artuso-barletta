@@ -300,19 +300,6 @@ public class PersonalBoard implements ControllerEventListener {
         }
     }
 
-    /**
-     * Pick 2 leader cards among 4 given by the game
-     * @param leaderCards 4 leader cards given by the game
-     */
-    public void chooseLeaderCards(LeaderCard[] leaderCards){
-        for(PersonalBoardEventListener p:eventListeners){
-            int[] indices=p.chooseLeaderCards(leaderCards,playerName);
-            for(int i:indices){
-                this.leaderCards.add(leaderCards[i]);
-            }
-        }
-    }
-
     private void visitMarket(){
         for(PersonalBoardEventListener p:eventListeners){
             p.showMarket(market,playerName);
