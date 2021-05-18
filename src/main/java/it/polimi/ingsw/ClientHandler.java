@@ -32,11 +32,14 @@ public class ClientHandler implements Runnable{
             in=new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             Gson gson=new Gson();
             String incomingString;
-            while((incomingString=in.readLine())!=null){
+            incomingString=in.readLine();
+            System.out.println(incomingString);
+            while(incomingString!=null){
                 Message incomingMesage=gson.fromJson(incomingString,Message.class);
                 if(!automaton.evolve(controller,this,incomingMesage)){
                     send(new Message(MessageType.ERROR,new String[]{automaton.getErrorMessage()}));
                 }
+                incomingString=in.readLine();
             }
         }catch(Exception e){
             System.out.println("Error starting client handler for "+clientSocket.getInetAddress());
