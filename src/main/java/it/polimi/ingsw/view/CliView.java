@@ -5,6 +5,9 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.controller.ControllerEventListener;
+import it.polimi.ingsw.exceptions.DuplicatedIdException;
+import it.polimi.ingsw.exceptions.NotEnoughArgumentsException;
+import it.polimi.ingsw.exceptions.UnknownCommandException;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
@@ -26,13 +29,8 @@ public class CliView{
     static private LeaderCard[] leaderCards;
     static private List<DevelopmentCard> developmentCards;
     static private String playerName;
-    static private String input;
-    static private Scanner inConsole = new Scanner(System.in);
-    static private String[] inputSplit;
-    static private boolean canWrite=false;
-    static private boolean isValid=false;
     static private Gson gson=new Gson();
-    static private Message message;
+    static private CommandParser commandParser=new CommandParser();
 
     public static void main(String[] args){
         if(!loadLeaderCardsFromFile("src/main/resources/leaderCards.json")){
@@ -62,100 +60,78 @@ public class CliView{
         }catch(Exception e){
             System.out.print("Error while creating buffers");
         }
-        while(true){
-            sendToServer();
-            recieveFromServer();
+        try{
+            commandParser.addCommand("playername",1,MessageType.PICK_PLAYERNAME);
+        }catch(DuplicatedIdException e){
+            System.out.println("Error adding commands");
+            return;
         }
+
+
+        new Thread(CliView::sendToServer).start();
+        new Thread(CliView::recieveFromServer).start();
     }
 
     public static void sendToServer(){
-        while(canWrite&&!isValid) {
-            System.out.print("Enter command: ");
+        String input;
+        Scanner inConsole = new Scanner(System.in);
+        Message message;
+        while(true){
             try {
                 input = inConsole.nextLine();
             } catch (Exception e) {
                 return;
             }
-            inputSplit = input.split(" ");
-            switch (inputSplit[0]) {
-                case "connect":
-                    if (inputSplit.length == 2) {
-                        out.println(new Message(MessageType.CONNECT, new String[]{inputSplit[1]}));
-                        playerName=inputSplit[1];
-                        isValid=true;
-                    } else {
-                        System.out.println("Invalid number of arguments, required 1");
-                    }
-                    break;
-                case "creategame":
-                    if (inputSplit.length == 3) {
-                        out.println(new Message(MessageType.CREATEGAME, new String[]{inputSplit[1], inputSplit[2]}));
-                        isValid=true;
-                    } else {
-                        System.out.println("Invalid number of arguments, required 2");
-                    }
-                    break;
-                case "joingame":
-                    if (inputSplit.length == 2) {
-                        out.println(new Message(MessageType.JOINGAME, new String[]{inputSplit[1]}));
-                        isValid=true;
-                    } else {
-                        System.out.println("Invalid number of arguments, required 1");
-                    }
-                    break;
-                    //TODO: fix leader cards picking
-                case "chooseleaders":
-                    if(inputSplit.length==3){
-                        out.println(new Message(MessageType.LEADERCARDSCHOSEN,new String[]{inputSplit[1],inputSplit[2]}));
-                        isValid=true;
-                    }else{
-                        System.out.println("Invalid number of arguments, required 2");
-                    }
-                    break;
-                default:
-                    System.out.println("Command not recognized");
-                    break;
+            try {
+                message=commandParser.parseCommand(input);
+                System.out.println(message);
+            }catch(UnknownCommandException e){
+                System.out.println("Unknown command");
+            }catch(NotEnoughArgumentsException e){
+                System.out.println("Not Enough Arguments! Required "+commandParser.getNumberOfArguments(input));
             }
         }
-        isValid=false;
     }
+
     public static void recieveFromServer(){
-        try{
-            message=gson.fromJson(in.readLine(),Message.class);
-            switch(message.messageType){
-                case OK:
-                    if(message.params.length==1){
-                        canWrite=Boolean.parseBoolean(message.params[0]);
-                    }else if(message.params.length==2){
-                        canWrite=Boolean.parseBoolean(message.params[0]);
-                        System.out.println(message.params[1]);
-                    }
-                    break;
-                case NEWPLAYER:
-                    System.out.println("Player "+message.params[0]+" has joined the game");
-                    break;
-                case DISCONNECTED:
-                    System.out.println("Player "+message.params[0]+" has left the game");
-                    break;
-                case ERROR:
-                    System.out.println("Error: "+message.params[0]);
-                    canWrite=true;
-                    break;
-                case STARTGAME:
-                    System.out.println("Game has started");
-                    break;
-                case INKWELLGIVEN:
-                    System.out.println("Player "+ message.params[0]+" has recieved the inkwell");
-                    break;
-                case CHOOSELEADERCARDS:
-                    System.out.println("Choose between the following leader cards");
-                    for(int i:gson.fromJson(message.params[0],int[].class)){
-                        System.out.println(leaderCards[i].toString());
-                        System.out.println();
-                    }
-                    break;
-            }
-        }catch(Exception e){}
+        /*while(true){
+            try{
+                message=gson.fromJson(in.readLine(),Message.class);
+                switch(message.messageType){
+                    case OK:
+                        if(message.params.length==1){
+                            canWrite=Boolean.parseBoolean(message.params[0]);
+                        }else if(message.params.length==2){
+                            canWrite=Boolean.parseBoolean(message.params[0]);
+                            System.out.println(message.params[1]);
+                        }
+                        break;
+                    case NEW_PLAYER:
+                        System.out.println("Player "+message.params[0]+" has joined the game");
+                        break;
+                    case DISCONNECTED:
+                        System.out.println("Player "+message.params[0]+" has left the game");
+                        break;
+                    case ERROR:
+                        System.out.println("Error: "+message.params[0]);
+                        canWrite=true;
+                        break;
+                    case START_GAME:
+                        System.out.println("Game has started");
+                        break;
+                    case INKWELLGIVEN:
+                        System.out.println("Player "+ message.params[0]+" has recieved the inkwell");
+                        break;
+                    case CHOOSELEADERCARDS:
+                        System.out.println("Choose between the following leader cards");
+                        for(int i:gson.fromJson(message.params[0],int[].class)){
+                            System.out.println(leaderCards[i].toString());
+                            System.out.println();
+                        }
+                        break;
+                }
+            }catch(Exception e){}
+        }*/
     }
 
     /**
