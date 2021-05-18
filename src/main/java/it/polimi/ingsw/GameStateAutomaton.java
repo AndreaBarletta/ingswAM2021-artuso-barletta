@@ -18,16 +18,16 @@ public class GameStateAutomaton {
                     return true;
                 case NICKNAME_CHOSEN:
                     clientHandler.setPlayerName(message.params[0]);
-                    return true;
-                case GAME_CREATED:
-                    controller.createGame(clientHandler,message.params[0],Integer.parseInt(message.params[1]));
-                    return true;
-                case GAME_JOINED:
-                    controller.joinGame(clientHandler);
+                    if(!controller.addClientHandler(clientHandler)){
+                        errorMessage="Player with the same name already exists";
+                        state=GameState.PLAYER_CONNECTED;
+                        return false;
+                    }
                     return true;
             }
             errorMessage="Unknown state";
         }
+        errorMessage="Cannot use that command now";
         return false;
     }
 
