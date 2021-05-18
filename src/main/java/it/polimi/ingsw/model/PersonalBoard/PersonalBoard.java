@@ -132,13 +132,13 @@ public class PersonalBoard implements ControllerEventListener {
             do{
                 TurnAction turnAction=p.askForTurnAction(playerName);
                 switch(turnAction){
-                    case ACTIVATEPRODUCTION:
+                    case ACTIVATE_PRODUCTION:
                         success=activateProduction();
                         break;
-                    case BUYDEVCARD:
+                    case BUY_DEV_CARD:
                         buyCard(cardGrid);
                         break;
-                    case GETRESOURCES:
+                    case GET_RESOURCES:
                         visitMarket();
                         success=true;
                         break;
