@@ -41,7 +41,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * @param gameName Name of the game
      * @param maximumPlayers Maximum number of player (between 2 and 4)
      */
-    public synchronized void createGame(ClientHandler clientHandler, String gameName,int maximumPlayers){
+    /*public synchronized void createGame(ClientHandler clientHandler, String gameName,int maximumPlayers){
         if(maximumPlayers>=2&&maximumPlayers<=4){
             clientHandlers.add(clientHandler);
             System.out.println("Player has created the game "+gameName);
@@ -55,13 +55,13 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Invalid number of players"}));
         }
 
-    }
+    }*/
 
     /**
      * Adds a player to an existing game
      * @param clientHandler The player that wants to join
      */
-    public synchronized void joinGame(ClientHandler clientHandler){
+    /*public synchronized void joinGame(ClientHandler clientHandler){
         System.out.println("Player has joined the game ");
 
         try{
@@ -86,6 +86,21 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         }catch(GameSizeExceeded e){
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Game is full"}));
         }catch(Exception e){}
+    }*/
+
+    /**
+     * Adds a new client handler to the client handler list
+     * @param clientHandler New client handler
+     * @return Whether or not another client handler with the same name is not already present
+     */
+    public synchronized boolean addClientHandler(ClientHandler clientHandler){
+        for(ClientHandler c:clientHandlers){
+            if(c.getPlayerName().equals(clientHandler.getPlayerName())){
+                return false;
+            }
+        }
+        clientHandlers.add(clientHandler);
+        return true;
     }
 
     /**
