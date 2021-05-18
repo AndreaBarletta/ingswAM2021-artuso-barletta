@@ -11,7 +11,6 @@ import java.util.concurrent.Executors;
 
 public class Server {
     static final int defaultPortNumber=4545;
-    static Map<String,Controller> games=new HashMap<>();
 
     public static void main(String[] args){
         int portNumber;
@@ -32,12 +31,14 @@ public class Server {
             return;
         }
 
+        Controller controller=new Controller();
+
         ExecutorService executor= Executors.newCachedThreadPool();
         while(true){
             try {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("New client connected"+clientSocket.getInetAddress());
-                executor.submit(new ClientHandler(clientSocket,games));
+                executor.submit(new ClientHandler(clientSocket,controller));
             }catch(Exception e){
                 System.out.println("Error while accepting client socket: "+e.getMessage());
             }
