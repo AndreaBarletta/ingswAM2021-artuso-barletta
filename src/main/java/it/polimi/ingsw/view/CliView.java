@@ -29,7 +29,7 @@ public class CliView{
     static private LeaderCard[] leaderCards;
     static private List<DevelopmentCard> developmentCards;
     static private String playerName;
-    static private Gson gson=new Gson();
+
     static private CommandParser commandParser=new CommandParser();
 
     public static void main(String[] args){
@@ -84,7 +84,7 @@ public class CliView{
             }
             try {
                 message=commandParser.parseCommand(input);
-                System.out.println(message);
+                out.println(message);
             }catch(UnknownCommandException e){
                 System.out.println("Unknown command");
             }catch(NotEnoughArgumentsException e){
@@ -94,44 +94,19 @@ public class CliView{
     }
 
     public static void recieveFromServer(){
-        /*while(true){
-            try{
-                message=gson.fromJson(in.readLine(),Message.class);
+        Gson gson=new Gson();
+        Message message;
+        while(true){
+            try {
+                message = gson.fromJson(in.readLine(), Message.class);
                 switch(message.messageType){
-                    case OK:
-                        if(message.params.length==1){
-                            canWrite=Boolean.parseBoolean(message.params[0]);
-                        }else if(message.params.length==2){
-                            canWrite=Boolean.parseBoolean(message.params[0]);
-                            System.out.println(message.params[1]);
-                        }
-                        break;
                     case NEW_PLAYER:
-                        System.out.println("Player "+message.params[0]+" has joined the game");
-                        break;
-                    case DISCONNECTED:
-                        System.out.println("Player "+message.params[0]+" has left the game");
-                        break;
+                        System.out.println("New player has joined");
                     case ERROR:
                         System.out.println("Error: "+message.params[0]);
-                        canWrite=true;
-                        break;
-                    case START_GAME:
-                        System.out.println("Game has started");
-                        break;
-                    case INKWELLGIVEN:
-                        System.out.println("Player "+ message.params[0]+" has recieved the inkwell");
-                        break;
-                    case CHOOSELEADERCARDS:
-                        System.out.println("Choose between the following leader cards");
-                        for(int i:gson.fromJson(message.params[0],int[].class)){
-                            System.out.println(leaderCards[i].toString());
-                            System.out.println();
-                        }
-                        break;
                 }
             }catch(Exception e){}
-        }*/
+        }
     }
 
     /**
