@@ -15,14 +15,14 @@ public class ClientHandler implements Runnable{
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-    private Map<String, Controller> games;
     private String playerName;
-    private Controller currentGame;
-    private MessageType[] expectedMessageType;
+    private GameStateAutomaton automaton;
+    private Controller controller;
 
-    public ClientHandler(Socket clientSocket,Map<String,Controller> games){
+    public ClientHandler(Socket clientSocket,Controller controller){
         this.clientSocket=clientSocket;
-        this.games=games;
+        this.controller=controller;
+        automaton=new GameStateAutomaton();
     }
 
     @Override
@@ -30,70 +30,17 @@ public class ClientHandler implements Runnable{
         try{
             out=new PrintWriter(clientSocket.getOutputStream(),true);
             in=new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            expectedMessageType=new MessageType[]{MessageType.CONNECT};
-            out.println(new Message(MessageType.OK,new String[]{"true"}));
-            String messageString=in.readLine();
             Gson gson=new Gson();
-            boolean accepted=false;
-            while(messageString!=null){
-                System.out.println(messageString);
-                Message message=gson.fromJson(messageString,Message.class);
-                for(MessageType mt:expectedMessageType){
-                    if(mt==message.messageType){
-                        System.out.println("Accepted message");
-                        accepted=true;
-                        break;
-                    }
+            String incomingString;
+            while((incomingString=in.readLine())!=null){
+                Message incomingMesage=gson.fromJson(incomingString,Message.class);
+                if(!automaton.evolve(controller,this,incomingMesage)){
+                    send(new Message(MessageType.ERROR,new String[]{automaton.getErrorMessage()}));
                 }
-                if(accepted){
-                    switch(message.messageType){
-                        case CONNECT:
-                            System.out.println("Player "+message.params[0]+" has connected");
-                            this.playerName=message.params[0];
-                            expectedMessageType=new MessageType[]{MessageType.CREATEGAME,MessageType.JOINGAME};
-                            out.println(new Message(MessageType.OK,new String[]{"true"}));
-                            break;
-                        case CREATEGAME:
-                            if(message.params.length==2){
-                                if(games.get(message.params[0])==null){
-                                    Controller newController=new Controller();
-                                    newController.createGame(this,message.params[0],Integer.valueOf(message.params[1]));
-                                    games.put(message.params[0],newController);
-                                    currentGame=newController;
-                                    out.println(new Message(MessageType.OK,new String[]{"false","Waiting for other players..."}));
-                                }else{
-                                    //Game with the same name already created
-                                    send(new Message(MessageType.ERROR,new String[]{"Game with the same name already exists"}));
-                                }
-                            }else{
-                                //Too few arguments
-                                send(new Message(MessageType.NOTENOUGHARGUMENTS,new String[]{}));
-                            }
-                            break;
-                        case JOINGAME:
-                            Controller game=games.get(message.params[0]);
-                            if(game!=null){
-                                out.println(new Message(MessageType.OK,new String[]{"false","Waiting for other players..."}));
-                                game.joinGame(this);
-                                currentGame=game;
-                            }else{
-                                out.println(new Message(MessageType.ERROR,new String[]{"Game does not exist"}));
-                            }
-                            break;
-                        case LEADERCARDSCHOSEN:
-                            currentGame.leaderCardsChosen(this,new int[]{Integer.parseInt(message.params[0]),Integer.parseInt(message.params[1])});
-                            break;
-                    }
-                }else{
-                    send(new Message(MessageType.ERROR,new String[]{"Cannot use that command now"}));
-                }
-                accepted=false;
-                messageString=in.readLine();
             }
         }catch(Exception e){
             System.out.println("Error starting client handler for "+clientSocket.getInetAddress());
         }
-        currentGame.disconnected(this);
     }
 
     public void send(Message message){
@@ -105,7 +52,7 @@ public class ClientHandler implements Runnable{
         return playerName;
     }
 
-    public void setExpectedMessageType(MessageType[] expectedMessageType){
-        this.expectedMessageType=expectedMessageType;
+    public void setPlayerName(String playerName){
+        this.playerName=playerName;
     }
 }
