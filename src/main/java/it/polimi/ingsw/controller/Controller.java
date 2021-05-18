@@ -51,7 +51,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             try {
                 game.addPlayer(clientHandler.getPlayerName());
             }catch(Exception e){}
-            clientHandler.setExpectedMessageType(new MessageType[]{});
         }else{
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Invalid number of players"}));
         }
@@ -69,20 +68,18 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             boolean canStart=game.addPlayer(clientHandler.getPlayerName());
             //Notify other players
             for(ClientHandler c:clientHandlers){
-                c.send(new Message(MessageType.NEWPLAYER,new String[]{clientHandler.getPlayerName()}));
+                c.send(new Message(MessageType.NEW_PLAYER,new String[]{clientHandler.getPlayerName()}));
             }
 
             clientHandlers.add(clientHandler);
-            clientHandler.setExpectedMessageType(new MessageType[]{});
             if(canStart){
                 //Notify all the players that the game can start
                 for(ClientHandler c:clientHandlers){
-                    c.send(new Message(MessageType.STARTGAME,new String[]{}));
+                    c.send(new Message(MessageType.START_GAME,new String[]{}));
                 }
                 game.addPersonalBoardsEventListener(this);
                 gameThread=new Thread(game);
                 gameThread.start();
-                clientHandler.setExpectedMessageType(new MessageType[]{MessageType.CHOOSELEADERCARDS});
             }
         }catch(DuplicatedIdException e){
             clientHandler.send(new Message(MessageType.ERROR,new String[]{"Player name taken"}));
@@ -138,7 +135,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public void chooseLeaderCards(LeaderCard[] leaderCards,String playerName){
         for(ClientHandler c:clientHandlers){
             if(c.getPlayerName().equals(playerName)){
-                c.setExpectedMessageType(new MessageType[]{MessageType.LEADERCARDSCHOSEN});
                 List<Integer> idList=new ArrayList<>();
                 for(LeaderCard l:leaderCards){
                     idList.add(l.getId());
@@ -207,7 +203,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      */
     public TurnAction askForTurnAction(String playerName){
         System.out.println("Ask player "+playerName+" what turn action to play");
-        return TurnAction.ACTIVATEPRODUCTION;
+        return TurnAction.ACTIVATE_PRODUCTION;
     }
 
     /**
