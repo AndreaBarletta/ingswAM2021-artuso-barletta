@@ -5,7 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.DuplicatedIdException;
-import it.polimi.ingsw.exceptions.NotEnoughArgumentsException;
+import it.polimi.ingsw.exceptions.IncorrectAmountArgumentsException;
 import it.polimi.ingsw.exceptions.UnknownCommandException;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
@@ -59,7 +59,6 @@ public class CliView{
         }
         try{
             commandParser.addCommand("playername",1,MessageType.PICK_PLAYERNAME);
-            commandParser.addCommand("creategame",2,MessageType.CREATE_GAME);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;
@@ -85,8 +84,8 @@ public class CliView{
                 out.println(message);
             }catch(UnknownCommandException e){
                 System.out.println("Unknown command");
-            }catch(NotEnoughArgumentsException e){
-                System.out.println("Not Enough Arguments! Required "+commandParser.getNumberOfArguments(input));
+            }catch(IncorrectAmountArgumentsException e){
+                System.out.println("Incorrect amount of Arguments! Required "+commandParser.getNumberOfArguments(input));
             }
         }
     }
@@ -99,9 +98,14 @@ public class CliView{
                 message = gson.fromJson(in.readLine(), Message.class);
                 switch(message.messageType){
                     case NEW_PLAYER:
-                        System.out.println("New player has joined");
+                        System.out.println("Player \""+message.params[0]+"\" has joined");
+                        break;
                     case ERROR:
                         System.out.println("Error: "+message.params[0]);
+                        break;
+                    case WAIT_FOR_OTHER_PLAYERS:
+                        System.out.println("Waiting for other players");
+                        break;
                 }
             }catch(Exception e){}
         }

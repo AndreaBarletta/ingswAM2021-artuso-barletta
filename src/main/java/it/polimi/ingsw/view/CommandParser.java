@@ -3,7 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.DuplicatedIdException;
-import it.polimi.ingsw.exceptions.NotEnoughArgumentsException;
+import it.polimi.ingsw.exceptions.IncorrectAmountArgumentsException;
 import it.polimi.ingsw.exceptions.UnknownCommandException;
 
 import java.util.Arrays;
@@ -39,17 +39,17 @@ public class CommandParser {
      * Parses a string representing a command
      * @param input String representing the command
      * @return Message associated with such command
-     * @throws NotEnoughArgumentsException Command requires more or less arguments
+     * @throws IncorrectAmountArgumentsException Command requires more or less arguments
      * @throws UnknownCommandException Command is unknown
      */
-    public Message parseCommand(String input) throws NotEnoughArgumentsException,UnknownCommandException {
+    public Message parseCommand(String input) throws IncorrectAmountArgumentsException,UnknownCommandException {
         String[] inputSplit= input.split(" ");
         Integer value=commandArguments.get(inputSplit[0]);
         if(value==null){
             throw new UnknownCommandException();
         }
         if(commandArguments.get(inputSplit[0])!=(inputSplit.length-1)){
-            throw new NotEnoughArgumentsException();
+            throw new IncorrectAmountArgumentsException();
         }
         return new Message(commands.get(inputSplit[0]), Arrays.copyOfRange(inputSplit,1,inputSplit.length));
     }
