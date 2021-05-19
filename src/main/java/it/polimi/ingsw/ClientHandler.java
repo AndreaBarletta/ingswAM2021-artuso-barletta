@@ -36,7 +36,7 @@ public class ClientHandler implements Runnable{
             System.out.println(incomingString);
             while(incomingString!=null){
                 Message incomingMesage=gson.fromJson(incomingString,Message.class);
-                if(!automaton.evolve(controller,this,incomingMesage)){
+                if(!automaton.evolve(controller,this,incomingMesage.messageType.toString(), incomingMesage.params)){
                     send(new Message(MessageType.ERROR,new String[]{automaton.getErrorMessage()}));
                 }
                 incomingString=in.readLine();
@@ -55,7 +55,11 @@ public class ClientHandler implements Runnable{
         return playerName;
     }
 
-    public void setPlayerName(String playerName){
-        this.playerName=playerName;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public GameStateAutomaton getAutomaton(){
+        return automaton;
     }
 }
