@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.PersonalBoard;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
@@ -75,7 +76,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param playerName Name of the player that discarded the resources
      */
     public void discardResources(int numberOfResources,String playerName) {
-        if(this.playerName!=playerName){
+        if(!this.playerName.equals(playerName)){
             faithTrack.incrementFaithTrack(numberOfResources);
         }
     }
@@ -130,7 +131,7 @@ public class PersonalBoard implements ControllerEventListener {
             //Ask player which turn action to play
             boolean success=false;
             do{
-                TurnAction turnAction=p.askForTurnAction(playerName);
+                GameState turnAction=p.askForTurnAction(playerName);
                 switch(turnAction){
                     case ACTIVATE_PRODUCTION:
                         success=activateProduction();

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.PersonalBoard;
 
+import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.Market;
@@ -16,7 +17,7 @@ public interface PersonalBoardEventListener {
     int chooseDevelopmentCardSlot(DevelopmentCardSlot[] developmentCardSlots,DevelopmentCard card, String playerName);
     void error(String error);
     boolean askForLeaderAction(String playerName);
-    TurnAction askForTurnAction(String playerName);
+    GameState askForTurnAction(String playerName);
     void showMarket(Market market,String playerName);
     AbstractMap.SimpleEntry<Boolean,Integer> askMarketRowColumn(String playerName);
     void notEnoughDepotSpace(ResType[] resources,String playerName);

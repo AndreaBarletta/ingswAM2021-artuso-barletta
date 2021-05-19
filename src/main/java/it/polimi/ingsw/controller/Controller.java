@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.ClientHandler;
+import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.DuplicatedIdException;
@@ -215,9 +216,9 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * @param playerName The name of the player playing the turn
      * @return 0 for market, 1 to buy development card, 2 to activate production
      */
-    public TurnAction askForTurnAction(String playerName){
+    public GameState askForTurnAction(String playerName){
         System.out.println("Ask player "+playerName+" what turn action to play");
-        return TurnAction.ACTIVATE_PRODUCTION;
+        return GameState.ACTIVATE_PRODUCTION;
     }
 
     /**

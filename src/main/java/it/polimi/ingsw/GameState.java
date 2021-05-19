@@ -3,7 +3,8 @@ package it.polimi.ingsw;
 public enum GameState{
     UNKNOWN,
     PLAYER_CONNECTED,NICKNAME_CHOSEN,
-    GAME_CREATED,GAME_JOINED,GAME_STARTED;
+    GAME_CREATED,GAME_JOINED,GAME_STARTED,
+    ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES;
 
     public boolean canEvolve(String input){
         switch(this){
