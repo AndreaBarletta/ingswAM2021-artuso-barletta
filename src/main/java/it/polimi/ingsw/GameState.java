@@ -10,14 +10,12 @@ public enum GameState{
     public boolean canEvolve(String input){
         switch(this){
             case PLAYER_CONNECTED:
-                if(input.equals("PICK_PLAYERNAME")){
+                if(input.equals("PICK_PLAYERNAME"))
                     return true;
-                }
                 break;
             case NICKNAME_CHOSEN:
-                if(input.equals("WAIT_FOR_OTHER_PLAYERS")){
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS"))
                     return true;
-                }
                 break;
             case WAITING_FOR_OTHER_PLAYERS:
                 if(input.equals(("NEW_PLAYER")) || input.equals("GAME_STARTED"))
@@ -72,10 +70,8 @@ public enum GameState{
             case NICKNAME_CHOSEN:
                 return WAITING_FOR_OTHER_PLAYERS;
             case WAITING_FOR_OTHER_PLAYERS:
-                if(input.equals("NEW_PLAYER"))
-                    return NEW_PLAYER;
-                if(input.equals("GAME_STARTED"))
-                    return GAME_STARTED;
+                if(input.equals("NEW_PLAYER"))      return NEW_PLAYER;
+                if(input.equals("GAME_STARTED"))    return GAME_STARTED;
             case NEW_PLAYER:
                 return WAITING_FOR_OTHER_PLAYERS;
             case INKWELL_DISTRIBUTE:
