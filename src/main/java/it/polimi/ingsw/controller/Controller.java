@@ -12,7 +12,6 @@ import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
-import it.polimi.ingsw.model.PersonalBoard.TurnAction;
 
 import java.util.*;
 

@@ -56,9 +56,9 @@ public class PersonalBoard implements ControllerEventListener {
         }
         Map<ResType,Integer> baseIngredients=new HashMap<>();
         baseIngredients.put(ResType.ANY,2);
-        Map<ResType,Integer> basseProducts=new HashMap<>();
-        basseProducts.put(ResType.ANY,1);
-        baseProduction=new Production(baseIngredients,basseProducts);
+        Map<ResType,Integer> baseProducts=new HashMap<>();
+        baseProducts.put(ResType.ANY,1);
+        baseProduction=new Production(baseIngredients,baseProducts);
     }
 
     /**
