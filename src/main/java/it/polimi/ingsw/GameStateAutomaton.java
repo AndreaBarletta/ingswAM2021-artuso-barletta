@@ -24,6 +24,13 @@ public class GameStateAutomaton {
                         return false;
                     }
                     return true;
+                case WAITING_FOR_OTHER_PLAYERS:
+                    clientHandler.send(new Message(MessageType.WAIT_FOR_OTHER_PLAYERS, new String[]{}));
+                    return true;
+                case NEW_PLAYER:
+                    clientHandler.send(new Message(MessageType.NEW_PLAYER, new String[]{}));
+                    return true;
+
             }
             errorMessage="Unknown state";
         }

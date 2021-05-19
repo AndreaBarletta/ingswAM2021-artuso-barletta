@@ -2,9 +2,8 @@ package it.polimi.ingsw;
 
 public enum GameState{
     UNKNOWN,
-    PLAYER_CONNECTED,NICKNAME_CHOSEN,
-    GAME_CREATED,GAME_JOINED,
-    INKWELL_DISTRIBUTE,LEADER_CARDS_CHOICE,DISTRIBUTE_ADDITIONAL_RESOURCES,
+    PLAYER_CONNECTED,NICKNAME_CHOSEN, WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER,
+    GAME_STARTED, INKWELL_DISTRIBUTE,LEADER_CARDS_CHOICE,DISTRIBUTE_ADDITIONAL_RESOURCES,
     LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END,
     WAIT_FOR_OTHERS;
 
@@ -16,16 +15,17 @@ public enum GameState{
                 }
                 break;
             case NICKNAME_CHOSEN:
-                if(input.equals("CREATE_GAME")||input.equals("JOIN_GAME")){
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS")){
                     return true;
                 }
                 break;
-            case GAME_CREATED:
-            case GAME_JOINED:
-                if(input.equals("START_GAME")){
+            case WAITING_FOR_OTHER_PLAYERS:
+                if(input.equals(("NEW_PLAYER")) || input.equals("GAME_STARTED"))
                     return true;
-                }
                 break;
+            case NEW_PLAYER:
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS"))
+                    return true;
             case INKWELL_DISTRIBUTE:
                 if(input.equals("INKWELL_DISTRIBUTED"))
                     return true;
@@ -70,14 +70,14 @@ public enum GameState{
             case PLAYER_CONNECTED:
                     return NICKNAME_CHOSEN;
             case NICKNAME_CHOSEN:
-                if(input.equals("CREATE_GAME")) {
-                    return GAME_CREATED;
-                }else{
-                    return GAME_JOINED;
-                }
-            case GAME_CREATED:
-            case GAME_JOINED:
-                return INKWELL_DISTRIBUTE;
+                return WAITING_FOR_OTHER_PLAYERS;
+            case WAITING_FOR_OTHER_PLAYERS:
+                if(input.equals("NEW_PLAYER"))
+                    return NEW_PLAYER;
+                if(input.equals("GAME_STARTED"))
+                    return GAME_STARTED;
+            case NEW_PLAYER:
+                return WAITING_FOR_OTHER_PLAYERS;
             case INKWELL_DISTRIBUTE:
                 return LEADER_CARDS_CHOICE;
             case LEADER_CARDS_CHOICE:
