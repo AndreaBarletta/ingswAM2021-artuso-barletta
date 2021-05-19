@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
-import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.exceptions.DuplicatedIdException;
 import it.polimi.ingsw.exceptions.NotEnoughArgumentsException;
 import it.polimi.ingsw.exceptions.UnknownCommandException;
@@ -14,10 +13,8 @@ import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -69,7 +66,7 @@ public class CliView{
 
 
         new Thread(CliView::sendToServer).start();
-        new Thread(CliView::recieveFromServer).start();
+        new Thread(CliView::receiveFromServer).start();
     }
 
     public static void sendToServer(){
@@ -93,7 +90,7 @@ public class CliView{
         }
     }
 
-    public static void recieveFromServer(){
+    public static void receiveFromServer(){
         Gson gson=new Gson();
         Message message;
         while(true){
