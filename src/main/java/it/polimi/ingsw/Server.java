@@ -37,7 +37,7 @@ public class Server {
         while(true){
             try {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("New client connected"+clientSocket.getInetAddress());
+                System.out.println("New client connected "+clientSocket.getInetAddress());
                 executor.submit(new ClientHandler(clientSocket,controller));
             }catch(Exception e){
                 System.out.println("Error while accepting client socket: "+e.getMessage());

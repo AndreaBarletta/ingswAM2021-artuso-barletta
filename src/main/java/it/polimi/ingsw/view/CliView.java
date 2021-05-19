@@ -48,7 +48,7 @@ public class CliView{
         try{
             clientSocket=new Socket(args[0],serverPort);
         }catch(Exception e){
-            System.out.print("Error while opening client socket");
+            System.out.println("Error while opening client socket");
         }
 
         try{
@@ -59,6 +59,7 @@ public class CliView{
         }
         try{
             commandParser.addCommand("playername",1,MessageType.PICK_PLAYERNAME);
+            commandParser.addCommand("creategame",2,MessageType.CREATE_GAME);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;

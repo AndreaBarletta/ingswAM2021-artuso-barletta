@@ -42,7 +42,7 @@ public class ClientHandler implements Runnable{
                 incomingString=in.readLine();
             }
         }catch(Exception e){
-            System.out.println("Error starting client handler for "+clientSocket.getInetAddress());
+            System.out.println("Error starting client handler for "+clientSocket.getInetAddress());         //player disconnected?
         }
     }
 
