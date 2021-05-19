@@ -99,7 +99,12 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 return false;
             }
         }
+
+        for(ClientHandler c:clientHandlers){
+            c.getAutomaton().evolve(this,c,"NEW_PLAYER",new String[]{clientHandler.getPlayerName()});
+        }
         clientHandlers.add(clientHandler);
+        clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
         return true;
     }
 
@@ -114,6 +119,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 c.send(new Message(MessageType.DISCONNECTED,new String[]{clientHandler.getPlayerName()}));
         }
     }
+
     /**
      * Inform the other player who has recieved the inkwell
      * @param playerName name of the player that recieved the inkwell
