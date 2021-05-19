@@ -10,14 +10,15 @@ public class GameStateAutomaton {
         state=GameState.PLAYER_CONNECTED;
     }
 
-    public boolean evolve(Controller controller, ClientHandler clientHandler,Message message){
-        if(state.canEvolve(message.messageType.toString())){
-            state=state.next(message.messageType.toString());
+    public boolean evolve(Controller controller, ClientHandler clientHandler,String input,String[] params){
+        if(state.canEvolve(input)){
+            state=state.next(input);
+            System.out.println("Go into state "+state);
             switch(state){
                 case PLAYER_CONNECTED:
                     return true;
                 case NICKNAME_CHOSEN:
-                    clientHandler.setPlayerName(message.params[0]);
+                    clientHandler.setPlayerName(params[0]);
                     if(!controller.addClientHandler(clientHandler)){
                         errorMessage="Player with the same name already exists";
                         state=GameState.PLAYER_CONNECTED;
@@ -28,7 +29,8 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.WAIT_FOR_OTHER_PLAYERS, new String[]{}));
                     return true;
                 case NEW_PLAYER:
-                    clientHandler.send(new Message(MessageType.NEW_PLAYER, new String[]{}));
+                    clientHandler.send(new Message(MessageType.NEW_PLAYER,params));
+                    state=GameState.WAITING_FOR_OTHER_PLAYERS;
                     return true;
 
             }
