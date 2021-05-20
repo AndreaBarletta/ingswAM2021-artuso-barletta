@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 public enum GameState{
     UNKNOWN,
-    PLAYER_CONNECTED,NICKNAME_CHOSEN, WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER,
+    PLAYER_CONNECTED,NICKNAME_CHOSEN,GAME_CREATED,WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER,
     GAME_STARTED, INKWELL_DISTRIBUTE,LEADER_CARDS_CHOICE,DISTRIBUTE_ADDITIONAL_RESOURCES,
     LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END,
     WAIT_FOR_OTHERS;
@@ -14,6 +14,10 @@ public enum GameState{
                     return true;
                 break;
             case NICKNAME_CHOSEN:
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS")||input.equals("CREATE_GAME"))
+                    return true;
+                break;
+            case GAME_CREATED:
                 if(input.equals("WAIT_FOR_OTHER_PLAYERS"))
                     return true;
                 break;

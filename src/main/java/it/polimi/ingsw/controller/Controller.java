@@ -36,64 +36,15 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     }
 
     /**
-     * Creates a game and add the player who created it to the game
-     * @param clientHandler Player that created the game
-     * @param gameName Name of the game
-     * @param maximumPlayers Maximum number of player (between 2 and 4)
-     */
-    /*public synchronized void createGame(ClientHandler clientHandler, String gameName,int maximumPlayers){
-        if(maximumPlayers>=2&&maximumPlayers<=4){
-            clientHandlers.add(clientHandler);
-            System.out.println("Player has created the game "+gameName);
-            game=new Game(gameName,maximumPlayers);
-            addEventListener(game);
-            game.addEventListener(this);
-            try {
-                game.addPlayer(clientHandler.getPlayerName());
-            }catch(Exception e){}
-        }else{
-            clientHandler.send(new Message(MessageType.ERROR,new String[]{"Invalid number of players"}));
-        }
-
-    }*/
-
-    /**
-     * Adds a player to an existing game
-     * @param clientHandler The player that wants to join
-     */
-    /*public synchronized void joinGame(ClientHandler clientHandler){
-        System.out.println("Player has joined the game ");
-
-        try{
-            boolean canStart=game.addPlayer(clientHandler.getPlayerName());
-            //Notify other players
-            for(ClientHandler c:clientHandlers){
-                c.send(new Message(MessageType.NEW_PLAYER,new String[]{clientHandler.getPlayerName()}));
-            }
-
-            clientHandlers.add(clientHandler);
-            if(canStart){
-                //Notify all the players that the game can start
-                for(ClientHandler c:clientHandlers){
-                    c.send(new Message(MessageType.START_GAME,new String[]{}));
-                }
-                game.addPersonalBoardsEventListener(this);
-                gameThread=new Thread(game);
-                gameThread.start();
-            }
-        }catch(DuplicatedIdException e){
-            clientHandler.send(new Message(MessageType.ERROR,new String[]{"Player name taken"}));
-        }catch(GameSizeExceeded e){
-            clientHandler.send(new Message(MessageType.ERROR,new String[]{"Game is full"}));
-        }catch(Exception e){}
-    }*/
-
-    /**
      * Adds a new client handler to the client handler list
      * @param clientHandler New client handler
      * @return Whether or not another client handler with the same name is not already present
      */
     public synchronized boolean addClientHandler(ClientHandler clientHandler){
+        if(clientHandlers.size()==0){
+            //First player connected, ask for size of the game
+            clientHandler.getAutomaton().evolve(this,clientHandler,"CREATE_GAME",null);
+        }
         for(ClientHandler c:clientHandlers){
             if(c.getPlayerName().equals(clientHandler.getPlayerName())){
                 return false;
@@ -106,6 +57,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         clientHandlers.add(clientHandler);
         clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
         return true;
+    }
+
+    public synchronized void createGame(ClientHandler clientHandler,int numberOfPlayers){
+        game=new Game(numberOfPlayers);
     }
 
     /**
