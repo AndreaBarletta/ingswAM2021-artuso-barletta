@@ -58,12 +58,18 @@ public class GameStateAutomaton {
                     return true;
                 case GAME_STARTED:
                     clientHandler.send(new Message(MessageType.GAME_STARTED,null));
+                    evolve("SHOW_LEADER_CARDS",null);
                     return true;
-                case INKWELL_DISTRIBUTE:
+                case LEADER_CARDS_SHOWN:
+                        controller.showLeaderCards(clientHandler);
+                        return true;
+                case LEADER_CARDS_CHOSEN:
+                        return true;
+                    /*case INKWELL_DISTRIBUTE:
                     controller.inkwellGiven(clientHandler.getPlayerName());
                     clientHandler.send(new Message(MessageType.INKWELL_GIVEN,params));
                     state=GameState.LEADER_CARDS_CHOICE;
-                    return true;
+                    return true;*/
             }
             errorMessage="Unknown state";
         }

@@ -123,6 +123,12 @@ public class CliView{
                     case GAME_STARTED:
                         System.out.println("Game has started");
                         break;
+                    case SHOW_LEADER_CARDS:
+                        System.out.println("Pick 2 between the following leader cards: ");
+                        for(String s: message.params){
+                            System.out.println(leaderCards[Integer.parseInt(s)].toString());
+                        }
+                        break;
                     case INKWELL_GIVEN:
                         System.out.println("Player \""+message.params[0]+"\" has the inkwell");
                         break;

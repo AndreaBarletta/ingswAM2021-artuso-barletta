@@ -4,8 +4,9 @@ public enum GameState{
     UNKNOWN,
     PLAYER_CONNECTED,NICKNAME_CHOSEN,
     NUMBER_OF_PLAYERS_ASKED,GAME_CREATED,
-    GAME_JOINED,WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER,
-    GAME_STARTED, INKWELL_DISTRIBUTE,LEADER_CARDS_CHOICE,DISTRIBUTE_ADDITIONAL_RESOURCES,
+    GAME_JOINED,WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER, GAME_STARTED,
+    LEADER_CARDS_SHOWN,LEADER_CARDS_CHOSEN,
+    INKWELL_DISTRIBUTE,DISTRIBUTE_ADDITIONAL_RESOURCES,
     LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END,
     WAIT_FOR_OTHERS_TURN;
 
@@ -40,15 +41,19 @@ public enum GameState{
                     return true;
                 break;
             case GAME_STARTED:
-                if(input.equals("GIVE_INKWELL"))
+                if(input.equals("SHOW_LEADER_CARDS"))
+                    return true;
+                break;
+            case LEADER_CARDS_SHOWN:
+                if(input.equals("CHOOSE_LEADER_CARDS"))
+                    return true;
+                break;
+            case LEADER_CARDS_CHOSEN:
+                if(input.equals("DISTRIBUTE_INKWELL"))
                     return true;
                 break;
             case INKWELL_DISTRIBUTE:
                 if(input.equals("INKWELL_DISTRIBUTED"))
-                    return true;
-                break;
-            case LEADER_CARDS_CHOICE:
-                if(input.equals("LEADER_CARDS_CHOSEN"))
                     return true;
                 break;
             case DISTRIBUTE_ADDITIONAL_RESOURCES:
@@ -102,10 +107,12 @@ public enum GameState{
             case NEW_PLAYER:
                 return WAITING_FOR_OTHER_PLAYERS;
             case GAME_STARTED:
+                return LEADER_CARDS_SHOWN;
+            case LEADER_CARDS_SHOWN:
+                return LEADER_CARDS_CHOSEN;
+            case LEADER_CARDS_CHOSEN:
                 return INKWELL_DISTRIBUTE;
             case INKWELL_DISTRIBUTE:
-                return LEADER_CARDS_CHOICE;
-            case LEADER_CARDS_CHOICE:
                 return DISTRIBUTE_ADDITIONAL_RESOURCES;
             case DISTRIBUTE_ADDITIONAL_RESOURCES:
                 return LEADER_ACTION_BEGIN;
