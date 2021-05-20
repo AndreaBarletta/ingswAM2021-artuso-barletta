@@ -280,4 +280,8 @@ public class Game implements ControllerEventListener,Runnable {
     public void setCanProceed(boolean canProceed){
         this.canProceed=canProceed;
     }
+
+    public int getMaximumPlayers(){
+        return maximumPlayers;
+    }
 }
