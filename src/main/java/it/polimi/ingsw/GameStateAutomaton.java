@@ -44,7 +44,7 @@ public class GameStateAutomaton {
                     return true;
                 case INKWELL_DISTRIBUTE:
                     controller.inkwellGiven(clientHandler.getPlayerName());
-                    clientHandler.send(new Message(MessageType.INKWELLGIVEN,params));
+                    clientHandler.send(new Message(MessageType.INKWELL_GIVEN,params));
                     state=GameState.LEADER_CARDS_CHOICE;
                     return true;
             }
