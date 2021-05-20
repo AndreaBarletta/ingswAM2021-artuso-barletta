@@ -77,6 +77,16 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         return false;
     }
 
+    public synchronized boolean joinGame(ClientHandler clientHandler) {
+        try{
+            game.addPlayer(clientHandler.getPlayerName());
+        }catch(Exception e){
+            return false;
+        }
+        clientHandler.getAutomaton().evolve(this,clientHandler,"NEW_PLAYER",null);
+        return true;
+    }
+
     /**
      * A player has disconnected from the game, notify the others
      * @param clientHandler Player that disconnected from the game

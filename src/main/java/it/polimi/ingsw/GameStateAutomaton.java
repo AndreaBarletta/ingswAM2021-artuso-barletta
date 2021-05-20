@@ -30,8 +30,15 @@ public class GameStateAutomaton {
                     return true;
                 case GAME_CREATED:
                     if(!controller.createGame(clientHandler,Integer.parseInt(params[0]))) {
-                        errorMessage="Error while creating new game";
+                        errorMessage="Error while creating a new game";
                         state=GameState.NUMBER_OF_PLAYERS_ASKED;
+                        return false;
+                    }
+                    return true;
+                case GAME_JOINED:
+                    if(!controller.joinGame(clientHandler)) {
+                        errorMessage="Error while joining the game";
+                        state = GameState.GAME_JOINED;
                         return false;
                     }
                     return true;
@@ -40,7 +47,6 @@ public class GameStateAutomaton {
                     return true;
                 case NEW_PLAYER:
                     clientHandler.send(new Message(MessageType.NEW_PLAYER,params));
-                    state=GameState.WAITING_FOR_OTHER_PLAYERS;
                     return true;
                 case INKWELL_DISTRIBUTE:
                     controller.inkwellGiven(clientHandler.getPlayerName());

@@ -4,7 +4,7 @@ public enum GameState{
     UNKNOWN,
     PLAYER_CONNECTED,NICKNAME_CHOSEN,
     NUMBER_OF_PLAYERS_ASKED,GAME_CREATED,
-    GAME_PLAYERS,WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER,
+    GAME_JOINED,WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER,
     GAME_STARTED, INKWELL_DISTRIBUTE,LEADER_CARDS_CHOICE,DISTRIBUTE_ADDITIONAL_RESOURCES,
     LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END,
     WAIT_FOR_OTHERS_TURN;
@@ -27,8 +27,8 @@ public enum GameState{
                 if(input.equals("WAIT_FOR_OTHER_PLAYERS")||(input.equals("ASK_NUMBER_OF_PLAYERS")))
                     return true;
                 break;
-            case GAME_PLAYERS:
-                if(input.equals("GAME_PLAYERS"))
+            case GAME_JOINED:
+                if(input.equals("NEW_PLAYER"))
                     return true;
                 break;
             case WAITING_FOR_OTHER_PLAYERS:
@@ -89,7 +89,7 @@ public enum GameState{
             case GAME_CREATED:
                 if(input.equals("WAIT_FOR_OTHER_PLAYERS")) return WAITING_FOR_OTHER_PLAYERS;
                 if(input.equals("ASK_NUMBER_OF_PLAYERS")) return NUMBER_OF_PLAYERS_ASKED;
-            case GAME_PLAYERS:
+            case GAME_JOINED:
                 return WAITING_FOR_OTHER_PLAYERS;
             case WAITING_FOR_OTHER_PLAYERS:
                 if(input.equals("NEW_PLAYER"))      return NEW_PLAYER;
