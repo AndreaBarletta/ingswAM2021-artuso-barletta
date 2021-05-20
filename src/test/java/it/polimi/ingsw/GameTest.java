@@ -54,9 +54,5 @@ public class GameTest {
 
 
         game.loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
-
-        game.showLeaderCard();
-
-
     }
 }
