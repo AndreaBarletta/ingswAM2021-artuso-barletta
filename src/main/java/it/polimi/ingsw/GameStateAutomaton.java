@@ -30,8 +30,8 @@ public class GameStateAutomaton {
                     return true;
                 case GAME_CREATED:
                     if(!controller.createGame(clientHandler,Integer.parseInt(params[0]))) {
-                        errorMessage="Invalid number of players, must be between 2 and 4";
-                        state=GameState.WAITING_FOR_OTHER_PLAYERS;
+                        errorMessage="Error while creating new game";
+                        state=GameState.NUMBER_OF_PLAYERS_ASKED;
                         return false;
                     }
                     return true;
