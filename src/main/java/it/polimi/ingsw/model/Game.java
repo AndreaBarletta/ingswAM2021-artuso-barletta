@@ -192,8 +192,13 @@ public class Game implements ControllerEventListener,Runnable {
      * @param playerName Name of the new player
      * @return Whether or not the maximum number of players has been reached
      */
-    public boolean addPlayer(String playerName) throws GameSizeExceeded, ParsingException {
+    public boolean addPlayer(String playerName) throws GameSizeExceeded, ParsingException,DuplicatedIdException {
         if(personalBoards.size()<maximumPlayers){
+            for(Iterator<PersonalBoard> pbIterator=personalBoards.iterator();pbIterator.hasNext();){
+                if(pbIterator.next().getPlayerName().equals(playerName)){
+                    throw new DuplicatedIdException();
+                }
+            }
             PersonalBoard newPersonalBoard=new PersonalBoard(playerName,developmentCardGrid,market);
             personalBoards.add(newPersonalBoard);
             if(!newPersonalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json")){
