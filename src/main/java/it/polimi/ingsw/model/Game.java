@@ -23,7 +23,7 @@ public class Game implements ControllerEventListener,Runnable {
     private Market market;
     private DevelopmentCardGrid developmentCardGrid;
     private PopeFavourCard[] popeFavourCards;
-    private LeaderCard[] leaderCards;
+    private List<LeaderCard> leaderCards;
     private List<GameEventListener> eventListeners;
     private boolean gameDone;
     private int maximumPlayers;
@@ -34,6 +34,7 @@ public class Game implements ControllerEventListener,Runnable {
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();
         eventListeners=new ArrayList<>();
+        leaderCards= new ArrayList<>();
         gameDone=false;
         this.maximumPlayers=maximumPlayers;
         canProceed=false;
@@ -135,12 +136,14 @@ public class Game implements ControllerEventListener,Runnable {
         gsonBuilder.registerTypeAdapter(LeaderCard.class,new LeaderCardDeserializer());
         Gson gson=gsonBuilder.create();
         try{
-            leaderCards=gson.fromJson(content, LeaderCard[].class);
+            LeaderCard[] leaderCardsArray=gson.fromJson(content, LeaderCard[].class);
+            leaderCards=Arrays.asList(leaderCardsArray);
+            //Shuffle the cards
+            Collections.shuffle(leaderCards);
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for leader cards");
             return false;
         }
-
         return true;
     }
 
@@ -148,8 +151,7 @@ public class Game implements ControllerEventListener,Runnable {
      * Start the game
      */
     public void run(){
-        showLeaderCard();
-        while(!canProceed){
+        /*while(!canProceed){
             try{
                 this.wait();
             }catch(Exception e){}
@@ -178,7 +180,7 @@ public class Game implements ControllerEventListener,Runnable {
 
         for(GameEventListener g:eventListeners){
             g.announceWinner(personalBoards.get(winner).getPlayerName());
-        }
+        }*/
     }
 
     /**
@@ -231,18 +233,20 @@ public class Game implements ControllerEventListener,Runnable {
     }
 
     /**
-     * Shows the 4 leader cards to the players and ask them to choose 2
+     * Gets the initial leader cards from which the player has to choose
+     * @param playerNumber Progressive number of the player (0 to 3)
+     * @return Array containing the 4 leaders cards
      */
-    public void showLeaderCard(){
-        List<LeaderCard> leaderCardList= Arrays.asList(leaderCards);
-        Collections.shuffle(leaderCardList);
-        for(int i=0;i<personalBoards.size();i++){
-            LeaderCard[] leaderCardsToShow = new LeaderCard[4];
-            leaderCardList.subList(i*4, (i+1)*4).toArray(leaderCardsToShow);
-            for(GameEventListener g:eventListeners){
-                g.chooseLeaderCards(leaderCardsToShow,personalBoards.get(i).getPlayerName());
-            }
+    public String[] getInitialLeaderCards(int playerNumber){
+        LeaderCard[] leaderCardsToShow = new LeaderCard[4];
+        leaderCards.subList(playerNumber*4, (playerNumber+1)*4).toArray(leaderCardsToShow);
+        List<String> ids=new ArrayList<>();
+
+        for(LeaderCard l:leaderCardsToShow){
+            ids.add(Integer.toString(l.getId()));
         }
+
+        return ids.toArray(String[]::new);
     }
 
     public void discardResources(int numberOfResources,String playerName){

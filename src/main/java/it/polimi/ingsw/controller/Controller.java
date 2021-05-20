@@ -76,6 +76,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             if(!game.loadDevelopmentCardGridFromFile("src/main/resources/developmentCards.json")) return false;
             if(!game.loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json")) return false;
             if(!game.loadLeaderCardsFromFile("src/main/resources/leaderCards.json")) return false;
+
             try{
                 game.addPlayer(clientHandler.getPlayerName());
             }catch(Exception e){
@@ -114,6 +115,11 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         }
     }
 
+    public synchronized void showLeaderCards(ClientHandler clientHandler){
+        String[] ids=game.getInitialLeaderCards(clientHandlers.indexOf(clientHandler));
+        clientHandler.send(new Message(MessageType.SHOW_LEADER_CARDS,ids));
+    }
+
     /**
      * Inform the other player who has recieved the inkwell
      * @param playerName name of the player that recieved the inkwell
@@ -138,27 +144,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         System.out.println("resource chosen has been added to player "+playerName);
         for(ClientHandler c:clientHandlers){
             c.send(new Message(MessageType.GIVENINITIALRESOURCES,new String[]{playerName}));
-        }
-    }
-
-    /**
-     * Ask the player to choose 2 leader cards among the 4 given
-     * @param leaderCards 4 leader cards given by the game
-     * @param playerName The name of the player
-     * @return index of the choose cards
-     */
-    public void chooseLeaderCards(LeaderCard[] leaderCards,String playerName){
-        for(ClientHandler c:clientHandlers){
-            if(c.getPlayerName().equals(playerName)){
-                List<Integer> idList=new ArrayList<>();
-                for(LeaderCard l:leaderCards){
-                    idList.add(l.getId());
-                }
-
-                c.send(new Message(MessageType.CHOOSELEADERCARDS,new String[]{Arrays.toString(idList.toArray())}));
-                c.send(new Message(MessageType.OK,new String[]{"true"}));
-                break;
-            }
         }
     }
 
