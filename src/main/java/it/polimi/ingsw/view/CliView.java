@@ -118,7 +118,7 @@ public class CliView{
                     case GAME_STARTED:
                         System.out.println("Game has started");
                     case INKWELL_GIVEN:
-                        System.out.println(message.params[0]+" has the inkwell");
+                        System.out.println("Player \""+message.params[0]+"\" has the inkwell");
                         break;
                 }
             }catch(Exception e){}
