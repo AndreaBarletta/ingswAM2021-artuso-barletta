@@ -23,8 +23,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     private Thread gameThread;
 
     public Controller(){
-        eventListeners=new ArrayList<>();
-        clientHandlers=new ArrayList<>();
+        eventListeners = new ArrayList<>();
+        clientHandlers = new ArrayList<>();
     }
 
     /**
@@ -125,10 +125,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * @param playerName name of the player that recieved the inkwell
      */
     public void inkwellGiven(String playerName){
+        game.giveInkwell();
         System.out.println("Player "+playerName+" has received the inkwell");
-        for(ClientHandler c:clientHandlers){
-            c.send(new Message(MessageType.INKWELLGIVEN,new String[]{playerName}));
-        }
     }
 
 

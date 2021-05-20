@@ -32,7 +32,11 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.NEW_PLAYER,params));
                     state=GameState.WAITING_FOR_OTHER_PLAYERS;
                     return true;
-
+                case INKWELL_DISTRIBUTE:
+                    controller.inkwellGiven(clientHandler.getPlayerName());
+                    clientHandler.send(new Message(MessageType.INKWELLGIVEN,params));
+                    state=state.next("");
+                    return true;
             }
             errorMessage="Unknown state";
         }

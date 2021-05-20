@@ -39,6 +39,9 @@ public class Game implements ControllerEventListener,Runnable {
         gameDone=false;
         this.maximumPlayers=maximumPlayers;
         canProceed=false;
+        loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
+        loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
+        loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json");
     }
 
     /**
@@ -153,7 +156,6 @@ public class Game implements ControllerEventListener,Runnable {
         loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
         loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
         loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json");
-        giveInkwell();
         showLeaderCard();
         while(!canProceed){
             try{
@@ -234,10 +236,6 @@ public class Game implements ControllerEventListener,Runnable {
     public void giveInkwell(){
         Collections.shuffle(personalBoards);
         personalBoards.get(0).receiveInkwell();
-
-        for(GameEventListener g:eventListeners){
-            g.inkwellGiven(personalBoards.get(0).getPlayerName());
-        }
     }
 
     /**
