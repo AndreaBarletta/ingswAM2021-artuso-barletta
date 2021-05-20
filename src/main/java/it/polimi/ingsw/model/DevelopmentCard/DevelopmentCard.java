@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.ResType;
 import java.util.Map;
 
 public class DevelopmentCard {
+    // Id of the card
+    private int id;
     // Level of the card
     private int level;
     // Cost of the card
