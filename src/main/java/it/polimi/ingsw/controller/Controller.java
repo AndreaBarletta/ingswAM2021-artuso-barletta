@@ -43,24 +43,42 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public synchronized boolean addClientHandler(ClientHandler clientHandler){
         if(clientHandlers.size()==0){
             //First player connected, ask for size of the game
-            clientHandler.getAutomaton().evolve(this,clientHandler,"CREATE_GAME",null);
-        }
-        for(ClientHandler c:clientHandlers){
-            if(c.getPlayerName().equals(clientHandler.getPlayerName())){
+            clientHandler.getAutomaton().evolve(this,clientHandler,"ASK_NUMBER_OF_PLAYERS",null);
+            clientHandlers.add(clientHandler);
+            return true;
+        }else{
+            for(ClientHandler c:clientHandlers){
+                if(c.getPlayerName().equals(clientHandler.getPlayerName())){
+                    return false;
+                }
+            }
+
+            for(ClientHandler c:clientHandlers){
+                c.getAutomaton().evolve(this,c,"NEW_PLAYER",new String[]{clientHandler.getPlayerName()});
+            }
+            try {
+                game.addPlayer(clientHandler.getPlayerName());
+            }catch(Exception e){
                 return false;
             }
+            clientHandlers.add(clientHandler);
+            clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
+            return true;
         }
-
-        for(ClientHandler c:clientHandlers){
-            c.getAutomaton().evolve(this,c,"NEW_PLAYER",new String[]{clientHandler.getPlayerName()});
-        }
-        clientHandlers.add(clientHandler);
-        clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
-        return true;
     }
 
-    public synchronized void createGame(ClientHandler clientHandler,int numberOfPlayers){
-        game=new Game(numberOfPlayers);
+    public synchronized boolean createGame(ClientHandler clientHandler,int numberOfPlayers){
+        if(numberOfPlayers>=2&&numberOfPlayers<=4){
+            game=new Game(numberOfPlayers);
+            try{
+                game.addPlayer(clientHandler.getPlayerName());
+            }catch(Exception e){
+                return false;
+            }
+            clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
+            return true;
+        }
+        return false;
     }
 
     /**
