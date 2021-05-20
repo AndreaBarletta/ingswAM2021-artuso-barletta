@@ -43,8 +43,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public synchronized boolean addClientHandler(ClientHandler clientHandler){
         if(clientHandlers.size()==0){
             //First player connected, ask for size of the game
-            clientHandler.getAutomaton().evolve("ASK_NUMBER_OF_PLAYERS",null);
             clientHandlers.add(clientHandler);
+            clientHandler.getAutomaton().evolve("ASK_NUMBER_OF_PLAYERS",null);
             return true;
         }else{
             clientHandler.getAutomaton().evolve("JOIN_GAME",null);
@@ -72,6 +72,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public synchronized boolean createGame(ClientHandler clientHandler,int numberOfPlayers){
         if(numberOfPlayers>=2&&numberOfPlayers<=4){
             game=new Game(numberOfPlayers);
+
+            if(!game.loadDevelopmentCardGridFromFile("src/main/resources/developmentCards.json")) return false;
+            if(!game.loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json")) return false;
+            if(!game.loadLeaderCardsFromFile("src/main/resources/leaderCards.json")) return false;
             try{
                 game.addPlayer(clientHandler.getPlayerName());
             }catch(Exception e){
