@@ -5,7 +5,7 @@ public enum GameState{
     PLAYER_CONNECTED,NICKNAME_CHOSEN,GAME_CREATED,WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER,
     GAME_STARTED, INKWELL_DISTRIBUTE,LEADER_CARDS_CHOICE,DISTRIBUTE_ADDITIONAL_RESOURCES,
     LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END,
-    WAIT_FOR_OTHERS;
+    WAIT_FOR_OTHERS_TURN;
 
     public boolean canEvolve(String input){
         switch(this){
@@ -14,6 +14,7 @@ public enum GameState{
                     return true;
                 break;
             case NICKNAME_CHOSEN:
+            case NEW_PLAYER:
                 if(input.equals("WAIT_FOR_OTHER_PLAYERS")||input.equals("CREATE_GAME"))
                     return true;
                 break;
@@ -25,9 +26,6 @@ public enum GameState{
                 if(input.equals(("NEW_PLAYER")) || input.equals("GAME_STARTED"))
                     return true;
                 break;
-            case NEW_PLAYER:
-                if(input.equals("WAIT_FOR_OTHER_PLAYERS"))
-                    return true;
             case INKWELL_DISTRIBUTE:
                 if(input.equals("INKWELL_DISTRIBUTED"))
                     return true;
@@ -59,7 +57,7 @@ public enum GameState{
                 if(input.equals("ACTIVATE") || input.equals("DISCARD") || input.equals("NO"))
                     return true;
                 break;
-            case WAIT_FOR_OTHERS:
+            case WAIT_FOR_OTHERS_TURN:
                 if(input.equals("MY_TURN"))
                     return true;
                 break;
@@ -78,6 +76,8 @@ public enum GameState{
                 if(input.equals("GAME_STARTED"))    return GAME_STARTED;
             case NEW_PLAYER:
                 return WAITING_FOR_OTHER_PLAYERS;
+            case GAME_STARTED:
+                return INKWELL_DISTRIBUTE;
             case INKWELL_DISTRIBUTE:
                 return LEADER_CARDS_CHOICE;
             case LEADER_CARDS_CHOICE:
@@ -93,8 +93,8 @@ public enum GameState{
             case BUY_DEV_CARD:
                 return LEADER_ACTION_END;
             case LEADER_ACTION_END:
-                return WAIT_FOR_OTHERS;
-            case WAIT_FOR_OTHERS:
+                return WAIT_FOR_OTHERS_TURN;
+            case WAIT_FOR_OTHERS_TURN:
                 return LEADER_ACTION_BEGIN;
         }
         return UNKNOWN;
