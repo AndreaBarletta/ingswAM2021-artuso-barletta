@@ -59,6 +59,7 @@ public class CliView{
         }
         try{
             commandParser.addCommand("playername",1,MessageType.PICK_PLAYERNAME);
+            commandParser.addCommand("numberofplayers",1,MessageType.NUMBER_OF_PLAYERS);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;
@@ -105,6 +106,12 @@ public class CliView{
                         break;
                     case WAIT_FOR_OTHER_PLAYERS:
                         System.out.println("Waiting for other players");
+                        break;
+                    case ASK_NUMBER_OF_PLAYERS:
+                        System.out.println("Insert the number of players");
+                        break;
+                    case GAME_CREATED:
+                        System.out.println("A new game has been created");
                         break;
                 }
             }catch(Exception e){}
