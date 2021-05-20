@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameTest {
     @Test
     public void testLoadFromFile(){
-        Game game=new Game("Test",4);
+        Game game=new Game(4);
         assertTrue(game.loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json"));
         assertTrue(game.loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json"));
         assertTrue(game.loadLeaderCardsFromFile("src/main/resources/leaderCards.json"));
@@ -21,7 +21,7 @@ public class GameTest {
 
     @Test
     public void testAddPlayer(){
-        Game game=new Game("Test",3);
+        Game game=new Game(3);
         Controller controller=new Controller();
         controller.addEventListener(game);
         game.addEventListener(controller);
@@ -42,7 +42,7 @@ public class GameTest {
 
     @Test
     public void testGiveLeaderCards(){
-        Game game=new Game("Test",4);
+        Game game=new Game(4);
         Controller controller=new Controller();
         controller.addEventListener(game);
         game.addEventListener(controller);
