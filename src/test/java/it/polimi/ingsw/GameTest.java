@@ -12,7 +12,7 @@ public class GameTest {
     @Test
     public void testLoadFromFile(){
         Game game=new Game(4);
-        assertTrue(game.loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json"));
+        assertTrue(game.loadDevelopmentCardGridFromFile("src/main/resources/developmentCards.json"));
         assertTrue(game.loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json"));
         assertTrue(game.loadLeaderCardsFromFile("src/main/resources/leaderCards.json"));
 
