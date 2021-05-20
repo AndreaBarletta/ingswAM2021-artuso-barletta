@@ -37,9 +37,6 @@ public class Game implements ControllerEventListener,Runnable {
         gameDone=false;
         this.maximumPlayers=maximumPlayers;
         canProceed=false;
-        loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
-        loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
-        loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json");
     }
 
     /**
@@ -65,7 +62,7 @@ public class Game implements ControllerEventListener,Runnable {
      * @param path Path of the json file containing the  list of development cards
      * @return Whether or not the development cards were loaded successfully and the card grid was created
      */
-    public boolean loadDevelopmentCardsFromFile(String path){
+    public boolean loadDevelopmentCardGridFromFile(String path){
         String content;
 
         File file=new File(path);
@@ -151,9 +148,6 @@ public class Game implements ControllerEventListener,Runnable {
      * Start the game
      */
     public void run(){
-        loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
-        loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
-        loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json");
         showLeaderCard();
         while(!canProceed){
             try{
