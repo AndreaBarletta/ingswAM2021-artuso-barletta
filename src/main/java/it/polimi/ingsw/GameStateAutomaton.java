@@ -25,8 +25,18 @@ public class GameStateAutomaton {
                         return false;
                     }
                     return true;
+                case NUMBER_OF_PLAYERS_ASKED:
+                    clientHandler.send(new Message(MessageType.ASK_NUMBER_OF_PLAYERS,null));
+                    return true;
+                case GAME_CREATED:
+                    if(!controller.createGame(clientHandler,Integer.parseInt(params[0]))) {
+                        errorMessage="Invalid number of players, must be between 2 and 4";
+                        state=GameState.WAITING_FOR_OTHER_PLAYERS;
+                        return false;
+                    }
+                    return true;
                 case WAITING_FOR_OTHER_PLAYERS:
-                    clientHandler.send(new Message(MessageType.WAIT_FOR_OTHER_PLAYERS, new String[]{}));
+                    clientHandler.send(new Message(MessageType.WAIT_FOR_OTHER_PLAYERS, null));
                     return true;
                 case NEW_PLAYER:
                     clientHandler.send(new Message(MessageType.NEW_PLAYER,params));

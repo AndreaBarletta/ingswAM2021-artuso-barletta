@@ -2,7 +2,9 @@ package it.polimi.ingsw;
 
 public enum GameState{
     UNKNOWN,
-    PLAYER_CONNECTED,NICKNAME_CHOSEN,GAME_CREATED,WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER,
+    PLAYER_CONNECTED,NICKNAME_CHOSEN,
+    NUMBER_OF_PLAYERS_ASKED,GAME_CREATED,
+    WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER,
     GAME_STARTED, INKWELL_DISTRIBUTE,LEADER_CARDS_CHOICE,DISTRIBUTE_ADDITIONAL_RESOURCES,
     LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END,
     WAIT_FOR_OTHERS_TURN;
@@ -14,18 +16,24 @@ public enum GameState{
                     return true;
                 break;
             case NICKNAME_CHOSEN:
-            case NEW_PLAYER:
-                if(input.equals("WAIT_FOR_OTHER_PLAYERS")||input.equals("CREATE_GAME"))
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS")||input.equals("ASK_NUMBER_OF_PLAYERS"))
+                    return true;
+                break;
+            case NUMBER_OF_PLAYERS_ASKED:
+                if(input.equals("NUMBER_OF_PLAYERS"))
                     return true;
                 break;
             case GAME_CREATED:
-                if(input.equals("WAIT_FOR_OTHER_PLAYERS"))
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS")||(input.equals("ASK_NUMBER_OF_PLAYERS")))
                     return true;
                 break;
             case WAITING_FOR_OTHER_PLAYERS:
                 if(input.equals(("NEW_PLAYER")) || input.equals("GAME_STARTED"))
                     return true;
                 break;
+            case NEW_PLAYER:
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS"))
+                    return true;
             case INKWELL_DISTRIBUTE:
                 if(input.equals("INKWELL_DISTRIBUTED"))
                     return true;
@@ -70,7 +78,13 @@ public enum GameState{
             case PLAYER_CONNECTED:
                     return NICKNAME_CHOSEN;
             case NICKNAME_CHOSEN:
-                return WAITING_FOR_OTHER_PLAYERS;
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS")) return WAITING_FOR_OTHER_PLAYERS;
+                if(input.equals("ASK_NUMBER_OF_PLAYERS")) return NUMBER_OF_PLAYERS_ASKED;
+            case NUMBER_OF_PLAYERS_ASKED:
+                return GAME_CREATED;
+            case GAME_CREATED:
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS")) return WAITING_FOR_OTHER_PLAYERS;
+                if(input.equals("ASK_NUMBER_OF_PLAYERS")) return NUMBER_OF_PLAYERS_ASKED;
             case WAITING_FOR_OTHER_PLAYERS:
                 if(input.equals("NEW_PLAYER"))      return NEW_PLAYER;
                 if(input.equals("GAME_STARTED"))    return GAME_STARTED;
