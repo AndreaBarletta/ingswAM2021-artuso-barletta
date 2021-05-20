@@ -19,6 +19,10 @@ public enum GameState{
                 if(input.equals("WAIT_FOR_OTHER_PLAYERS")||input.equals("ASK_NUMBER_OF_PLAYERS"))
                     return true;
                 break;
+            case NUMBER_OF_PLAYERS_ASKED:
+                if(input.equals("NUMBER_OF_PLAYERS"))
+                    return true;
+                break;
             case GAME_CREATED:
                 if(input.equals("WAIT_FOR_OTHER_PLAYERS")||(input.equals("ASK_NUMBER_OF_PLAYERS")))
                     return true;
@@ -101,7 +105,7 @@ public enum GameState{
             case DISTRIBUTE_ADDITIONAL_RESOURCES:
                 return LEADER_ACTION_BEGIN;
             case LEADER_ACTION_BEGIN:
-                if(input.equals("GET_RESOURCES"))           return GET_RESOURCES;
+                if (input.equals("GET_RESOURCES"))           return GET_RESOURCES;
                 if (input.equals("ACTIVATE_PRODUCTION"))    return ACTIVATE_PRODUCTION;
                 if (input.equals("BUY_DEV_CARD"))           return BUY_DEV_CARD;
             case GET_RESOURCES:
