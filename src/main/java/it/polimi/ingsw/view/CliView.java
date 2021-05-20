@@ -113,6 +113,10 @@ public class CliView{
                     case GAME_CREATED:
                         System.out.println("A new game has been created");
                         break;
+                    case GAME_JOINED:
+                        System.out.println("Player \""+message.params[0]+"\" has joined");
+                    case GAME_STARTED:
+                        System.out.println("Game has started");
                     case INKWELL_GIVEN:
                         System.out.println(message.params[0]+" has the inkwell");
                         break;

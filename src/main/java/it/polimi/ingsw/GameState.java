@@ -32,12 +32,17 @@ public enum GameState{
                     return true;
                 break;
             case WAITING_FOR_OTHER_PLAYERS:
-                if(input.equals(("NEW_PLAYER")) || input.equals("GAME_STARTED"))
+                if(input.equals(("NEW_PLAYER")) || input.equals("START_GAME"))
                     return true;
                 break;
             case NEW_PLAYER:
                 if(input.equals("WAIT_FOR_OTHER_PLAYERS"))
                     return true;
+                break;
+            case GAME_STARTED:
+                if(input.equals("GIVE_INKWELL"))
+                    return true;
+                break;
             case INKWELL_DISTRIBUTE:
                 if(input.equals("INKWELL_DISTRIBUTED"))
                     return true;

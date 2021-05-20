@@ -41,12 +41,16 @@ public class GameStateAutomaton {
                         state = GameState.GAME_JOINED;
                         return false;
                     }
+                    clientHandler.send(new Message(MessageType.GAME_JOINED,params));
                     return true;
                 case WAITING_FOR_OTHER_PLAYERS:
                     clientHandler.send(new Message(MessageType.WAIT_FOR_OTHER_PLAYERS, null));
                     return true;
                 case NEW_PLAYER:
                     clientHandler.send(new Message(MessageType.NEW_PLAYER,params));
+                    return true;
+                case GAME_STARTED:
+                    clientHandler.send(new Message(MessageType.GAME_STARTED,null));
                     return true;
                 case INKWELL_DISTRIBUTE:
                     controller.inkwellGiven(clientHandler.getPlayerName());

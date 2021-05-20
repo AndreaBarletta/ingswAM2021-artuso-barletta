@@ -57,8 +57,11 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             for(ClientHandler c:clientHandlers){
                 c.getAutomaton().evolve(this,c,"NEW_PLAYER",new String[]{clientHandler.getPlayerName()});
             }
-
             clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
+            if(clientHandlers.size() == game.getMaximumPlayers()) {
+                for (ClientHandler c : clientHandlers)
+                    clientHandler.getAutomaton().evolve(this, clientHandler, "START_GAME", null);
+            }
             return true;
         }
     }
