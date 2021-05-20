@@ -10,6 +10,8 @@ public class GameStateAutomaton {
 
     public GameStateAutomaton(Controller controller, ClientHandler clientHandler){
         state=GameState.PLAYER_CONNECTED;
+        this.controller=controller;
+        this.clientHandler=clientHandler;
     }
 
     /**
