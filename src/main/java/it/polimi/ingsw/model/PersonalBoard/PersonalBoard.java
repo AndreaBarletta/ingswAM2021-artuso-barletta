@@ -121,7 +121,6 @@ public class PersonalBoard implements ControllerEventListener {
      * @return Whether or not the game has finished
      */
     public boolean playTurn(){
-
         for(PersonalBoardEventListener p:eventListeners){
             //Ask for leader action
             if(p.askForLeaderAction(playerName)){
