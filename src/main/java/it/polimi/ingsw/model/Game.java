@@ -19,7 +19,6 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class Game implements ControllerEventListener,Runnable {
-    private String gameName;
     private List<PersonalBoard> personalBoards;
     private Market market;
     private DevelopmentCardGrid developmentCardGrid;
@@ -30,8 +29,7 @@ public class Game implements ControllerEventListener,Runnable {
     private int maximumPlayers;
     private boolean canProceed;
 
-    public Game(String gameName,int maximumPlayers){
-        this.gameName=gameName;
+    public Game(int maximumPlayers){
         personalBoards=new ArrayList<>();
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();

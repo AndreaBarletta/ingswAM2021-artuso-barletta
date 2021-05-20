@@ -106,6 +106,9 @@ public class CliView{
                     case WAIT_FOR_OTHER_PLAYERS:
                         System.out.println("Waiting for other players");
                         break;
+                    case INKWELL_GIVEN:
+                        System.out.println(message.params[0]+" has the inkwell");
+                        break;
                 }
             }catch(Exception e){}
         }

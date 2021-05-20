@@ -81,7 +81,9 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      */
     public void inkwellGiven(String playerName){
         game.giveInkwell();
-        System.out.println("Player "+playerName+" has received the inkwell");
+        for(ClientHandler c:clientHandlers){
+            c.getAutomaton().evolve(this,c,"INKWELL_DISTRIBUTED",new String[]{c.getPlayerName()});
+        }
     }
 
 
