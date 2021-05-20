@@ -114,7 +114,7 @@ public class CliView{
                         System.out.println("A new game has been created");
                         break;
                     case INKWELL_GIVEN:
-                        System.out.println(message.params[0]+" has the inkwell");
+                        System.out.println("Player \""+message.params[0]+"\" has the inkwell");
                         break;
                 }
             }catch(Exception e){}
