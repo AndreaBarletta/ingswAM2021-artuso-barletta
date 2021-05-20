@@ -47,21 +47,17 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             clientHandlers.add(clientHandler);
             return true;
         }else{
-            for(ClientHandler c:clientHandlers){
-                if(c.getPlayerName().equals(clientHandler.getPlayerName())){
-                    return false;
-                }
-            }
-
-            for(ClientHandler c:clientHandlers){
-                c.getAutomaton().evolve(this,c,"NEW_PLAYER",new String[]{clientHandler.getPlayerName()});
-            }
             try {
                 game.addPlayer(clientHandler.getPlayerName());
             }catch(Exception e){
                 return false;
             }
             clientHandlers.add(clientHandler);
+
+            for(ClientHandler c:clientHandlers){
+                c.getAutomaton().evolve(this,c,"NEW_PLAYER",new String[]{clientHandler.getPlayerName()});
+            }
+
             clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
             return true;
         }
