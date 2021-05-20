@@ -35,8 +35,8 @@ public class ClientHandler implements Runnable{
             incomingString=in.readLine();
             System.out.println(incomingString);
             while(incomingString!=null){
-                Message incomingMesage=gson.fromJson(incomingString,Message.class);
-                if(!automaton.evolve(controller,this,incomingMesage.messageType.toString(), incomingMesage.params)){
+                Message incomingMessage=gson.fromJson(incomingString,Message.class);
+                if(!automaton.evolve(controller,this,incomingMessage.messageType.toString(), incomingMessage.params)){
                     send(new Message(MessageType.ERROR,new String[]{automaton.getErrorMessage()}));
                 }
                 incomingString=in.readLine();
