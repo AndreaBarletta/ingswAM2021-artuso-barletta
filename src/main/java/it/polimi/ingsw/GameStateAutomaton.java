@@ -21,7 +21,7 @@ public class GameStateAutomaton {
     public boolean evolve(String input,String[] params){
         if(state.canEvolve(input)){
             state=state.next(input);
-            System.out.println("Go into state "+state);
+            System.out.println(clientHandler.getPlayerName()+" went into state "+state);
             switch(state){
                 case PLAYER_CONNECTED:
                     return true;
