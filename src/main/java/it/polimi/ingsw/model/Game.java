@@ -19,7 +19,6 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class Game implements ControllerEventListener,Runnable {
-    private String gameName;
     private List<PersonalBoard> personalBoards;
     private Market market;
     private DevelopmentCardGrid developmentCardGrid;
@@ -30,8 +29,7 @@ public class Game implements ControllerEventListener,Runnable {
     private int maximumPlayers;
     private boolean canProceed;
 
-    public Game(String gameName,int maximumPlayers){
-        this.gameName=gameName;
+    public Game(int maximumPlayers){
         personalBoards=new ArrayList<>();
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();
@@ -194,13 +192,8 @@ public class Game implements ControllerEventListener,Runnable {
      * @param playerName Name of the new player
      * @return Whether or not the maximum number of players has been reached
      */
-    public boolean addPlayer(String playerName) throws GameSizeExceeded, ParsingException, DuplicatedIdException {
+    public boolean addPlayer(String playerName) throws GameSizeExceeded, ParsingException {
         if(personalBoards.size()<maximumPlayers){
-            for(Iterator<PersonalBoard> pbIterator=personalBoards.iterator();pbIterator.hasNext();){
-                if(pbIterator.next().getPlayerName().equals(playerName)){
-                    throw new DuplicatedIdException();
-                }
-            }
             PersonalBoard newPersonalBoard=new PersonalBoard(playerName,developmentCardGrid,market);
             personalBoards.add(newPersonalBoard);
             if(!newPersonalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json")){
