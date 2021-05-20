@@ -27,6 +27,7 @@ public class ClientHandler implements Runnable{
 
     @Override
     public void run() {
+
         try{
             out=new PrintWriter(clientSocket.getOutputStream(),true);
             in=new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -42,7 +43,7 @@ public class ClientHandler implements Runnable{
                 incomingString=in.readLine();
             }
         }catch(Exception e){
-            System.out.println("Error starting client handler for "+clientSocket.getInetAddress());         //player disconnected?
+            System.out.println("Exception in client "+e.getMessage()+clientSocket.getInetAddress());         //player disconnected?
         }
     }
 
