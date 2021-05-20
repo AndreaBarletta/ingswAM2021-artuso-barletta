@@ -43,28 +43,27 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public synchronized boolean addClientHandler(ClientHandler clientHandler){
         if(clientHandlers.size()==0){
             //First player connected, ask for size of the game
-            clientHandler.getAutomaton().evolve(this,clientHandler,"ASK_NUMBER_OF_PLAYERS",null);
+            clientHandler.getAutomaton().evolve("ASK_NUMBER_OF_PLAYERS",null);
             clientHandlers.add(clientHandler);
             return true;
         }else{
-            clientHandler.getAutomaton().evolve(this,clientHandler,"JOIN_GAME",null);
+            clientHandler.getAutomaton().evolve("JOIN_GAME",null);
             try {
                 game.addPlayer(clientHandler.getPlayerName());
             }catch(Exception e){
                 return false;
             }
 
-
             for(ClientHandler c:clientHandlers){
-                c.getAutomaton().evolve(this,c,"NEW_PLAYER",new String[]{clientHandler.getPlayerName()});
+                c.getAutomaton().evolve("NEW_PLAYER",new String[]{clientHandler.getPlayerName()});
             }
 
             clientHandlers.add(clientHandler);
 
-            clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
+            clientHandler.getAutomaton().evolve("WAIT_FOR_OTHER_PLAYERS",null);
             if(clientHandlers.size() == game.getMaximumPlayers()) {
                 for (ClientHandler c : clientHandlers)
-                    c.getAutomaton().evolve(this, c, "START_GAME", null);
+                    c.getAutomaton().evolve( "START_GAME", null);
             }
             return true;
         }
@@ -78,13 +77,17 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             }catch(Exception e){
                 return false;
             }
-            clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
+            clientHandler.getAutomaton().evolve("WAIT_FOR_OTHER_PLAYERS",null);
             return true;
         }
         return false;
     }
 
-    public synchronized String[] getPlayers(ClientHandler clientHandler) {
+    /**
+     * Get an array containing the players already present in the game
+     * @return Array of players already present in the game
+     */
+    public synchronized String[] getPlayers() {
         List<String> players=new ArrayList<>();
         for(ClientHandler c:clientHandlers){
             players.add(c.getPlayerName());
@@ -114,7 +117,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public void inkwellGiven(String playerName){
         game.giveInkwell();
         for(ClientHandler c:clientHandlers){
-            c.getAutomaton().evolve(this,c,"INKWELL_DISTRIBUTED",new String[]{c.getPlayerName()});
+            c.getAutomaton().evolve("INKWELL_DISTRIBUTED",new String[]{c.getPlayerName()});
         }
     }
 

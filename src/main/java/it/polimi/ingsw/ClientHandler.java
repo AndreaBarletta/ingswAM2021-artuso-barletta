@@ -22,7 +22,7 @@ public class ClientHandler implements Runnable{
     public ClientHandler(Socket clientSocket,Controller controller){
         this.clientSocket=clientSocket;
         this.controller=controller;
-        automaton=new GameStateAutomaton();
+        automaton=new GameStateAutomaton(controller,this);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ClientHandler implements Runnable{
             System.out.println(incomingString);
             while(incomingString!=null){
                 Message incomingMessage=gson.fromJson(incomingString,Message.class);
-                if(!automaton.evolve(controller,this,incomingMessage.messageType.toString(), incomingMessage.params)){
+                if(!automaton.evolve(incomingMessage.messageType.toString(), incomingMessage.params)){
                     send(new Message(MessageType.ERROR,new String[]{automaton.getErrorMessage()}));
                 }
                 incomingString=in.readLine();

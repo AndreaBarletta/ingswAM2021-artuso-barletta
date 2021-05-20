@@ -5,12 +5,20 @@ import it.polimi.ingsw.controller.Controller;
 public class GameStateAutomaton {
     private GameState state;
     private String errorMessage;
+    private ClientHandler clientHandler;
+    private Controller controller;
 
-    public GameStateAutomaton(){
+    public GameStateAutomaton(Controller controller, ClientHandler clientHandler){
         state=GameState.PLAYER_CONNECTED;
     }
 
-    public boolean evolve(Controller controller, ClientHandler clientHandler,String input,String[] params){
+    /**
+     * Evolve the game state automaton
+     * @param input Transition message
+     * @param params Additional parameters
+     * @return Whether or not the evolve was successful
+     */
+    public boolean evolve(String input,String[] params){
         if(state.canEvolve(input)){
             state=state.next(input);
             System.out.println("Go into state "+state);
@@ -36,7 +44,7 @@ public class GameStateAutomaton {
                     }
                     return true;
                 case GAME_JOINED:
-                    String[] players=controller.getPlayers(clientHandler);
+                    String[] players=controller.getPlayers();
                     clientHandler.send(new Message(MessageType.GAME_JOINED,players));
                     return true;
                 case WAITING_FOR_OTHER_PLAYERS:
@@ -65,4 +73,7 @@ public class GameStateAutomaton {
         return errorMessage;
     }
 
+    public GameState getState() {
+        return state;
+    }
 }
