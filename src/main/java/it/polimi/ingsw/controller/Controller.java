@@ -47,20 +47,24 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             clientHandlers.add(clientHandler);
             return true;
         }else{
+            clientHandler.getAutomaton().evolve(this,clientHandler,"JOIN_GAME",null);
             try {
                 game.addPlayer(clientHandler.getPlayerName());
             }catch(Exception e){
                 return false;
             }
-            clientHandlers.add(clientHandler);
+
 
             for(ClientHandler c:clientHandlers){
                 c.getAutomaton().evolve(this,c,"NEW_PLAYER",new String[]{clientHandler.getPlayerName()});
             }
+
+            clientHandlers.add(clientHandler);
+
             clientHandler.getAutomaton().evolve(this,clientHandler,"WAIT_FOR_OTHER_PLAYERS",null);
             if(clientHandlers.size() == game.getMaximumPlayers()) {
                 for (ClientHandler c : clientHandlers)
-                    clientHandler.getAutomaton().evolve(this, clientHandler, "START_GAME", null);
+                    c.getAutomaton().evolve(this, c, "START_GAME", null);
             }
             return true;
         }
@@ -80,14 +84,15 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         return false;
     }
 
-    public synchronized boolean joinGame(ClientHandler clientHandler) {
-        try{
-            game.addPlayer(clientHandler.getPlayerName());
-        }catch(Exception e){
-            return false;
+    public synchronized String[] getPlayers(ClientHandler clientHandler) {
+        List<String> players=new ArrayList<>();
+        for(ClientHandler c:clientHandlers){
+            players.add(c.getPlayerName());
         }
-        clientHandler.getAutomaton().evolve(this,clientHandler,"NEW_PLAYER",null);
-        return true;
+        
+        String[] playersArray = new String[players.size()];
+        players.toArray(playersArray);
+        return playersArray;
     }
 
     /**

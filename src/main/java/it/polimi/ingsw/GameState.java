@@ -16,7 +16,7 @@ public enum GameState{
                     return true;
                 break;
             case NICKNAME_CHOSEN:
-                if(input.equals("WAIT_FOR_OTHER_PLAYERS")||input.equals("ASK_NUMBER_OF_PLAYERS"))
+                if(input.equals("JOIN_GAME")||input.equals("ASK_NUMBER_OF_PLAYERS"))
                     return true;
                 break;
             case NUMBER_OF_PLAYERS_ASKED:
@@ -28,7 +28,7 @@ public enum GameState{
                     return true;
                 break;
             case GAME_JOINED:
-                if(input.equals("NEW_PLAYER"))
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS"))
                     return true;
                 break;
             case WAITING_FOR_OTHER_PLAYERS:
@@ -87,7 +87,7 @@ public enum GameState{
             case PLAYER_CONNECTED:
                     return NICKNAME_CHOSEN;
             case NICKNAME_CHOSEN:
-                if(input.equals("WAIT_FOR_OTHER_PLAYERS")) return WAITING_FOR_OTHER_PLAYERS;
+                if(input.equals("JOIN_GAME")) return GAME_JOINED;
                 if(input.equals("ASK_NUMBER_OF_PLAYERS")) return NUMBER_OF_PLAYERS_ASKED;
             case NUMBER_OF_PLAYERS_ASKED:
                 return GAME_CREATED;
@@ -98,7 +98,7 @@ public enum GameState{
                 return WAITING_FOR_OTHER_PLAYERS;
             case WAITING_FOR_OTHER_PLAYERS:
                 if(input.equals("NEW_PLAYER"))      return NEW_PLAYER;
-                if(input.equals("GAME_STARTED"))    return GAME_STARTED;
+                if(input.equals("START_GAME"))    return GAME_STARTED;
             case NEW_PLAYER:
                 return WAITING_FOR_OTHER_PLAYERS;
             case GAME_STARTED:
