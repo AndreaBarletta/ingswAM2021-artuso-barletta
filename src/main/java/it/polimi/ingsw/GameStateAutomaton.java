@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.ResType;
 
 public class GameStateAutomaton {
     private GameState state;
@@ -72,6 +73,12 @@ public class GameStateAutomaton {
                         return true;
                 case INKWELL_DISTRIBUTED:
                     clientHandler.send(new Message(MessageType.INKWELL_GIVEN,params));
+                    return true;
+                case INITIAL_RESOURCES_ASKED:
+                    clientHandler.send(new Message(MessageType.ASK_INITIAL_RESOURCES,null));
+                    return true;
+                case INITIAL_RESOURCES_CHOSEN:
+                    controller.addInitialResource(clientHandler.getPlayerName(),ResType.valueOf(params[0]));
                     return true;
             }
             errorMessage="Unknown state";

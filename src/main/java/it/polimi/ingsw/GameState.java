@@ -7,7 +7,7 @@ public enum GameState{
     GAME_JOINED,WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER, GAME_STARTED,
     LEADER_CARDS_SHOWN,LEADER_CARDS_CHOSEN,
     INKWELL_DISTRIBUTED,
-    DISTRIBUTE_ADDITIONAL_RESOURCES,
+    INITIAL_RESOURCES_ASKED,INITIAL_RESOURCES_CHOSEN,
     LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END,
     WAIT_FOR_OTHERS_TURN;
 
@@ -54,11 +54,14 @@ public enum GameState{
                     return true;
                 break;
             case INKWELL_DISTRIBUTED:
-                if(input.equals("INKWELL_DISTRIBUTED"))
+                if(input.equals("ASK_INITIAL_RESOURCES"))
                     return true;
                 break;
-            case DISTRIBUTE_ADDITIONAL_RESOURCES:
-                if(input.equals("ADDITIONAL_RESOURCES_DISTRIBUTED"))
+            case INITIAL_RESOURCES_ASKED:
+                if(input.equals("CHOOSE_INITIAL_RESOURCES"))
+                    return true;
+            case INITIAL_RESOURCES_CHOSEN:
+                if(input.equals("ASK_INITIAL_RESOURCES")||input.equals("WAIT_FOR_OTHERS_TURN"))
                     return true;
                 break;
             case LEADER_ACTION_BEGIN:
@@ -93,18 +96,18 @@ public enum GameState{
             case PLAYER_CONNECTED:
                     return NICKNAME_CHOSEN;
             case NICKNAME_CHOSEN:
-                if(input.equals("JOIN_GAME")) return GAME_JOINED;
-                if(input.equals("ASK_NUMBER_OF_PLAYERS")) return NUMBER_OF_PLAYERS_ASKED;
+                if(input.equals("JOIN_GAME"))               return GAME_JOINED;
+                if(input.equals("ASK_NUMBER_OF_PLAYERS"))   return NUMBER_OF_PLAYERS_ASKED;
             case NUMBER_OF_PLAYERS_ASKED:
                 return GAME_CREATED;
             case GAME_CREATED:
-                if(input.equals("WAIT_FOR_OTHER_PLAYERS")) return WAITING_FOR_OTHER_PLAYERS;
-                if(input.equals("ASK_NUMBER_OF_PLAYERS")) return NUMBER_OF_PLAYERS_ASKED;
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS"))  return WAITING_FOR_OTHER_PLAYERS;
+                if(input.equals("ASK_NUMBER_OF_PLAYERS"))   return NUMBER_OF_PLAYERS_ASKED;
             case GAME_JOINED:
                 return WAITING_FOR_OTHER_PLAYERS;
             case WAITING_FOR_OTHER_PLAYERS:
-                if(input.equals("NEW_PLAYER"))      return NEW_PLAYER;
-                if(input.equals("START_GAME"))    return GAME_STARTED;
+                if(input.equals("NEW_PLAYER"))  return NEW_PLAYER;
+                if(input.equals("START_GAME"))  return GAME_STARTED;
             case NEW_PLAYER:
                 return WAITING_FOR_OTHER_PLAYERS;
             case GAME_STARTED:
@@ -114,11 +117,15 @@ public enum GameState{
             case LEADER_CARDS_CHOSEN:
                 return INKWELL_DISTRIBUTED;
             case INKWELL_DISTRIBUTED:
-                return DISTRIBUTE_ADDITIONAL_RESOURCES;
-            case DISTRIBUTE_ADDITIONAL_RESOURCES:
-                return LEADER_ACTION_BEGIN;
+                return INITIAL_RESOURCES_ASKED;
+            case INITIAL_RESOURCES_ASKED:
+                if(input.equals("CHOOSE_INITIAL_RESOURCES")) return INITIAL_RESOURCES_CHOSEN;
+            case INITIAL_RESOURCES_CHOSEN:
+                if(input.equals("ASK_INITIAL_RESOURCES"))   return INITIAL_RESOURCES_ASKED;
+                if(input.equals("WAIT_FOR_OTHERS_TURN"))    return WAIT_FOR_OTHERS_TURN;
+                break;
             case LEADER_ACTION_BEGIN:
-                if (input.equals("GET_RESOURCES"))           return GET_RESOURCES;
+                if (input.equals("GET_RESOURCES"))          return GET_RESOURCES;
                 if (input.equals("ACTIVATE_PRODUCTION"))    return ACTIVATE_PRODUCTION;
                 if (input.equals("BUY_DEV_CARD"))           return BUY_DEV_CARD;
             case GET_RESOURCES:

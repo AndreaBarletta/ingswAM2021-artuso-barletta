@@ -145,8 +145,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 game.giveInkwell();
                 String[] playerOrder=game.getPlayerOrder();
                 for (ClientHandler c:clientHandlers){
-
                     c.getAutomaton().evolve("DISTRIBUTE_INKWELL",playerOrder);
+                    c.getAutomaton().evolve("ASK_INITIAL_RESOURCES",null);
                 }
             }
             return true;
@@ -156,12 +156,11 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     /**
      * Add to the players to chosen resource
      */
-    public void addInitialResource(String playerName, ResType[] resources){
-        //add
-        System.out.println("resource chosen has been added to player "+playerName);
+    public synchronized void addInitialResource(String playerName, ResType resource){
         for(ClientHandler c:clientHandlers){
-            c.send(new Message(MessageType.GIVENINITIALRESOURCES,new String[]{playerName}));
+            c.send(new Message(MessageType.CHOOSE_INITIAL_RESOURCES,new String[]{playerName,resource.toString()}));
         }
+        game.addInitialResource(playerName,resource);
     }
 
     /**

@@ -61,6 +61,7 @@ public class CliView{
             commandParser.addCommand("playername",1,MessageType.PICK_PLAYERNAME);
             commandParser.addCommand("numberofplayers",1,MessageType.NUMBER_OF_PLAYERS);
             commandParser.addCommand("chooseleaders",2,MessageType.CHOOSE_LEADER_CARDS);
+            commandParser.addCommand("initialresource",1,MessageType.CHOOSE_INITIAL_RESOURCES);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;
@@ -137,6 +138,12 @@ public class CliView{
                             System.out.print(" "+s);
                         }
                         System.out.print("\n");
+                        break;
+                    case ASK_INITIAL_RESOURCES:
+                        System.out.println("What initial resource do you want to obtain?");
+                        break;
+                    case CHOOSE_INITIAL_RESOURCES:
+                        System.out.println("Player "+message.params[0]+" has recieved "+message.params[1]+" as initial resource");
                         break;
                 }
             }catch(Exception e){}

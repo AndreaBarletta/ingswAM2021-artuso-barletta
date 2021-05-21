@@ -266,27 +266,17 @@ public class Game implements ControllerEventListener,Runnable {
     public void discardResources(int numberOfResources,String playerName){
 
     }
-
-    private void chooseInitialResource() {
-        for (int playerNumber = 1; playerNumber < personalBoards.size(); playerNumber++) {
-            if (playerNumber == 1 || playerNumber == 2) {
-                for (GameEventListener g : eventListeners) {
-                    g.chooseOneInitialResource(personalBoards.get(playerNumber).getPlayerName());
-                }
-            }
-            if (playerNumber == 3) {
-                for (GameEventListener g : eventListeners) {
-                    g.chooseTwoInitialResource(personalBoards.get(playerNumber).getPlayerName());
-                }
-            }
-        }
-    }
-
     /**
      * add the initial resource selected
      */
-    public void addInitialResource(ResType resource) {
-
+    public synchronized void addInitialResource(String playerName,ResType resource) {
+        for(PersonalBoard p:personalBoards){
+            if(p.getPlayerName().equals(playerName)){
+                try {
+                    p.addResourcesToDepot(new ResType[]{resource});
+                }catch(Exception e){}
+            }
+        }
     }
 
     public void setCanProceed(boolean canProceed){
