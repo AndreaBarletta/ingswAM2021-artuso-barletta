@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 
 public class PersonalBoard implements ControllerEventListener {
     private String playerName;
+    private List<LeaderCard> initialLeaderCards;
     private List<LeaderCard> leaderCards;
     private FaithTrack faithTrack;
     private DevelopmentCardSlot[] developmentCardSlots;
@@ -314,6 +315,7 @@ public class PersonalBoard implements ControllerEventListener {
             }
         }
     }
+
     /**
      * Add resources acquired from the market to the storage
      * @param newResources Resources to be added
@@ -409,5 +411,25 @@ public class PersonalBoard implements ControllerEventListener {
 
     public void incrementFaithTrack(int faithPoint){
         faithTrack.incrementFaithTrack(faithPoint);
+    }
+
+    public void setInitialLeaderCards(List<LeaderCard> initialLeaderCards){
+        this.initialLeaderCards=initialLeaderCards;
+    }
+
+    public boolean setLeaderCards(List<LeaderCard> leaderCards){
+        for(LeaderCard l:leaderCards){
+            //Check if the card was chosen among the ones initially given
+            boolean found=false;
+            for(LeaderCard il:initialLeaderCards){
+                if(il.getId()==l.getId()){
+                    found=true;
+                    break;
+                }
+            }
+            if(!found) return false;
+        }
+        this.leaderCards=leaderCards;
+        return true;
     }
 }

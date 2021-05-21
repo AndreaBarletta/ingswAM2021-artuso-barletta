@@ -219,7 +219,6 @@ public class Game implements ControllerEventListener,Runnable {
         return personalBoards.size();
     }
 
-
     public DevelopmentCardGrid getDevelopmentCardGrid(){
         return developmentCardGrid;
     }
@@ -240,6 +239,7 @@ public class Game implements ControllerEventListener,Runnable {
     public String[] getInitialLeaderCards(int playerNumber){
         LeaderCard[] leaderCardsToShow = new LeaderCard[4];
         leaderCards.subList(playerNumber*4, (playerNumber+1)*4).toArray(leaderCardsToShow);
+        personalBoards.get(playerNumber).setInitialLeaderCards(Arrays.asList(leaderCardsToShow));
         List<String> ids=new ArrayList<>();
 
         for(LeaderCard l:leaderCardsToShow){
@@ -247,6 +247,20 @@ public class Game implements ControllerEventListener,Runnable {
         }
 
         return ids.toArray(String[]::new);
+    }
+
+    public boolean addLeaderCards(int playerNumber,String[] leaderCardsId){
+        List<LeaderCard> leaderCardsToAdd=new ArrayList<>();
+        for(String s:leaderCardsId){
+            for(LeaderCard l:leaderCards){
+                if(l.getId()==Integer.parseInt(s)){
+                    leaderCardsToAdd.add(l);
+                    break;
+                }
+            }
+        }
+
+        return personalBoards.get(playerNumber).setLeaderCards(leaderCardsToAdd);
     }
 
     public void discardResources(int numberOfResources,String playerName){

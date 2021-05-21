@@ -64,6 +64,11 @@ public class GameStateAutomaton {
                         controller.showLeaderCards(clientHandler);
                         return true;
                 case LEADER_CARDS_CHOSEN:
+                        if(!controller.leaderCardsChosen(clientHandler,params)) {
+                            errorMessage = "Invalid leader cards chosen";
+                            state=GameState.LEADER_CARDS_SHOWN;
+                            return false;
+                        }
                         return true;
                     /*case INKWELL_DISTRIBUTE:
                     controller.inkwellGiven(clientHandler.getPlayerName());

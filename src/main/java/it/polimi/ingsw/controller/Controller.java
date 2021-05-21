@@ -132,9 +132,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     }
 
 
-    public synchronized void leaderCardsChosen(ClientHandler clientHandler,int[] leaderCardsId){
-        game.setCanProceed(true);
-        game.notify();
+    public synchronized boolean leaderCardsChosen(ClientHandler clientHandler,String[] leaderCardsId){
+        return game.addLeaderCards(clientHandlers.indexOf(clientHandler),leaderCardsId);
     }
     /**
      * Add to the players to chosen resource
