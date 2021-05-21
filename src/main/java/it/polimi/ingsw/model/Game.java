@@ -294,4 +294,20 @@ public class Game implements ControllerEventListener,Runnable {
         }
         return playerOrder.toArray(String[]::new);
     }
+
+    public int getPlayerOrdinal(String playerName){
+        int i=0;
+        for(PersonalBoard p:personalBoards){
+            if(p.getPlayerName().equals(playerName)) break;
+            else i++;
+        }
+        return i;
+    }
+
+    public PersonalBoard getPersonalBoard(String playername){
+        for(PersonalBoard p:personalBoards){
+            if(p.getPlayerName().equals(playername)) return p;
+        }
+        return null;
+    }
 }

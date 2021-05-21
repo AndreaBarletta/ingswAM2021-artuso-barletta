@@ -146,21 +146,54 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 String[] playerOrder=game.getPlayerOrder();
                 for (ClientHandler c:clientHandlers){
                     c.getAutomaton().evolve("DISTRIBUTE_INKWELL",playerOrder);
-                    c.getAutomaton().evolve("ASK_INITIAL_RESOURCES",null);
+                    if(game.getPlayerOrdinal(c.getPlayerName())!=0){
+                        c.getAutomaton().evolve("ASK_INITIAL_RESOURCES",null);
+                    }else{
+                        c.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
+                    }
+
                 }
             }
             return true;
         }
         return false;
     }
+
     /**
-     * Add to the players to chosen resource
+     * Add the initial additional resource to a player's depot
+     * @param clientHandler Client handler of the player
+     * @param resource Type of resource to be added
      */
-    public synchronized void addInitialResource(String playerName, ResType resource){
+    public synchronized void addInitialResource(ClientHandler clientHandler, ResType resource){
+        String playerName=clientHandler.getPlayerName();
         for(ClientHandler c:clientHandlers){
             c.send(new Message(MessageType.CHOOSE_INITIAL_RESOURCES,new String[]{playerName,resource.toString()}));
         }
         game.addInitialResource(playerName,resource);
+
+        //Check based on the player order, if they are allowed another additional resource
+        //Third and fourth player are granted a faith point, fourth player is granted an additional resource
+        switch(game.getPlayerOrdinal(playerName)){
+            case 2:
+                game.getPersonalBoard(playerName).incrementFaithTrack(1);
+                for(ClientHandler c:clientHandlers){
+                    c.send(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
+                }
+                clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
+                break;
+            case 3:
+                if(!game.getPersonalBoard(playerName).hasAlreadyChosenInitialResources()){
+                    game.getPersonalBoard(playerName).setHasAlreadyChosenInitialResources(true);
+                    clientHandler.getAutomaton().evolve("ASK_INITIAL_RESOURCES",null);
+                }else{
+                    game.getPersonalBoard(playerName).incrementFaithTrack(1);
+                    for(ClientHandler c:clientHandlers){
+                        c.send(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
+                    }
+                    clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
+                }
+                break;
+        }
     }
 
     /**

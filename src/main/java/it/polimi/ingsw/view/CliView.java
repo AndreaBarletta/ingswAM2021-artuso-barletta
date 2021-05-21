@@ -145,6 +145,12 @@ public class CliView{
                     case CHOOSE_INITIAL_RESOURCES:
                         System.out.println("Player "+message.params[0]+" has recieved "+message.params[1]+" as initial resource");
                         break;
+                    case INCREMENT_FAITH_TRACK:
+                        System.out.println("Player "+message.params[0]+" has advanced "+message.params[1]+" spaces in the faith track");
+                        break;
+                    case WAIT_YOUR_TURN:
+                        System.out.println("Wait for your turn to begin");
+                        break;
                 }
             }catch(Exception e){}
         }

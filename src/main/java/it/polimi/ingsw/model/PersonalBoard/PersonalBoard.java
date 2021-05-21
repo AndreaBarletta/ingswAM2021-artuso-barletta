@@ -39,6 +39,7 @@ public class PersonalBoard implements ControllerEventListener {
     private boolean inkwell = false;
     private DevelopmentCardGrid cardGrid;
     private Market market;
+    private boolean hasAlreadyChosenInitialResources;
 
     public PersonalBoard(String playerNickname, DevelopmentCardGrid cardGrid, Market market){
         this.playerName =playerNickname;
@@ -61,6 +62,7 @@ public class PersonalBoard implements ControllerEventListener {
         Map<ResType,Integer> baseProducts=new HashMap<>();
         baseProducts.put(ResType.ANY,1);
         baseProduction=new Production(baseIngredients,baseProducts);
+        hasAlreadyChosenInitialResources=false;
     }
 
     /**
@@ -431,5 +433,13 @@ public class PersonalBoard implements ControllerEventListener {
         }
         this.leaderCards=leaderCards;
         return true;
+    }
+
+    public boolean hasAlreadyChosenInitialResources(){
+        return hasAlreadyChosenInitialResources;
+    }
+
+    public void setHasAlreadyChosenInitialResources(boolean hasAlreadyChosenInitialResources){
+        this.hasAlreadyChosenInitialResources=hasAlreadyChosenInitialResources;
     }
 }

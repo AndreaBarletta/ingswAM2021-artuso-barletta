@@ -8,8 +8,8 @@ public enum GameState{
     LEADER_CARDS_SHOWN,LEADER_CARDS_CHOSEN,
     INKWELL_DISTRIBUTED,
     INITIAL_RESOURCES_ASKED,INITIAL_RESOURCES_CHOSEN,
-    LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END,
-    WAIT_FOR_OTHERS_TURN;
+    WAITING_FOR_YOUR_TURN,
+    LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END;
 
     public boolean canEvolve(String input){
         switch(this){
@@ -54,14 +54,14 @@ public enum GameState{
                     return true;
                 break;
             case INKWELL_DISTRIBUTED:
-                if(input.equals("ASK_INITIAL_RESOURCES"))
+                if(input.equals("ASK_INITIAL_RESOURCES")||input.equals("WAIT_FOR_YOUR_TURN"))
                     return true;
                 break;
             case INITIAL_RESOURCES_ASKED:
                 if(input.equals("CHOOSE_INITIAL_RESOURCES"))
                     return true;
             case INITIAL_RESOURCES_CHOSEN:
-                if(input.equals("ASK_INITIAL_RESOURCES")||input.equals("WAIT_FOR_OTHERS_TURN"))
+                if(input.equals("ASK_INITIAL_RESOURCES")||input.equals("WAIT_FOR_YOUR_TURN"))
                     return true;
                 break;
             case LEADER_ACTION_BEGIN:
@@ -81,10 +81,6 @@ public enum GameState{
                     return true;
             case LEADER_ACTION_END:
                 if(input.equals("ACTIVATE") || input.equals("DISCARD") || input.equals("NO"))
-                    return true;
-                break;
-            case WAIT_FOR_OTHERS_TURN:
-                if(input.equals("MY_TURN"))
                     return true;
                 break;
         }
@@ -117,12 +113,14 @@ public enum GameState{
             case LEADER_CARDS_CHOSEN:
                 return INKWELL_DISTRIBUTED;
             case INKWELL_DISTRIBUTED:
+                if(input.equals("ASK_INITIAL_RESOURCES"))   return INITIAL_RESOURCES_ASKED;
+                if(input.equals("WAIT_FOR_YOUR_TURN"))      return WAITING_FOR_YOUR_TURN;
                 return INITIAL_RESOURCES_ASKED;
             case INITIAL_RESOURCES_ASKED:
                 if(input.equals("CHOOSE_INITIAL_RESOURCES")) return INITIAL_RESOURCES_CHOSEN;
             case INITIAL_RESOURCES_CHOSEN:
                 if(input.equals("ASK_INITIAL_RESOURCES"))   return INITIAL_RESOURCES_ASKED;
-                if(input.equals("WAIT_FOR_OTHERS_TURN"))    return WAIT_FOR_OTHERS_TURN;
+                if(input.equals("WAIT_FOR_YOUR_TURN"))      return WAITING_FOR_YOUR_TURN;
                 break;
             case LEADER_ACTION_BEGIN:
                 if (input.equals("GET_RESOURCES"))          return GET_RESOURCES;
@@ -132,10 +130,6 @@ public enum GameState{
             case ACTIVATE_PRODUCTION:
             case BUY_DEV_CARD:
                 return LEADER_ACTION_END;
-            case LEADER_ACTION_END:
-                return WAIT_FOR_OTHERS_TURN;
-            case WAIT_FOR_OTHERS_TURN:
-                return LEADER_ACTION_BEGIN;
         }
         return UNKNOWN;
     }

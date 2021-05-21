@@ -78,8 +78,10 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.ASK_INITIAL_RESOURCES,null));
                     return true;
                 case INITIAL_RESOURCES_CHOSEN:
-                    controller.addInitialResource(clientHandler.getPlayerName(),ResType.valueOf(params[0]));
+                    controller.addInitialResource(clientHandler,ResType.valueOf(params[0]));
                     return true;
+                case WAITING_FOR_YOUR_TURN:
+                    clientHandler.send(new Message(MessageType.WAIT_YOUR_TURN,null));
             }
             errorMessage="Unknown state";
         }
