@@ -15,6 +15,7 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,10 +24,9 @@ public class CliView{
     static final int defaultPortNumber=4545;
     static private PrintWriter out;
     static private BufferedReader in;
-    static private LeaderCard[] leaderCards;
-    static private List<DevelopmentCard> developmentCards;
+    static private LeaderCard[] leaderCardDeck;
+    static private List<DevelopmentCard> developmentCardDeck;
     static private String playerName;
-
     static private CommandParser commandParser=new CommandParser();
 
     public static void main(String[] args){
@@ -60,6 +60,7 @@ public class CliView{
         try{
             commandParser.addCommand("playername",1,MessageType.PICK_PLAYERNAME);
             commandParser.addCommand("numberofplayers",1,MessageType.NUMBER_OF_PLAYERS);
+            commandParser.addCommand("chooseleaders",2,MessageType.CHOOSE_LEADER_CARDS);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;
@@ -126,7 +127,7 @@ public class CliView{
                     case SHOW_LEADER_CARDS:
                         System.out.println("Pick 2 between the following leader cards: ");
                         for(String s: message.params){
-                            System.out.println(leaderCards[Integer.parseInt(s)].toString());
+                            System.out.println(leaderCardDeck[Integer.parseInt(s)].toString());
                         }
                         break;
                     case INKWELL_GIVEN:
@@ -157,7 +158,7 @@ public class CliView{
         gsonBuilder.registerTypeAdapter(LeaderCard.class,new LeaderCardDeserializer());
         Gson gson=gsonBuilder.create();
         try{
-            leaderCards=gson.fromJson(content, LeaderCard[].class);
+            leaderCardDeck=gson.fromJson(content, LeaderCard[].class);
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for leader cards");
             return false;
