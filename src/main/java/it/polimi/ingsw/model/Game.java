@@ -20,14 +20,13 @@ import java.util.*;
 
 public class Game implements ControllerEventListener,Runnable {
     private List<PersonalBoard> personalBoards;
+    private int currentPlayerOrdinal;
     private Market market;
     private DevelopmentCardGrid developmentCardGrid;
     private PopeFavourCard[] popeFavourCards;
     private List<LeaderCard> leaderCards;
     private List<GameEventListener> eventListeners;
-    private boolean gameDone;
     private int maximumPlayers;
-    private boolean canProceed;
 
     public Game(int maximumPlayers){
         personalBoards=new ArrayList<>();
@@ -35,9 +34,8 @@ public class Game implements ControllerEventListener,Runnable {
         developmentCardGrid=new DevelopmentCardGrid();
         eventListeners=new ArrayList<>();
         leaderCards= new ArrayList<>();
-        gameDone=false;
         this.maximumPlayers=maximumPlayers;
-        canProceed=false;
+        currentPlayerOrdinal=0;
     }
 
     /**
@@ -279,10 +277,6 @@ public class Game implements ControllerEventListener,Runnable {
         }
     }
 
-    public void setCanProceed(boolean canProceed){
-        this.canProceed=canProceed;
-    }
-
     public int getMaximumPlayers(){
         return maximumPlayers;
     }
@@ -309,5 +303,13 @@ public class Game implements ControllerEventListener,Runnable {
             if(p.getPlayerName().equals(playername)) return p;
         }
         return null;
+    }
+
+    public String getCurrentPlayer(){
+        return personalBoards.get(currentPlayerOrdinal).getPlayerName();
+    }
+
+    public void nextPlayer(){
+        currentPlayerOrdinal=(currentPlayerOrdinal+1)%maximumPlayers;
     }
 }

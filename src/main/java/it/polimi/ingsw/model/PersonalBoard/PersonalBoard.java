@@ -124,11 +124,8 @@ public class PersonalBoard implements ControllerEventListener {
      * @return Whether or not the game has finished
      */
     public boolean playTurn(){
-        for(PersonalBoardEventListener p:eventListeners){
+        /*for(PersonalBoardEventListener p:eventListeners){
             //Ask for leader action
-            if(p.askForLeaderAction(playerName)){
-                //Ask which leader action to play
-            }
 
             //Ask player which turn action to play
             boolean success=false;
@@ -153,7 +150,8 @@ public class PersonalBoard implements ControllerEventListener {
                 //Ask which leader action to play
             }
         }
-        return faithTrack.isAtEnd();
+        return faithTrack.isAtEnd();*/
+        return false;
     }
 
     /**

@@ -25,12 +25,15 @@ public class CliView{
     static private PrintWriter out;
     static private BufferedReader in;
     static private LeaderCard[] leaderCardDeck;
-    static private List<DevelopmentCard> developmentCardDeck;
+    static private DevelopmentCard[] developmentCardDeck;
     static private String playerName;
     static private CommandParser commandParser=new CommandParser();
 
     public static void main(String[] args){
         if(!loadLeaderCardsFromFile("src/main/resources/leaderCards.json")){
+            return;
+        }
+        if(!loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json")){
             return;
         }
 
@@ -67,6 +70,9 @@ public class CliView{
             return;
         }
 
+        System.out.println("Welcome to Masters of Renaissance");
+        System.out.println("Insert your player name");
+        System.out.print("(playername {name}): ");
 
         new Thread(CliView::sendToServer).start();
         new Thread(CliView::receiveFromServer).start();
@@ -111,6 +117,7 @@ public class CliView{
                         break;
                     case ASK_NUMBER_OF_PLAYERS:
                         System.out.println("Insert the number of players");
+                        System.out.print("(numberofplayers {2/3/4}): ");
                         break;
                     case GAME_CREATED:
                         System.out.println("A new game has been created");
@@ -130,6 +137,7 @@ public class CliView{
                         for(String s: message.params){
                             System.out.println(leaderCardDeck[Integer.parseInt(s)].toString());
                         }
+                        System.out.print("(chooseleaders {id1} {id2}): ");
                         break;
                     case INKWELL_GIVEN:
                         System.out.println("Player \""+message.params[0]+"\" has received the inkwell");
@@ -141,6 +149,7 @@ public class CliView{
                         break;
                     case ASK_INITIAL_RESOURCES:
                         System.out.println("What initial resource do you want to obtain?");
+                        System.out.print("(initialresource {COIN/STONE/SERVANT/SHIELD}): ");
                         break;
                     case CHOOSE_INITIAL_RESOURCES:
                         System.out.println("Player "+message.params[0]+" has recieved "+message.params[1]+" as initial resource");
@@ -150,6 +159,13 @@ public class CliView{
                         break;
                     case WAIT_YOUR_TURN:
                         System.out.println("Wait for your turn to begin");
+                        break;
+                    case TURN_START:
+                        System.out.println("Player "+message.params[0]+" has started their turn");
+                        break;
+                    case ASK_LEADER_ACTION:
+                        System.out.println("What leader action do you want to play?");
+                        System.out.print("(leaderskip/leaderactivate/leaderdiscard): ");
                         break;
                 }
             }catch(Exception e){}
@@ -179,6 +195,28 @@ public class CliView{
             leaderCardDeck=gson.fromJson(content, LeaderCard[].class);
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for leader cards");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean loadDevelopmentCardsFromFile(String path){
+        String content;
+
+        File file=new File(path);
+        try{
+            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        }catch(IOException e){
+            System.out.println("Error reading from file while loading development cards i.e. wrong path");
+            return false;
+        }
+
+        Gson gson=new Gson();
+        try{
+            developmentCardDeck=gson.fromJson(content, DevelopmentCard[].class);
+        }catch(JsonSyntaxException e){
+            System.out.println("Error parsing json file for development cards");
             return false;
         }
 

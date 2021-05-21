@@ -9,7 +9,9 @@ public enum GameState{
     INKWELL_DISTRIBUTED,
     INITIAL_RESOURCES_ASKED,INITIAL_RESOURCES_CHOSEN,
     WAITING_FOR_YOUR_TURN,
-    LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END;
+    LEADER_ACTION_ASKED,
+    LEADER_ACTION_ACTIVATED,LEADER_ACTION_DISCARDED,LEADER_ACTION_SKIPPED,
+    TURN_ACTION_ASKED,TURN_ACTION_CHOSEN;
 
     public boolean canEvolve(String input){
         switch(this){
@@ -64,25 +66,12 @@ public enum GameState{
                 if(input.equals("ASK_INITIAL_RESOURCES")||input.equals("WAIT_FOR_YOUR_TURN"))
                     return true;
                 break;
-            case LEADER_ACTION_BEGIN:
-                if(input.equals("ACTIVATE") || input.equals("DISCARD") || input.equals("NO"))
+            case WAITING_FOR_YOUR_TURN:
+                if(input.equals("ASK_LEADER_ACTION"))
                     return true;
-                break;
-            case GET_RESOURCES:
-                if(input.equals("RESOURCES_ACQUIRED"))
+            case LEADER_ACTION_ASKED:
+                if(input.equals("LEADER_ACTION_ACTIVATE")||input.equals("LEADER_ACTION_DISCARD")||input.equals("LEADER_ACTION_SKIP"))
                     return true;
-                break;
-            case ACTIVATE_PRODUCTION:
-                if(input.equals("PRODUCTION_COMPLETED"))
-                    return true;
-                break;
-            case BUY_DEV_CARD:
-                if(input.equals("CARD_BUYED"))
-                    return true;
-            case LEADER_ACTION_END:
-                if(input.equals("ACTIVATE") || input.equals("DISCARD") || input.equals("NO"))
-                    return true;
-                break;
         }
         return false;
     }
@@ -122,14 +111,12 @@ public enum GameState{
                 if(input.equals("ASK_INITIAL_RESOURCES"))   return INITIAL_RESOURCES_ASKED;
                 if(input.equals("WAIT_FOR_YOUR_TURN"))      return WAITING_FOR_YOUR_TURN;
                 break;
-            case LEADER_ACTION_BEGIN:
-                if (input.equals("GET_RESOURCES"))          return GET_RESOURCES;
-                if (input.equals("ACTIVATE_PRODUCTION"))    return ACTIVATE_PRODUCTION;
-                if (input.equals("BUY_DEV_CARD"))           return BUY_DEV_CARD;
-            case GET_RESOURCES:
-            case ACTIVATE_PRODUCTION:
-            case BUY_DEV_CARD:
-                return LEADER_ACTION_END;
+            case WAITING_FOR_YOUR_TURN:
+                return LEADER_ACTION_ASKED;
+            case LEADER_ACTION_ASKED:
+                if(input.equals("LEADER_ACTION_ACTIVATE"))  return LEADER_ACTION_ACTIVATED;
+                if(input.equals("LEADER_ACTION_DISCARD"))   return LEADER_ACTION_DISCARDED;
+                if(input.equals("LEADER_ACTION_SKIP"))   return LEADER_ACTION_SKIPPED;
         }
         return UNKNOWN;
     }

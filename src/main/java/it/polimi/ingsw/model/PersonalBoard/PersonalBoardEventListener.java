@@ -16,8 +16,6 @@ public interface PersonalBoardEventListener {
     DevelopmentCard chooseDevelopmentCard(DevelopmentCardGrid cardGrid, String playerName);
     int chooseDevelopmentCardSlot(DevelopmentCardSlot[] developmentCardSlots,DevelopmentCard card, String playerName);
     void error(String error);
-    boolean askForLeaderAction(String playerName);
-    GameState askForTurnAction(String playerName);
     void showMarket(Market market,String playerName);
     AbstractMap.SimpleEntry<Boolean,Integer> askMarketRowColumn(String playerName);
     void notEnoughDepotSpace(ResType[] resources,String playerName);

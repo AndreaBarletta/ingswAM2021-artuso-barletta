@@ -78,10 +78,25 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.ASK_INITIAL_RESOURCES,null));
                     return true;
                 case INITIAL_RESOURCES_CHOSEN:
-                    controller.addInitialResource(clientHandler,ResType.valueOf(params[0]));
+                    if(!controller.addInitialResource(clientHandler,ResType.valueOf(params[0]))){
+                        state=GameState.INITIAL_RESOURCES_ASKED;
+                        errorMessage="Cannot add faith points as initial resource";
+                        return false;
+                    }
                     return true;
                 case WAITING_FOR_YOUR_TURN:
                     clientHandler.send(new Message(MessageType.WAIT_YOUR_TURN,null));
+                    controller.checkIfGameCanStart();
+                    return true;
+                case LEADER_ACTION_ASKED:
+                    clientHandler.send(new Message(MessageType.ASK_LEADER_ACTION,null));
+                    return true;
+                case LEADER_ACTION_ACTIVATED:
+                    return true;
+                case LEADER_ACTION_DISCARDED:
+                    return true;
+                case LEADER_ACTION_SKIPPED:
+                    return true;
             }
             errorMessage="Unknown state";
         }

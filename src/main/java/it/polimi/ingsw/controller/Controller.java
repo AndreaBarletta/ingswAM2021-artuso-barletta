@@ -164,35 +164,61 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * @param clientHandler Client handler of the player
      * @param resource Type of resource to be added
      */
-    public synchronized void addInitialResource(ClientHandler clientHandler, ResType resource){
-        String playerName=clientHandler.getPlayerName();
-        for(ClientHandler c:clientHandlers){
-            c.send(new Message(MessageType.CHOOSE_INITIAL_RESOURCES,new String[]{playerName,resource.toString()}));
-        }
-        game.addInitialResource(playerName,resource);
+    public synchronized boolean addInitialResource(ClientHandler clientHandler, ResType resource){
+        if(resource!=ResType.FAITH){
+            String playerName=clientHandler.getPlayerName();
+            for(ClientHandler c:clientHandlers){
+                c.send(new Message(MessageType.CHOOSE_INITIAL_RESOURCES,new String[]{playerName,resource.toString()}));
+            }
+            game.addInitialResource(playerName,resource);
 
-        //Check based on the player order, if they are allowed another additional resource
-        //Third and fourth player are granted a faith point, fourth player is granted an additional resource
-        switch(game.getPlayerOrdinal(playerName)){
-            case 2:
-                game.getPersonalBoard(playerName).incrementFaithTrack(1);
-                for(ClientHandler c:clientHandlers){
-                    c.send(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
-                }
-                clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
-                break;
-            case 3:
-                if(!game.getPersonalBoard(playerName).hasAlreadyChosenInitialResources()){
-                    game.getPersonalBoard(playerName).setHasAlreadyChosenInitialResources(true);
-                    clientHandler.getAutomaton().evolve("ASK_INITIAL_RESOURCES",null);
-                }else{
+            //Check based on the player order, if they are allowed another additional resource
+            //Third and fourth player are granted a faith point, fourth player is granted an additional resource
+            switch(game.getPlayerOrdinal(playerName)){
+                case 2:
                     game.getPersonalBoard(playerName).incrementFaithTrack(1);
                     for(ClientHandler c:clientHandlers){
                         c.send(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
                     }
                     clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
-                }
+                    break;
+                case 3:
+                    if(!game.getPersonalBoard(playerName).hasAlreadyChosenInitialResources()){
+                        game.getPersonalBoard(playerName).setHasAlreadyChosenInitialResources(true);
+                        clientHandler.getAutomaton().evolve("ASK_INITIAL_RESOURCES",null);
+                    }else{
+                        game.getPersonalBoard(playerName).incrementFaithTrack(1);
+                        for(ClientHandler c:clientHandlers){
+                            c.send(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
+                        }
+                        clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
+                    }
+                    break;
+                default:
+                    clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public synchronized void checkIfGameCanStart(){
+        boolean ok=true;
+        for(ClientHandler c:clientHandlers){
+            if(c.getAutomaton().getState()!=GameState.WAITING_FOR_YOUR_TURN){
+                ok=false;
                 break;
+            }
+        }
+        if(ok){
+            //Start the game
+            String activePlayer=game.getCurrentPlayer();
+            for(ClientHandler c:clientHandlers){
+                c.send(new Message(MessageType.TURN_START,new String[]{activePlayer}));
+                if(c.getPlayerName().equals(activePlayer)){
+                    c.getAutomaton().evolve("ASK_LEADER_ACTION",null);
+                }
+            }
         }
     }
 
@@ -243,16 +269,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public boolean askForLeaderAction(String playerName){
         System.out.println("Ask player "+playerName+" if they want to play a leader action");
         return true;
-    }
-
-    /**
-     * Ask the player what turn action to play
-     * @param playerName The name of the player playing the turn
-     * @return 0 for market, 1 to buy development card, 2 to activate production
-     */
-    public GameState askForTurnAction(String playerName){
-        System.out.println("Ask player "+playerName+" what turn action to play");
-        return GameState.ACTIVATE_PRODUCTION;
     }
 
     /**
