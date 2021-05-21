@@ -226,10 +226,9 @@ public class Game implements ControllerEventListener,Runnable {
     /**
      * Assign the inkwell to a random player
      */
-    public String giveInkwell(){
+    public void giveInkwell(){
         Collections.shuffle(personalBoards);
         personalBoards.get(0).receiveInkwell();
-        return personalBoards.get(0).getPlayerName();
     }
 
     /**
@@ -296,5 +295,13 @@ public class Game implements ControllerEventListener,Runnable {
 
     public int getMaximumPlayers(){
         return maximumPlayers;
+    }
+
+    public String[] getPlayerOrder(){
+        List<String> playerOrder=new ArrayList<>();
+        for(PersonalBoard p:personalBoards){
+            playerOrder.add(p.getPlayerName());
+        }
+        return playerOrder.toArray(String[]::new);
     }
 }

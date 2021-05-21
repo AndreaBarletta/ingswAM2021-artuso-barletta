@@ -142,9 +142,11 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 }
             }
             if(ok){
-                String playerWithInkwell=game.giveInkwell();
+                game.giveInkwell();
+                String[] playerOrder=game.getPlayerOrder();
                 for (ClientHandler c:clientHandlers){
-                    c.getAutomaton().evolve("DISTRIBUTE_INKWELL",new String[]{playerWithInkwell});
+
+                    c.getAutomaton().evolve("DISTRIBUTE_INKWELL",playerOrder);
                 }
             }
             return true;

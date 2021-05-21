@@ -132,6 +132,11 @@ public class CliView{
                         break;
                     case INKWELL_GIVEN:
                         System.out.println("Player \""+message.params[0]+"\" has received the inkwell");
+                        System.out.print("The turn order is the following:");
+                        for(String s:message.params){
+                            System.out.print(" "+s);
+                        }
+                        System.out.print("\n");
                         break;
                 }
             }catch(Exception e){}
