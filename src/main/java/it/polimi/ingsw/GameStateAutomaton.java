@@ -69,6 +69,7 @@ public class GameStateAutomaton {
                             state=GameState.LEADER_CARDS_SHOWN;
                             return false;
                         }
+                        clientHandler.send(new Message(MessageType.WAIT_FOR_OTHER_PLAYERS, null));
                         return true;
                     /*case INKWELL_DISTRIBUTE:
                     controller.inkwellGiven(clientHandler.getPlayerName());
