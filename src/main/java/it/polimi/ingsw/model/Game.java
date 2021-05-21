@@ -226,9 +226,10 @@ public class Game implements ControllerEventListener,Runnable {
     /**
      * Assign the inkwell to a random player
      */
-    public void giveInkwell(){
+    public String giveInkwell(){
         Collections.shuffle(personalBoards);
         personalBoards.get(0).receiveInkwell();
+        return personalBoards.get(0).getPlayerName();
     }
 
     /**

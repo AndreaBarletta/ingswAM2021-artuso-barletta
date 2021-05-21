@@ -133,7 +133,23 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
 
     public synchronized boolean leaderCardsChosen(ClientHandler clientHandler,String[] leaderCardsId){
-        return game.addLeaderCards(clientHandlers.indexOf(clientHandler),leaderCardsId);
+        if(game.addLeaderCards(clientHandlers.indexOf(clientHandler),leaderCardsId)){
+            boolean ok=true;
+            for(ClientHandler c:clientHandlers){
+                if(c.getAutomaton().getState()!=GameState.LEADER_CARDS_CHOSEN){
+                    ok=false;
+                    break;
+                }
+            }
+            if(ok){
+                String playerWithInkwell=game.giveInkwell();
+                for (ClientHandler c:clientHandlers){
+                    c.getAutomaton().evolve("DISTRIBUTE_INKWELL",new String[]{playerWithInkwell});
+                }
+            }
+            return true;
+        }
+        return false;
     }
     /**
      * Add to the players to chosen resource

@@ -131,7 +131,7 @@ public class CliView{
                         }
                         break;
                     case INKWELL_GIVEN:
-                        System.out.println("Player \""+message.params[0]+"\" has the inkwell");
+                        System.out.println("Player \""+message.params[0]+"\" has received the inkwell");
                         break;
                 }
             }catch(Exception e){}

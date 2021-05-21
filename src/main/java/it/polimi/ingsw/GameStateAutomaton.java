@@ -71,11 +71,9 @@ public class GameStateAutomaton {
                         }
                         clientHandler.send(new Message(MessageType.WAIT_FOR_OTHER_PLAYERS, null));
                         return true;
-                    /*case INKWELL_DISTRIBUTE:
-                    controller.inkwellGiven(clientHandler.getPlayerName());
+                case INKWELL_DISTRIBUTED:
                     clientHandler.send(new Message(MessageType.INKWELL_GIVEN,params));
-                    state=GameState.LEADER_CARDS_CHOICE;
-                    return true;*/
+                    return true;
             }
             errorMessage="Unknown state";
         }

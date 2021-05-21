@@ -6,7 +6,8 @@ public enum GameState{
     NUMBER_OF_PLAYERS_ASKED,GAME_CREATED,
     GAME_JOINED,WAITING_FOR_OTHER_PLAYERS, NEW_PLAYER, GAME_STARTED,
     LEADER_CARDS_SHOWN,LEADER_CARDS_CHOSEN,
-    INKWELL_DISTRIBUTE,DISTRIBUTE_ADDITIONAL_RESOURCES,
+    INKWELL_DISTRIBUTED,
+    DISTRIBUTE_ADDITIONAL_RESOURCES,
     LEADER_ACTION_BEGIN,ACTIVATE_PRODUCTION,BUY_DEV_CARD,GET_RESOURCES,LEADER_ACTION_END,
     WAIT_FOR_OTHERS_TURN;
 
@@ -52,7 +53,7 @@ public enum GameState{
                 if(input.equals("DISTRIBUTE_INKWELL"))
                     return true;
                 break;
-            case INKWELL_DISTRIBUTE:
+            case INKWELL_DISTRIBUTED:
                 if(input.equals("INKWELL_DISTRIBUTED"))
                     return true;
                 break;
@@ -111,8 +112,8 @@ public enum GameState{
             case LEADER_CARDS_SHOWN:
                 return LEADER_CARDS_CHOSEN;
             case LEADER_CARDS_CHOSEN:
-                return INKWELL_DISTRIBUTE;
-            case INKWELL_DISTRIBUTE:
+                return INKWELL_DISTRIBUTED;
+            case INKWELL_DISTRIBUTED:
                 return DISTRIBUTE_ADDITIONAL_RESOURCES;
             case DISTRIBUTE_ADDITIONAL_RESOURCES:
                 return LEADER_ACTION_BEGIN;
