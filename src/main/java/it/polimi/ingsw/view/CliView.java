@@ -167,6 +167,9 @@ public class CliView{
                         System.out.println("What leader action do you want to play?");
                         System.out.print("(leaderskip/leaderactivate/leaderdiscard): ");
                         break;
+                    case DISCONNECTED:
+                        System.out.println("Player "+message.params[0]+" has disconnected");
+                        break;
                 }
             }catch(Exception e){}
         }
@@ -201,6 +204,11 @@ public class CliView{
         return true;
     }
 
+    /**
+     * Loads the leader cards from a json file
+     * @param path Path of the json file containing the list of the development cards
+     * @return Whetehr or not the development cards were loaded successfully
+     */
     public static boolean loadDevelopmentCardsFromFile(String path){
         String content;
 

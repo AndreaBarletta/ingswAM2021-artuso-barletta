@@ -43,6 +43,7 @@ public class ClientHandler implements Runnable{
                 incomingString=in.readLine();
             }
         }catch(Exception e){
+            controller.disconnected(this);
             System.out.println("Exception in client "+e.getMessage()+clientSocket.getInetAddress());         //player disconnected?
         }
     }
