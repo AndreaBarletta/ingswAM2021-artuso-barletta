@@ -11,6 +11,7 @@ public enum GameState{
     WAITING_FOR_YOUR_TURN,
     LEADER_ACTION_ASKED,
     LEADER_ACTION_ACTIVATED,LEADER_ACTION_DISCARDED,LEADER_ACTION_SKIPPED,
+    //TODO: Remove turn action chosen and leader action skipped?
     TURN_ACTION_ASKED,TURN_ACTION_CHOSEN;
 
     public boolean canEvolve(String input){
@@ -69,9 +70,23 @@ public enum GameState{
             case WAITING_FOR_YOUR_TURN:
                 if(input.equals("ASK_LEADER_ACTION"))
                     return true;
+                break;
             case LEADER_ACTION_ASKED:
                 if(input.equals("LEADER_ACTION_ACTIVATE")||input.equals("LEADER_ACTION_DISCARD")||input.equals("LEADER_ACTION_SKIP"))
                     return true;
+                break;
+            case LEADER_ACTION_ACTIVATED:
+                if(input.equals("ASK_LEADER_ACTION")||input.equals("ASK_TURN_ACTION"))
+                    return true;
+                break;
+            case LEADER_ACTION_DISCARDED:
+                if(input.equals("ASK_LEADER_ACTION")||input.equals("ASK_TURN_ACTION"))
+                    return true;
+                break;
+            case LEADER_ACTION_SKIPPED:
+                if(input.equals("ASK_TURN_ACTION"))
+                    return true;
+                break;
         }
         return false;
     }
@@ -110,13 +125,20 @@ public enum GameState{
             case INITIAL_RESOURCES_CHOSEN:
                 if(input.equals("ASK_INITIAL_RESOURCES"))   return INITIAL_RESOURCES_ASKED;
                 if(input.equals("WAIT_FOR_YOUR_TURN"))      return WAITING_FOR_YOUR_TURN;
-                break;
             case WAITING_FOR_YOUR_TURN:
                 return LEADER_ACTION_ASKED;
             case LEADER_ACTION_ASKED:
                 if(input.equals("LEADER_ACTION_ACTIVATE"))  return LEADER_ACTION_ACTIVATED;
                 if(input.equals("LEADER_ACTION_DISCARD"))   return LEADER_ACTION_DISCARDED;
-                if(input.equals("LEADER_ACTION_SKIP"))   return LEADER_ACTION_SKIPPED;
+                if(input.equals("LEADER_ACTION_SKIP"))      return LEADER_ACTION_SKIPPED;
+            case LEADER_ACTION_ACTIVATED:
+                if(input.equals("ASK_LEADER_ACTION"))   return LEADER_ACTION_ASKED;
+                if(input.equals("ASK_TURN_ACTION"))     return TURN_ACTION_ASKED;
+            case LEADER_ACTION_DISCARDED:
+                if(input.equals("ASK_LEADER_ACTION"))   return LEADER_ACTION_ASKED;
+                if(input.equals("ASK_TURN_ACTION"))     return TURN_ACTION_ASKED;
+            case LEADER_ACTION_SKIPPED:
+                return TURN_ACTION_ASKED;
         }
         return UNKNOWN;
     }

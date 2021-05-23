@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.controller.ControllerEventListener;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.Market;
@@ -11,10 +12,6 @@ import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.exceptions.DepotException;
-import it.polimi.ingsw.exceptions.DepotSpaceException;
-import it.polimi.ingsw.exceptions.LevelException;
-import it.polimi.ingsw.exceptions.ResourcesException;
 
 import java.io.File;
 import java.io.IOException;
@@ -117,41 +114,6 @@ public class PersonalBoard implements ControllerEventListener {
      */
     public String getPlayerName() {
         return playerName;
-    }
-
-    /**
-     * Play the player's turn
-     * @return Whether or not the game has finished
-     */
-    public boolean playTurn(){
-        /*for(PersonalBoardEventListener p:eventListeners){
-            //Ask for leader action
-
-            //Ask player which turn action to play
-            boolean success=false;
-            do{
-                GameState turnAction=p.askForTurnAction(playerName);
-                switch(turnAction){
-                    case ACTIVATE_PRODUCTION:
-                        success=activateProduction();
-                        break;
-                    case BUY_DEV_CARD:
-                        buyCard(cardGrid);
-                        break;
-                    case GET_RESOURCES:
-                        visitMarket();
-                        success=true;
-                        break;
-                }
-            }while(!success);
-
-            //Ask for leader action
-            if(p.askForLeaderAction(playerName)){
-                //Ask which leader action to play
-            }
-        }
-        return faithTrack.isAtEnd();*/
-        return false;
     }
 
     /**
@@ -342,11 +304,7 @@ public class PersonalBoard implements ControllerEventListener {
     public void addResourcesToDepot(ResType[] newResources) throws DepotSpaceException {
         Map<ResType,Integer> resources=new HashMap<>();
         for(ResType r:newResources){
-            if(resources.get(r)==null){
-                resources.put(r,1);
-            }else{
-                resources.put(r,resources.get(r)+1);
-            }
+            resources.merge(r, 1, Integer::sum);
         }
 
         for(ResType r:newResources){
@@ -417,6 +375,11 @@ public class PersonalBoard implements ControllerEventListener {
         this.initialLeaderCards=initialLeaderCards;
     }
 
+    /**
+     * Sets the initial chosen leader cards (among the 4)
+     * @param leaderCards List of leader cards chosen among the 4
+     * @return Whether or not the cards were among the 4 chosen (and could successfully be added)
+     */
     public boolean setLeaderCards(List<LeaderCard> leaderCards){
         for(LeaderCard l:leaderCards){
             //Check if the card was chosen among the ones initially given
@@ -433,11 +396,52 @@ public class PersonalBoard implements ControllerEventListener {
         return true;
     }
 
+    /**
+     * If the player has already chosen the initial resources.
+     * Used for the 4th player of a game since he has to choose 2 types of resources
+     * @return Whether or not the player has already chosen the initial resources
+     */
     public boolean hasAlreadyChosenInitialResources(){
         return hasAlreadyChosenInitialResources;
     }
 
+    /**
+     * Setter for hasAlreadyChosenInitialResources
+     * @param hasAlreadyChosenInitialResources Value to assign to hasAlreadyChosenInitialResources
+     */
     public void setHasAlreadyChosenInitialResources(boolean hasAlreadyChosenInitialResources){
         this.hasAlreadyChosenInitialResources=hasAlreadyChosenInitialResources;
+    }
+
+    public void activateLeaderCard(int id) throws CardTypeException,LevelException,ResourcesException,CardNotFoundException {
+        Map<ResType,Integer> resources=getResources();
+        LeaderCard leaderCardToActivate=null;
+        for(LeaderCard l:leaderCards){
+            if(l.getId()==id){
+                leaderCardToActivate=l;
+                break;
+            }
+        }
+        if(leaderCardToActivate==null){
+            return;
+        }
+    }
+
+    public void discardLeaderCard(int id) throws CardNotFoundException {
+        LeaderCard leaderCardToDiscard=null;
+        for(LeaderCard l:leaderCards){
+            if(l.getId()==id){
+                leaderCardToDiscard=l;
+                break;
+            }
+        }
+        if(leaderCardToDiscard!=null){
+            leaderCards.remove(leaderCardToDiscard);
+            faithTrack.incrementFaithTrack(1);
+            for(PersonalBoardEventListener pev:eventListeners){
+            }
+        }else{
+            throw new CardNotFoundException();
+        }
     }
 }
