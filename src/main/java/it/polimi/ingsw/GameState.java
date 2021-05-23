@@ -96,18 +96,18 @@ public enum GameState{
             case PLAYER_CONNECTED:
                     return NICKNAME_CHOSEN;
             case NICKNAME_CHOSEN:
-                if(input.equals("JOIN_GAME"))               return GAME_JOINED;
-                if(input.equals("ASK_NUMBER_OF_PLAYERS"))   return NUMBER_OF_PLAYERS_ASKED;
+                if(input.equals("JOIN_GAME"))                       return GAME_JOINED;
+                if(input.equals("ASK_NUMBER_OF_PLAYERS"))           return NUMBER_OF_PLAYERS_ASKED;
             case NUMBER_OF_PLAYERS_ASKED:
                 return GAME_CREATED;
             case GAME_CREATED:
-                if(input.equals("WAIT_FOR_OTHER_PLAYERS"))  return WAITING_FOR_OTHER_PLAYERS;
-                if(input.equals("ASK_NUMBER_OF_PLAYERS"))   return NUMBER_OF_PLAYERS_ASKED;
+                if(input.equals("WAIT_FOR_OTHER_PLAYERS"))          return WAITING_FOR_OTHER_PLAYERS;
+                if(input.equals("ASK_NUMBER_OF_PLAYERS"))           return NUMBER_OF_PLAYERS_ASKED;
             case GAME_JOINED:
                 return WAITING_FOR_OTHER_PLAYERS;
             case WAITING_FOR_OTHER_PLAYERS:
-                if(input.equals("NEW_PLAYER"))  return NEW_PLAYER;
-                if(input.equals("START_GAME"))  return GAME_STARTED;
+                if(input.equals("NEW_PLAYER"))                      return NEW_PLAYER;
+                if(input.equals("START_GAME"))                      return GAME_STARTED;
             case NEW_PLAYER:
                 return WAITING_FOR_OTHER_PLAYERS;
             case GAME_STARTED:
@@ -117,26 +117,26 @@ public enum GameState{
             case LEADER_CARDS_CHOSEN:
                 return INKWELL_DISTRIBUTED;
             case INKWELL_DISTRIBUTED:
-                if(input.equals("ASK_INITIAL_RESOURCES"))   return INITIAL_RESOURCES_ASKED;
-                if(input.equals("WAIT_FOR_YOUR_TURN"))      return WAITING_FOR_YOUR_TURN;
+                if(input.equals("ASK_INITIAL_RESOURCES"))           return INITIAL_RESOURCES_ASKED;
+                if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
                 return INITIAL_RESOURCES_ASKED;
             case INITIAL_RESOURCES_ASKED:
-                if(input.equals("CHOOSE_INITIAL_RESOURCES")) return INITIAL_RESOURCES_CHOSEN;
+                if(input.equals("CHOOSE_INITIAL_RESOURCES"))        return INITIAL_RESOURCES_CHOSEN;
             case INITIAL_RESOURCES_CHOSEN:
-                if(input.equals("ASK_INITIAL_RESOURCES"))   return INITIAL_RESOURCES_ASKED;
-                if(input.equals("WAIT_FOR_YOUR_TURN"))      return WAITING_FOR_YOUR_TURN;
+                if(input.equals("ASK_INITIAL_RESOURCES"))           return INITIAL_RESOURCES_ASKED;
+                if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
             case WAITING_FOR_YOUR_TURN:
                 return LEADER_ACTION_ASKED;
             case LEADER_ACTION_ASKED:
-                if(input.equals("LEADER_ACTION_ACTIVATE"))  return LEADER_ACTION_ACTIVATED;
-                if(input.equals("LEADER_ACTION_DISCARD"))   return LEADER_ACTION_DISCARDED;
-                if(input.equals("LEADER_ACTION_SKIP"))      return LEADER_ACTION_SKIPPED;
+                if(input.equals("LEADER_ACTION_ACTIVATE"))          return LEADER_ACTION_ACTIVATED;
+                if(input.equals("LEADER_ACTION_DISCARD"))           return LEADER_ACTION_DISCARDED;
+                if(input.equals("LEADER_ACTION_SKIP"))              return LEADER_ACTION_SKIPPED;
             case LEADER_ACTION_ACTIVATED:
-                if(input.equals("ASK_LEADER_ACTION"))   return LEADER_ACTION_ASKED;
-                if(input.equals("ASK_TURN_ACTION"))     return TURN_ACTION_ASKED;
+                if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
+                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
             case LEADER_ACTION_DISCARDED:
-                if(input.equals("ASK_LEADER_ACTION"))   return LEADER_ACTION_ASKED;
-                if(input.equals("ASK_TURN_ACTION"))     return TURN_ACTION_ASKED;
+                if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
+                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
             case LEADER_ACTION_SKIPPED:
                 return TURN_ACTION_ASKED;
         }
