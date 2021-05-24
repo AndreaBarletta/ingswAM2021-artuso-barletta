@@ -12,7 +12,8 @@ public enum GameState{
     LEADER_ACTION_ASKED,
     LEADER_ACTION_ACTIVATED,LEADER_ACTION_DISCARDED,LEADER_ACTION_SKIPPED,
     //TODO: Remove turn action chosen and leader action skipped?
-    TURN_ACTION_ASKED,TURN_ACTION_CHOSEN;
+    TURN_ACTION_ASKED,TURN_ACTION_CHOSEN,
+    PRODUCTIONS_ACTIVATED,DEV_CARD_BOUGHT,MARKET_VISITED;
 
     public boolean canEvolve(String input){
         switch(this){
@@ -76,15 +77,31 @@ public enum GameState{
                     return true;
                 break;
             case LEADER_ACTION_ACTIVATED:
-                if(input.equals("ASK_LEADER_ACTION")||input.equals("ASK_TURN_ACTION"))
+                if(input.equals("ASK_LEADER_ACTION")||input.equals("ASK_TURN_ACTION")||input.equals("WAIT_FOR_YOUR_TURN"))
                     return true;
                 break;
             case LEADER_ACTION_DISCARDED:
-                if(input.equals("ASK_LEADER_ACTION")||input.equals("ASK_TURN_ACTION"))
+                if(input.equals("ASK_LEADER_ACTION")||input.equals("ASK_TURN_ACTION")||input.equals("WAIT_FOR_YOUR_TURN"))
                     return true;
                 break;
             case LEADER_ACTION_SKIPPED:
-                if(input.equals("ASK_TURN_ACTION"))
+                if(input.equals("ASK_TURN_ACTION")||input.equals("WAIT_FOR_YOUR_TURN"))
+                    return true;
+                break;
+            case TURN_ACTION_ASKED:
+                if(input.equals("ACTIVATE_PRODUCTIONS")||input.equals("BUY_DEV_CARD")||input.equals("VISIT_MARKET"))
+                    return true;
+                break;
+            case PRODUCTIONS_ACTIVATED:
+                if(input.equals("ASK_TURN_ACTION")||input.equals("ASK_LEADER_ACTION"))
+                    return true;
+                break;
+            case DEV_CARD_BOUGHT:
+                if(input.equals("ASK_TURN_ACTION")||input.equals("ASK_LEADER_ACTION"))
+                    return true;
+                break;
+            case MARKET_VISITED:
+                if(input.equals("ASK_TURN_ACTION")||input.equals("ASK_LEADER_ACTION"))
                     return true;
                 break;
         }
@@ -134,11 +151,27 @@ public enum GameState{
             case LEADER_ACTION_ACTIVATED:
                 if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
                 if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
+                if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
             case LEADER_ACTION_DISCARDED:
                 if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
                 if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
+                if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
             case LEADER_ACTION_SKIPPED:
-                return TURN_ACTION_ASKED;
+                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
+                if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
+            case TURN_ACTION_ASKED:
+                if(input.equals("ACTIVATE_PRODUCTIONS"))            return PRODUCTIONS_ACTIVATED;
+                if(input.equals("BUY_DEV_CARD"))                    return DEV_CARD_BOUGHT;
+                if(input.equals("VISIT_MARKET"))                    return MARKET_VISITED;
+            case PRODUCTIONS_ACTIVATED:
+                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
+                if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
+            case DEV_CARD_BOUGHT:
+                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
+                if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
+            case MARKET_VISITED:
+                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
+                if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
         }
         return UNKNOWN;
     }
