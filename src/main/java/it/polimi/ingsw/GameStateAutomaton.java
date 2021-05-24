@@ -97,6 +97,14 @@ public class GameStateAutomaton {
                     return true;
                 case LEADER_ACTION_SKIPPED:
                     return true;
+                case TURN_ACTION_ASKED:
+                    return true;
+                case PRODUCTIONS_ACTIVATED:
+                    return true;
+                case DEV_CARD_BOUGHT:
+                    return true;
+                case MARKET_VISITED:
+                    return true;
             }
             errorMessage="Unknown state";
         }
