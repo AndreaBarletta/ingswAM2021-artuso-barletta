@@ -136,7 +136,12 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         }
     }
 
-
+    /**
+     * Player has chosen the leader cards to keep and those to discard. Add them to the personal board
+     * @param clientHandler Client handler that sent the request
+     * @param leaderCardsId Ids of the leader cards chosen
+     * @return Whether or not the leader cards could be added to the personal board (ie. they were among the 4 given)
+     */
     public synchronized boolean leaderCardsChosen(ClientHandler clientHandler,String[] leaderCardsId){
         if(game.addLeaderCards(clientHandlers.indexOf(clientHandler),leaderCardsId)){
             boolean ok=true;
