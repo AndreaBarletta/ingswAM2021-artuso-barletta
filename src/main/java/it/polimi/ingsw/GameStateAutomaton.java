@@ -103,8 +103,12 @@ public class GameStateAutomaton {
                     return true;
                 case DEV_CARD_BOUGHT:
                     return true;
-                case MARKET_VISITED:
+                case MARKET_SHOWN:
+                    clientHandler.send(new Message(MessageType.SHOW_MARKET, null));
                     return true;
+                case ROW_CHOSEN:
+                case COLUMN_CHOSEN:
+                case MARKET_UPDATED:
             }
             errorMessage="Unknown state";
             return false;

@@ -9,6 +9,7 @@ import it.polimi.ingsw.exceptions.IncorrectAmountArgumentsException;
 import it.polimi.ingsw.exceptions.UnknownCommandException;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
+import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 
 import java.io.*;
@@ -26,6 +27,7 @@ public class CliView{
     static private BufferedReader in;
     static private LeaderCard[] leaderCardDeck;
     static private DevelopmentCard[] developmentCardDeck;
+    static private Market market;
     static private String playerName;
     static private CommandParser commandParser=new CommandParser();
 
@@ -188,6 +190,9 @@ public class CliView{
                     case LEADER_ACTION_SKIP:
                         System.out.println("Player "+message.params[0]+" has skipped the leader action");
                         break;
+                    case SHOW_MARKET:
+                        System.out.println("Choose a row or a column of the market");
+                        market.toString();
                     case DISCONNECTED:
                         System.out.println("Player "+message.params[0]+" has disconnected");
                         break;
