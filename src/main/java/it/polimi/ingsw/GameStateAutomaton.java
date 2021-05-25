@@ -98,7 +98,7 @@ public class GameStateAutomaton {
                     controller.broadcast(new Message(MessageType.LEADER_ACTION_DISCARD,new String[]{clientHandler.getPlayerName()}));
                     return true;
                 case LEADER_ACTION_SKIPPED:
-                    controller.broadcast(new Message(MessageType.LEADER_ACTION_SKIP,null));
+                    controller.broadcast(new Message(MessageType.LEADER_ACTION_SKIP,new String[]{clientHandler.getPlayerName()}));
                     return true;
                 case TURN_ACTION_ASKED:
                     return true;
