@@ -92,16 +92,28 @@ public class GameStateAutomaton {
                     controller.showLeaderCards(clientHandler);
                     return true;
                 case LEADER_ACTION_ACTIVATED:
+                    controller.broadcast(new Message(MessageType.LEADER_ACTION_ACTIVATE,new String[]{clientHandler.getPlayerName()}));
+                    if(!controller.activateLeadercard(clientHandler,params[0])){
+                        errorMessage="Cannot activate leader card";
+                        state=GameState.LEADER_ACTION_ASKED;
+                        return false;
+                    }
                     return true;
                 case LEADER_ACTION_DISCARDED:
+                    controller.broadcast(new Message(MessageType.LEADER_ACTION_DISCARD,new String[]{clientHandler.getPlayerName()}));
                     return true;
                 case LEADER_ACTION_SKIPPED:
+                    controller.broadcast(new Message(MessageType.LEADER_ACTION_SKIP,new String[]{clientHandler.getPlayerName()}));
+                    evolve("ASK_TURN_ACTION",null);
                     return true;
                 case TURN_ACTION_ASKED:
+                    clientHandler.send(new Message(MessageType.ASK_TURN_ACTION,null));
                     return true;
                 case PRODUCTIONS_ACTIVATED:
+                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"ACTIVATE PRODUCTIONS"}));
                     return true;
                 case DEV_CARD_BOUGHT:
+                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"BUY DEV CARDS"}));
                     return true;
                 case MARKET_SHOWN:
                     clientHandler.send(new Message(MessageType.SHOW_MARKET, null));

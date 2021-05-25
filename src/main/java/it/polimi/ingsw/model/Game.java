@@ -279,10 +279,6 @@ public class Game implements ControllerEventListener,Runnable {
         return personalBoards.get(playerNumber).setLeaderCards(leaderCardsToAdd);
     }
 
-    public void discardResources(int numberOfResources,String playerName){
-
-    }
-
     /**
      * add the initial resource selected
      */
@@ -294,6 +290,21 @@ public class Game implements ControllerEventListener,Runnable {
                 }catch(Exception e){}
             }
         }
+    }
+
+    public boolean activateLeaderCards(String playername, String leaderCardId){
+        PersonalBoard player=null;
+        for(PersonalBoard p:personalBoards){
+            if(p.getPlayerName().equals(playername)){
+                player=p;
+                break;
+            }
+        }
+
+        if(player!=null){
+            return player.activateLeaderCard(Integer.parseInt(leaderCardId));
+        }
+        return false;
     }
 
     public int getMaximumPlayers(){

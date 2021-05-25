@@ -90,7 +90,7 @@ public enum GameState{
                     return true;
                 break;
             case TURN_ACTION_ASKED:
-                if(input.equals("ACTIVATE_PRODUCTIONS")||input.equals("BUY_DEV_CARD")||input.equals("VISIT_MARKET"))
+                if(input.equals("ACTIVATE_PRODUCTIONS")||input.equals("BUY_DEV_CARDS")||input.equals("VISIT_MARKET"))
                     return true;
                 break;
             case PRODUCTIONS_ACTIVATED:
@@ -171,8 +171,8 @@ public enum GameState{
                 if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
             case TURN_ACTION_ASKED:
                 if(input.equals("ACTIVATE_PRODUCTIONS"))            return PRODUCTIONS_ACTIVATED;
-                if(input.equals("BUY_DEV_CARD"))                    return DEV_CARD_BOUGHT;
-                if(input.equals("VISIT_MARKET"))                    return MARKET_SHOWN;
+                if(input.equals("BUY_DEV_CARDS"))                   return DEV_CARD_BOUGHT;
+                if(input.equals("VISIT_MARKET"))                    return MARKET_VISITED;
             case PRODUCTIONS_ACTIVATED:
                 if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
                 if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
