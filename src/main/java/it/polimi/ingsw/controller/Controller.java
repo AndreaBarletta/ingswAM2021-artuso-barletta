@@ -69,6 +69,14 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         }
     }
 
+    /**
+     * Send a message to all the client handlers
+     * @param message Message to be sent to all the client handlers
+     */
+    public synchronized void broadcast(Message message){
+        for(ClientHandler ch:clientHandlers)
+            ch.send(message);
+    }
     public synchronized boolean createGame(ClientHandler clientHandler,int numberOfPlayers){
         if(numberOfPlayers>=2&&numberOfPlayers<=4){
             game=new Game(numberOfPlayers);
