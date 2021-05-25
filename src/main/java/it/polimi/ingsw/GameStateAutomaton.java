@@ -89,7 +89,6 @@ public class GameStateAutomaton {
                     controller.checkIfGameCanStart();
                     return true;
                 case LEADER_ACTION_ASKED:
-                    clientHandler.send(new Message(MessageType.ASK_LEADER_ACTION,null));
                     controller.showLeaderCards(clientHandler);
                     return true;
                 case LEADER_ACTION_ACTIVATED:
