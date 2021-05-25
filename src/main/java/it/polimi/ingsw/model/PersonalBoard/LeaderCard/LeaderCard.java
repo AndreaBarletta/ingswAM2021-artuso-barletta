@@ -105,7 +105,7 @@ public abstract class LeaderCard {
         return "Id: "+id+"\tVictory points: "+victoryPoints+"\n"+
                 "Requirements: \n"+
                     "\tCard requirements: "+(cardRequirements!=null?cardRequirements:"none")+"\n"+
-                    "\tCard requirements: "+(levelRequirements!=null?levelRequirements:"none")+"\n"+
-                    "\tCard requirements: "+(resourceRequirements!=null?resourceRequirements:"none");
+                    "\tLevel requirements: "+(levelRequirements!=null?levelRequirements:"none")+"\n"+
+                    "\tResource requirements: "+(resourceRequirements!=null?resourceRequirements:"none");
     }
 }
