@@ -415,8 +415,7 @@ public class PersonalBoard implements ControllerEventListener {
         this.hasAlreadyChosenInitialResources=hasAlreadyChosenInitialResources;
     }
 
-    public void activateLeaderCard(int id) throws CardTypeException,LevelException,ResourcesException,CardNotFoundException {
-        Map<ResType,Integer> resources=getResources();
+    public boolean activateLeaderCard(int id) {
         LeaderCard leaderCardToActivate=null;
         for(LeaderCard l:leaderCards){
             if(l.getId()==id){
@@ -425,8 +424,19 @@ public class PersonalBoard implements ControllerEventListener {
             }
         }
         if(leaderCardToActivate==null){
-            return;
+            return false;
         }
+        Map<ResType,Integer> resources=getResources();
+        List<DevelopmentCard> devCards=new ArrayList<>();
+        for(DevelopmentCardSlot ds:developmentCardSlots)
+            devCards.addAll(ds.getCards());
+
+        if(!leaderCardToActivate.canActivate(getResources(),devCards)){
+            return false;
+        }
+        leaderCardToActivate.activate();
+        leaderCardToActivate.effectOnActivate(this);
+        return true;
     }
 
     public void discardLeaderCard(int id) throws CardNotFoundException {

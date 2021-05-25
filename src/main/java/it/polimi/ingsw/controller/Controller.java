@@ -281,6 +281,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         return true;
     }
 
+    public boolean activateLeadercard(ClientHandler clientHandler, String id){
+        return game.activateLeaderCards(clientHandler.getPlayerName(),id);
+    }
+
     /**
      * Show the player the market
      * @param market The resource market to be shown
