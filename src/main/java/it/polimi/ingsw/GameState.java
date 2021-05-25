@@ -172,7 +172,7 @@ public enum GameState{
             case TURN_ACTION_ASKED:
                 if(input.equals("ACTIVATE_PRODUCTIONS"))            return PRODUCTIONS_ACTIVATED;
                 if(input.equals("BUY_DEV_CARDS"))                   return DEV_CARD_BOUGHT;
-                if(input.equals("VISIT_MARKET"))                    return MARKET_VISITED;
+                if(input.equals("SHOW_MARKET"))                    return MARKET_SHOWN;
             case PRODUCTIONS_ACTIVATED:
                 if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
                 if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
