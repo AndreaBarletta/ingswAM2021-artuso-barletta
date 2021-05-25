@@ -95,7 +95,11 @@ public class CliView{
             }catch(UnknownCommandException e){
                 System.out.println("Unknown command");
             }catch(IncorrectAmountArgumentsException e){
-                System.out.println("Incorrect amount of Arguments! Required "+commandParser.getNumberOfArguments(input));
+                String output="Incorrect amount of Arguments! Required ";
+                for(Integer i: commandParser.getNumberOfArguments(input)){
+                    output+=i.toString()+" ";
+                }
+                System.out.println(output);
             }
         }
     }
