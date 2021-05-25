@@ -236,7 +236,7 @@ public class Game implements ControllerEventListener,Runnable {
      */
     public String[] getInitialLeaderCards(int playerNumber){
         List<LeaderCard> leaderCardsToShow = new ArrayList<>();
-        leaderCards=leaderCards.subList(playerNumber*4, (playerNumber+1)*4);
+        leaderCardsToShow=leaderCards.subList(playerNumber*4, (playerNumber+1)*4);
         personalBoards.get(playerNumber).setInitialLeaderCards(leaderCardsToShow);
         List<String> ids=new ArrayList<>();
 
