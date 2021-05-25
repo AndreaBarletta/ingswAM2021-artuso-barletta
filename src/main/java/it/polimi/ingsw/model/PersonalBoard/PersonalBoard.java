@@ -426,7 +426,7 @@ public class PersonalBoard implements ControllerEventListener {
         if(leaderCardToActivate==null){
             return false;
         }
-        Map<ResType,Integer> resources=getResources();
+
         List<DevelopmentCard> devCards=new ArrayList<>();
         for(DevelopmentCardSlot ds:developmentCardSlots)
             devCards.addAll(ds.getCards());
