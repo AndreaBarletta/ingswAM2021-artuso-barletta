@@ -96,6 +96,8 @@ public class GameStateAutomaton {
                     return true;
                 case LEADER_ACTION_DISCARDED:
                     return true;
+                case LEADER_ACTION_SKIPPED:
+                    return true;
                 case TURN_ACTION_ASKED:
                     return true;
                 case PRODUCTIONS_ACTIVATED:
@@ -106,6 +108,7 @@ public class GameStateAutomaton {
                     return true;
             }
             errorMessage="Unknown state";
+            return false;
         }
         errorMessage="Cannot use that command now";
         return false;
