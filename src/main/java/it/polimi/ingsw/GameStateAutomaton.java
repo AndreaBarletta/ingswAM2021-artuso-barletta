@@ -92,10 +92,13 @@ public class GameStateAutomaton {
                     controller.showLeaderCards(clientHandler);
                     return true;
                 case LEADER_ACTION_ACTIVATED:
+                    controller.broadcast(new Message(MessageType.LEADER_ACTION_ACTIVATE,new String[]{clientHandler.getPlayerName()}));
                     return true;
                 case LEADER_ACTION_DISCARDED:
+                    controller.broadcast(new Message(MessageType.LEADER_ACTION_DISCARD,new String[]{clientHandler.getPlayerName()}));
                     return true;
                 case LEADER_ACTION_SKIPPED:
+                    controller.broadcast(new Message(MessageType.LEADER_ACTION_SKIP,null));
                     return true;
                 case TURN_ACTION_ASKED:
                     return true;
