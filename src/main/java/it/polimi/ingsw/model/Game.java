@@ -247,6 +247,24 @@ public class Game implements ControllerEventListener,Runnable {
         return ids.toArray(String[]::new);
     }
 
+    public String[] getLeaderCards(String playerName) {
+        List<LeaderCard> leaderCardsToShow = null;
+        for(PersonalBoard p: personalBoards) {
+            if(p.getPlayerName().equals(playerName)) {
+                 leaderCardsToShow = p.getLeaderCards();
+                break;
+            }
+        }
+        if(leaderCardsToShow!=null) {
+            List<String> ids=new ArrayList<>();
+            for (LeaderCard l : leaderCardsToShow) {
+                ids.add(Integer.toString(l.getId()));
+            }
+            return ids.toArray(String[]::new);
+        }
+        return null;
+    }
+
     public boolean addLeaderCards(int playerNumber,String[] leaderCardsId){
         List<LeaderCard> leaderCardsToAdd=new ArrayList<>();
         for(String s:leaderCardsId){
@@ -264,6 +282,7 @@ public class Game implements ControllerEventListener,Runnable {
     public void discardResources(int numberOfResources,String playerName){
 
     }
+
     /**
      * add the initial resource selected
      */

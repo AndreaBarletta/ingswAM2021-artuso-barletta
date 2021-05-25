@@ -396,6 +396,8 @@ public class PersonalBoard implements ControllerEventListener {
         return true;
     }
 
+    public List<LeaderCard> getLeaderCards() {      return leaderCards;     }
+
     /**
      * If the player has already chosen the initial resources.
      * Used for the 4th player of a game since he has to choose 2 types of resources

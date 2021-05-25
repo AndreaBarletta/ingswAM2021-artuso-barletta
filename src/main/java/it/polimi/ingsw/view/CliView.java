@@ -65,6 +65,7 @@ public class CliView{
             commandParser.addCommand("numberofplayers",1,MessageType.NUMBER_OF_PLAYERS);
             commandParser.addCommand("chooseleaders",2,MessageType.CHOOSE_LEADER_CARDS);
             commandParser.addCommand("initialresource",1,MessageType.CHOOSE_INITIAL_RESOURCES);
+            commandParser.addCommand("leader",1,MessageType.CHOOSE_INITIAL_RESOURCES);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;
@@ -152,7 +153,7 @@ public class CliView{
                         System.out.print("(initialresource {COIN/STONE/SERVANT/SHIELD}): ");
                         break;
                     case CHOOSE_INITIAL_RESOURCES:
-                        System.out.println("Player "+message.params[0]+" has recieved "+message.params[1]+" as initial resource");
+                        System.out.println("Player "+message.params[0]+" has received "+message.params[1]+" as initial resource");
                         break;
                     case INCREMENT_FAITH_TRACK:
                         System.out.println("Player "+message.params[0]+" has advanced "+message.params[1]+" spaces in the faith track");
@@ -165,7 +166,19 @@ public class CliView{
                         break;
                     case ASK_LEADER_ACTION:
                         System.out.println("What leader action do you want to play?");
-                        System.out.print("(leaderskip/leaderactivate/leaderdiscard): ");
+                        for(String s: message.params){
+                            System.out.println(leaderCardDeck[Integer.parseInt(s)].toString());
+                        }
+                        System.out.print("(leader {skip/activate/discard} {id1} {id2}): ");
+                        break;
+                    case LEADER_ACTION_ACTIVATE:
+                        System.out.println("Player "+message.params[0]+" has activated "+message.params[1]);
+                        break;
+                    case LEADER_ACTION_DISCARD:
+                        System.out.println("Player "+message.params[0]+" has skipped the leader action "+message.params[1]);
+                        break;
+                    case LEADER_ACTION_SKIP:
+                        System.out.println("Player "+message.params[0]+" has skipped the leader action");
                         break;
                     case DISCONNECTED:
                         System.out.println("Player "+message.params[0]+" has disconnected");

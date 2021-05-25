@@ -115,9 +115,14 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         }
     }
 
-    public synchronized void showLeaderCards(ClientHandler clientHandler){
+    public synchronized void showInitialLeaderCards(ClientHandler clientHandler){
         String[] ids=game.getInitialLeaderCards(clientHandlers.indexOf(clientHandler));
         clientHandler.send(new Message(MessageType.SHOW_LEADER_CARDS,ids));
+    }
+
+    public synchronized void showLeaderCards(ClientHandler clientHandler) {
+        String[] ids=game.getInitialLeaderCards(clientHandlers.indexOf(clientHandler));
+        clientHandler.send(new Message(MessageType.ASK_LEADER_ACTION,ids));
     }
 
     /**
@@ -252,14 +257,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      */
     public void announceWinner(String playerName){
         System.out.println("Player "+playerName+" has won the game");
-    }
-
-    public void chooseOneInitialResource(String playerName) {
-
-    }
-
-    public void chooseTwoInitialResource(String playerName) {
-
     }
 
     /**

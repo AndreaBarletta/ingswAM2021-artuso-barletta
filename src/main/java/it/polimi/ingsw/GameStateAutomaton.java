@@ -62,7 +62,7 @@ public class GameStateAutomaton {
                     evolve("SHOW_LEADER_CARDS",null);
                     return true;
                 case LEADER_CARDS_SHOWN:
-                        controller.showLeaderCards(clientHandler);
+                        controller.showInitialLeaderCards(clientHandler);
                         return true;
                 case LEADER_CARDS_CHOSEN:
                         if(!controller.leaderCardsChosen(clientHandler,params)) {
