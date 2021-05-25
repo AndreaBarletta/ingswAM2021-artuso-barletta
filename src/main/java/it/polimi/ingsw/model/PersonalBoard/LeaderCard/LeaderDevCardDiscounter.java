@@ -25,9 +25,6 @@ public class LeaderDevCardDiscounter extends LeaderCard {
     }
     public void effectOnDiscard(PersonalBoard personalBoard){}
     public String toString(){
-        return "Id: "+id+"\nType:Discounter\nDiscounts: "+discounts+"\nVictory points: "+victoryPoints+
-                "\nRequirements: "+(cardRequirements!=null?cardRequirements:"")+
-                (levelRequirements!=null?levelRequirements:"")+
-                (resourceRequirements!=null?resourceRequirements:"");
+        return super.toString()+"\nType:Discounter\nDiscounts: "+discounts;
     }
 }

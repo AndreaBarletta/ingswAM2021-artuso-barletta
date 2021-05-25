@@ -26,10 +26,7 @@ public class LeaderProduction extends LeaderCard{
         personalBoard.removeLeaderProduction(production);
     }
     public String toString(){
-        return "Id: "+id+"\nType:Producer\nIngredients: "+production.getIngredients()+
-                "\nProducts: "+production.getProducts()+"\nVictory points: "+victoryPoints+
-                "\nRequirements: "+(cardRequirements!=null?cardRequirements:"")+
-                (levelRequirements!=null?levelRequirements:"")+
-                (resourceRequirements!=null?resourceRequirements:"");
+        return super.toString()+"\nType:Producer\nIngredients: "+production.getIngredients()+
+                "\nProducts: "+production.getProducts();
     }
 }
