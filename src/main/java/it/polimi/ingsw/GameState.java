@@ -10,7 +10,7 @@ public enum GameState{
     INITIAL_RESOURCES_ASKED,INITIAL_RESOURCES_CHOSEN,
     WAITING_FOR_YOUR_TURN,
     LEADER_ACTION_ASKED,
-    LEADER_ACTION_ACTIVATED,LEADER_ACTION_DISCARDED,
+    LEADER_ACTION_ACTIVATED,LEADER_ACTION_DISCARDED,LEADER_ACTION_SKIPPED,
     TURN_ACTION_ASKED,
     PRODUCTIONS_ACTIVATED,DEV_CARD_BOUGHT,MARKET_VISITED;
 
@@ -83,6 +83,10 @@ public enum GameState{
                 if(input.equals("ASK_LEADER_ACTION")||input.equals("ASK_TURN_ACTION")||input.equals("WAIT_FOR_YOUR_TURN"))
                     return true;
                 break;
+            case LEADER_ACTION_SKIPPED:
+                if(input.equals("ASK_TURN_ACTION")||input.equals("WAIT_FOR_YOUR_TURN"))
+                    return true;
+                break;
             case TURN_ACTION_ASKED:
                 if(input.equals("ACTIVATE_PRODUCTIONS")||input.equals("BUY_DEV_CARD")||input.equals("VISIT_MARKET"))
                     return true;
@@ -142,12 +146,16 @@ public enum GameState{
             case LEADER_ACTION_ASKED:
                 if(input.equals("LEADER_ACTION_ACTIVATE"))          return LEADER_ACTION_ACTIVATED;
                 if(input.equals("LEADER_ACTION_DISCARD"))           return LEADER_ACTION_DISCARDED;
+                if(input.equals("LEADER_ACTION_SKIP"))              return LEADER_ACTION_SKIPPED;
             case LEADER_ACTION_ACTIVATED:
                 if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
                 if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
                 if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
             case LEADER_ACTION_DISCARDED:
                 if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
+                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
+                if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
+            case LEADER_ACTION_SKIPPED:
                 if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
                 if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
             case TURN_ACTION_ASKED:
