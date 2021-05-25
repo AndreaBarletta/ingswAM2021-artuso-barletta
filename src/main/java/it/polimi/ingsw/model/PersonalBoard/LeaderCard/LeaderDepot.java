@@ -27,9 +27,6 @@ public class LeaderDepot extends LeaderCard {
         personalBoard.removeLeaderDepot(depot);
     }
     public String toString(){
-        return "Id: "+id+"\nType:Depot\nStores: "+depot.getDepotResources()+"\nVictory points: "+victoryPoints+
-                "\nRequirements: "+(cardRequirements!=null?cardRequirements:"")+
-                (levelRequirements!=null?levelRequirements:"")+
-                (resourceRequirements!=null?resourceRequirements:"");
+        return super.toString()+"Type:Depot\nStores: "+depot.getDepotResources();
     }
 }

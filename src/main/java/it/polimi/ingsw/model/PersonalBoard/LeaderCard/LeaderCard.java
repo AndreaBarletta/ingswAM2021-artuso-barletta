@@ -52,7 +52,6 @@ public abstract class LeaderCard {
     public abstract void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources);
     public abstract void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard);
     public abstract void effectOnDiscard(PersonalBoard personalBoard);
-    public abstract String toString();
 
     /**
      * Checks if a leader card can be bought
@@ -100,5 +99,13 @@ public abstract class LeaderCard {
         }
 
         return true;
+    }
+
+    public String toString(){
+        return "Id: "+id+"\tVictory points: "+victoryPoints+"\n"+
+                "Requirements: \n"+
+                    "\tCard requirements: "+(cardRequirements!=null?cardRequirements:"none")+"\n"+
+                    "\tCard requirements: "+(levelRequirements!=null?levelRequirements:"none")+"\n"+
+                    "\tCard requirements: "+(resourceRequirements!=null?resourceRequirements:"none");
     }
 }
