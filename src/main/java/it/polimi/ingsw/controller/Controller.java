@@ -134,8 +134,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     }
 
     /**
-     * Inform the other player who has recieved the inkwell
-     * @param playerName name of the player that recieved the inkwell
+     * Inform the other player who has received the inkwell
+     * @param playerName name of the player that received the inkwell
      */
     public void inkwellGiven(String playerName){
         game.giveInkwell();
@@ -281,7 +281,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         return true;
     }
 
-    public boolean activateLeadercard(ClientHandler clientHandler, String id){
+    public boolean activateLeaderCard(ClientHandler clientHandler, String id){
         return game.activateLeaderCards(clientHandler.getPlayerName(),id);
     }
 

@@ -93,7 +93,7 @@ public class GameStateAutomaton {
                     return true;
                 case LEADER_ACTION_ACTIVATED:
                     controller.broadcast(new Message(MessageType.LEADER_ACTION_ACTIVATE,new String[]{clientHandler.getPlayerName()}));
-                    if(!controller.activateLeadercard(clientHandler,params[0])){
+                    if(!controller.activateLeaderCard(clientHandler,params[0])){
                         errorMessage="Cannot activate leader card";
                         state=GameState.LEADER_ACTION_ASKED;
                         return false;
