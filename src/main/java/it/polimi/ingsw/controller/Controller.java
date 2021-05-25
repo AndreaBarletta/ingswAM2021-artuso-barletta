@@ -281,7 +281,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         return true;
     }
 
-    public boolean activateLeadercard(ClientHandler clientHandler, String id){
+    public boolean activateLeaderCard(ClientHandler clientHandler, String id){
         return game.activateLeaderCards(clientHandler.getPlayerName(),id);
     }
 
