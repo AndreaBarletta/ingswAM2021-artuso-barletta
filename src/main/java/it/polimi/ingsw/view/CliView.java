@@ -67,9 +67,7 @@ public class CliView{
             commandParser.addCommand("initialresource",1,MessageType.CHOOSE_INITIAL_RESOURCES);
             commandParser.addCommand("leaderskip",0,MessageType.LEADER_ACTION_SKIP);
             commandParser.addCommand("leaderactivate",1,MessageType.LEADER_ACTION_ACTIVATE);
-            commandParser.addCommand("leaderactivate",2,MessageType.LEADER_ACTION_ACTIVATE);
             commandParser.addCommand("leaderdiscard",1,MessageType.LEADER_ACTION_DISCARD);
-            commandParser.addCommand("leaderdiscard",2,MessageType.LEADER_ACTION_DISCARD);
             commandParser.addCommand("visitmarket",0,MessageType.VISIT_MARKET);
             commandParser.addCommand("buydevcard",0,MessageType.BUY_DEV_CARDS);
             commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
@@ -78,7 +76,7 @@ public class CliView{
             return;
         }
 
-        System.out.println("Welcome to Masters of Renaissance");
+        System.out.println(Colors.YELLOW.escape()+"Welcome to Masters of Renaissance"+Colors.RESET);
         System.out.println("Insert your player name");
         System.out.print("(playername {name}): ");
 
@@ -180,7 +178,7 @@ public class CliView{
                         for(String s: message.params){
                             System.out.println(leaderCardDeck[Integer.parseInt(s)].toString());
                         }
-                        System.out.print("(leaderskip/leaderactivate/leaderdiscard {id1} {id2}): ");
+                        System.out.print("(leaderskip/leaderactivate {id}/leaderdiscard {id}): ");
                         break;
                     case LEADER_ACTION_ACTIVATE:
                         System.out.println("Player "+message.params[0]+" has activated "+message.params[1]);
