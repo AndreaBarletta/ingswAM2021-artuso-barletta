@@ -99,14 +99,19 @@ public class GameStateAutomaton {
                     return true;
                 case LEADER_ACTION_SKIPPED:
                     controller.broadcast(new Message(MessageType.LEADER_ACTION_SKIP,new String[]{clientHandler.getPlayerName()}));
+                    evolve("ASK_TURN_ACTION",null);
                     return true;
                 case TURN_ACTION_ASKED:
+                    clientHandler.send(new Message(MessageType.ASK_TURN_ACTION,null));
                     return true;
                 case PRODUCTIONS_ACTIVATED:
+                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"ACTIVATE PRODUCTIONS"}));
                     return true;
                 case DEV_CARD_BOUGHT:
+                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"BUY DEV CARDS"}));
                     return true;
                 case MARKET_VISITED:
+                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"VISIT MARKET"}));
                     return true;
             }
             errorMessage="Unknown state";

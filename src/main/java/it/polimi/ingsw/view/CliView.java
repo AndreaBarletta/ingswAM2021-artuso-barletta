@@ -70,6 +70,9 @@ public class CliView{
             commandParser.addCommand("leaderactivate",2,MessageType.LEADER_ACTION_ACTIVATE);
             commandParser.addCommand("leaderdiscard",1,MessageType.LEADER_ACTION_DISCARD);
             commandParser.addCommand("leaderdiscard",2,MessageType.LEADER_ACTION_DISCARD);
+            commandParser.addCommand("visitmarket",0,MessageType.VISIT_MARKET);
+            commandParser.addCommand("buydevcard",0,MessageType.BUY_DEV_CARDS);
+            commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;
@@ -187,6 +190,9 @@ public class CliView{
                         break;
                     case LEADER_ACTION_SKIP:
                         System.out.println("Player "+message.params[0]+" has skipped the leader action");
+                        break;
+                    case ASK_TURN_ACTION:
+                        System.out.print("Choose a turn action {visitmarket/activateproduction/buydevcard}:");
                         break;
                     case DISCONNECTED:
                         System.out.println("Player "+message.params[0]+" has disconnected");
