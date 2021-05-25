@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class LeaderCard {
-    protected boolean isPlayed;
+    protected boolean isActive;
     protected int victoryPoints;
     protected Map<CardType, Integer> levelRequirements;
     protected Map<CardType, Integer> cardRequirements;
@@ -19,35 +19,26 @@ public abstract class LeaderCard {
 
     public LeaderCard(int victoryPoints,Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements,Map<ResType, Integer> resourceRequirements){
         this.victoryPoints=victoryPoints;
-        isPlayed=false;
+        isActive=false;
         this.levelRequirements=levelRequirements;
         this.cardRequirements=cardRequirements;
         this.resourceRequirements=resourceRequirements;
     }
 
-    /**
-     *
-     * @return Victory points of the leader card
-     */
     public int getVictoryPoints() {
         return victoryPoints;
     }
 
-    /**
-     *
-     * @return The id of the card
-     */
     public int getId(){
         return id;
     }
-    /**
-     *
-     * @return Whether or not the card has already been played
-     */
-    public boolean isPlayed() {
-        return isPlayed;
+
+    public boolean isActive() {
+        return isActive;
     }
 
+    public void activate(){ isActive=true;
+    }
     public abstract void effectOnActivate(PersonalBoard personalBoard);
     public abstract void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources);
     public abstract void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard);
