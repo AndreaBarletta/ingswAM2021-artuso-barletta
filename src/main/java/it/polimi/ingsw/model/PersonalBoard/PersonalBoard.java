@@ -45,6 +45,9 @@ public class PersonalBoard implements ControllerEventListener {
         //Create components
         eventListeners=new ArrayList<>();
         developmentCardSlots=new DevelopmentCardSlot[3];
+        for(int i=0;i<3;i++){
+            developmentCardSlots[i]=new DevelopmentCardSlot();
+        }
         baseProduction=new Production();
         leaderCards=new ArrayList<>();
         leaderDepots=new ArrayList<>();
@@ -54,6 +57,8 @@ public class PersonalBoard implements ControllerEventListener {
         for(int i=0;i<3;i++){
             depots.add(new Depot(i+1));
         }
+        //Create strongbox
+        strongbox=new Strongbox();
         Map<ResType,Integer> baseIngredients=new HashMap<>();
         baseIngredients.put(ResType.ANY,2);
         Map<ResType,Integer> baseProducts=new HashMap<>();
