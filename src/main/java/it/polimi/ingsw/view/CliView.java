@@ -65,7 +65,8 @@ public class CliView{
             commandParser.addCommand("numberofplayers",1,MessageType.NUMBER_OF_PLAYERS);
             commandParser.addCommand("chooseleaders",2,MessageType.CHOOSE_LEADER_CARDS);
             commandParser.addCommand("initialresource",1,MessageType.CHOOSE_INITIAL_RESOURCES);
-            commandParser.addCommand("leader",1,MessageType.CHOOSE_INITIAL_RESOURCES);
+            commandParser.addCommand("leaderskip",0,MessageType.LEADER_ACTION_SKIP);
+            commandParser.addCommand("leaderactivate",,MessageType.LEADER_ACTION_ACTIVATE;
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;

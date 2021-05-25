@@ -121,7 +121,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     }
 
     public synchronized void showLeaderCards(ClientHandler clientHandler) {
-        String[] ids=game.getInitialLeaderCards(clientHandlers.indexOf(clientHandler));
+        String[] ids=game.getLeaderCards(clientHandler.getPlayerName());
         clientHandler.send(new Message(MessageType.ASK_LEADER_ACTION,ids));
     }
 

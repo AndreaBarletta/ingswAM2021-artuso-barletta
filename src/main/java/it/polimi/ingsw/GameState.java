@@ -63,6 +63,7 @@ public enum GameState{
             case INITIAL_RESOURCES_ASKED:
                 if(input.equals("CHOOSE_INITIAL_RESOURCES"))
                     return true;
+                break;
             case INITIAL_RESOURCES_CHOSEN:
                 if(input.equals("ASK_INITIAL_RESOURCES")||input.equals("WAIT_FOR_YOUR_TURN"))
                     return true;
