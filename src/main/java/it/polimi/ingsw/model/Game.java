@@ -235,9 +235,9 @@ public class Game implements ControllerEventListener,Runnable {
      * @return Array containing the 4 leaders cards
      */
     public String[] getInitialLeaderCards(int playerNumber){
-        LeaderCard[] leaderCardsToShow = new LeaderCard[4];
-        leaderCards.subList(playerNumber*4, (playerNumber+1)*4).toArray(leaderCardsToShow);
-        personalBoards.get(playerNumber).setInitialLeaderCards(Arrays.asList(leaderCardsToShow));
+        List<LeaderCard> leaderCardsToShow = new ArrayList<>();
+        leaderCards=leaderCards.subList(playerNumber*4, (playerNumber+1)*4);
+        personalBoards.get(playerNumber).setInitialLeaderCards(leaderCardsToShow);
         List<String> ids=new ArrayList<>();
 
         for(LeaderCard l:leaderCardsToShow){
