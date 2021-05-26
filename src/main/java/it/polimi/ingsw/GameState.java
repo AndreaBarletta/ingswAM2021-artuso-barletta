@@ -99,7 +99,7 @@ public enum GameState{
                     return true;
                 break;
             case PRODUCTION_CHOSEN:
-                if(input.equals("CANCEL")||input.equals("ASK_PRODUCTION_TO_ACTIVE"))
+                if(input.equals("CANCEL")||input.equals("ASK_PRODUCTION_TO_ACTIVATE"))
                     return true;
                 break;
             case RESOURCE_UPDATED:
@@ -200,7 +200,7 @@ public enum GameState{
                 if(input.equals("SHOW_MARKET"))                     return MARKET_SHOWN;
             case PRODUCTIONS_ACTIVATED:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
-                if(input.equals("ASK_PRODUCTION_TO_ACTIVE"))        return PRODUCTION_CHOSEN;
+                if(input.equals("ASK_PRODUCTION_TO_ACTIVATE"))        return PRODUCTION_CHOSEN;
             case PRODUCTION_CHOSEN:
                 if(input.equals("CANCEL"))                          return PRODUCTION_CHOSEN;
                 if(input.equals("PRODUCE_RESOURCES"))               return RESOURCE_UPDATED;
