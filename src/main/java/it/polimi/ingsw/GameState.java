@@ -12,7 +12,8 @@ public enum GameState{
     LEADER_ACTION_ASKED,
     LEADER_ACTION_ACTIVATED,LEADER_ACTION_DISCARDED,LEADER_ACTION_SKIPPED,
     TURN_ACTION_ASKED,
-    PRODUCTIONS_ACTIVATED,DEV_CARD_BOUGHT,
+    PRODUCTIONS_ACTIVATED,
+    DEV_CARD_GRID_SHOWN,DEV_CARD_CHOSEN,DEV_CARD_GRID_UPDATED,
     MARKET_SHOWN, ROW_CHOSEN, COLUMN_CHOSEN, MARKET_UPDATED;
 
     public boolean canEvolve(String input){
@@ -90,19 +91,27 @@ public enum GameState{
                     return true;
                 break;
             case TURN_ACTION_ASKED:
-                if(input.equals("ACTIVATE_PRODUCTIONS")||input.equals("BUY_DEV_CARDS")||input.equals("VISIT_MARKET"))
+                if(input.equals("ACTIVATE_PRODUCTIONS")||input.equals("BUY_DEV_CARD")||input.equals("SHOW_MARKET"))
                     return true;
                 break;
             case PRODUCTIONS_ACTIVATED:
                 if(input.equals("ASK_TURN_ACTION")||input.equals("ASK_LEADER_ACTION"))
                     return true;
                 break;
-            case DEV_CARD_BOUGHT:
-                if(input.equals("ASK_TURN_ACTION")||input.equals("ASK_LEADER_ACTION"))
+            case DEV_CARD_GRID_SHOWN:
+                if(input.equals("CANCEL")||input.equals("CHOOSE_DEV_CARD"))
+                    return true;
+                break;
+            case DEV_CARD_CHOSEN:
+                if(input.equals("UPDATE_DEV_CARD_GRID")||input.equals("ASK_TURN_ACTION"))
+                    return true;
+                break;
+            case DEV_CARD_GRID_UPDATED:
+                if(input.equals("ASK_TURN_ACTION"))
                     return true;
                 break;
             case MARKET_SHOWN:
-                if(input.equals("ASK_TURN_ACTION")||input.equals("CHOOSE_ROW")||input.equals("CHOOSE_COLUMN"))
+                if(input.equals("CANCEL")||input.equals("CHOOSE_ROW")||input.equals("CHOOSE_COLUMN"))
                     return true;
                 break;
             case ROW_CHOSEN:
@@ -171,16 +180,21 @@ public enum GameState{
                 if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
             case TURN_ACTION_ASKED:
                 if(input.equals("ACTIVATE_PRODUCTIONS"))            return PRODUCTIONS_ACTIVATED;
-                if(input.equals("BUY_DEV_CARDS"))                   return DEV_CARD_BOUGHT;
-                if(input.equals("SHOW_MARKET"))                    return MARKET_SHOWN;
+                if(input.equals("BUY_DEV_CARD"))                    return DEV_CARD_GRID_SHOWN;
+                if(input.equals("SHOW_MARKET"))                     return MARKET_SHOWN;
             case PRODUCTIONS_ACTIVATED:
                 if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
                 if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
-            case DEV_CARD_BOUGHT:
+            case DEV_CARD_GRID_SHOWN:
+                if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
+                if(input.equals("UPDATE_DEV_CARD_GRID"))            return DEV_CARD_GRID_UPDATED;
+            case DEV_CARD_CHOSEN:
+                if(input.equals("UPDATE_DEV_CARD_GRID"))            return DEV_CARD_GRID_UPDATED;
                 if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
-                if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
+            case DEV_CARD_GRID_UPDATED:
+                return LEADER_ACTION_ASKED;
             case MARKET_SHOWN:
-                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
+                if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
                 if(input.equals("CHOOSE_ROW"))                      return ROW_CHOSEN;
                 if(input.equals("CHOOSE_COLUMN"))                   return COLUMN_CHOSEN;
             case ROW_CHOSEN:
