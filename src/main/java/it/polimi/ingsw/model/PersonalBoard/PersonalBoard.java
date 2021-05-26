@@ -134,6 +134,7 @@ public class PersonalBoard implements ControllerEventListener {
             resources.merge(d.getContent().getKey(),d.getContent().getValue(),Integer::sum);
         }
         strongbox.getContent().forEach((k,v)-> resources.merge(k,v,Integer::sum));
+        resources.remove(null);
         return resources;
     }
 
@@ -227,44 +228,42 @@ public class PersonalBoard implements ControllerEventListener {
     }
 
     /**
-     * Buy a card from the card grid
-     * @param cardGrid The card grid
+     * Checks if a card can be bought and placed in the player board
+     * @param devCard Development card to buy
+     * @throws ResourcesException The player doesn't have enough resources to buy the development card selected
+     * @throws LevelException The player doesn't have an high enough card in the selected slot to buy the development card selected
      */
-    public void buyCard(DevelopmentCardGrid cardGrid){
-        for(PersonalBoardEventListener p:eventListeners){
-            boolean success=false;
-            do {
-                DevelopmentCard card=p.chooseDevelopmentCard(cardGrid,playerName);
-                try{
-                    addCardToSlot(card);
-                    cardGrid.removeCard(card.getLevel(),card.getCardType());
-                    success=true;
-                }catch(LevelException e){
-                    p.error("No card of high enough level present in any on the slots");
-                }catch(ResourcesException e){
-                    p.error("Not enough resources");
-                }
-            }while(!success);
+    public void canBuyDevCard(DevelopmentCard devCard) throws ResourcesException,LevelException {
+        if(!devCard.canBeBought(getResources()))
+            throw new ResourcesException();
+
+        boolean canAdd=false;
+        for(int i=0;i<3;i++){
+            try{
+                canAddCardToSlot(devCard,i);
+                canAdd=true;
+            }catch(LevelException e){}
         }
+
+        if(!canAdd)
+            throw new LevelException();
     }
 
     /**
-     * Add a card to a development slot
-     * @param card The card to be added
-     * @throws LevelException No card of high enough level present in any on the slots
-     * @throws ResourcesException Not enough resources
+     * Checks if a given development card can be added to a slot
+     * @param card Development card to be added
+     * @param slot Slot in the playerboard whereto place the card
+     * @throws LevelException The player doesn't have an high enough card in the selected slot to buy the development card selected
      */
-    private void addCardToSlot(DevelopmentCard card) throws LevelException, ResourcesException {
-        Map<ResType,Integer> resources=getResources();
-        for (Map.Entry<ResType, Integer> entry : resources.entrySet()) {
-            if(card.getCost().get(entry.getKey())>entry.getValue()){
-                throw new ResourcesException();
+    private void canAddCardToSlot(DevelopmentCard card,int slot) throws LevelException {
+        if(developmentCardSlots[slot].getTopCard()!=null) {
+            if (developmentCardSlots[slot].getTopCard().getLevel() == card.getLevel() - 1) {
+                throw new LevelException();
             }
-        }
-
-        for(PersonalBoardEventListener p:eventListeners){
-            int i=p.chooseDevelopmentCardSlot(developmentCardSlots,card,playerName);
-            developmentCardSlots[i].addCard(card);
+        }else{
+            if (card.getLevel()!=1) {
+                throw new LevelException();
+            }
         }
     }
 

@@ -90,4 +90,17 @@ public class DevelopmentCard {
     public int getId(){
         return id;
     }
+
+    public boolean canBeBought(Map<ResType,Integer> resources){
+        for(Map.Entry<ResType,Integer> me:cost.entrySet()){
+            if(resources.containsKey(me.getKey())){
+                if(resources.get(me.getKey())<me.getValue()){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
 }
