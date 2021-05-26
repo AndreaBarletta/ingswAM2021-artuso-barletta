@@ -17,6 +17,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,6 +32,7 @@ public class CliView{
     static private Market market;
     static private String playerName;
     static private CommandParser commandParser=new CommandParser();
+    static private LightPersonalBoard lightPersonalBoard;
 
     public static void main(String[] args){
         if(!loadLeaderCardsFromFile("src/main/resources/leaderCards.json")){
@@ -75,6 +77,7 @@ public class CliView{
             commandParser.addCommand("buydevcard",0,MessageType.BUY_DEV_CARD);
             commandParser.addCommand("choosedevcard",1,MessageType.CHOOSE_DEV_CARD);
             commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
+            commandParser.addCommand("activate",1,MessageType.CHOOSE_PRODUCTIONS);
             commandParser.addCommand("cancel",0,MessageType.CANCEL);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
@@ -198,13 +201,14 @@ public class CliView{
                         System.out.println("Player "+message.params[0]+" has skipped the leader action");
                         break;
                     case ASK_TURN_ACTION:
-                        System.out.print("Choose a turn action (visitmarket/activateproduction/buydevcard): ");
+                        System.out.print("Choose a turn action (visitmarket/activateproductions/buydevcard): ");
                         break;
                     case TURN_CHOICE:
                         System.out.println("Player "+message.params[0]+" has chosen to "+message.params[1]);
                         break;
                     case SHOW_PRODUCTIONS:
-                        //TODO light personal board
+                        //TODO productions print
+                        System.out.println("Choose which productions to activate (activate {id}) or go back (cancel): ");
                         break;
                     case UPDATE_RESOURCES:
                         //TODO
