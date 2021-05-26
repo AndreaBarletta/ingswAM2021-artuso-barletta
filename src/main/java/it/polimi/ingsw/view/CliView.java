@@ -192,13 +192,13 @@ public class CliView{
                         System.out.println("Player "+message.params[0]+" has skipped the leader action");
                         break;
                     case ASK_TURN_ACTION:
-                        System.out.print("Choose a turn action {visitmarket/activateproduction/buydevcard}:");
+                        System.out.print("Choose a turn action {visitmarket/activateproduction/buydevcard}: ");
                         break;
                     case SHOW_MARKET:
-                        System.out.println("Choose a row or a column of the market");
+                        System.out.println("Choose a row or a column of the market ");
                         market.toString();
                     case DISCONNECTED:
-                        System.out.println("Player "+message.params[0]+" has disconnected");
+                        System.out.println("Player "+message.params[0]+" has disconnected ");
                         break;
                 }
             }catch(Exception e){}
