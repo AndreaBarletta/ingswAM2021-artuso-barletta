@@ -43,6 +43,10 @@ public class DevelopmentCardSlot {
     }
 
     public DevelopmentCard getTopCard() {
-        return devCardsSlot.peek();
+        try {
+            return devCardsSlot.peek();
+        }catch(EmptyStackException e){
+            return null;
+        }
     }
 }
