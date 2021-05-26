@@ -122,6 +122,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         }
     }
 
+    public synchronized String[][] getDevCardsGridIds(){
+        return game.getDevelopmentCardsGridIds();
+    }
+
     public synchronized void showInitialLeaderCards(ClientHandler clientHandler){
         String[] ids=game.getInitialLeaderCards(clientHandlers.indexOf(clientHandler));
         clientHandler.send(new Message(MessageType.SHOW_LEADER_CARDS,ids));

@@ -75,4 +75,15 @@ public class DevelopmentCardGrid {
         }
         return size;
     }
+
+    public String[][] getTopCardsIds(){
+        String[][] topCardsIds=new String[3][4];
+        for(int i=0;i<3;i++) {
+            for (int j = 0; j < 4; j++) {
+                topCardsIds[i][j] = String.valueOf(cardGrid[i][j].getTopCard().getId());
+            }
+        }
+
+        return topCardsIds;
+    }
 }

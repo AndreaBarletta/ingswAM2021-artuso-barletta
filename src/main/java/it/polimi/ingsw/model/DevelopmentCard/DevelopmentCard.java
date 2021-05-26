@@ -86,4 +86,8 @@ public class DevelopmentCard {
 
         return devCardToString;
     }
+
+    public int getId(){
+        return id;
+    }
 }

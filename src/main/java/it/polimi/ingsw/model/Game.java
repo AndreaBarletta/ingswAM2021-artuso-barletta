@@ -215,6 +215,10 @@ public class Game implements ControllerEventListener,Runnable {
         return personalBoards.size();
     }
 
+    public String[][] getDevelopmentCardsGridIds(){
+        return developmentCardGrid.getTopCardsIds();
+    }
+
     public DevelopmentCardGrid getDevelopmentCardGrid(){
         return developmentCardGrid;
     }
