@@ -184,10 +184,10 @@ public class CliView{
                         System.out.print("(leaderskip/leaderactivate {id}/leaderdiscard {id}): ");
                         break;
                     case LEADER_ACTION_ACTIVATE:
-                        System.out.println("Player "+message.params[0]+" has activated "+message.params[1]);
+                        System.out.println("Player "+message.params[0]+" has activated leader card "+message.params[1]);
                         break;
                     case LEADER_ACTION_DISCARD:
-                        System.out.println("Player "+message.params[0]+" has skipped the leader action "+message.params[1]);
+                        System.out.println("Player "+message.params[0]+" has discarded leader card "+message.params[1]);
                         break;
                     case LEADER_ACTION_SKIP:
                         System.out.println("Player "+message.params[0]+" has skipped the leader action");

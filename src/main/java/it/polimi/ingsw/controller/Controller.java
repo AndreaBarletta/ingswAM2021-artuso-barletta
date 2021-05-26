@@ -284,6 +284,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.activateLeaderCards(clientHandler.getPlayerName(),id);
     }
 
+    public void discardLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException {
+        game.discardLeaderCards(clientHandler.getPlayerName(), id);
+    }
+
     /**
      * Show the player the market
      * @param market The resource market to be shown
