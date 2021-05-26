@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.CardTypeException;
@@ -63,6 +64,8 @@ public class GameStateAutomaton {
                     return true;
                 case GAME_STARTED:
                     clientHandler.send(new Message(MessageType.GAME_STARTED,null));
+                    Gson gson=new Gson();
+                    clientHandler.send(new Message(MessageType.SET_DEV_CARD_GRID,new String[]{gson.toJson(controller.getDevCardsGridIds())}));
                     evolve("SHOW_LEADER_CARDS",null);
                     return true;
                 case LEADER_CARDS_SHOWN:
@@ -141,6 +144,7 @@ public class GameStateAutomaton {
                     return true;
                 case DEV_CARD_GRID_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"buy development card"}));
+                    clientHandler.send(new Message(MessageType.SHOW_DEV_CARD_GRID,null));
                     return true;
                 case MARKET_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE, null));
