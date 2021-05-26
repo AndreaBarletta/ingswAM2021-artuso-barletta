@@ -210,9 +210,12 @@ public class CliView{
                         }
                         System.out.print("Choose a development card to buy (choosedevcard {id}): ");
                         break;
-                    /*case SHOW_MARKET:
-                        System.out.println("Choose a row or a column of the market ");
-                        market.toString();*/
+                    case UPDATE_DEV_CARD_GRID:
+                        developmentCardGrid[Integer.parseInt(message.params[0])][Integer.parseInt(message.params[1])]=Integer.parseInt(message.params[2]);
+                        break;
+                    case ASK_DEV_CARD_SLOT:
+                        System.out.print("Choose a development card to buy (choosedevcard {id})");
+                        break;
                     case DISCONNECTED:
                         System.out.println("Player "+message.params[0]+" has disconnected ");
                         break;
@@ -256,7 +259,7 @@ public class CliView{
     /**
      * Loads the leader cards from a json file
      * @param path Path of the json file containing the list of the development cards
-     * @return Whetehr or not the development cards were loaded successfully
+     * @return Whether or not the development cards were loaded successfully
      */
     public static boolean loadDevelopmentCardsFromFile(String path){
         String content;
