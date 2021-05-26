@@ -96,7 +96,6 @@ public class GameStateAutomaton {
                     controller.showLeaderCards(clientHandler);
                     return true;
                 case LEADER_ACTION_ACTIVATED:
-                    controller.broadcast(new Message(MessageType.LEADER_ACTION_ACTIVATE,new String[]{clientHandler.getPlayerName()}));
                     try {
                         controller.activateLeaderCard(clientHandler,params[0]);
                     } catch (CardNotFoundException e) {
@@ -116,6 +115,7 @@ public class GameStateAutomaton {
                         state = GameState.LEADER_ACTION_ASKED;
                         return false;
                     }
+                    controller.broadcast(new Message(MessageType.LEADER_ACTION_ACTIVATE,new String[]{clientHandler.getPlayerName(),params[0]}));
                     return true;
                 case LEADER_ACTION_DISCARDED:
                     controller.broadcast(new Message(MessageType.LEADER_ACTION_DISCARD,new String[]{clientHandler.getPlayerName()}));

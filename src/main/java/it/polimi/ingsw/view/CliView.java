@@ -202,7 +202,9 @@ public class CliView{
                         System.out.println("Player "+message.params[0]+" has disconnected ");
                         break;
                 }
-            }catch(Exception e){}
+            }catch(Exception e){
+                System.out.println("Exception while recieving message from server");
+            }
         }
     }
 
