@@ -75,6 +75,7 @@ public class CliView{
             commandParser.addCommand("buydevcard",0,MessageType.BUY_DEV_CARD);
             commandParser.addCommand("choosedevcard",1,MessageType.CHOOSE_DEV_CARD);
             commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
+            commandParser.addCommand("cancel",0,MessageType.CANCEL);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;
@@ -214,7 +215,7 @@ public class CliView{
                                 System.out.println(developmentCardDeck[id]);
                             }
                         }
-                        System.out.print("Choose a development card to buy (choosedevcard {id}): ");
+                        System.out.print("Choose a development card to buy (choosedevcard {id}) or go back (cancel): ");
                         break;
                     case UPDATE_DEV_CARD_GRID:
                         developmentCardGrid[Integer.parseInt(message.params[0])][Integer.parseInt(message.params[1])]=Integer.parseInt(message.params[2]);
