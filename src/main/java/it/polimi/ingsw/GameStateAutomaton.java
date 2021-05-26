@@ -116,9 +116,18 @@ public class GameStateAutomaton {
                         return false;
                     }
                     controller.broadcast(new Message(MessageType.LEADER_ACTION_ACTIVATE,new String[]{clientHandler.getPlayerName(),params[0]}));
+                    evolve("ASK_TURN_ACTION",null);
                     return true;
                 case LEADER_ACTION_DISCARDED:
-                    controller.broadcast(new Message(MessageType.LEADER_ACTION_DISCARD,new String[]{clientHandler.getPlayerName()}));
+                    try {
+                        controller.discardLeaderCard(clientHandler,params[0]);
+                    } catch (CardNotFoundException e) {
+                        errorMessage="Card not found";
+                        state=GameState.LEADER_ACTION_ASKED;
+                        return false;
+                    }
+                    controller.broadcast(new Message(MessageType.LEADER_ACTION_DISCARD,new String[]{clientHandler.getPlayerName(),params[0]}));
+                    evolve("ASK_TURN_ACTION",null);
                     return true;
                 case LEADER_ACTION_SKIPPED:
                     controller.broadcast(new Message(MessageType.LEADER_ACTION_SKIP,new String[]{clientHandler.getPlayerName()}));

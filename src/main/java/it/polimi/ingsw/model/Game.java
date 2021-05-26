@@ -304,6 +304,20 @@ public class Game implements ControllerEventListener,Runnable {
         }
     }
 
+    public void discardLeaderCards(String playername, String leaderCardId) throws CardNotFoundException {
+        PersonalBoard player=null;
+        for(PersonalBoard p:personalBoards){
+            if(p.getPlayerName().equals(playername)){
+                player=p;
+                break;
+            }
+        }
+
+        if(player!=null) {
+            player.discardLeaderCard(Integer.parseInt(leaderCardId));
+        }
+    }
+
     public int getMaximumPlayers(){
         return maximumPlayers;
     }
