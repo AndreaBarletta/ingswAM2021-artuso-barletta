@@ -299,8 +299,9 @@ public class Game implements ControllerEventListener,Runnable {
             }
         }
 
-        player.activateLeaderCard(Integer.parseInt(leaderCardId));
-
+        if(player!=null){
+            player.activateLeaderCard(Integer.parseInt(leaderCardId));
+        }
     }
 
     public int getMaximumPlayers(){
