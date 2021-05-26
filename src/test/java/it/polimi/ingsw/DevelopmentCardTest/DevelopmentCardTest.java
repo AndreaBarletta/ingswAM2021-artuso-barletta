@@ -29,4 +29,22 @@ public class DevelopmentCardTest {
         assertEquals(cost,developmentCard.getCost());
         assertEquals(ingredients,developmentCard.getProduction().getIngredients());
     }
+
+    @Test
+    public void canBuy(){
+        Map<ResType,Integer> cost=new HashMap<>();
+        cost.put(ResType.COIN,1);
+        cost.put(ResType.SERVANT,2);
+        DevelopmentCard developmentCard=new DevelopmentCard(1,cost,10, CardType.GREEN,null);
+
+        Map<ResType,Integer> resources=new HashMap<>();
+        resources.put(ResType.COIN,1);
+        resources.put(ResType.SERVANT,1);
+
+        assertFalse(developmentCard.canBeBought(resources));
+        resources.put(ResType.COIN,2);
+        assertFalse(developmentCard.canBeBought(resources));
+        resources.put(ResType.SERVANT,2);
+        assertTrue(developmentCard.canBeBought(resources));
+    }
 }
