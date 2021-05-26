@@ -3,6 +3,9 @@ package it.polimi.ingsw.PersonalBoardTest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.exceptions.CardTypeException;
+import it.polimi.ingsw.exceptions.LevelException;
+import it.polimi.ingsw.exceptions.ResourcesException;
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
@@ -33,24 +36,24 @@ public class LeaderCardTest {
         }*/
         resources.put(ResType.SHIELD,4);
         resources.put(ResType.STONE,10);
-        assertThrows(leaderCards[5].canActivate(resources,devCards));
+        assertThrows(ResourcesException.class,()->leaderCards[5].canActivate(resources,devCards));
         resources.put(ResType.SHIELD,5);
-        assertTrue(leaderCards[5].canActivate(resources,devCards));
+        assertDoesNotThrow(()->leaderCards[5].canActivate(resources,devCards));
         /*"cardRequirements":{
             "PURPLE":2,
             "GREEN":1
         }*/
-        assertFalse(leaderCards[3].canActivate(resources,devCards));
+        assertThrows(CardTypeException.class,()->leaderCards[3].canActivate(resources,devCards));
         devCards.add(developmentCards[13]);
         devCards.add(developmentCards[12]);
         devCards.add(developmentCards[3]);
-        assertTrue(leaderCards[3].canActivate(resources,devCards));
+        assertDoesNotThrow(()->leaderCards[3].canActivate(resources,devCards));
         /*"levelRequirements":{
             "PURPLE":2
         }*/
-        assertFalse(leaderCards[10].canActivate(resources,devCards));
+        assertThrows(LevelException.class,()->leaderCards[10].canActivate(resources,devCards));
         devCards.add(developmentCards[29]);
-        assertTrue(leaderCards[10].canActivate(resources,devCards));
+        assertDoesNotThrow(()->leaderCards[10].canActivate(resources,devCards));
     }
 
     private LeaderCard[] loadLeaderCardsFromFile(String path){
