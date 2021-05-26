@@ -141,6 +141,13 @@ public class GameStateAutomaton {
                     return true;
                 case PRODUCTIONS_ACTIVATED:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"activate productions"}));
+                    //TODO clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,null));
+                    return true;
+                case PRODUCTION_CHOSEN:
+                    //TODO
+                    return true;
+                case RESOURCE_UPDATED:
+                    //TODO
                     return true;
                 case DEV_CARD_GRID_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"buy development card"}));

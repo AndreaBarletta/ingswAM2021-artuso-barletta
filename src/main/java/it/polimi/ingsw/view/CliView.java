@@ -202,6 +202,12 @@ public class CliView{
                     case TURN_CHOICE:
                         System.out.println("Player "+message.params[0]+" has chosen to "+message.params[1]);
                         break;
+                    case SHOW_PRODUCTIONS:
+                        //TODO light personal board
+                        break;
+                    case UPDATE_RESOURCES:
+                        //TODO
+                        break;
                     case SHOW_DEV_CARD_GRID:
                         for(int[] row:developmentCardGrid){
                             for(int id:row){
