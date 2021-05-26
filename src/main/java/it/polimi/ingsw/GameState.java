@@ -111,7 +111,7 @@ public enum GameState{
                     return true;
                 break;
             case DEV_CARD_CHOSEN:
-                if(input.equals("UPDATE_DEV_CARD_GRID")||input.equals("ASK_TURN_ACTION"))
+                if(input.equals("UPDATE_DEV_CARD_GRID")||input.equals("SHOW_DEV_CARD_GRID"))
                     return true;
                 break;
             case DEV_CARD_GRID_UPDATED:
@@ -208,10 +208,10 @@ public enum GameState{
                 return LEADER_ACTION_ASKED;
             case DEV_CARD_GRID_SHOWN:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
-                if(input.equals("CHOOSE_DEV_CARD"))            return DEV_CARD_CHOSEN;
+                if(input.equals("CHOOSE_DEV_CARD"))                 return DEV_CARD_CHOSEN;
             case DEV_CARD_CHOSEN:
                 if(input.equals("UPDATE_DEV_CARD_GRID"))            return DEV_CARD_GRID_UPDATED;
-                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
+                if(input.equals("SHOW_DEV_CARD_GRID"))              return DEV_CARD_GRID_SHOWN;
             case DEV_CARD_GRID_UPDATED:
                 return DEV_CARD_SLOT_ASKED;
             case DEV_CARD_SLOT_ASKED:
