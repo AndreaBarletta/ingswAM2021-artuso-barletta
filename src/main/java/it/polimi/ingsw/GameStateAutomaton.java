@@ -146,6 +146,7 @@ public class GameStateAutomaton {
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"buy development card"}));
                     clientHandler.send(new Message(MessageType.SHOW_DEV_CARD_GRID,null));
                     return true;
+                case DEV_CARD_CHOSEN:
                 case MARKET_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE, null));
                     return true;
