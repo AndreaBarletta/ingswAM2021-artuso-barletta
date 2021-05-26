@@ -128,13 +128,13 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.ASK_TURN_ACTION,null));
                     return true;
                 case PRODUCTIONS_ACTIVATED:
-                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"ACTIVATE PRODUCTIONS"}));
+                    controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"activate productions"}));
                     return true;
-                case DEV_CARD_BOUGHT:
-                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"BUY DEV CARDS"}));
+                case DEV_CARD_GRID_SHOWN:
+                    controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"buy development card"}));
                     return true;
                 case MARKET_SHOWN:
-                    clientHandler.send(new Message(MessageType.SHOW_MARKET, null));
+                    controller.broadcast(new Message(MessageType.TURN_CHOICE, null));
                     return true;
                 case ROW_CHOSEN:
                 case COLUMN_CHOSEN:
