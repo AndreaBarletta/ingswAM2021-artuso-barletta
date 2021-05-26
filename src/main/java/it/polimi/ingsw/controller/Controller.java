@@ -244,44 +244,11 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     }
 
     /**
-     * Ask the player to choose a development card from the grid
-     * @param cardGrid The card grid
-     * @param playerName The name of the player
-     * @return The card selected
-     */
-    public DevelopmentCard chooseDevelopmentCard(DevelopmentCardGrid cardGrid, String playerName){
-        System.out.println("Ask player "+playerName+" which card to buy");
-        return cardGrid.getTopCard(1,CardType.GREEN);
-    }
-
-    public int chooseDevelopmentCardSlot(DevelopmentCardSlot[] developmentCardSlots, DevelopmentCard card, String playerName){
-        System.out.println("Ask player "+playerName+" where to put the card");
-        return 0;
-    }
-
-    /**
-     * Sends an error message to the player
-     * @param error Error message
-     */
-    public void error(String error){
-        System.out.println(error);
-    }
-
-    /**
      * Tell the other players who won the game
      * @param playerName Name of the player who won the game
      */
     public void announceWinner(String playerName){
         System.out.println("Player "+playerName+" has won the game");
-    }
-
-    /**
-     * Ask the player if the want to play a leader action
-     * @return Whether or not the player wants to play a leader action
-     */
-    public boolean askForLeaderAction(String playerName){
-        System.out.println("Ask player "+playerName+" if they want to play a leader action");
-        return true;
     }
 
     public void activateLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException {
@@ -292,37 +259,4 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.discardLeaderCards(clientHandler.getPlayerName(), id);
     }
 
-    /**
-     * Show the player the market
-     * @param market The resource market to be shown
-     */
-    public void showMarket(Market market,String playerName){
-        System.out.println("Show player "+playerName+" the market");
-    }
-
-    /**
-     * Ask player which column or row they want to acquire resources from
-     * @return Key indicates if the player wants to acquire from a row, value the row / column index
-     */
-    public  AbstractMap.SimpleEntry<Boolean,Integer> askMarketRowColumn(String playerName){
-        System.out.println("Ask player "+playerName+" which column/row to acquire");
-        return new AbstractMap.SimpleEntry<>(true,1);
-    }
-
-    /**
-     * Tell player which resources could not be added
-     * @param resources Resources that were tried to be added
-     * @param playerName Name of the player
-     */
-    public void notEnoughDepotSpace(ResType[] resources, String playerName){
-        System.out.println("Player "+playerName+" could not add resources");
-        for(ControllerEventListener c:eventListeners){
-
-        }
-    }
-
-    public List<Production> chooseProductions(List<Production> productions, String playerName){
-        System.out.println("Ask player "+playerName+" what productions to activate");
-        return productions.subList(0,1);
-    }
 }

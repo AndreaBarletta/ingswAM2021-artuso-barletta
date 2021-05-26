@@ -175,7 +175,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @return Whether or not the production was successful
      */
     public boolean activateProduction(){
-        for(PersonalBoardEventListener p:eventListeners){
+        /*for(PersonalBoardEventListener p:eventListeners){
             //Create a list of all the productions
             List<Production> productions=new ArrayList<>();
             for(Production lp:leaderProductions){
@@ -193,7 +193,7 @@ public class PersonalBoard implements ControllerEventListener {
             }else{
                 return false;
             }
-        }
+        }*/
         return true;
     }
 
@@ -263,40 +263,6 @@ public class PersonalBoard implements ControllerEventListener {
         }else{
             if (card.getLevel()!=1) {
                 throw new LevelException();
-            }
-        }
-    }
-
-    private void visitMarket(){
-        for(PersonalBoardEventListener p:eventListeners){
-            p.showMarket(market,playerName);
-            AbstractMap.SimpleEntry<Boolean,Integer> params;
-            params=p.askMarketRowColumn(playerName);
-            if(params.getKey()){
-                //Acquire from row
-                acquireResources(market.acquireRow(params.getValue()));
-            }else{
-                //Acquire from
-                acquireResources(market.acquireColumn(params.getValue()));
-            }
-        }
-    }
-
-    /**
-     * Add resources acquired from the market to the storage
-     * @param newResources Resources to be added
-     */
-    private void acquireResources(ResType[] newResources){
-        for(LeaderCard l:leaderCards){
-            l.effectOnMarketBuy(this,newResources);
-        }
-
-        //Try adding resource to the depots
-        try{
-            addResourcesToDepot(newResources);
-        }catch(DepotSpaceException e) {
-            for(PersonalBoardEventListener p:eventListeners){
-                p.notEnoughDepotSpace(newResources,playerName);
             }
         }
     }
