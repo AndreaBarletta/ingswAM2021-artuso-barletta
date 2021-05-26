@@ -27,6 +27,7 @@ public class CliView{
     static private BufferedReader in;
     static private LeaderCard[] leaderCardDeck;
     static private DevelopmentCard[] developmentCardDeck;
+    static private int[][] developmentCardGrid;
     static private Market market;
     static private String playerName;
     static private CommandParser commandParser=new CommandParser();
@@ -72,6 +73,7 @@ public class CliView{
             commandParser.addCommand("leaderdiscard",1,MessageType.LEADER_ACTION_DISCARD);
             commandParser.addCommand("visitmarket",0,MessageType.VISIT_MARKET);
             commandParser.addCommand("buydevcard",0,MessageType.BUY_DEV_CARD);
+            commandParser.addCommand("choosedevcard",1,MessageType.CHOOSE_DEV_CARD);
             commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
@@ -144,6 +146,9 @@ public class CliView{
                     case GAME_STARTED:
                         System.out.println("Game has started");
                         break;
+                    case SET_DEV_CARD_GRID:
+                        developmentCardGrid=gson.fromJson(message.params[0],int[][].class);
+                        break;
                     case SHOW_LEADER_CARDS:
                         System.out.println("Pick 2 between the following leader cards: ");
                         for(String s: message.params){
@@ -179,7 +184,6 @@ public class CliView{
                         System.out.println("What leader action do you want to play?");
                         for(String s: message.params){
                             System.out.println(leaderCardDeck[Integer.parseInt(s)].toString());
-                            System.out.print("\n");
                         }
                         System.out.print("(leaderskip/leaderactivate {id}/leaderdiscard {id}): ");
                         break;
@@ -193,17 +197,29 @@ public class CliView{
                         System.out.println("Player "+message.params[0]+" has skipped the leader action");
                         break;
                     case ASK_TURN_ACTION:
-                        System.out.print("Choose a turn action {visitmarket/activateproduction/buydevcard}: ");
+                        System.out.print("Choose a turn action (visitmarket/activateproduction/buydevcard): ");
                         break;
-                    case SHOW_MARKET:
+                    case TURN_CHOICE:
+                        System.out.println("Player "+message.params[0]+" has chosen to "+message.params[1]);
+                        break;
+                    case SHOW_DEV_CARD_GRID:
+                        for(int[] row:developmentCardGrid){
+                            for(int id:row){
+                                System.out.println(developmentCardDeck[id]);
+                            }
+                        }
+                        System.out.print("Choose a development card to buy (choosedevcard {id}): ");
+                        break;
+                    /*case SHOW_MARKET:
                         System.out.println("Choose a row or a column of the market ");
-                        market.toString();
+                        market.toString();*/
                     case DISCONNECTED:
                         System.out.println("Player "+message.params[0]+" has disconnected ");
                         break;
                 }
             }catch(Exception e){
-                System.out.println("Exception while recieving message from server");
+                System.out.println("Exception while receiving message from server");
+                break;
             }
         }
     }
