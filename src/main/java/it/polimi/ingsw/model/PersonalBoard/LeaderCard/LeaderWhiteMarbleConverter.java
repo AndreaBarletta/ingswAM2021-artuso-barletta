@@ -27,6 +27,6 @@ public class LeaderWhiteMarbleConverter extends LeaderCard{
     public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
     public void effectOnDiscard(PersonalBoard personalBoard){}
     public String toString(){
-        return super.toString()+"\nType:Converter\nConverts into: "+convertedResource;
+        return super.toString()+"Type:Converter\nConverts into: "+convertedResource;
     }
 }

@@ -23,6 +23,6 @@ public class LeaderDevCardDiscounter extends LeaderCard {
     }
     public void effectOnDiscard(PersonalBoard personalBoard){}
     public String toString(){
-        return super.toString()+"\nType:Discounter\nDiscounts: "+discounts;
+        return super.toString()+"Type:Discounter\nDiscounts: "+discounts;
     }
 }

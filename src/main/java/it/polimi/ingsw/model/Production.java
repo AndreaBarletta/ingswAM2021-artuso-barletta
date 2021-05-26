@@ -32,4 +32,14 @@ public class Production {
     public void setProducts(Map<ResType, Integer> products) {
         this.products = products;
     }
+
+    @Override
+    public String toString(){
+        String productionToString="Ingredients: ";
+        for(Map.Entry<ResType,Integer> me:ingredients.entrySet()) productionToString+=me.getKey()+"="+me.getValue()+" ";
+        productionToString+="\n";
+        productionToString+="Products: ";
+        for(Map.Entry<ResType,Integer> me:products.entrySet()) productionToString+=me.getKey()+"="+me.getValue()+" ";
+        return productionToString;
+    }
 }

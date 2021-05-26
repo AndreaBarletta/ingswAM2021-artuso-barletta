@@ -93,10 +93,28 @@ public abstract class LeaderCard {
     }
 
     public String toString(){
-        return "Id: "+id+"\tVictory points: "+victoryPoints+"\n"+
-                "Requirements: \n"+
-                    "\tCard requirements: "+(cardRequirements!=null?cardRequirements:"none")+"\n"+
-                    "\tLevel requirements: "+(levelRequirements!=null?levelRequirements:"none")+"\n"+
-                    "\tResource requirements: "+(resourceRequirements!=null?resourceRequirements:"none");
+        String leaderToString="Id: "+id+"\tVictory points: "+victoryPoints+"\n"+"Requirements: \n";
+        if(cardRequirements!=null){
+            leaderToString+="\tCard Requirements: ";
+            for(Map.Entry<CardType,Integer> me:cardRequirements.entrySet()){
+                leaderToString+=me.getKey()+"="+me.getValue()+" ";
+            }
+            leaderToString+="\n";
+        }
+        if(levelRequirements!=null){
+            leaderToString+="\tLevel Requirements: ";
+            for(Map.Entry<CardType,Integer> me:levelRequirements.entrySet()){
+                leaderToString+=me.getKey()+"="+me.getValue()+" ";
+            }
+            leaderToString+="\n";
+        }
+        if(resourceRequirements!=null){
+            leaderToString+="\tResource Requirements: ";
+            for(Map.Entry<ResType,Integer> me:resourceRequirements.entrySet()){
+                leaderToString+=me.getKey()+"="+me.getValue()+" ";
+            }
+            leaderToString+="\n";
+        }
+        return leaderToString;
     }
 }

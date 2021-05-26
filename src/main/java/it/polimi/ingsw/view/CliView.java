@@ -179,6 +179,7 @@ public class CliView{
                         System.out.println("What leader action do you want to play?");
                         for(String s: message.params){
                             System.out.println(leaderCardDeck[Integer.parseInt(s)].toString());
+                            System.out.print("\n");
                         }
                         System.out.print("(leaderskip/leaderactivate {id}/leaderdiscard {id}): ");
                         break;

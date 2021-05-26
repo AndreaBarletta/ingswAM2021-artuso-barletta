@@ -23,7 +23,8 @@ public enum ResType {
                 return Colors.WHITE.escape()+"W"+Colors.RESET.escape();
             case ANY:
                 return Colors.BRIGHT_GREEN.escape()+"?"+Colors.RESET.escape();
+            default:
+                return "";
         }
-        return "";
     }
 }

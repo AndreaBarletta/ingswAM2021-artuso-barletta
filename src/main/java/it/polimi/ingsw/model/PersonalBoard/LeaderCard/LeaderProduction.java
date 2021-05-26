@@ -24,8 +24,5 @@ public class LeaderProduction extends LeaderCard{
     public void effectOnDiscard(PersonalBoard personalBoard){
         personalBoard.removeLeaderProduction(production);
     }
-    public String toString(){
-        return super.toString()+"\nType:Producer\nIngredients: "+production.getIngredients()+
-                "\nProducts: "+production.getProducts();
-    }
+    public String toString(){ return super.toString()+"Type:Producer\n"+production;}
 }
