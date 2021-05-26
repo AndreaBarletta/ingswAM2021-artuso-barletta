@@ -78,7 +78,7 @@ public class CliView{
             return;
         }
 
-        System.out.println(Colors.YELLOW.escape()+"Welcome to Masters of Renaissance"+Colors.RESET);
+        System.out.println(Colors.YELLOW.escape()+"Welcome to Masters of Renaissance"+Colors.RESET.escape());
         System.out.println("Insert your player name");
         System.out.print("(playername {name}): ");
 
