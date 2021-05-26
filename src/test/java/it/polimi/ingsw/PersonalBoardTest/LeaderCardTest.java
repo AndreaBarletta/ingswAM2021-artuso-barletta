@@ -33,7 +33,7 @@ public class LeaderCardTest {
         }*/
         resources.put(ResType.SHIELD,4);
         resources.put(ResType.STONE,10);
-        assertFalse(leaderCards[5].canActivate(resources,devCards));
+        assertThrows(leaderCards[5].canActivate(resources,devCards));
         resources.put(ResType.SHIELD,5);
         assertTrue(leaderCards[5].canActivate(resources,devCards));
         /*"cardRequirements":{

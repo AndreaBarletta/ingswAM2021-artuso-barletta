@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.PersonalBoard.LeaderCard;
 
+import it.polimi.ingsw.exceptions.CardTypeException;
+import it.polimi.ingsw.exceptions.LevelException;
+import it.polimi.ingsw.exceptions.ResourcesException;
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
@@ -50,14 +53,14 @@ public abstract class LeaderCard {
      * @param devCards Development cards a players has
      * @return Whether or not the card can be bought
      */
-    public boolean canActivate(Map<ResType,Integer> resources, List<DevelopmentCard> devCards) {
+    public void canActivate(Map<ResType,Integer> resources, List<DevelopmentCard> devCards) throws CardTypeException, LevelException, ResourcesException {
         //Check resource requirements
         if(resourceRequirements!=null){
             for(Map.Entry<ResType,Integer> p:resourceRequirements.entrySet()){
                 if(!resources.containsKey(p.getKey()))
-                    return false;
+                    throw new ResourcesException();
                 else if(resources.get(p.getKey())<p.getValue())
-                    return false;
+                    throw new ResourcesException();
             }
         }
 
@@ -73,9 +76,9 @@ public abstract class LeaderCard {
         if(cardRequirements!=null){
             for(Map.Entry<CardType,Integer> p:cardRequirements.entrySet()){
                 if(!cardTypes.containsKey(p.getKey()))
-                    return false;
+                    throw new CardTypeException();
                 else if(cardTypes.get(p.getKey())<p.getValue())
-                    return false;
+                    throw new CardTypeException();
             }
         }
 
@@ -83,13 +86,11 @@ public abstract class LeaderCard {
         if(levelRequirements!=null){
             for(Map.Entry<CardType,Integer> p: levelRequirements.entrySet()){
                 if(!cardMaxLevels.containsKey(p.getKey()))
-                    return false;
+                    throw new LevelException();
                 else if(cardMaxLevels.get(p.getKey())<p.getValue())
-                    return false;
+                    throw new LevelException();
             }
         }
-
-        return true;
     }
 
     public String toString(){

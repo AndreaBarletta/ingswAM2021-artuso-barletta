@@ -4,8 +4,7 @@ import it.polimi.ingsw.ClientHandler;
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
-import it.polimi.ingsw.exceptions.DuplicatedIdException;
-import it.polimi.ingsw.exceptions.GameSizeExceeded;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
@@ -281,8 +280,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         return true;
     }
 
-    public boolean activateLeaderCard(ClientHandler clientHandler, String id){
-        return game.activateLeaderCards(clientHandler.getPlayerName(),id);
+    public void activateLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException {
+        game.activateLeaderCards(clientHandler.getPlayerName(),id);
     }
 
     /**

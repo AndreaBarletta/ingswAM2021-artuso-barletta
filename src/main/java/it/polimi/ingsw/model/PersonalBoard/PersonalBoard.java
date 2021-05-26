@@ -420,7 +420,7 @@ public class PersonalBoard implements ControllerEventListener {
         this.hasAlreadyChosenInitialResources=hasAlreadyChosenInitialResources;
     }
 
-    public boolean activateLeaderCard(int id) {
+    public void activateLeaderCard(int id) throws CardNotFoundException, CardTypeException, ResourcesException, LevelException {
         LeaderCard leaderCardToActivate=null;
         for(LeaderCard l:leaderCards){
             if(l.getId()==id){
@@ -429,19 +429,16 @@ public class PersonalBoard implements ControllerEventListener {
             }
         }
         if(leaderCardToActivate==null){
-            return false;
+            throw new CardNotFoundException();
         }
 
         List<DevelopmentCard> devCards=new ArrayList<>();
         for(DevelopmentCardSlot ds:developmentCardSlots)
             devCards.addAll(ds.getCards());
 
-        if(!leaderCardToActivate.canActivate(getResources(),devCards)){
-            return false;
-        }
+        leaderCardToActivate.canActivate(getResources(),devCards);
         leaderCardToActivate.activate();
         leaderCardToActivate.effectOnActivate(this);
-        return true;
     }
 
     public void discardLeaderCard(int id) throws CardNotFoundException {
@@ -455,8 +452,6 @@ public class PersonalBoard implements ControllerEventListener {
         if(leaderCardToDiscard!=null){
             leaderCards.remove(leaderCardToDiscard);
             faithTrack.incrementFaithTrack(1);
-            for(PersonalBoardEventListener pev:eventListeners){
-            }
         }else{
             throw new CardNotFoundException();
         }

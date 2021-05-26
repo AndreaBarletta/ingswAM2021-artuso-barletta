@@ -2,14 +2,12 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.*;
 import it.polimi.ingsw.controller.ControllerEventListener;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
-import it.polimi.ingsw.exceptions.DuplicatedIdException;
-import it.polimi.ingsw.exceptions.GameSizeExceeded;
-import it.polimi.ingsw.exceptions.ParsingException;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 
 import java.io.File;
@@ -292,7 +290,7 @@ public class Game implements ControllerEventListener,Runnable {
         }
     }
 
-    public boolean activateLeaderCards(String playername, String leaderCardId){
+    public void activateLeaderCards(String playername, String leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException {
         PersonalBoard player=null;
         for(PersonalBoard p:personalBoards){
             if(p.getPlayerName().equals(playername)){
@@ -301,10 +299,8 @@ public class Game implements ControllerEventListener,Runnable {
             }
         }
 
-        if(player!=null){
-            return player.activateLeaderCard(Integer.parseInt(leaderCardId));
-        }
-        return false;
+        player.activateLeaderCard(Integer.parseInt(leaderCardId));
+
     }
 
     public int getMaximumPlayers(){

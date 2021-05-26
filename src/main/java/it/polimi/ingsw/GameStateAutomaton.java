@@ -1,6 +1,10 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.exceptions.CardNotFoundException;
+import it.polimi.ingsw.exceptions.CardTypeException;
+import it.polimi.ingsw.exceptions.LevelException;
+import it.polimi.ingsw.exceptions.ResourcesException;
 import it.polimi.ingsw.model.ResType;
 
 public class GameStateAutomaton {
@@ -93,9 +97,23 @@ public class GameStateAutomaton {
                     return true;
                 case LEADER_ACTION_ACTIVATED:
                     controller.broadcast(new Message(MessageType.LEADER_ACTION_ACTIVATE,new String[]{clientHandler.getPlayerName()}));
-                    if(!controller.activateLeaderCard(clientHandler,params[0])){
-                        errorMessage="Cannot activate leader card";
+                    try {
+                        controller.activateLeaderCard(clientHandler,params[0]);
+                    } catch (CardNotFoundException e) {
+                        errorMessage="Card not found";
                         state=GameState.LEADER_ACTION_ASKED;
+                        return false;
+                    } catch (CardTypeException e) {
+                        errorMessage = "Not enough card of requested type";
+                        state = GameState.LEADER_ACTION_ASKED;
+                        return false;
+                    } catch (ResourcesException e) {
+                        errorMessage = "Not enough resources of requested type";
+                        state = GameState.LEADER_ACTION_ASKED;
+                        return false;
+                    } catch (LevelException e) {
+                        errorMessage = "Not enough card of requested level";
+                        state = GameState.LEADER_ACTION_ASKED;
                         return false;
                     }
                     return true;
