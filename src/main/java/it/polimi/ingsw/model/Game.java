@@ -295,13 +295,7 @@ public class Game implements ControllerEventListener,Runnable {
     }
 
     public void activateLeaderCards(String playername, String leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException {
-        PersonalBoard player=null;
-        for(PersonalBoard p:personalBoards){
-            if(p.getPlayerName().equals(playername)){
-                player=p;
-                break;
-            }
-        }
+        PersonalBoard player=getPersonalBoard(playername);
 
         if(player!=null){
             player.activateLeaderCard(Integer.parseInt(leaderCardId));
@@ -309,13 +303,7 @@ public class Game implements ControllerEventListener,Runnable {
     }
 
     public void discardLeaderCards(String playername, String leaderCardId) throws CardNotFoundException {
-        PersonalBoard player=null;
-        for(PersonalBoard p:personalBoards){
-            if(p.getPlayerName().equals(playername)){
-                player=p;
-                break;
-            }
-        }
+        PersonalBoard player=getPersonalBoard(playername);
 
         if(player!=null) {
             player.discardLeaderCard(Integer.parseInt(leaderCardId));
