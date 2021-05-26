@@ -147,6 +147,19 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.SHOW_DEV_CARD_GRID,null));
                     return true;
                 case DEV_CARD_CHOSEN:
+                    try{
+                        controller.canBuyDevCard(clientHandler,params[0]);
+                    }catch(ResourcesException e){
+                        state=GameState.DEV_CARD_GRID_SHOWN;
+                        errorMessage="You don't have enough resources to buy the selected development card";
+                        return false;
+                    }catch(LevelException e){
+                        state=GameState.DEV_CARD_GRID_SHOWN;
+                        errorMessage="You don't have the required cards to buy the selected development card";
+                        return false;
+                    }
+                    evolve("ASK_DEV_CARD_SLOT",null);
+                    return true;
                 case MARKET_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE, null));
                     return true;
