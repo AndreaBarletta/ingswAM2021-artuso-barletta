@@ -12,7 +12,7 @@ public enum GameState{
     LEADER_ACTION_ASKED,
     LEADER_ACTION_ACTIVATED,LEADER_ACTION_DISCARDED,LEADER_ACTION_SKIPPED,
     TURN_ACTION_ASKED,
-    PRODUCTIONS_ACTIVATED,
+    PRODUCTIONS_ACTIVATED,PRODUCTION_CHOSEN,RESOURCE_UPDATE,
     DEV_CARD_GRID_SHOWN,DEV_CARD_CHOSEN,DEV_CARD_GRID_UPDATED,DEV_CARD_SLOT_ASKED,DEV_CARD_SLOT_CHOSEN,
     MARKET_SHOWN, ROW_CHOSEN, COLUMN_CHOSEN, MARKET_UPDATED;
 
@@ -96,6 +96,14 @@ public enum GameState{
                 break;
             case PRODUCTIONS_ACTIVATED:
                 if(input.equals("ASK_TURN_ACTION")||input.equals("ASK_LEADER_ACTION"))
+                    return true;
+                break;
+            case PRODUCTION_CHOSEN:
+                if(input.equals("CANCEL")||input.equals("ASK_PRODUCTION_TO_ACTIVE"))
+                    return true;
+                break;
+            case RESOURCE_UPDATE:
+                if(input.equals("CANCEL")||input.equals("PRODUCE_RESOURCES"))
                     return true;
                 break;
             case DEV_CARD_GRID_SHOWN:
@@ -191,8 +199,13 @@ public enum GameState{
                 if(input.equals("BUY_DEV_CARD"))                    return DEV_CARD_GRID_SHOWN;
                 if(input.equals("SHOW_MARKET"))                     return MARKET_SHOWN;
             case PRODUCTIONS_ACTIVATED:
-                if(input.equals("ASK_TURN_ACTION"))                 return TURN_ACTION_ASKED;
-                if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
+                if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
+                if(input.equals("ASK_PRODUCTION_TO_ACTIVE"))        return PRODUCTION_CHOSEN;
+            case PRODUCTION_CHOSEN:
+                if(input.equals("CANCEL"))                          return PRODUCTION_CHOSEN;
+                if(input.equals("PRODUCE_RESOURCES"))               return RESOURCE_UPDATE;
+            case RESOURCE_UPDATE:
+                return LEADER_ACTION_ASKED;
             case DEV_CARD_GRID_SHOWN:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
                 if(input.equals("UPDATE_DEV_CARD_GRID"))            return DEV_CARD_GRID_UPDATED;
