@@ -75,4 +75,15 @@ public class DevelopmentCard {
     public Production getProduction(){
         return production;
     }
+
+    @Override
+    public String toString(){
+        String devCardToString="Id: "+id+"\tLevel: "+level+"\tVictory Points: "+victoryPoints+"\tCard Type: "+cardType+"\nCost:";
+        for(Map.Entry<ResType,Integer> me:cost.entrySet()){
+            devCardToString+=me.getKey()+"="+me.getValue()+" ";
+        }
+        devCardToString+="\n"+production;
+
+        return devCardToString;
+    }
 }
