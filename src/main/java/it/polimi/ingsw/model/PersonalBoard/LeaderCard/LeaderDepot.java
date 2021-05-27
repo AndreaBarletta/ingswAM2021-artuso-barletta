@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.view.LightPersonalBoard;
 
 import java.util.Map;
 
@@ -20,6 +21,7 @@ public class LeaderDepot extends LeaderCard {
     public void effectOnActivate(PersonalBoard personalBoard){
         personalBoard.addLeaderDepot(depot);
     }
+    public void effectOnActivate(LightPersonalBoard lightPersonalBoard){ lightPersonalBoard.addLeaderDepot(depot);  }
     public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){}
     public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
     public void effectOnDiscard(PersonalBoard personalBoard){

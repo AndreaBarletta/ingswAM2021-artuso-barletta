@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.view.LightPersonalBoard;
 
 import java.util.Map;
 
@@ -16,9 +17,8 @@ public class LeaderProduction extends LeaderCard{
         this.production=production;
     }
 
-    public void effectOnActivate(PersonalBoard personalBoard){
-        personalBoard.addLeaderProduction(production);
-    }
+    public void effectOnActivate(PersonalBoard personalBoard){ personalBoard.addLeaderProduction(production); }
+    public void effectOnActivate(LightPersonalBoard lightPersonalBoard) { lightPersonalBoard.addLeaderProductions(production); }
     public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){}
     public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
     public void effectOnDiscard(PersonalBoard personalBoard){
