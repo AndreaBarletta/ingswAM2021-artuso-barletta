@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.PersonalBoard;
 
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.exceptions.DepotException;
 import it.polimi.ingsw.exceptions.DepotResourceTypeException;
 import it.polimi.ingsw.exceptions.DepotSpaceException;
 import it.polimi.ingsw.exceptions.NegQuantityException;
@@ -22,7 +21,8 @@ public class Depot {
      */
     public Depot(int capacity){
         this.capacity=capacity;
-        this.counter=0;
+        counter=0;
+        depotResource=ResType.ANY;
     }
 
     /**
@@ -45,16 +45,20 @@ public class Depot {
      * Add a specified quantity and type of resources to the depot
      * @param resourceType Type of the resource to be added
      * @param quantity Quantity of the resource to be added
-     * @throws DepotException The depot is already storing a resource of another type or it's full
+     * @throws DepotResourceTypeException
+     * @throws DepotSpaceException
      */
-    public void add(ResType resourceType,int quantity) throws DepotException {
-        if(depotResource!=resourceType) {
-            throw new DepotResourceTypeException();
-        }
-
+    public void add(ResType resourceType,int quantity) throws DepotResourceTypeException,DepotSpaceException {
         if(counter+quantity>capacity){
             throw new DepotSpaceException();
         }
+        if(depotResource==ResType.ANY){
+            depotResource=resourceType;
+        }else if(depotResource!=resourceType) {
+            throw new DepotResourceTypeException();
+        }
+
+
         counter+=quantity;
     }
 
@@ -62,7 +66,8 @@ public class Depot {
      * remove a specified quantity and type of resources from the depot
      * @param resourceType Type of the resource to be removed
      * @param quantity Quantity of the resource to be removed
-     * @throws DepotException The depot is storing a resource of another type or if it's trying to remove more than there is
+     * @throws NegQuantityException Trying to delete more resources than there are in the depot
+     * @throws DepotResourceTypeException Resource type is not valid
      */
     public void remove(ResType resourceType, int quantity) throws NegQuantityException, DepotResourceTypeException {
         if(depotResource!=resourceType) {
@@ -75,11 +80,19 @@ public class Depot {
         counter-=quantity;
     }
 
+    public void removeAll(){
+        counter=0;
+    }
+
     /**
      * Gets the content of the depot
      * @return A tuple containing the type of the resource and the quantity
      */
     public AbstractMap.SimpleEntry<ResType,Integer> getContent(){
         return new AbstractMap.SimpleEntry<>(depotResource, counter);
+    }
+
+    public int getCapacity(){
+        return capacity;
     }
 }
