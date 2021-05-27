@@ -11,9 +11,21 @@ public class LightMarket {
         this.leftoverMarble=leftoverMarble;
     }
 
-    public void updateRow(){}
+    public void updateRow(int row) {
+        ResType newLeftoverMarble = marketTray[row][0];
+        System.arraycopy(marketTray[row], 1, marketTray[row], 0, 3);
+        marketTray[row][3] = leftoverMarble;
+        leftoverMarble = newLeftoverMarble;
+    }
 
-    public void updateColumn(){}
+    public void updateColumn(int column) {
+        ResType newLeftoverMarble = marketTray[0][column];
+        for (int i = 0; i < 2; i++) {
+            marketTray[i][column] = marketTray[i + 1][column];
+        }
+        marketTray[2][column] = leftoverMarble;
+        leftoverMarble = newLeftoverMarble;
+    }
 
     @Override
     public String toString(){

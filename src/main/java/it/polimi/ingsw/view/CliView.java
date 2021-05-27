@@ -72,7 +72,7 @@ public class CliView{
             commandParser.addCommand("leaderactivate",1,MessageType.LEADER_ACTION_ACTIVATE);
             commandParser.addCommand("leaderdiscard",1,MessageType.LEADER_ACTION_DISCARD);
             commandParser.addCommand("visitmarket",0,MessageType.SHOW_MARKET);
-            commandParser.addCommand("chooseresources", 2, MessageType.CHOOSE_RESOURCES);
+            commandParser.addCommand("choose", 2, MessageType.CHOOSE_ROW_OR_COLUMN);
             commandParser.addCommand("buydevcard",0,MessageType.BUY_DEV_CARD);
             commandParser.addCommand("choosedevcard",1,MessageType.CHOOSE_DEV_CARD);
             commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
@@ -262,10 +262,20 @@ public class CliView{
                         System.out.print("Choose a development card to buy (choosedevcard {id})");
                         break;
                     case SHOW_MARKET:
-                        System.out.print(market+"Choose a row (row {0/1/2}) or a column (column {0/1/2/3}): ");
+                        System.out.print(market+"Choose a row or a column (choose {row {0/1/2} / column {0/1/2/3}): ");
                         break;
-                    case CHOOSE_RESOURCES:
+                    case CHOOSE_ROW_OR_COLUMN:
                         System.out.println("Player "+message.params[0]+"has acquired resources to the market. The market has been updated");
+                        break;
+                    case UPDATE_MARKET:
+                        if(message.params[0].equals("row")){
+                            market.updateRow(Integer.parseInt(message.params[1]));
+                        }else{
+                            market.updateColumn(Integer.parseInt(message.params[1]));
+                        }
+                        System.out.println(message.params[0]+" "+message.params[1]+" chosen");
+                        System.out.print("Updated "+market);
+                        break;
                     case DISCONNECTED:
                         System.out.println("Player "+message.params[0]+" has disconnected ");
                         break;

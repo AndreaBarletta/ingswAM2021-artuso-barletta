@@ -281,8 +281,9 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.canBuyDevCard(clienthandler.getPlayerName(),id);
     }
 
-    public void acquireResources(ClientHandler clientHandler, String chosenResources){
-        game.acquireResources(clientHandler.getPlayerName(), chosenResources);
+    public void acquireFromMarket(ClientHandler clientHandler, String rowOrColumn, String index){
+        game.acquireFromMarket(clientHandler.getPlayerName(), rowOrColumn.equals("row"), Integer.parseInt(index));
+        broadcast(new Message(MessageType.UPDATE_MARKET,new String[]{rowOrColumn,index}));
     }
 
     public String[] removeDevCardFromMarket(String id){
