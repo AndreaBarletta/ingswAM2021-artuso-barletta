@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.view.LightPersonalBoard;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,7 @@ public abstract class LeaderCard {
     public void activate(){ isActive=true;
     }
     public abstract void effectOnActivate(PersonalBoard personalBoard);
+    public abstract void effectOnActivate(LightPersonalBoard lightPersonalBoard);
     public abstract void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources);
     public abstract void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard);
     public abstract void effectOnDiscard(PersonalBoard personalBoard);

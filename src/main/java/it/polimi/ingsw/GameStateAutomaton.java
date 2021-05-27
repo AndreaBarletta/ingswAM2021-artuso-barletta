@@ -119,7 +119,7 @@ public class GameStateAutomaton {
                         state = GameState.LEADER_ACTION_ASKED;
                         return false;
                     }
-                    controller.broadcast(new Message(MessageType.LEADER_ACTION_ACTIVATE,new String[]{clientHandler.getPlayerName(),params[0]}));
+                    controller.broadcast(new Message(MessageType.LEADER_ACTIVATED,new String[]{clientHandler.getPlayerName(),params[0]}));
                     evolve("ASK_TURN_ACTION",null);
                     return true;
                 case LEADER_ACTION_DISCARDED:
@@ -130,11 +130,11 @@ public class GameStateAutomaton {
                         state=GameState.LEADER_ACTION_ASKED;
                         return false;
                     }
-                    controller.broadcast(new Message(MessageType.LEADER_ACTION_DISCARD,new String[]{clientHandler.getPlayerName(),params[0]}));
+                    controller.broadcast(new Message(MessageType.LEADER_DISCARDED,new String[]{clientHandler.getPlayerName(),params[0]}));
                     evolve("ASK_TURN_ACTION",null);
                     return true;
                 case LEADER_ACTION_SKIPPED:
-                    controller.broadcast(new Message(MessageType.LEADER_ACTION_SKIP,new String[]{clientHandler.getPlayerName()}));
+                    controller.broadcast(new Message(MessageType.LEADER_SKIPPED,new String[]{clientHandler.getPlayerName()}));
                     evolve("ASK_TURN_ACTION",null);
                     return true;
                 case TURN_ACTION_ASKED:
@@ -142,7 +142,7 @@ public class GameStateAutomaton {
                     return true;
                 case PRODUCTIONS_ACTIVATED:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"activate productions"}));
-                    clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,null));
+                    clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,new String[]{clientHandler.getPlayerName()}));
                     return true;
                 case PRODUCTION_CHOSEN:
                     //TODO

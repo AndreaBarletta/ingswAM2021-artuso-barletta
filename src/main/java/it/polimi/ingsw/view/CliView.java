@@ -12,13 +12,12 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
+import it.polimi.ingsw.model.Production;
 
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,7 +32,7 @@ public class CliView{
     static private Market market = new Market();
     static private String playerName;
     static private CommandParser commandParser=new CommandParser();
-    static private LightPersonalBoard lightPersonalBoard;
+    static private List<LightPersonalBoard> lightPersonalBoards;
 
     public static void main(String[] args){
         if(!loadLeaderCardsFromFile("src/main/resources/leaderCards.json")){
@@ -128,6 +127,7 @@ public class CliView{
                 switch(message.messageType){
                     case NEW_PLAYER:
                         System.out.println("Player \""+message.params[0]+"\" has joined");
+                        lightPersonalBoards.add(new LightPersonalBoard(message.params[0]));
                         break;
                     case ERROR:
                         System.out.println("Error: "+message.params[0]);
@@ -195,13 +195,17 @@ public class CliView{
                         }
                         System.out.print("(leaderskip/leaderactivate {id/leaderdiscard {id}): ");
                         break;
-                    case LEADER_ACTION_ACTIVATE:
-                        System.out.println("Player "+message.params[0]+" has activated leader card "+message.params[1]);
+                    case LEADER_ACTIVATED:
+                        for(LightPersonalBoard lp : lightPersonalBoards) {
+                            if(lp.getPlayerName().equals(message.params[0])) {
+                                leaderCardDeck[Integer.parseInt(message.params[1])].effectOnActivate(lp);
+                            }
+                        }
                         break;
-                    case LEADER_ACTION_DISCARD:
+                    case LEADER_DISCARDED:
                         System.out.println("Player "+message.params[0]+" has discarded leader card "+message.params[1]);
                         break;
-                    case LEADER_ACTION_SKIP:
+                    case LEADER_SKIPPED:
                         System.out.println("Player "+message.params[0]+" has skipped the leader action");
                         break;
                     case ASK_TURN_ACTION:
@@ -211,7 +215,26 @@ public class CliView{
                         System.out.println("Player "+message.params[0]+" has chosen to "+message.params[1]);
                         break;
                     case SHOW_PRODUCTIONS:
-                        //TODO productions print
+                        //Create a list of all the productions
+                        for(LightPersonalBoard lp: lightPersonalBoards) {
+                            if (lp.getPlayerName().equals(message.params[0])) {
+                                //base production
+                                System.out.println("Base production ID 0:\n"+lp.getBaseProduction());
+                                //production from Dev Card
+                                int i = 1;
+                                for(int devId : lp.getDevelopmentCardSlots()) {
+                                    System.out.println("Dev Card production ID "+i+":\n"+developmentCardDeck[devId].getProduction());
+                                    i++;
+                                }
+                                //production from Leader Card
+                                for(Production p : lp.getLeaderProductions()) {
+                                    System.out.println("Leader Card production ID "+i+":\n"+p);
+                                    i++;
+                                }
+                                break;
+                            }
+                        }
+
                         System.out.println("Choose which productions to activate (activate {id}) or go back (cancel): ");
                         break;
                     case UPDATE_RESOURCES:
