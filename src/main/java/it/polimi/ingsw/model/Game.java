@@ -290,7 +290,7 @@ public class Game implements ControllerEventListener,Runnable {
         for(PersonalBoard p:personalBoards){
             if(p.getPlayerName().equals(playerName)){
                 try {
-                    p.addResourcesToDepot(new ResType[]{resource});
+                    resource.effectOnAcquire(p);
                 }catch(Exception e){}
             }
         }
