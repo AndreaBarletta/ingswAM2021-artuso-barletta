@@ -263,4 +263,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.canBuyDevCard(clienthandler.getPlayerName(),id);
     }
 
+    public String[] removeDevCardFromMarket(String id){
+        return game.removeDevCardFromMarket(id);
+    }
 }

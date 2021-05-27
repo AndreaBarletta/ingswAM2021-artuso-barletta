@@ -320,6 +320,19 @@ public class Game implements ControllerEventListener,Runnable {
         }
     }
 
+    public String[] removeDevCardFromMarket(String devCardId){
+        DevelopmentCard devCardToRemove=developmentCards.get(Integer.parseInt(devCardId));
+        int level=devCardToRemove.getLevel();
+        CardType cardType=devCardToRemove.getCardType();
+
+        developmentCardGrid.removeCard(level,cardType);
+
+        return new String[]{
+                String.valueOf(level),
+                String.valueOf(cardType.ordinal()),
+                String.valueOf(developmentCardGrid.getTopCard(level,cardType).getId())};
+    }
+
     public int getMaximumPlayers(){
         return maximumPlayers;
     }

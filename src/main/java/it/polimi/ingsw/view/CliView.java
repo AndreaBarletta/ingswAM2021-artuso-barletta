@@ -7,6 +7,7 @@ import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.DuplicatedIdException;
 import it.polimi.ingsw.exceptions.IncorrectAmountArgumentsException;
 import it.polimi.ingsw.exceptions.UnknownCommandException;
+import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
 import it.polimi.ingsw.model.Market;
@@ -186,7 +187,7 @@ public class CliView{
                         for(String s: message.params){
                             System.out.println(leaderCardDeck[Integer.parseInt(s)].toString());
                         }
-                        System.out.print("(leaderskip/leaderactivate {id}/leaderdiscard {id}): ");
+                        System.out.print("(leaderskip/leaderactivate {id/leaderdiscard {id}): ");
                         break;
                     case LEADER_ACTION_ACTIVATE:
                         System.out.println("Player "+message.params[0]+" has activated leader card "+message.params[1]);
@@ -219,6 +220,8 @@ public class CliView{
                         break;
                     case UPDATE_DEV_CARD_GRID:
                         developmentCardGrid[Integer.parseInt(message.params[0])][Integer.parseInt(message.params[1])]=Integer.parseInt(message.params[2]);
+                        System.out.println("New card in the grid of level "+message.params[0]+"and type "+CardType.values()[Integer.parseInt(message.params[1])]+"\n"+
+                                developmentCardDeck[Integer.parseInt(message.params[2])]);
                         break;
                     case ASK_DEV_CARD_SLOT:
                         System.out.print("Choose a development card to buy (choosedevcard {id})");
