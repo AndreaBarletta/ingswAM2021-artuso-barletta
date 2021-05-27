@@ -267,4 +267,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.acquireResources(clientHandler.getPlayerName(), chosenResources);
     }
 
+    public String[] removeDevCardFromMarket(String id){
+        return game.removeDevCardFromMarket(id);
+    }
 }

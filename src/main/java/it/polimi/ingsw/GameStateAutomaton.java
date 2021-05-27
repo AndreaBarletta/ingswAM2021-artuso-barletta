@@ -166,8 +166,11 @@ public class GameStateAutomaton {
                         errorMessage="You don't have the required cards to buy the selected development card";
                         return false;
                     }
-                    evolve("ASK_DEV_CARD_SLOT",null);
+                    evolve("UPDATE_DEV_CARD_GRID",params);
                     return true;
+                case DEV_CARD_GRID_UPDATED:
+                    String[] messageParams=controller.removeDevCardFromMarket(params[0]);
+                    controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_GRID,messageParams));
                 case MARKET_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE, new String[]{clientHandler.getPlayerName(),"visit market"}));
                     clientHandler.send(new Message(MessageType.SHOW_MARKET, null));

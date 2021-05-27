@@ -255,7 +255,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param slot Slot in the playerboard whereto place the card
      * @throws LevelException The player doesn't have an high enough card in the selected slot to buy the development card selected
      */
-    private void canAddCardToSlot(DevelopmentCard card,int slot) throws LevelException {
+    public void canAddCardToSlot(DevelopmentCard card,int slot) throws LevelException {
         if(developmentCardSlots[slot].getTopCard()!=null) {
             if (developmentCardSlots[slot].getTopCard().getLevel() == card.getLevel() - 1) {
                 throw new LevelException();
