@@ -141,7 +141,7 @@ public class GameStateAutomaton {
                     return true;
                 case PRODUCTIONS_ACTIVATED:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"activate productions"}));
-                    //TODO clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,null));
+                    clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,null));
                     return true;
                 case PRODUCTION_CHOSEN:
                     //TODO
@@ -171,10 +171,11 @@ public class GameStateAutomaton {
                     String[] messageParams=controller.removeDevCardFromMarket(params[0]);
                     controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_GRID,messageParams));
                 case MARKET_SHOWN:
-                    controller.broadcast(new Message(MessageType.TURN_CHOICE, null));
+                    controller.broadcast(new Message(MessageType.TURN_CHOICE, new String[]{clientHandler.getPlayerName(),"visit market"}));
+                    clientHandler.send(new Message(MessageType.SHOW_MARKET, null));
                     return true;
-                case ROW_CHOSEN:
-                case COLUMN_CHOSEN:
+                case RESOURCES_CHOSEN:
+                    controller.broadcast(new Message(MessageType.CHOOSE_RESOURCES, new String[]{clientHandler.getPlayerName(), params[1]}));
                 case MARKET_UPDATED:
             }
             errorMessage="Unknown state";
