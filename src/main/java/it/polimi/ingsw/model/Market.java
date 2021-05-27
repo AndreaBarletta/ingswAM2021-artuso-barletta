@@ -47,6 +47,8 @@ public class Market {
         return marketTray;
     }
 
+    public ResType getLeftoverMarble(){ return leftoverMarble;}
+
     public ResType[] getRow(int row) {
         ResType[] rowToGet = new ResType[4];
         System.arraycopy(marketTray[row], 0, rowToGet, 0, 4);
@@ -110,19 +112,5 @@ public class Market {
         updateColumn(column);
         return acquiredColumn;
     }
-
-    @Override
-    public String toString(){
-        String marketToString = new String();
-        marketToString = "Leftover Marble: " + leftoverMarble + "\n";
-        for(int i=0; i<3; i++){
-            for(int j=0; j<4; j++){
-                marketToString += marketTray[i][j] + " ";
-            }
-            marketToString += "\n";
-        }
-        return marketToString;
-    }
-
 }
 
