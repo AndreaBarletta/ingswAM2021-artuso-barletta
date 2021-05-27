@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.PersonalBoard.Strongbox;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,11 @@ public class LightPersonalBoard {
 
     public LightPersonalBoard(String playerName) {
         this.playerName=playerName;
-
+        developmentCardSlots=new int[3];
+        for(int i=0;i<3;i++)
+            developmentCardSlots[i]=-1;
+        leaderProductions=new ArrayList<>();
+        leaderDepots=new ArrayList<>();
         //create base production
         Map<ResType,Integer> baseIngredients=new HashMap<>();
         baseIngredients.put(ResType.ANY,2);
