@@ -77,6 +77,7 @@ public class GameStateAutomaton {
                             state=GameState.LEADER_CARDS_SHOWN;
                             return false;
                         }
+                        clientHandler.send(new Message(MessageType.CHOOSE_LEADER_CARDS, null));
                         return true;
                 case INKWELL_DISTRIBUTED:
                     clientHandler.send(new Message(MessageType.INKWELL_GIVEN,params));
@@ -175,8 +176,8 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.SHOW_MARKET, null));
                     return true;
                 case RESOURCES_CHOSEN:
-                    controller.broadcast(new Message(MessageType.CHOOSE_RESOURCES, new String[]{clientHandler.getPlayerName(), params[1]}));
-                case MARKET_UPDATED:
+                    controller.acquireResources(clientHandler, params[0]);
+                    controller.broadcast(new Message(MessageType.CHOOSE_RESOURCES, new String[]{clientHandler.getPlayerName()}));
             }
             errorMessage="Unknown state";
             return false;

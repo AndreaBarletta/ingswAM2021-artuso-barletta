@@ -6,6 +6,10 @@ import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
+import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
+import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 
@@ -257,6 +261,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
     public void canBuyDevCard(ClientHandler clienthandler,String id) throws ResourcesException,LevelException {
         game.canBuyDevCard(clienthandler.getPlayerName(),id);
+    }
+
+    public void acquireResources(ClientHandler clientHandler, String chosenResources){
+        game.acquireResources(clientHandler.getPlayerName(), chosenResources);
     }
 
     public String[] removeDevCardFromMarket(String id){
