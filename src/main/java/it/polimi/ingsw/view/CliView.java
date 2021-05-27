@@ -7,17 +7,15 @@ import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.DuplicatedIdException;
 import it.polimi.ingsw.exceptions.IncorrectAmountArgumentsException;
 import it.polimi.ingsw.exceptions.UnknownCommandException;
-import it.polimi.ingsw.model.CardType;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
-import it.polimi.ingsw.model.LeaderCardDeserializer;
-import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
-import it.polimi.ingsw.model.Production;
 
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,7 +27,7 @@ public class CliView{
     static private LeaderCard[] leaderCardDeck;
     static private DevelopmentCard[] developmentCardDeck;
     static private int[][] developmentCardGrid;
-    static private Market market = new Market();
+    static private LightMarket market;
     static private String playerName;
     static private CommandParser commandParser=new CommandParser();
     static private List<LightPersonalBoard> lightPersonalBoards;
@@ -85,6 +83,7 @@ public class CliView{
             return;
         }
 
+        lightPersonalBoards=new ArrayList<>();
         System.out.println(Colors.YELLOW.escape()+"Welcome to Masters of Renaissance"+Colors.RESET.escape());
         System.out.println("Insert your player name");
         System.out.print("(playername {name}): ");
@@ -125,6 +124,10 @@ public class CliView{
             try {
                 message = gson.fromJson(in.readLine(), Message.class);
                 switch(message.messageType){
+                    case SET_PLAYERNAME:
+                        playerName=message.params[0];
+                        lightPersonalBoards.add(new LightPersonalBoard(playerName));
+                        break;
                     case NEW_PLAYER:
                         System.out.println("Player \""+message.params[0]+"\" has joined");
                         lightPersonalBoards.add(new LightPersonalBoard(message.params[0]));
@@ -146,6 +149,7 @@ public class CliView{
                         System.out.print(message.params.length+" player already in the game:");
                         for(String s:message.params){
                             System.out.print(" "+s);
+                            lightPersonalBoards.add(new LightPersonalBoard(s));
                         }
                         System.out.print("\n");
                         break;
@@ -155,6 +159,9 @@ public class CliView{
                     case SET_DEV_CARD_GRID:
                         developmentCardGrid=gson.fromJson(message.params[0],int[][].class);
                         break;
+                    case SET_MARKET:
+                        market=new LightMarket(gson.fromJson(message.params[0], ResType[][].class),ResType.valueOf(message.params[1]));
+                        break;
                     case SHOW_LEADER_CARDS:
                         System.out.println("Pick 2 between the following leader cards: ");
                         for(String s: message.params){
@@ -162,8 +169,9 @@ public class CliView{
                         }
                         System.out.print("(chooseleaders {id1} {id2}): ");
                         break;
-                    case CHOOSE_LEADER_CARDS:
-                        System.out.println("Waiting for others to choose leader cards");
+                    case LEADER_CARDS_CHOSEN:
+                        System.out.println("Player "+message.params[0]+" has chosen their leader cards");
+                        break;
                     case INKWELL_GIVEN:
                         System.out.println("Player \""+message.params[0]+"\" has received the inkwell");
                         System.out.print("The turn order is the following:");
@@ -189,11 +197,11 @@ public class CliView{
                         System.out.println("Player "+message.params[0]+" has started their turn");
                         break;
                     case ASK_LEADER_ACTION:
-                        System.out.println("What leader action do you want to play?");
+                        System.out.println("You have the following leader cards:");
                         for(String s: message.params){
                             System.out.println(leaderCardDeck[Integer.parseInt(s)].toString());
                         }
-                        System.out.print("(leaderskip/leaderactivate {id/leaderdiscard {id}): ");
+                        System.out.print("What leader action do you want to play? (leaderskip/leaderactivate {id}/leaderdiscard {id}): ");
                         break;
                     case LEADER_ACTIVATED:
                         for(LightPersonalBoard lp : lightPersonalBoards) {
@@ -215,15 +223,15 @@ public class CliView{
                         System.out.println("Player "+message.params[0]+" has chosen to "+message.params[1]);
                         break;
                     case SHOW_PRODUCTIONS:
-                        //Create a list of all the productions
                         for(LightPersonalBoard lp: lightPersonalBoards) {
-                            if (lp.getPlayerName().equals(message.params[0])) {
+                            if (lp.getPlayerName().equals(playerName)) {
                                 //base production
                                 System.out.println("Base production ID 0:\n"+lp.getBaseProduction());
                                 //production from Dev Card
                                 int i = 1;
                                 for(int devId : lp.getDevelopmentCardSlots()) {
-                                    System.out.println("Dev Card production ID "+i+":\n"+developmentCardDeck[devId].getProduction());
+                                    if(devId!=-1)
+                                        System.out.println("Dev Card production ID "+i+":\n"+developmentCardDeck[devId].getProduction());
                                     i++;
                                 }
                                 //production from Leader Card
@@ -234,8 +242,7 @@ public class CliView{
                                 break;
                             }
                         }
-
-                        System.out.println("Choose which productions to activate (activate {id}) or go back (cancel): ");
+                        System.out.print("Choose which productions to activate (activate {id}) or go back (cancel): ");
                         break;
                     case UPDATE_RESOURCES:
                         //TODO
@@ -250,14 +257,12 @@ public class CliView{
                         break;
                     case UPDATE_DEV_CARD_GRID:
                         developmentCardGrid[Integer.parseInt(message.params[0])][Integer.parseInt(message.params[1])]=Integer.parseInt(message.params[2]);
-                        System.out.println("New card in the grid of level "+message.params[0]+"and type "+CardType.values()[Integer.parseInt(message.params[1])]+"\n"+
-                                developmentCardDeck[Integer.parseInt(message.params[2])]);
                         break;
                     case ASK_DEV_CARD_SLOT:
                         System.out.print("Choose a development card to buy (choosedevcard {id})");
                         break;
                     case SHOW_MARKET:
-                        System.out.println("Choose the row or the column you'd like to buy (chooseresources {row X/column Y})\n" + market);
+                        System.out.print(market+"Choose a row (row {0/1/2}) or a column (column {0/1/2/3}): ");
                         break;
                     case CHOOSE_RESOURCES:
                         System.out.println("Player "+message.params[0]+"has acquired resources to the market. The market has been updated");
