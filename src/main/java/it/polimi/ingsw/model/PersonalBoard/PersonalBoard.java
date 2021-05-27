@@ -259,7 +259,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param newResource Resource to be added
      */
     public void addResourceToDepot(ResType newResource) throws DepotSpaceException {
-        //Try to place the new resource in the board depots
+        //Try to place the new resource in the board depot
         boolean added=false;
         for(Depot d:depots){
             try{
