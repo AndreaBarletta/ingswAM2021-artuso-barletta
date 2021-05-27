@@ -36,7 +36,7 @@ public enum ResType {
             case STONE:
             case SERVANT:
             case SHIELD:
-                personalboard.addResourcesToDepot(this);
+                personalboard.addResourceToDepot(this);
                 break;
             case FAITH:
                 personalboard.incrementFaithTrack(1);
