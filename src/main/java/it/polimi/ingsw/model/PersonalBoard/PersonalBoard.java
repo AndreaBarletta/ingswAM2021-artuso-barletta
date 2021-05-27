@@ -10,9 +10,11 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
+import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderDepot;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
+import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +32,7 @@ public class PersonalBoard implements ControllerEventListener {
     private Production baseProduction;
     private List<Production> leaderProductions;
     private Strongbox strongbox;
-    private List<Depot> depots;
+    private Depot[] depots;
     private List<Depot> leaderDepots;
     private List<PersonalBoardEventListener> eventListeners;
     private boolean inkwell = false;
@@ -53,9 +55,9 @@ public class PersonalBoard implements ControllerEventListener {
         leaderDepots=new ArrayList<>();
         leaderProductions=new ArrayList<>();
         //Create depots
-        depots=new ArrayList<>();
+        depots=new Depot[3];
         for(int i=0;i<3;i++){
-            depots.add(new Depot(i+1));
+            depots[i]=new Depot(i+1);
         }
         //Create strongbox
         strongbox=new Strongbox();
@@ -126,6 +128,14 @@ public class PersonalBoard implements ControllerEventListener {
      * @return The resources stored
      */
     private Map<ResType,Integer> getResources(){
+        Map<ResType,Integer> resources;
+        resources=getDepotsResource();
+        strongbox.getContent().forEach((k,v)-> resources.merge(k,v,Integer::sum));
+        resources.remove(null);
+        return resources;
+    }
+
+    private Map<ResType,Integer> getDepotsResource(){
         Map<ResType,Integer> resources=new HashMap<>();
         for(Depot d:depots){
             resources.merge(d.getContent().getKey(),d.getContent().getValue(),Integer::sum);
@@ -133,8 +143,8 @@ public class PersonalBoard implements ControllerEventListener {
         for(Depot d:leaderDepots){
             resources.merge(d.getContent().getKey(),d.getContent().getValue(),Integer::sum);
         }
-        strongbox.getContent().forEach((k,v)-> resources.merge(k,v,Integer::sum));
         resources.remove(null);
+        resources.remove(ResType.ANY);
         return resources;
     }
 
@@ -152,7 +162,7 @@ public class PersonalBoard implements ControllerEventListener {
      */
     public void removeLeaderDepot(Depot leaderDepot){
         leaderDepots.remove(leaderDepot);
-    }
+    }//scap
 
     /**
      * Adds a leader production to the leader production list
@@ -168,33 +178,6 @@ public class PersonalBoard implements ControllerEventListener {
      */
     public void removeLeaderProduction(Production leaderProduction){
         leaderProductions.remove(leaderProduction);
-    }
-
-    /**
-     *
-     * @return Whether or not the production was successful
-     */
-    public boolean activateProduction(){
-        /*for(PersonalBoardEventListener p:eventListeners){
-            //Create a list of all the productions
-            List<Production> productions=new ArrayList<>();
-            for(Production lp:leaderProductions){
-                productions.add(lp);
-            }
-            for(DevelopmentCardSlot d:developmentCardSlots){
-                productions.add(d.getTopCard().getProduction());
-            }
-            productions.add(baseProduction);
-            List<Production> selectedProductions=p.chooseProductions(productions,playerName);
-            if(canProduce(selectedProductions)){
-                for(Production pr:selectedProductions){
-                    addResourcesToStrongbox(pr.getProducts());
-                }
-            }else{
-                return false;
-            }
-        }*/
-        return true;
     }
 
     public void addResourcesToStrongbox(Map<ResType,Integer> newResources){
@@ -268,36 +251,108 @@ public class PersonalBoard implements ControllerEventListener {
     }
 
     /**
-     * Add resources to depot
-     * @param newResources Resourced to be added
+     * Add a resource to a depot (automatically makes space if possible by moving the resources around)
+     * @param newResource Resource to be added
      */
-    public void addResourcesToDepot(ResType[] newResources) throws DepotSpaceException {
-        Map<ResType,Integer> resources=new HashMap<>();
-        for(ResType r:newResources){
-            resources.merge(r, 1, Integer::sum);
+    public void addResourceToDepot(ResType newResource) throws DepotSpaceException {
+        //Try to place the new resource in the board depots
+        boolean added=false;
+        for(Depot d:depots){
+            try{
+                boolean canPlaceInAny=true;
+                for(Depot dep:depots){
+                    if(dep.getDepotResources()==newResource){
+                        canPlaceInAny=false;
+                        break;
+                    }
+                }
+                if(canPlaceInAny){
+                    d.add(newResource,1);
+                    added=true;
+                }
+            }catch(DepotResourceTypeException e) {}catch(DepotSpaceException e){}
+            if(added) {
+                break;
+            }
         }
-
-        for(ResType r:newResources){
-            if(r==ResType.FAITH){
-                faithTrack.incrementFaithTrack(1);
-                r=null;
-            }else{
-                //Try adding to depots and leader depots
-                for(Depot d: Stream.concat(depots.stream(),leaderDepots.stream()).collect(Collectors.toList())){
-                    try{
-                        d.add(r,1);
-                        r=null;
-                    } catch (DepotException e) {}
+        //Try to place the new resource in the leader depots
+        if(!added){
+            for(Depot d:leaderDepots){
+                try{
+                    d.add(newResource,1);
+                    added=true;
+                }catch(DepotResourceTypeException e) {}catch(DepotSpaceException e){}
+                if(added) {
+                    break;
                 }
             }
         }
-
-        for(ResType r:newResources){
-            if(r!=null){
+        if(!added){
+            //Rearrange the resource to make space
+            //Save the current resources
+            Map<ResType,Integer> resourcesToPlace=getDepotsResource();
+            resourcesToPlace.compute(newResource,(k,v)->v==null?1:v+1);
+            //Create temporary empty depots
+            List<Depot> newDepots=new ArrayList<>();
+            List<Depot> newLeaderDepots=new ArrayList<>();
+            for(Depot d:leaderDepots){
+                Depot newLeaderDepot=new Depot(d.getCapacity());
+                newLeaderDepot.setDepotResource(d.getDepotResources());
+                newLeaderDepots.add(newLeaderDepot);
+            }
+            for(Depot d:depots){
+                newDepots.add(new Depot(d.getCapacity()));
+            }
+            //Place in the leader depots first
+            for(Map.Entry<ResType,Integer> me:resourcesToPlace.entrySet()){
+                for(Depot d:newLeaderDepots){
+                    //Add the maximum amount possible
+                    try {
+                        d.add(me.getKey(), me.getValue()>2?2:me.getValue());
+                        resourcesToPlace.put(me.getKey(),me.getValue()>2?me.getValue()-2:0);
+                    }catch(Exception e){}
+                }
+            }
+            //Place the remaining resources in the depots
+            for(Map.Entry<ResType,Integer> me:resourcesToPlace.entrySet()){
+                boolean resourceAdded;
+                if(me.getValue()>3){
+                    break;
+                }
+                resourceAdded=false;
+                for(Depot d:newDepots){
+                    if(d.getCapacity()>=me.getValue()) {
+                        try {
+                            d.add(me.getKey(), me.getValue());
+                            me.setValue(0);
+                            resourceAdded=true;
+                        }catch(Exception e){}
+                    }
+                    if(resourceAdded)
+                        break;
+                }
+                if(!resourceAdded){
+                    break;
+                }
+            }
+            boolean resourceAdded=true;
+            for(Map.Entry<ResType,Integer> me:resourcesToPlace.entrySet()){
+                if(me.getValue()!=0){
+                    resourceAdded=false;
+                    break;
+                }
+            }
+            if(!resourceAdded){
                 throw new DepotSpaceException();
+            }else{
+                depots=newDepots.toArray(Depot[]::new);
+                leaderDepots=newLeaderDepots;
+                added=true;
             }
         }
-
+        if(!added){
+            throw new DepotSpaceException();
+        }
     }
 
     public boolean hasInkwell(){

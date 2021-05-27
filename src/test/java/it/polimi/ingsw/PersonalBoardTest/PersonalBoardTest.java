@@ -3,12 +3,14 @@ package it.polimi.ingsw.PersonalBoardTest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.exceptions.DepotSpaceException;
 import it.polimi.ingsw.exceptions.LevelException;
 import it.polimi.ingsw.exceptions.ResourcesException;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
 import it.polimi.ingsw.model.Market;
+import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.ResType;
@@ -31,7 +33,7 @@ public class PersonalBoardTest {
     }
 
     @Test
-    public void canBuyDevCard(){
+    public void testCanBuyDevCard(){
         PersonalBoard personalBoard=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
         DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
 
@@ -58,6 +60,27 @@ public class PersonalBoardTest {
         assertThrows(ResourcesException.class,()->personalBoard.canBuyDevCard(developmentCards[3]));
         personalBoard.addResourcesToStrongbox(resources);
         assertDoesNotThrow(()->personalBoard.canBuyDevCard(developmentCards[3]));
+    }
+
+    @Test
+    public void testAddResourcesToDepot(){
+        PersonalBoard pe=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
+        //Without leader depots
+        assertDoesNotThrow(()->pe.addResourceToDepot(ResType.COIN));
+        assertDoesNotThrow(()->pe.addResourceToDepot(ResType.COIN));
+        assertDoesNotThrow(()->pe.addResourceToDepot(ResType.COIN));
+        assertThrows(DepotSpaceException.class,()->pe.addResourceToDepot(ResType.COIN));
+        assertDoesNotThrow(()->pe.addResourceToDepot(ResType.STONE));
+        assertDoesNotThrow(()->pe.addResourceToDepot(ResType.STONE));
+        assertThrows(DepotSpaceException.class,()->pe.addResourceToDepot(ResType.STONE));
+        //With leader depots
+        Depot newLeaderDepot=new Depot(2);
+        newLeaderDepot.setDepotResource(ResType.STONE);
+        pe.addLeaderDepot(newLeaderDepot);
+        assertDoesNotThrow(()->pe.addResourceToDepot(ResType.STONE));
+        //Try moving resources to leader depots
+        assertDoesNotThrow(()->pe.addResourceToDepot(ResType.SERVANT));
+        assertDoesNotThrow(()->pe.addResourceToDepot(ResType.STONE));
     }
 
     private DevelopmentCard[] loadDevelopmentCardsFromFile(String path){
