@@ -320,6 +320,35 @@ public class Game implements ControllerEventListener,Runnable {
         }
     }
 
+    public void acquireResources(String playername, String chosenResources){
+        String[] line = new String[2];
+        line = chosenResources.split(" ");
+        PersonalBoard player = getPersonalBoard(playername);
+        int num = Integer.parseInt(line[1]);
+        if(line[0] == "row"){
+            ResType[] resToAdd = new ResType[4];
+            for(int i=0; i<4; i++){
+                resToAdd[i] = market.getMarketTray()[num][i];
+                for(LeaderCard l: leaderCards){
+                    l.effectOnMarketBuy(player, resToAdd);
+                }
+            }
+            player.addResourcesToDepot(resToAdd);
+            market.updateRow(num);
+        }
+        if(line[0] == "column"){
+            ResType[] resToAdd = new ResType[3];
+            for(int i=0; i<3; i++) {
+                resToAdd[i] = market.getMarketTray()[i][num];
+            }
+            for(LeaderCard l: leaderCards){
+                l.effectOnMarketBuy(player, resToAdd);
+            }
+            player.addResourcesToDepot(resToAdd);
+            market.updateColumn(num);
+        }
+    }
+
     public int getMaximumPlayers(){
         return maximumPlayers;
     }

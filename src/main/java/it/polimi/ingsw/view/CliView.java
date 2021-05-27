@@ -29,7 +29,7 @@ public class CliView{
     static private LeaderCard[] leaderCardDeck;
     static private DevelopmentCard[] developmentCardDeck;
     static private int[][] developmentCardGrid;
-    static private Market market;
+    static private Market market = new Market();
     static private String playerName;
     static private CommandParser commandParser=new CommandParser();
     static private LightPersonalBoard lightPersonalBoard;
@@ -161,6 +161,8 @@ public class CliView{
                         }
                         System.out.print("(chooseleaders {id1} {id2}): ");
                         break;
+                    case CHOOSE_LEADER_CARDS:
+                        System.out.println("Waiting for others to choose leader cards");
                     case INKWELL_GIVEN:
                         System.out.println("Player \""+message.params[0]+"\" has received the inkwell");
                         System.out.print("The turn order is the following:");
@@ -232,7 +234,7 @@ public class CliView{
                         System.out.println("Choose the row or the column you'd like to buy (chooseresources {row X/column Y})\n" + market);
                         break;
                     case CHOOSE_RESOURCES:
-                        System.out.println("Player");
+                        System.out.println("Player "+message.params[0]+"has acquired resources to the market. The market has been updated");
                     case DISCONNECTED:
                         System.out.println("Player "+message.params[0]+" has disconnected ");
                         break;

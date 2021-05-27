@@ -263,4 +263,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.canBuyDevCard(clienthandler.getPlayerName(),id);
     }
 
+    public void acquireResources(ClientHandler clientHandler, String chosenResources){
+        game.acquireResources(clientHandler.getPlayerName(), chosenResources);
+    }
+
 }
