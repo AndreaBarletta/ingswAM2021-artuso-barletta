@@ -148,10 +148,11 @@ public class GameStateAutomaton {
                     return true;
                 case DEV_CARD_CHOSEN:
                 case MARKET_SHOWN:
-                    controller.broadcast(new Message(MessageType.TURN_CHOICE, null));
+                    controller.broadcast(new Message(MessageType.TURN_CHOICE, new String[]{clientHandler.getPlayerName(),"visit market"}));
+                    clientHandler.send(new Message(MessageType.SHOW_MARKET, null));
                     return true;
-                case ROW_CHOSEN:
-                case COLUMN_CHOSEN:
+                case RESOURCES_CHOSEN:
+                    controller.broadcast(new Message(MessageType.CHOOSE_RESOURCES, new String[]{clientHandler.getPlayerName(), params[1]}));
                 case MARKET_UPDATED:
             }
             errorMessage="Unknown state";

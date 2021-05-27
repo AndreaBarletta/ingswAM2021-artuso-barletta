@@ -71,7 +71,8 @@ public class CliView{
             commandParser.addCommand("leaderskip",0,MessageType.LEADER_ACTION_SKIP);
             commandParser.addCommand("leaderactivate",1,MessageType.LEADER_ACTION_ACTIVATE);
             commandParser.addCommand("leaderdiscard",1,MessageType.LEADER_ACTION_DISCARD);
-            commandParser.addCommand("visitmarket",0,MessageType.VISIT_MARKET);
+            commandParser.addCommand("visitmarket",0,MessageType.SHOW_MARKET);
+            commandParser.addCommand("chooseresources", 2, MessageType.CHOOSE_RESOURCES);
             commandParser.addCommand("buydevcard",0,MessageType.BUY_DEV_CARD);
             commandParser.addCommand("choosedevcard",1,MessageType.CHOOSE_DEV_CARD);
             commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
@@ -216,6 +217,11 @@ public class CliView{
                     case ASK_DEV_CARD_SLOT:
                         System.out.print("Choose a development card to buy (choosedevcard {id})");
                         break;
+                    case SHOW_MARKET:
+                        System.out.println("Choose the row or the column you'd like to buy (chooseresources {row X/column Y})\n" + market);
+                        break;
+                    case CHOOSE_RESOURCES:
+                        System.out.println("Player");
                     case DISCONNECTED:
                         System.out.println("Player "+message.params[0]+" has disconnected ");
                         break;
