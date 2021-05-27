@@ -59,6 +59,7 @@ public class PersonalBoard implements ControllerEventListener {
         }
         //Create strongbox
         strongbox=new Strongbox();
+        //Create base production
         Map<ResType,Integer> baseIngredients=new HashMap<>();
         baseIngredients.put(ResType.ANY,2);
         Map<ResType,Integer> baseProducts=new HashMap<>();
@@ -160,6 +161,9 @@ public class PersonalBoard implements ControllerEventListener {
      */
     public void addLeaderProduction(Production newLeaderProduction){
         leaderProductions.add(newLeaderProduction);
+        for(PersonalBoardEventListener pe : eventListeners) {
+            pe.addedLeaderProduction(playerName);
+        }
     }
 
     /**
