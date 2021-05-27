@@ -259,4 +259,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.discardLeaderCards(clientHandler.getPlayerName(), id);
     }
 
+    public void canBuyDevCard(ClientHandler clienthandler,String id) throws ResourcesException,LevelException {
+        game.canBuyDevCard(clienthandler.getPlayerName(),id);
+    }
+
 }

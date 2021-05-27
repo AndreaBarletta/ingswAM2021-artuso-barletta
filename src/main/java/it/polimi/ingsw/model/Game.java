@@ -23,6 +23,7 @@ public class Game implements ControllerEventListener,Runnable {
     private DevelopmentCardGrid developmentCardGrid;
     private PopeFavourCard[] popeFavourCards;
     private List<LeaderCard> leaderCards;
+    private List<DevelopmentCard> developmentCards;
     private List<GameEventListener> eventListeners;
     private int maximumPlayers;
 
@@ -73,6 +74,7 @@ public class Game implements ControllerEventListener,Runnable {
         Gson gson=new Gson();
         try{
             DevelopmentCard[] developmentCards=gson.fromJson(content, DevelopmentCard[].class);
+            this.developmentCards=Arrays.asList(developmentCards);
             for(DevelopmentCard d:developmentCards){
                 developmentCardGrid.addCard(d);
             }
@@ -307,6 +309,14 @@ public class Game implements ControllerEventListener,Runnable {
 
         if(player!=null) {
             player.discardLeaderCard(Integer.parseInt(leaderCardId));
+        }
+    }
+
+    public void canBuyDevCard(String playername,String devCardId) throws ResourcesException, LevelException{
+        PersonalBoard player=getPersonalBoard(playername);
+
+        if(player!=null){
+            player.canBuyDevCard(developmentCards.get(Integer.parseInt(devCardId)));
         }
     }
 
