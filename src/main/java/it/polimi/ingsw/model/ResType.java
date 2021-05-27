@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.DepotSpaceException;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
+import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.view.Colors;
 
 public enum ResType {
@@ -25,6 +27,22 @@ public enum ResType {
                 return Colors.BRIGHT_GREEN.escape()+"?"+Colors.RESET.escape();
             default:
                 return "";
+        }
+    }
+
+    public void effectOnAcquire(PersonalBoard personalboard) throws DepotSpaceException {
+        switch(this){
+            case COIN:
+            case STONE:
+            case SERVANT:
+            case SHIELD:
+                personalboard.addResourcesToDepot(this);
+                break;
+            case FAITH:
+                personalboard.incrementFaithTrack(1);
+                break;
+            default:
+                break;
         }
     }
 }
