@@ -6,10 +6,6 @@ import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
-import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
-import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
-import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 
