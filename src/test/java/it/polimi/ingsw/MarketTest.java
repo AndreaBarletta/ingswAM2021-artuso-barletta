@@ -14,7 +14,6 @@ public class MarketTest {
     @Test
     public void testAcquires(){
         Market market=new Market();
-
         assertNotNull(market.acquireColumn(1));
         assertNotNull(market.acquireRow(1));
     }

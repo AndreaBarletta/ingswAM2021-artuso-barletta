@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-public class Game implements ControllerEventListener,Runnable {
+public class Game implements ControllerEventListener {
     private List<PersonalBoard> personalBoards;
     private int currentPlayerOrdinal;
     private Market market;
@@ -143,42 +143,6 @@ public class Game implements ControllerEventListener,Runnable {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Start the game
-     */
-    public void run(){
-        /*while(!canProceed){
-            try{
-                this.wait();
-            }catch(Exception e){}
-        }
-        chooseInitialResource();
-        int i=0;
-        do{
-            personalBoards.get(i).playTurn();
-            i=(i+1)%personalBoards.size();
-        }while(!gameDone);
-        //Play the rest of the turns
-        for(;i<personalBoards.size();i++){
-            personalBoards.get(i).playTurn();
-        }
-
-        //Pick a winner
-        int winner=0;
-        int maxPoints=0;
-        for(int j=0;j<personalBoards.size();j++){
-            int points=personalBoards.get(j).getVictoryPoints();
-            if(points>maxPoints){
-                winner=j;
-                maxPoints=points;
-            }
-        }
-
-        for(GameEventListener g:eventListeners){
-            g.announceWinner(personalBoards.get(winner).getPlayerName());
-        }*/
     }
 
     /**
@@ -341,33 +305,30 @@ public class Game implements ControllerEventListener,Runnable {
                 String.valueOf(developmentCardGrid.getTopCard(level,cardType).getId())};
     }
 
-    public void acquireResources(String playername, String chosenResources){
-        /*String[] line = new String[2];
-        line = chosenResources.split(" ");
-        PersonalBoard player = getPersonalBoard(playername);
-        int num = Integer.parseInt(line[1]);
-        if(line[0] == "row"){
-            ResType[] resToAdd = new ResType[4];
-            for(int i=0; i<4; i++){
-                resToAdd[i] = market.getMarketTray()[num][i];
-                for(LeaderCard l: leaderCards){
-                    l.effectOnMarketBuy(player, resToAdd);
-                }
+    /**
+     * Acquires resources from the market
+     * @param playername Name of the player that acquires the resources
+     * @param row True is a row was selected, false if a column was selected
+     * @param index Row / column index
+     */
+    public void acquireFromMarket(String playername, boolean row, int index){
+        PersonalBoard p=getPersonalBoard(playername);
+        if(p!=null){
+            ResType[] acquiredResources;
+            if(row){
+                acquiredResources=market.acquireRow(index);
+            }else{
+                acquiredResources=market.acquireColumn(index);
             }
-            player.addResourcesToDepot(resToAdd);
-            market.updateRow(num);
+            for(LeaderCard l:p.getLeaderCards()){
+                l.effectOnMarketBuy(p,acquiredResources);
+            }
+            for(ResType r:acquiredResources){
+                try{
+                    r.effectOnAcquire(p);
+                }catch(DepotSpaceException e){}
+            }
         }
-        if(line[0] == "column"){
-            ResType[] resToAdd = new ResType[3];
-            for(int i=0; i<3; i++) {
-                resToAdd[i] = market.getMarketTray()[i][num];
-            }
-            for(LeaderCard l: leaderCards){
-                l.effectOnMarketBuy(player, resToAdd);
-            }
-            player.addResourcesToDepot(resToAdd);
-            market.updateColumn(num);
-        }*/
     }
 
     public int getMaximumPlayers(){

@@ -184,9 +184,25 @@ public class GameStateAutomaton {
                     controller.broadcast(new Message(MessageType.TURN_CHOICE, new String[]{clientHandler.getPlayerName(),"visit market"}));
                     clientHandler.send(new Message(MessageType.SHOW_MARKET, null));
                     return true;
-                case RESOURCES_CHOSEN:
-                    controller.acquireResources(clientHandler, params[0]);
-                    controller.broadcast(new Message(MessageType.CHOOSE_RESOURCES, new String[]{clientHandler.getPlayerName()}));
+                case ROW_OR_COLUMN_CHOSEN:
+                    if(!params[0].equals("row")&&!params[0].equals("column")){
+                        state=GameState.MARKET_SHOWN;
+                        errorMessage="Choose (row) or (column)";
+                        return false;
+                    }
+                    if(params[0].equals(("row")))
+                        if(Integer.parseInt(params[1])>2||Integer.parseInt(params[1])<0){
+                            state=GameState.MARKET_SHOWN;
+                            errorMessage="Choose a number between 0 and 2";
+                            return false;
+                        }
+                    else
+                        if(Integer.parseInt(params[1])>3||Integer.parseInt(params[1])<0){
+                            state=GameState.MARKET_SHOWN;
+                            errorMessage="Choose a number between 0 and 3";
+                            return false;
+                        }
+                    controller.acquireFromMarket(clientHandler, params[0],params[1]);
                     return true;
             }
             errorMessage="Unknown state";
