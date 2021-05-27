@@ -221,6 +221,14 @@ public class Game implements ControllerEventListener,Runnable {
         return developmentCardGrid.getTopCardsIds();
     }
 
+    public ResType[][] getMarketTray(){
+        return market.getMarketTray();
+    }
+
+    public ResType getLeftoverMarble(){
+        return market.getLeftoverMarble();
+    }
+
     public DevelopmentCardGrid getDevelopmentCardGrid(){
         return developmentCardGrid;
     }
@@ -334,7 +342,7 @@ public class Game implements ControllerEventListener,Runnable {
     }
 
     public void acquireResources(String playername, String chosenResources){
-        String[] line = new String[2];
+        /*String[] line = new String[2];
         line = chosenResources.split(" ");
         PersonalBoard player = getPersonalBoard(playername);
         int num = Integer.parseInt(line[1]);
@@ -359,7 +367,7 @@ public class Game implements ControllerEventListener,Runnable {
             }
             player.addResourcesToDepot(resToAdd);
             market.updateColumn(num);
-        }
+        }*/
     }
 
     public int getMaximumPlayers(){

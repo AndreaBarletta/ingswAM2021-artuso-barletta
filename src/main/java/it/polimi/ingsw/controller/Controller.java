@@ -126,6 +126,14 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         return game.getDevelopmentCardsGridIds();
     }
 
+    public synchronized ResType[][] getMarketTray(){
+        return game.getMarketTray();
+    }
+
+    public synchronized ResType getLeftoverMarble(){
+        return game.getLeftoverMarble();
+    }
+
     public synchronized void showInitialLeaderCards(ClientHandler clientHandler){
         String[] ids=game.getInitialLeaderCards(clientHandlers.indexOf(clientHandler));
         clientHandler.send(new Message(MessageType.SHOW_LEADER_CARDS,ids));
@@ -156,6 +164,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public synchronized boolean leaderCardsChosen(ClientHandler clientHandler,String[] leaderCardsId){
         if(game.addLeaderCards(clientHandlers.indexOf(clientHandler),leaderCardsId)){
             boolean ok=true;
+            broadcast(new Message(MessageType.LEADER_CARDS_CHOSEN, new String[]{clientHandler.getPlayerName()}));
             for(ClientHandler c:clientHandlers){
                 if(c.getAutomaton().getState()!=GameState.LEADER_CARDS_CHOSEN){
                     ok=false;
@@ -172,7 +181,12 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                     }else{
                         c.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
                     }
-
+                    Map<ResType,Integer> testResources=new HashMap<>();
+                    testResources.put(ResType.SHIELD,100);
+                    testResources.put(ResType.COIN,100);
+                    testResources.put(ResType.SERVANT,100);
+                    testResources.put(ResType.STONE,100);
+                    game.getPersonalBoard(c.getPlayerName()).addResourcesToStrongbox(testResources);
                 }
             }
             return true;
@@ -186,7 +200,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * @param resource Type of resource to be added
      */
     public synchronized boolean addInitialResource(ClientHandler clientHandler, ResType resource){
-        if(resource!=ResType.FAITH){
+        if(resource!=ResType.FAITH&&resource!=ResType.ANY&&resource!=ResType.WHITEMARBLE){
             String playerName=clientHandler.getPlayerName();
             for(ClientHandler c:clientHandlers){
                 c.send(new Message(MessageType.CHOOSE_INITIAL_RESOURCES,new String[]{playerName,resource.toString()}));

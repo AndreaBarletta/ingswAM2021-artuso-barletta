@@ -40,6 +40,7 @@ public class GameStateAutomaton {
                         state=GameState.PLAYER_CONNECTED;
                         return false;
                     }
+                    clientHandler.send(new Message(MessageType.SET_PLAYERNAME,new String[]{params[0]}));
                     return true;
                 case NUMBER_OF_PLAYERS_ASKED:
                     clientHandler.send(new Message(MessageType.ASK_NUMBER_OF_PLAYERS,null));
@@ -66,19 +67,19 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.GAME_STARTED,null));
                     Gson gson=new Gson();
                     clientHandler.send(new Message(MessageType.SET_DEV_CARD_GRID,new String[]{gson.toJson(controller.getDevCardsGridIds())}));
+                    clientHandler.send(new Message(MessageType.SET_MARKET,new String[]{gson.toJson(controller.getMarketTray()),controller.getLeftoverMarble().name()}));
                     evolve("SHOW_LEADER_CARDS",null);
                     return true;
                 case LEADER_CARDS_SHOWN:
                         controller.showInitialLeaderCards(clientHandler);
                         return true;
                 case LEADER_CARDS_CHOSEN:
-                        if(!controller.leaderCardsChosen(clientHandler,params)) {
-                            errorMessage = "Invalid leader cards chosen";
-                            state=GameState.LEADER_CARDS_SHOWN;
-                            return false;
-                        }
-                        clientHandler.send(new Message(MessageType.CHOOSE_LEADER_CARDS, null));
-                        return true;
+                    if(!controller.leaderCardsChosen(clientHandler,params)) {
+                        errorMessage = "Invalid leader cards chosen";
+                        state=GameState.LEADER_CARDS_SHOWN;
+                        return false;
+                    }
+                    return true;
                 case INKWELL_DISTRIBUTED:
                     clientHandler.send(new Message(MessageType.INKWELL_GIVEN,params));
                     return true;
@@ -86,9 +87,16 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.ASK_INITIAL_RESOURCES,null));
                     return true;
                 case INITIAL_RESOURCES_CHOSEN:
+                    try{
+                        ResType.valueOf(params[0]);
+                    }catch(IllegalArgumentException e){
+                        state=GameState.INITIAL_RESOURCES_ASKED;
+                        errorMessage="Unknown resource specified";
+                        return false;
+                    }
                     if(!controller.addInitialResource(clientHandler,ResType.valueOf(params[0]))){
                         state=GameState.INITIAL_RESOURCES_ASKED;
-                        errorMessage="Cannot add faith points as initial resource";
+                        errorMessage="Cannot add the specified resource";
                         return false;
                     }
                     return true;
@@ -142,7 +150,7 @@ public class GameStateAutomaton {
                     return true;
                 case PRODUCTIONS_ACTIVATED:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"activate productions"}));
-                    clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,new String[]{clientHandler.getPlayerName()}));
+                    clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,new String[]{}));
                     return true;
                 case PRODUCTION_CHOSEN:
                     //TODO
@@ -171,6 +179,7 @@ public class GameStateAutomaton {
                 case DEV_CARD_GRID_UPDATED:
                     String[] messageParams=controller.removeDevCardFromMarket(params[0]);
                     controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_GRID,messageParams));
+                    return true;
                 case MARKET_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE, new String[]{clientHandler.getPlayerName(),"visit market"}));
                     clientHandler.send(new Message(MessageType.SHOW_MARKET, null));
@@ -178,6 +187,7 @@ public class GameStateAutomaton {
                 case RESOURCES_CHOSEN:
                     controller.acquireResources(clientHandler, params[0]);
                     controller.broadcast(new Message(MessageType.CHOOSE_RESOURCES, new String[]{clientHandler.getPlayerName()}));
+                    return true;
             }
             errorMessage="Unknown state";
             return false;
