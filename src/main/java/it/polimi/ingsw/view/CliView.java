@@ -251,14 +251,23 @@ public class CliView{
                         System.out.print("Choose which productions to activate (activate {id}) or go back (cancel): ");
                         break;
                     case SHOW_CHOSEN_PRODUCTIONS:
-                        System.out.print("Player "+message.params[0]+" has activated productions: ");
-                        if(message.params[1].equals("0")) System.out.print("base ");
-                        if(message.params[2].equals("1")) System.out.print("DevCard 1 ");
-                        if(message.params[3].equals("2")) System.out.print("DevCard 2");
-                        if(message.params[4].equals("3")) System.out.print("DevCard 3 ");
-                        if(message.params[5].equals("4")) System.out.print("Leader 1 ");
-                        if(message.params[6].equals("5")) System.out.print("Leader 2");
-                        System.out.println();
+                        LightPersonalBoard player=null;
+                        for(LightPersonalBoard lpb:lightPersonalBoards){
+                            if(lpb.getPlayerName().equals(message.params[0]))
+                                player=lpb;
+                        }
+                        if(player!=null){
+                            System.out.print("Player "+message.params[0]+" has activated productions: \n");
+                            for(int i=1;i<message.params.length;i++){
+                                if(message.params[i].equals("0"))
+                                    System.out.println("Base production\n"+player.getBaseProduction());
+                                if(message.params[i].equals("1")||message.params[i].equals("2")||message.params[i].equals("3"))
+                                    System.out.println("Development card production\n"+developmentCardDeck[player.getDevelopmentCardSlots()[Integer.parseInt(message.params[i])-1]].getProduction());
+                                if(message.params[i].equals("4")||message.params[i].equals("5"))
+                                    System.out.println("Leader card production\n"+player.getLeaderProductions().get(Integer.parseInt(message.params[i])-4));
+                            }
+                        }
+                        break;
                     case UPDATE_RESOURCES:
                         //TODO
                         break;

@@ -8,6 +8,9 @@ import it.polimi.ingsw.exceptions.LevelException;
 import it.polimi.ingsw.exceptions.ResourcesException;
 import it.polimi.ingsw.model.ResType;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 public class GameStateAutomaton {
     private GameState state;
     private String errorMessage;
@@ -148,13 +151,14 @@ public class GameStateAutomaton {
                 case TURN_ACTION_ASKED:
                     clientHandler.send(new Message(MessageType.ASK_TURN_ACTION,null));
                     return true;
-                case PRODUCTIONS_ACTIVATED:
+                case PRODUCTIONS_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"activate productions"}));
                     clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,new String[]{}));
                     return true;
                 case PRODUCTION_CHOSEN:
                     //TODO controller.activateProductions()
-                    controller.broadcast(new Message(MessageType.SHOW_CHOSEN_PRODUCTIONS,new String[]{clientHandler.getPlayerName(),params[0],params[1],params[2],params[3],params[4],params[5]}));
+                    controller.broadcast(new Message(MessageType.SHOW_CHOSEN_PRODUCTIONS,
+                            Stream.concat(Arrays.stream(new String[]{clientHandler.getPlayerName()}), Arrays.stream(params)).toArray(String[]::new)));
                     return true;
                 case RESOURCE_UPDATED:
                     //TODO
