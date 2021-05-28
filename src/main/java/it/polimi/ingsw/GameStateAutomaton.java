@@ -153,7 +153,8 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,new String[]{}));
                     return true;
                 case PRODUCTION_CHOSEN:
-                    //TODO
+                    //TODO controller.activateProductions()
+                    controller.broadcast(new Message(MessageType.SHOW_CHOSEN_PRODUCTIONS,new String[]{clientHandler.getPlayerName(),params[0],params[1],params[2],params[3],params[4],params[5]}));
                     return true;
                 case RESOURCE_UPDATED:
                     //TODO

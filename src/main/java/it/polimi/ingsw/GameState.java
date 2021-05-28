@@ -95,15 +95,15 @@ public enum GameState{
                     return true;
                 break;
             case PRODUCTIONS_ACTIVATED:
-                if(input.equals("ASK_TURN_ACTION")||input.equals("ASK_LEADER_ACTION"))
+                if(input.equals("CANCEL")||input.equals("CHOOSE_PRODUCTIONS"))
                     return true;
                 break;
             case PRODUCTION_CHOSEN:
-                if(input.equals("CANCEL")||input.equals("ASK_PRODUCTION_TO_ACTIVATE"))
+                if(input.equals("CANCEL")||input.equals("CHOOSE_PRODUCTIONS"))
                     return true;
                 break;
             case RESOURCE_UPDATED:
-                if(input.equals("CANCEL")||input.equals("PRODUCE_RESOURCES"))
+                if(input.equals("PRODUCE_RESOURCES"))
                     return true;
                 break;
             case DEV_CARD_GRID_SHOWN:
@@ -195,10 +195,10 @@ public enum GameState{
                 if(input.equals("SHOW_MARKET"))                     return MARKET_SHOWN;
             case PRODUCTIONS_ACTIVATED:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
-                if(input.equals("ASK_PRODUCTION_TO_ACTIVATE"))        return PRODUCTION_CHOSEN;
+                if(input.equals("ASK_PRODUCTION_TO_ACTIVATE"))      return PRODUCTION_CHOSEN;
             case PRODUCTION_CHOSEN:
                 if(input.equals("CANCEL"))                          return PRODUCTION_CHOSEN;
-                if(input.equals("PRODUCE_RESOURCES"))               return RESOURCE_UPDATED;
+                if(input.equals("CHOOSE_PRODUCTIONS"))              return RESOURCE_UPDATED;
             case RESOURCE_UPDATED:
                 return LEADER_ACTION_ASKED;
             case DEV_CARD_GRID_SHOWN:

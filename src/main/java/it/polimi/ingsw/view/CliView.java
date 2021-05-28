@@ -77,6 +77,11 @@ public class CliView{
             commandParser.addCommand("choosedevcard",1,MessageType.CHOOSE_DEV_CARD);
             commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
             commandParser.addCommand("activate",1,MessageType.CHOOSE_PRODUCTIONS);
+            commandParser.addCommand("activate",2,MessageType.CHOOSE_PRODUCTIONS);
+            commandParser.addCommand("activate",3,MessageType.CHOOSE_PRODUCTIONS);
+            commandParser.addCommand("activate",4,MessageType.CHOOSE_PRODUCTIONS);
+            commandParser.addCommand("activate",5,MessageType.CHOOSE_PRODUCTIONS);
+            commandParser.addCommand("activate",6,MessageType.CHOOSE_PRODUCTIONS);
             commandParser.addCommand("cancel",0,MessageType.CANCEL);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
@@ -225,6 +230,7 @@ public class CliView{
                     case SHOW_PRODUCTIONS:
                         for(LightPersonalBoard lp: lightPersonalBoards) {
                             if (lp.getPlayerName().equals(playerName)) {
+                                System.out.println("You have the following productions:");
                                 //base production
                                 System.out.println("Base production ID 0:\n"+lp.getBaseProduction());
                                 //production from Dev Card
@@ -244,6 +250,15 @@ public class CliView{
                         }
                         System.out.print("Choose which productions to activate (activate {id}) or go back (cancel): ");
                         break;
+                    case SHOW_CHOSEN_PRODUCTIONS:
+                        System.out.print("Player "+message.params[0]+" has activated productions: ");
+                        if(message.params[1].equals("0")) System.out.print("base ");
+                        if(message.params[2].equals("1")) System.out.print("DevCard 1 ");
+                        if(message.params[3].equals("2")) System.out.print("DevCard 2");
+                        if(message.params[4].equals("3")) System.out.print("DevCard 3 ");
+                        if(message.params[5].equals("4")) System.out.print("Leader 1 ");
+                        if(message.params[6].equals("5")) System.out.print("Leader 2");
+                        System.out.println();
                     case UPDATE_RESOURCES:
                         //TODO
                         break;
