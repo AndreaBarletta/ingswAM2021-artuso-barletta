@@ -37,14 +37,10 @@ public class PersonalBoard implements ControllerEventListener {
     private List<Depot> leaderDepots;
     private List<PersonalBoardEventListener> eventListeners;
     private boolean inkwell = false;
-    private DevelopmentCardGrid cardGrid;
-    private Market market;
     private boolean hasAlreadyChosenInitialResources;
 
     public PersonalBoard(String playerNickname, DevelopmentCardGrid cardGrid, Market market){
         this.playerName =playerNickname;
-        this.cardGrid=cardGrid;
-        this.market=market;
         //Create components
         eventListeners=new ArrayList<>();
         developmentCardSlots=new DevelopmentCardSlot[3];
@@ -431,25 +427,18 @@ public class PersonalBoard implements ControllerEventListener {
         this.hasAlreadyChosenInitialResources=hasAlreadyChosenInitialResources;
     }
 
-    public void activateLeaderCard(int id) throws CardNotFoundException, CardTypeException, ResourcesException, LevelException {
-        LeaderCard leaderCardToActivate=null;
-        for(LeaderCard l:leaderCards){
-            if(l.getId()==id){
-                leaderCardToActivate=l;
-                break;
-            }
-        }
-        if(leaderCardToActivate==null){
+    public void activateLeaderCard(LeaderCard leaderCard) throws CardNotFoundException, CardTypeException, ResourcesException, LevelException {
+        if(leaderCards.contains(leaderCard)){
+            List<DevelopmentCard> devCards=new ArrayList<>();
+            for(DevelopmentCardSlot ds:developmentCardSlots)
+                devCards.addAll(ds.getCards());
+
+            leaderCard.canActivate(getResources(),devCards);
+            leaderCard.activate();
+            leaderCard.effectOnActivate(this);
+        }else{
             throw new CardNotFoundException();
         }
-
-        List<DevelopmentCard> devCards=new ArrayList<>();
-        for(DevelopmentCardSlot ds:developmentCardSlots)
-            devCards.addAll(ds.getCards());
-
-        leaderCardToActivate.canActivate(getResources(),devCards);
-        leaderCardToActivate.activate();
-        leaderCardToActivate.effectOnActivate(this);
     }
 
     public void discardLeaderCard(int id) throws CardNotFoundException {

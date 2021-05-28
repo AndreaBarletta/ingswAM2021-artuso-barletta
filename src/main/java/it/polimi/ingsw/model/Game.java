@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Game implements ControllerEventListener {
     private List<PersonalBoard> personalBoards;
@@ -270,10 +271,18 @@ public class Game implements ControllerEventListener {
 
     public void activateLeaderCards(String playername, String leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException {
         PersonalBoard player=getPersonalBoard(playername);
-
-        if(player!=null){
-            player.activateLeaderCard(Integer.parseInt(leaderCardId));
-        }
+        if(Integer.parseInt(leaderCardId)<16&&Integer.parseInt(leaderCardId)>=0){
+            if(player!=null){
+                player.activateLeaderCard(leaderCards
+                        .stream()
+                        .filter(
+                                card->card.getId()==Integer.parseInt(leaderCardId))
+                        .collect(Collectors.toList())
+                        .get(0)
+                );
+            }
+        }else
+            throw new CardNotFoundException();
     }
 
     public void discardLeaderCards(String playername, String leaderCardId) throws CardNotFoundException {
