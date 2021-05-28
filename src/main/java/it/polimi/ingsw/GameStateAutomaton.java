@@ -9,6 +9,7 @@ import it.polimi.ingsw.exceptions.ResourcesException;
 import it.polimi.ingsw.model.ResType;
 
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.stream.Stream;
 
 public class GameStateAutomaton {
@@ -16,6 +17,7 @@ public class GameStateAutomaton {
     private String errorMessage;
     private ClientHandler clientHandler;
     private Controller controller;
+    private int tempId;
 
     public GameStateAutomaton(Controller controller, ClientHandler clientHandler){
         state=GameState.PLAYER_CONNECTED;
@@ -179,11 +181,26 @@ public class GameStateAutomaton {
                         errorMessage="You don't have the required cards to buy the selected development card";
                         return false;
                     }
-                    evolve("UPDATE_DEV_CARD_GRID",params);
+                    tempId=Integer.parseInt(params[0]);
+                    evolve("UPDATE_DEV_CARD_GRID",null);
                     return true;
                 case DEV_CARD_GRID_UPDATED:
-                    String[] messageParams=controller.removeDevCardFromMarket(params[0]);
+                    String[] messageParams=controller.removeDevCardFromMarket(String.valueOf(tempId));
                     controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_GRID,messageParams));
+                    evolve("ASK_DEV_CARD_SLOT",null);
+                    return true;
+                case DEV_CARD_SLOT_ASKED:
+                    clientHandler.send(new Message(MessageType.ASK_DEV_CARD_SLOT,null));
+                    return true;
+                case DEV_CARD_SLOT_CHOSEN:
+                    try {
+                        controller.addDevCardToSlot(clientHandler, String.valueOf(tempId),params[0]);
+                    }catch(LevelException e){
+                        errorMessage="Cannot add the card to the selected slot";
+                        state=GameState.DEV_CARD_SLOT_ASKED;
+                        return false;
+                    }
+                    controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_SLOT,new String[]{clientHandler.getPlayerName(),String.valueOf(tempId),params[0]}));
                     return true;
                 case MARKET_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE, new String[]{clientHandler.getPlayerName(),"visit market"}));

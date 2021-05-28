@@ -305,6 +305,13 @@ public class Game implements ControllerEventListener {
                 String.valueOf(developmentCardGrid.getTopCard(level,cardType).getId())};
     }
 
+    public void addDevCardToSlot(String playername, String devCardId, String slot) throws LevelException{
+        PersonalBoard p=getPersonalBoard(playername);
+        if(p!=null){
+            p.addDevCardToSlot(developmentCards.get(Integer.parseInt(devCardId)),Integer.parseInt(slot));
+        }
+    }
+
     /**
      * Acquires resources from the market
      * @param playername Name of the player that acquires the resources

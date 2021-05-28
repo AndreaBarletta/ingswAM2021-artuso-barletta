@@ -20,6 +20,15 @@ public class DevelopmentCardSlot {
         return devCardsSlot.size();     //devCardsSlot.capacity();
     }
 
+    public void canAddCard(DevelopmentCard devCard) throws LevelException {
+        if (devCardsSlot.size() == 0) {
+            if (devCard.getLevel() != 1)
+                throw new LevelException();
+        } else if (devCard.getLevel() != devCardsSlot.peek().getLevel() + 1) {
+            throw new LevelException();
+        }
+    }
+
     public void addCard(DevelopmentCard devCard) throws LevelException {
         if(devCardsSlot.size()==0){
             if(devCard.getLevel()==1){

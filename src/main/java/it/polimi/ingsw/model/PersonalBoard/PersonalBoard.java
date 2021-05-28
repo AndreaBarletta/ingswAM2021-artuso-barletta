@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -227,7 +228,7 @@ public class PersonalBoard implements ControllerEventListener {
         boolean canAdd=false;
         for(int i=0;i<3;i++){
             try{
-                canAddCardToSlot(devCard,i);
+                developmentCardSlots[i].canAddCard(devCard);
                 canAdd=true;
             }catch(LevelException e){}
         }
@@ -236,22 +237,8 @@ public class PersonalBoard implements ControllerEventListener {
             throw new LevelException();
     }
 
-    /**
-     * Checks if a given development card can be added to a slot
-     * @param card Development card to be added
-     * @param slot Slot in the playerboard whereto place the card
-     * @throws LevelException The player doesn't have an high enough card in the selected slot to buy the development card selected
-     */
-    public void canAddCardToSlot(DevelopmentCard card,int slot) throws LevelException {
-        if(developmentCardSlots[slot].getTopCard()!=null) {
-            if (developmentCardSlots[slot].getTopCard().getLevel() == card.getLevel() - 1) {
-                throw new LevelException();
-            }
-        }else{
-            if (card.getLevel()!=1) {
-                throw new LevelException();
-            }
-        }
+    public void addDevCardToSlot(DevelopmentCard card, int slot) throws LevelException{
+        developmentCardSlots[slot].addCard(card);
     }
 
     /**

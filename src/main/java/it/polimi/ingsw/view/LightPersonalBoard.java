@@ -106,4 +106,7 @@ public class LightPersonalBoard {
         leaderDepots.add(newDepot);
     }
 
+    public void setDevCardSlot(int id,int slot){
+        developmentCardSlots[slot]=id;
+    }
 }

@@ -281,6 +281,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.canBuyDevCard(clienthandler.getPlayerName(),id);
     }
 
+    public void addDevCardToSlot(ClientHandler clientHandler,String id,String slot) throws LevelException{
+        game.addDevCardToSlot(clientHandler.getPlayerName(),id,slot);
+    }
+
     public void acquireFromMarket(ClientHandler clientHandler, String rowOrColumn, String index){
         game.acquireFromMarket(clientHandler.getPlayerName(), rowOrColumn.equals("row"), Integer.parseInt(index));
         broadcast(new Message(MessageType.UPDATE_MARKET,new String[]{rowOrColumn,index}));

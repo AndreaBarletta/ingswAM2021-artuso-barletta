@@ -75,6 +75,7 @@ public class CliView{
             commandParser.addCommand("choose", 2, MessageType.CHOOSE_ROW_OR_COLUMN);
             commandParser.addCommand("buydevcard",0,MessageType.BUY_DEV_CARD);
             commandParser.addCommand("choosedevcard",1,MessageType.CHOOSE_DEV_CARD);
+            commandParser.addCommand("chooseslot",1,MessageType.CHOOSE_DEV_CARD_SLOT);
             commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
             commandParser.addCommand("activate",1,MessageType.CHOOSE_PRODUCTIONS);
             commandParser.addCommand("activate",2,MessageType.CHOOSE_PRODUCTIONS);
@@ -283,7 +284,29 @@ public class CliView{
                         developmentCardGrid[Integer.parseInt(message.params[0])][Integer.parseInt(message.params[1])]=Integer.parseInt(message.params[2]);
                         break;
                     case ASK_DEV_CARD_SLOT:
-                        System.out.print("Choose a development card to buy (choosedevcard {id})");
+                        LightPersonalBoard playerToAsk=null;
+                        for(LightPersonalBoard lpb:lightPersonalBoards) {
+                            if (lpb.getPlayerName().equals(playerName)) {
+                                playerToAsk = lpb;
+                            }
+                        }
+                        if(playerToAsk!=null){
+                            int i=0;
+                            for(int d:playerToAsk.getDevelopmentCardSlots()){
+                                System.out.println("Slot "+i+"\n"+(d==-1?"Empty":developmentCardDeck[d]));
+                                i++;
+                            }
+
+                            System.out.print("Choose where to put the new development card (chooseslot {0/1/2}: ");
+                        }
+
+                        break;
+                    case UPDATE_DEV_CARD_SLOT:
+                        for(LightPersonalBoard lpb:lightPersonalBoards){
+                            if(lpb.getPlayerName().equals(message.params[0])){
+                                lpb.setDevCardSlot(Integer.parseInt(message.params[1]),Integer.parseInt(message.params[2]));
+                            }
+                        }
                         break;
                     case SHOW_MARKET:
                         System.out.print(market+"Choose a row or a column (choose {row {0/1/2} / column {0/1/2/3}): ");
