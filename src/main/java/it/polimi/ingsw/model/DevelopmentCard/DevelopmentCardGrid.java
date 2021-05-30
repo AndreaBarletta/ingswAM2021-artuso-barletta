@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.DevelopmentCard;
 import it.polimi.ingsw.model.CardType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,8 +26,8 @@ public class DevelopmentCardGrid {
      * @return returns the card removed
      * Remove a card from the selected pile of the grid
      */
-    public DevelopmentCard removeCard(int level, CardType cardType){
-        return cardGrid[level-1][cardType.ordinal()].removeCard();
+    public void removeCard(int level, CardType cardType){
+        cardGrid[level-1][cardType.ordinal()].removeCard();
     }
 
     /**
@@ -40,9 +41,8 @@ public class DevelopmentCardGrid {
     }
 
     /**
-     *
-     * @param card
-     * Adds a new card to the grid, placing it in the right spot based on level and card type
+     * Adds a card to the right stack based on level and card type
+     * @param card Card to be added
      */
     public void addCard(DevelopmentCard card){
         cardGrid[card.getLevel()-1][card.getCardType().ordinal()].addCard(card);
@@ -54,14 +54,7 @@ public class DevelopmentCardGrid {
     public void shuffle(){
         for (int row = 0; row < 3; row ++){
             for (int col = 0; col < 4; col++){
-                List<DevelopmentCard> cards=new ArrayList<>();
-                while(!cardGrid[row][col].isEmpty()){
-                    cards.add(cardGrid[row][col].removeCard());
-                }
-                Collections.shuffle(cards);
-                for(DevelopmentCard card:cards){
-                    cardGrid[row][col].addCard(card);
-                }
+                cardGrid[row][col].shuffle();
             }
         }
     }

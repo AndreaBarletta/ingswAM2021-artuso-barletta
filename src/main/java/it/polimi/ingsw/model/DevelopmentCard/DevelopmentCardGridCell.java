@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.DevelopmentCard;
 
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 
+import java.util.Collections;
 import java.util.Stack;
 
 public class DevelopmentCardGridCell {
@@ -17,15 +18,14 @@ public class DevelopmentCardGridCell {
      */
     public void addCard(DevelopmentCard newCard){
         cardGridCell.push(newCard);
-
     }
 
     /**
      * Removes a card from the stack
      * @return The card removed from the stack
      */
-    public DevelopmentCard removeCard(){
-        return cardGridCell.pop();
+    public void removeCard(){
+        cardGridCell.pop();
     }
 
     /**
@@ -46,5 +46,12 @@ public class DevelopmentCardGridCell {
      */
     public DevelopmentCard getTopCard(){
         return cardGridCell.peek();
+    }
+
+    /**
+     * Shuffle the stack of cards
+     */
+    public void shuffle(){
+        Collections.shuffle(cardGridCell);
     }
 }

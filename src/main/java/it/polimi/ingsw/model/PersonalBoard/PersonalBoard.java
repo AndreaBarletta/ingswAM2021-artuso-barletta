@@ -169,7 +169,7 @@ public class PersonalBoard implements ControllerEventListener {
      */
     public void removeLeaderDepot(Depot leaderDepot){
         leaderDepots.remove(leaderDepot);
-    }//TODO scap
+    }
 
     /**
      * Adds a leader production to the leader production list

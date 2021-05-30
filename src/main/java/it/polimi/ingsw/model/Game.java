@@ -79,11 +79,11 @@ public class Game implements ControllerEventListener {
             for(DevelopmentCard d:developmentCards){
                 developmentCardGrid.addCard(d);
             }
+            developmentCardGrid.shuffle();
         }catch(JsonSyntaxException e){
             System.out.println("Error parsing json file for development cards");
             return false;
         }
-
         return true;
     }
 
@@ -153,8 +153,8 @@ public class Game implements ControllerEventListener {
      */
     public boolean addPlayer(String playerName) throws GameSizeExceeded, ParsingException,DuplicatedIdException {
         if(personalBoards.size()<maximumPlayers){
-            for(Iterator<PersonalBoard> pbIterator=personalBoards.iterator();pbIterator.hasNext();){
-                if(pbIterator.next().getPlayerName().equals(playerName)){
+            for (PersonalBoard personalBoard : personalBoards) {
+                if (personalBoard.getPlayerName().equals(playerName)) {
                     throw new DuplicatedIdException();
                 }
             }
@@ -199,7 +199,7 @@ public class Game implements ControllerEventListener {
     }
 
     /**
-     * Assign the inkwell to a random player
+     * Shuffles the player order and gives the inkwell to the first player
      */
     public void giveInkwell(){
         Collections.shuffle(personalBoards);
@@ -225,16 +225,10 @@ public class Game implements ControllerEventListener {
     }
 
     public String[] getLeaderCards(String playerName) {
-        List<LeaderCard> leaderCardsToShow = null;
-        for(PersonalBoard p: personalBoards) {
-            if(p.getPlayerName().equals(playerName)) {
-                 leaderCardsToShow = p.getLeaderCards();
-                break;
-            }
-        }
-        if(leaderCardsToShow!=null) {
+        PersonalBoard player=getPersonalBoard(playerName);
+        if(player!=null) {
             List<String> ids=new ArrayList<>();
-            for (LeaderCard l : leaderCardsToShow) {
+            for (LeaderCard l : player.getLeaderCards()) {
                 ids.add(Integer.toString(l.getId()));
             }
             return ids.toArray(String[]::new);
@@ -271,8 +265,8 @@ public class Game implements ControllerEventListener {
 
     public void activateLeaderCards(String playername, String leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException {
         PersonalBoard player=getPersonalBoard(playername);
-        if(Integer.parseInt(leaderCardId)<16&&Integer.parseInt(leaderCardId)>=0){
-            if(player!=null){
+        if(player!=null){
+            if(Integer.parseInt(leaderCardId)<16&&Integer.parseInt(leaderCardId)>=0){
                 player.activateLeaderCard(leaderCardsDeck
                         .stream()
                         .filter(
@@ -280,9 +274,11 @@ public class Game implements ControllerEventListener {
                         .collect(Collectors.toList())
                         .get(0)
                 );
+            }else {
+                throw new CardNotFoundException();
             }
-        }else
-            throw new CardNotFoundException();
+        }
+
     }
 
     public void discardLeaderCards(String playername, String leaderCardId) throws CardNotFoundException {
@@ -300,7 +296,6 @@ public class Game implements ControllerEventListener {
             player.activateProductions(productions);
         }
     }
-
 
     public void canBuyDevCard(String playername,String devCardId) throws ResourcesException, LevelException{
         PersonalBoard player=getPersonalBoard(playername);
