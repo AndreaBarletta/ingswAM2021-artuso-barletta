@@ -23,8 +23,8 @@ public class Game implements ControllerEventListener {
     private Market market;
     private DevelopmentCardGrid developmentCardGrid;
     private PopeFavourCard[] popeFavourCards;
-    private List<LeaderCard> leaderCards;
-    private List<DevelopmentCard> developmentCards;
+    private List<LeaderCard> leaderCardsDeck;
+    private List<DevelopmentCard> developmentCardsDeck;
     private List<GameEventListener> eventListeners;
     private int maximumPlayers;
 
@@ -33,7 +33,7 @@ public class Game implements ControllerEventListener {
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();
         eventListeners=new ArrayList<>();
-        leaderCards= new ArrayList<>();
+        leaderCardsDeck = new ArrayList<>();
         this.maximumPlayers=maximumPlayers;
         currentPlayerOrdinal=0;
     }
@@ -75,7 +75,7 @@ public class Game implements ControllerEventListener {
         Gson gson=new Gson();
         try{
             DevelopmentCard[] developmentCards=gson.fromJson(content, DevelopmentCard[].class);
-            this.developmentCards=Arrays.asList(developmentCards);
+            this.developmentCardsDeck =Arrays.asList(developmentCards);
             for(DevelopmentCard d:developmentCards){
                 developmentCardGrid.addCard(d);
             }
@@ -136,9 +136,9 @@ public class Game implements ControllerEventListener {
         Gson gson=gsonBuilder.create();
         try{
             LeaderCard[] leaderCardsArray=gson.fromJson(content, LeaderCard[].class);
-            leaderCards=Arrays.asList(leaderCardsArray);
+            leaderCardsDeck =Arrays.asList(leaderCardsArray);
             //Shuffle the cards
-            Collections.shuffle(leaderCards);
+            Collections.shuffle(leaderCardsDeck);
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for leader cards");
             return false;
@@ -213,7 +213,7 @@ public class Game implements ControllerEventListener {
      */
     public String[] getInitialLeaderCards(int playerNumber){
         List<LeaderCard> leaderCardsToShow = new ArrayList<>();
-        leaderCardsToShow=leaderCards.subList(playerNumber*4, (playerNumber+1)*4);
+        leaderCardsToShow= leaderCardsDeck.subList(playerNumber*4, (playerNumber+1)*4);
         personalBoards.get(playerNumber).setInitialLeaderCards(leaderCardsToShow);
         List<String> ids=new ArrayList<>();
 
@@ -245,7 +245,7 @@ public class Game implements ControllerEventListener {
     public boolean addLeaderCards(int playerNumber,String[] leaderCardsId){
         List<LeaderCard> leaderCardsToAdd=new ArrayList<>();
         for(String s:leaderCardsId){
-            for(LeaderCard l:leaderCards){
+            for(LeaderCard l: leaderCardsDeck){
                 if(l.getId()==Integer.parseInt(s)){
                     leaderCardsToAdd.add(l);
                     break;
@@ -273,7 +273,7 @@ public class Game implements ControllerEventListener {
         PersonalBoard player=getPersonalBoard(playername);
         if(Integer.parseInt(leaderCardId)<16&&Integer.parseInt(leaderCardId)>=0){
             if(player!=null){
-                player.activateLeaderCard(leaderCards
+                player.activateLeaderCard(leaderCardsDeck
                         .stream()
                         .filter(
                                 card->card.getId()==Integer.parseInt(leaderCardId))
@@ -297,12 +297,12 @@ public class Game implements ControllerEventListener {
         PersonalBoard player=getPersonalBoard(playername);
 
         if(player!=null){
-            player.canBuyDevCard(developmentCards.get(Integer.parseInt(devCardId)));
+            player.canBuyDevCard(developmentCardsDeck.get(Integer.parseInt(devCardId)));
         }
     }
 
     public String[] removeDevCardFromMarket(String devCardId){
-        DevelopmentCard devCardToRemove=developmentCards.get(Integer.parseInt(devCardId));
+        DevelopmentCard devCardToRemove= developmentCardsDeck.get(Integer.parseInt(devCardId));
         int level=devCardToRemove.getLevel();
         CardType cardType=devCardToRemove.getCardType();
 
@@ -317,7 +317,7 @@ public class Game implements ControllerEventListener {
     public void addDevCardToSlot(String playername, String devCardId, String slot) throws LevelException{
         PersonalBoard p=getPersonalBoard(playername);
         if(p!=null){
-            p.addDevCardToSlot(developmentCards.get(Integer.parseInt(devCardId)),Integer.parseInt(slot));
+            p.addDevCardToSlot(developmentCardsDeck.get(Integer.parseInt(devCardId)),Integer.parseInt(slot));
         }
     }
 
