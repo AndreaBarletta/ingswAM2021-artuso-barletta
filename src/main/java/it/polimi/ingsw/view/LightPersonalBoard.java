@@ -62,9 +62,7 @@ public class LightPersonalBoard {
         return developmentCardSlots;
     }
 
-    public void setDevelopmentCardSlots(int[] developmentCardSlots) {
-        this.developmentCardSlots = developmentCardSlots;
-    }
+    public void setDevelopmentCardSlots(int[] developmentCardSlots) { this.developmentCardSlots = developmentCardSlots; }
 
     public Strongbox getStrongbox() {
         return strongbox;
