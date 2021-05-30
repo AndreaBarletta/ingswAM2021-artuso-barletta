@@ -293,6 +293,15 @@ public class Game implements ControllerEventListener {
         }
     }
 
+    public void activateProductions(String playerName, Production[] productions) throws ResourcesException {
+        PersonalBoard player=getPersonalBoard(playerName);
+
+        if(player!=null) {
+            player.activateProductions(productions);
+        }
+    }
+
+
     public void canBuyDevCard(String playername,String devCardId) throws ResourcesException, LevelException{
         PersonalBoard player=getPersonalBoard(playername);
 

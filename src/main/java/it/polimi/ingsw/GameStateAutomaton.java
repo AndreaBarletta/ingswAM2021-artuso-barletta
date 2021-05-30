@@ -6,9 +6,12 @@ import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.CardTypeException;
 import it.polimi.ingsw.exceptions.LevelException;
 import it.polimi.ingsw.exceptions.ResourcesException;
+import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
@@ -158,9 +161,14 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,new String[]{}));
                     return true;
                 case PRODUCTION_CHOSEN:
-                    //TODO controller.activateProductions()
-                    controller.broadcast(new Message(MessageType.SHOW_CHOSEN_PRODUCTIONS,
-                            Stream.concat(Arrays.stream(new String[]{clientHandler.getPlayerName()}), Arrays.stream(params)).toArray(String[]::new)));
+                    try {
+                        controller.activateProductions(clientHandler.getPlayerName(), params);
+                    } catch (ResourcesException e) {
+                        state=GameState.PRODUCTIONS_SHOWN;
+                        errorMessage="You don't have enough resources to activate the selected productions";
+                        return false;
+                    }
+                    controller.broadcast(new Message(MessageType.SHOW_CHOSEN_PRODUCTIONS, Stream.concat(Arrays.stream(new String[]{clientHandler.getPlayerName()}), Arrays.stream(params)).toArray(String[]::new)));
                     return true;
                 case RESOURCE_UPDATED:
                     //TODO

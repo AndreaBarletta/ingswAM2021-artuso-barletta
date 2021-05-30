@@ -39,6 +39,7 @@ public class PersonalBoard implements ControllerEventListener {
     private boolean inkwell = false;
     private boolean hasAlreadyChosenInitialResources;
 
+
     public PersonalBoard(String playerNickname, DevelopmentCardGrid cardGrid, Market market){
         this.playerName =playerNickname;
         //Create components
@@ -121,6 +122,14 @@ public class PersonalBoard implements ControllerEventListener {
         return playerName;
     }
 
+    public Production getBaseProduction() {
+        return baseProduction;
+    }
+
+    public DevelopmentCardSlot[] getDevelopmentCardSlots() {
+        return developmentCardSlots;
+    }
+
     /**
      * Gets the resources stored in the player board
      * @return The resources stored
@@ -160,7 +169,7 @@ public class PersonalBoard implements ControllerEventListener {
      */
     public void removeLeaderDepot(Depot leaderDepot){
         leaderDepots.remove(leaderDepot);
-    }//scap
+    }//TODO scap
 
     /**
      * Adds a leader production to the leader production list
@@ -181,34 +190,12 @@ public class PersonalBoard implements ControllerEventListener {
         leaderProductions.remove(leaderProduction);
     }
 
-    public void addResourcesToStrongbox(Map<ResType,Integer> newResources){
-        strongbox.add(newResources);
+    public List<Production> getLeaderProductions() {
+        return leaderProductions;
     }
 
-    /**
-     * Checks if the given productions can be activated
-     * @param productions Productions to activate (including base production, leader card productions and development cards)
-     * @return Whether or not there are enough resources to activate the production
-     */
-    private boolean canProduce(List<Production> productions){
-        //Get chest and storage contents
-        Map<ResType,Integer> resources=getResources();
-        //Get the ingredients requires by the productions that have been selected
-        Map<ResType,Integer> requirements=new HashMap<>();
-        for(Production p:productions){
-            p.getIngredients().forEach(
-                    (key,value)->requirements.merge(key,value, Integer::sum)
-            );
-        }
-
-        //Checks if there are enough resources
-        for (Map.Entry<ResType, Integer> entry : resources.entrySet()) {
-            if(requirements.get(entry.getKey())>entry.getValue()){
-                return false;
-            }
-        }
-
-        return true;
+    public void addResourcesToStrongbox(Map<ResType,Integer> newResources){
+        strongbox.add(newResources);
     }
 
     /**
@@ -456,4 +443,46 @@ public class PersonalBoard implements ControllerEventListener {
             throw new CardNotFoundException();
         }
     }
+
+    /**
+     * Checks if the given productions can be activated
+     * @param productions Productions to activate (including base production, leader card productions and development cards)
+     * @return Whether or not there are enough resources to activate the production
+     */
+    private boolean canProduce(Production[] productions){
+        //Get chest and storage contents
+        Map<ResType,Integer> resources=getResources();
+        //Get the ingredients requires by the productions that have been selected
+        Map<ResType,Integer> requirements=new HashMap<>();
+        for(Production p:productions){
+            p.getIngredients().forEach(
+                    (key,value)->requirements.merge(key,value, Integer::sum)
+            );
+        }
+
+        //Checks if there are enough resources
+        for (Map.Entry<ResType, Integer> entry : resources.entrySet()) {
+            if(requirements.get(entry.getKey())>entry.getValue()){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void activateProductions(Production[] productions) throws ResourcesException {
+        //remove ingredients
+        if(canProduce(productions)) {
+            for(Production p : productions) {
+                //takeResource(p.getIngredients());
+            }
+        } else {
+            throw new ResourcesException();
+        }
+        //add products
+        for(Production p : productions) {
+            addResourcesToStrongbox(p.getProducts());
+        }
+    }
+
 }

@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
+import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 
@@ -275,6 +276,41 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
     public void addedLeaderProduction(String playerName) {
         broadcast(new Message(MessageType.LEADER_ACTIVATED,new String[]{playerName}));
+    }
+
+    public void activateProductions(String playerName, String[] productionsId) throws ResourcesException {
+        //convert ids in productions
+        Production[]  productions = new Production[productionsId.length];
+        PersonalBoard pb=game.getPersonalBoard(playerName);
+        int i=0;
+        for(String p : productionsId) {
+            if(p.equals("0")) {
+                productions[i]=pb.getBaseProduction();
+                i++;
+            }
+            else if(p.equals("1")) {
+                productions[i]=pb.getDevelopmentCardSlots()[1].getTopCard().getProduction();
+                i++;
+            }
+            else if(p.equals("2")) {
+                productions[i]=pb.getDevelopmentCardSlots()[2].getTopCard().getProduction();
+                i++;
+            }
+            else if(p.equals("3")) {
+                productions[i]=pb.getDevelopmentCardSlots()[3].getTopCard().getProduction();
+                i++;
+            }
+            else if(p.equals("4")) {
+                productions[i]=pb.getLeaderProductions().get(1);
+                i++;
+            }
+            else if(p.equals("5")) {
+                productions[i]=pb.getLeaderProductions().get(2);
+                i++;
+            }
+        }
+
+        game.activateProductions(playerName, productions);
     }
 
     public void canBuyDevCard(ClientHandler clienthandler,String id) throws ResourcesException,LevelException {
