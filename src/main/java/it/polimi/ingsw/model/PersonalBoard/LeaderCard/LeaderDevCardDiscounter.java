@@ -24,6 +24,7 @@ public class LeaderDevCardDiscounter extends LeaderCard {
         discounts.forEach((k,v)->developmentCard.getCost().put(k,developmentCard.getCost().get(k)-v));
     }
     public void effectOnDiscard(PersonalBoard personalBoard){}
+    public void effectOnDiscard(LightPersonalBoard lightPersonalBoard){}
     public String toString(){
         return super.toString()+"Type:Discounter\nDiscounts: "+discounts;
     }

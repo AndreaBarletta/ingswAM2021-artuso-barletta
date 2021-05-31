@@ -48,6 +48,7 @@ public abstract class LeaderCard {
     public abstract void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources);
     public abstract void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard);
     public abstract void effectOnDiscard(PersonalBoard personalBoard);
+    public abstract void effectOnDiscard(LightPersonalBoard lightPersonalBoard);
 
     /**
      * Checks if a leader card can be bought
