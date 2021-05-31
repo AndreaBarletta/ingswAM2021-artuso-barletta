@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.PersonalBoard.LeaderCard;
 
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
-import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.view.LightPersonalBoard;
@@ -28,6 +27,7 @@ public class LeaderWhiteMarbleConverter extends LeaderCard{
 
     public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
     public void effectOnDiscard(PersonalBoard personalBoard){}
+    public void effectOnDiscard(LightPersonalBoard lightPersonalBoard){}
 
     public String toString(){
         return super.toString()+"Type:Converter\nConverts into: "+convertedResource;
