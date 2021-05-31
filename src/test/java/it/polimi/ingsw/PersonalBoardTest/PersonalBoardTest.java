@@ -29,13 +29,13 @@ public class PersonalBoardTest {
     @Test
     public void testLoadFaithTrackFromFile(){
         PersonalBoard personalBoard=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
-        assertTrue(personalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json"));
+        assertTrue(personalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath()));
     }
 
     @Test
     public void testCanBuyDevCard(){
         PersonalBoard personalBoard=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
-        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
+        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath());
 
         Map<ResType,Integer> resources=new HashMap<>();
         /*

@@ -17,7 +17,7 @@ public class FaithTrackTest {
     @Test
     public void testIncrementFaithTrack(){
         String content="";
-        File file=new File("src/main/resources/faithTrack.json");
+        File file=new File(getClass().getClassLoader().getResource("faithTrack.json").getPath());
         try{
             content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         }catch(IOException e){

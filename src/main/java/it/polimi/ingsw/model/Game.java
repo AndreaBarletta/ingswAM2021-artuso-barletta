@@ -160,7 +160,7 @@ public class Game implements ControllerEventListener {
             }
             PersonalBoard newPersonalBoard=new PersonalBoard(playerName,developmentCardGrid,market);
             personalBoards.add(newPersonalBoard);
-            if(!newPersonalBoard.loadFaithTrackFromFile("src/main/resources/faithTrack.json")){
+            if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath())){
                 throw new ParsingException();
             }
         }else{

@@ -29,8 +29,8 @@ public class LeaderCardTest {
 
         resources.put(ResType.SHIELD,4);
 
-        LeaderCard[] leaderCards=loadLeaderCardsFromFile("src/main/resources/leaderCards.json");
-        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile("src/main/resources/developmentCards.json");
+        LeaderCard[] leaderCards=loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath());
+        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath());
         /*"resourceRequirements":{
             "SHIELD":5
         }*/
