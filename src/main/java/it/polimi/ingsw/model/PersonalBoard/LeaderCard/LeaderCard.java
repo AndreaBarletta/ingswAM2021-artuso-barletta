@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class LeaderCard {
+    //Images for the GUI
+    protected String cardFront;
+    protected String cardBack;
     protected boolean isActive;
     protected int victoryPoints;
     protected Map<CardType, Integer> levelRequirements;
@@ -120,5 +123,13 @@ public abstract class LeaderCard {
             leaderToString+="\n";
         }
         return leaderToString;
+    }
+
+    public String getCardBack() {
+        return cardBack;
+    }
+
+    public String getCardFront() {
+        return cardFront;
     }
 }

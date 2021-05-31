@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.ResType;
 import java.util.Map;
 
 public class DevelopmentCard {
+    //Images for the GUI
+    private String cardFront;
+    private String cardBack;
     // Id of the card
     private int id;
     // Level of the card
@@ -102,5 +105,13 @@ public class DevelopmentCard {
             }
         }
         return true;
+    }
+
+    public String getCardBack() {
+        return cardBack;
+    }
+
+    public String getCardFront() {
+        return cardFront;
     }
 }
