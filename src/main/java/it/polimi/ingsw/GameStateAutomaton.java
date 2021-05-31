@@ -113,7 +113,7 @@ public class GameStateAutomaton {
                     controller.checkIfGameCanStart();
                     return true;
                 case LEADER_ACTION_ASKED:
-                    controller.showLeaderCards(clientHandler);
+                    clientHandler.send(new Message(MessageType.ASK_LEADER_ACTION,null));
                     return true;
                 case LEADER_ACTION_ACTIVATED:
                     try {

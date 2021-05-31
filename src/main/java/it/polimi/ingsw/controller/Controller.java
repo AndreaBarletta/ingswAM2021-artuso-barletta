@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Controller implements PersonalBoardEventListener,GameEventListener {
     private List<ControllerEventListener> eventListeners;
@@ -81,9 +82,9 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         if(numberOfPlayers>=2&&numberOfPlayers<=4){
             game=new Game(numberOfPlayers);
 
-            if(!game.loadDevelopmentCardGridFromFile("src/main/resources/developmentCards.json")) return false;
-            if(!game.loadPopeFavourCardsFromFile("src/main/resources/popeFavourCards.json")) return false;
-            if(!game.loadLeaderCardsFromFile("src/main/resources/leaderCards.json")) return false;
+            if(!game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath())) return false;
+            if(!game.loadPopeFavourCardsFromFile(getClass().getClassLoader().getResource("popeFavourCards.json").getPath())) return false;
+            if(!game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath())) return false;
 
             try{
                 game.addPlayer(clientHandler.getPlayerName());
@@ -140,11 +141,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         clientHandler.send(new Message(MessageType.SHOW_LEADER_CARDS,ids));
     }
 
-    public synchronized void showLeaderCards(ClientHandler clientHandler) {
-        String[] ids=game.getLeaderCards(clientHandler.getPlayerName());
-        clientHandler.send(new Message(MessageType.ASK_LEADER_ACTION,ids));
-    }
-
     /**
      * Inform the other player who has received the inkwell
      * @param playerName name of the player that received the inkwell
@@ -165,7 +161,12 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public synchronized boolean leaderCardsChosen(ClientHandler clientHandler,String[] leaderCardsId){
         if(game.addLeaderCards(clientHandlers.indexOf(clientHandler),leaderCardsId)){
             boolean ok=true;
-            broadcast(new Message(MessageType.LEADER_CARDS_CHOSEN, new String[]{clientHandler.getPlayerName()}));
+            broadcast(new Message(MessageType.LEADER_CARDS_CHOSEN,
+                    Stream.concat(
+                            Arrays.stream(new String[]{clientHandler.getPlayerName()}),
+                            Arrays.stream(leaderCardsId))
+                            .toArray(String[]::new))
+            );
             for(ClientHandler c:clientHandlers){
                 if(c.getAutomaton().getState()!=GameState.LEADER_CARDS_CHOSEN){
                     ok=false;
@@ -203,9 +204,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public synchronized boolean addInitialResource(ClientHandler clientHandler, ResType resource){
         if(resource!=ResType.FAITH&&resource!=ResType.ANY&&resource!=ResType.WHITEMARBLE){
             String playerName=clientHandler.getPlayerName();
-            for(ClientHandler c:clientHandlers){
-                c.send(new Message(MessageType.CHOOSE_INITIAL_RESOURCES,new String[]{playerName,resource.toString()}));
-            }
+            broadcast(new Message(MessageType.CHOOSE_INITIAL_RESOURCES,new String[]{playerName,resource.name()}));
             game.addInitialResource(playerName,resource);
 
             //Check based on the player order, if they are allowed another additional resource
@@ -213,9 +212,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             switch(game.getPlayerOrdinal(playerName)){
                 case 2:
                     game.getPersonalBoard(playerName).incrementFaithTrack(1);
-                    for(ClientHandler c:clientHandlers){
-                        c.send(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
-                    }
+                    broadcast(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
                     clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
                     break;
                 case 3:
@@ -224,9 +221,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                         clientHandler.getAutomaton().evolve("ASK_INITIAL_RESOURCES",null);
                     }else{
                         game.getPersonalBoard(playerName).incrementFaithTrack(1);
-                        for(ClientHandler c:clientHandlers){
-                            c.send(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
-                        }
+                        broadcast(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
                         clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
                     }
                     break;
