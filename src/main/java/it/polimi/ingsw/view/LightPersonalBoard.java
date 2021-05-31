@@ -50,14 +50,6 @@ public class LightPersonalBoard {
         this.leaderCards = leaderCards;
     }
 
-    public FaithTrack getFaithTrack() {
-        return faithTrack;
-    }
-
-    public void setFaithTrack(FaithTrack faithTrack) {
-        this.faithTrack = faithTrack;
-    }
-
     public int[] getDevelopmentCardSlots() {
         return developmentCardSlots;
     }
@@ -96,12 +88,18 @@ public class LightPersonalBoard {
         return leaderProductions;
     }
 
-    public void addLeaderProductions(Production newLeaderProduction) {
+    public void addLeaderProduction(Production newLeaderProduction) {
         leaderProductions.add(newLeaderProduction);
     }
 
+    public void removeLeaderProduction(Production leaderProduction){leaderProductions.remove(leaderProduction);}
+
     public void addLeaderDepot(Depot newDepot) {
         leaderDepots.add(newDepot);
+    }
+
+    public void removeLeaderDepot(Depot leaderDepot){
+        leaderDepots.remove(leaderDepot);
     }
 
     public void setDevCardSlot(int id,int slot){
