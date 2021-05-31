@@ -35,7 +35,7 @@ public class PersonalBoardTest {
     @Test
     public void testCanBuyDevCard(){
         PersonalBoard personalBoard=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
-        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath());
+        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards/developmentCards.json").getPath());
 
         Map<ResType,Integer> resources=new HashMap<>();
         /*

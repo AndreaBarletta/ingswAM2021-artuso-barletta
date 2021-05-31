@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
-import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGridCell;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 
@@ -70,9 +69,9 @@ public class LightModel {
     }
 
     public boolean loadResources(){
-        if((leaderCardDeck=loadLeaderCardDeckFromJson("leaderCards.json"))==null)
+        if((leaderCardDeck=loadLeaderCardDeckFromJson("leaderCards/leaderCards.json"))==null)
             return false;
-        if((developmentCardDeck=loadLDevelopmentCardDeckFromJson("developmentCards.json"))==null)
+        if((developmentCardDeck=loadLDevelopmentCardDeckFromJson("developmentCards/developmentCards.json"))==null)
             return false;
         return true;
     }

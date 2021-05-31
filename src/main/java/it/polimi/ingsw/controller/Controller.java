@@ -6,10 +6,6 @@ import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
-import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
-import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
-import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
@@ -82,9 +78,9 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         if(numberOfPlayers>=2&&numberOfPlayers<=4){
             game=new Game(numberOfPlayers);
 
-            if(!game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath())) return false;
+            if(!game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards/developmentCards.json").getPath())) return false;
             if(!game.loadPopeFavourCardsFromFile(getClass().getClassLoader().getResource("popeFavourCards.json").getPath())) return false;
-            if(!game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath())) return false;
+            if(!game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards/leaderCards.json").getPath())) return false;
 
             try{
                 game.addPlayer(clientHandler.getPlayerName());

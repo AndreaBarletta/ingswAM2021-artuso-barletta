@@ -6,7 +6,6 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.exceptions.CardTypeException;
 import it.polimi.ingsw.exceptions.LevelException;
 import it.polimi.ingsw.exceptions.ResourcesException;
-import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
@@ -29,8 +28,8 @@ public class LeaderCardTest {
 
         resources.put(ResType.SHIELD,4);
 
-        LeaderCard[] leaderCards=loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath());
-        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath());
+        LeaderCard[] leaderCards=loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards/leaderCards.json").getPath());
+        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards/developmentCards.json").getPath());
         /*"resourceRequirements":{
             "SHIELD":5
         }*/
