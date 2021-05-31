@@ -12,9 +12,9 @@ public class GameTest {
     @Test
     public void testLoadFromFile(){
         Game game=new Game(4);
-        assertTrue(game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath()));
+        assertTrue(game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards/developmentCards.json").getPath()));
         assertTrue(game.loadPopeFavourCardsFromFile(getClass().getClassLoader().getResource("popeFavourCards.json").getPath()));
-        assertTrue(game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath()));
+        assertTrue(game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards/leaderCards.json").getPath()));
 
         assertEquals(game.getDevelopmentCardGrid().size(),48);
     }
@@ -53,6 +53,6 @@ public class GameTest {
         }catch(Exception e){}
 
 
-        game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath());
+        game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards/leaderCards.json").getPath());
     }
 }

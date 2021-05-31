@@ -1,17 +1,19 @@
 [
   {
+    "cardFront":"leaderCards/front/0_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 0,
-    "type": "discounter",
-    "victoryPoints":2,
+    "type": "converter",
+    "victoryPoints":5,
     "cardRequirements":{
-      "GREEN":1,
+      "YELLOW":2,
       "BLUE":1
     },
-    "discounts": {
-      "STONE": 1
-    }
+    "convertedResource": "SERVANT"
   },
   {
+    "cardFront":"leaderCards/front/1_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 1,
     "type": "converter",
     "victoryPoints":5,
@@ -22,6 +24,8 @@
     "convertedResource": "SHIELD"
   },
   {
+    "cardFront":"leaderCards/front/2_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 2,
     "type": "converter",
     "victoryPoints":5,
@@ -32,6 +36,8 @@
     "convertedResource": "STONE"
   },
   {
+    "cardFront":"leaderCards/front/3_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 3,
     "type": "converter",
     "victoryPoints":5,
@@ -42,16 +48,23 @@
     "convertedResource": "COIN"
   },
   {
+    "cardFront":"leaderCards/front/4_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 4,
-    "type": "converter",
-    "victoryPoints":5,
-    "cardRequirements":{
-      "YELLOW":2,
-      "BLUE":1
+    "type": "depot",
+    "victoryPoints":3,
+    "resourceRequirements":{
+      "SERVANT":5
     },
-    "convertedResource": "SERVANT"
+    "depot": {
+      "capacity": 2,
+      "counter": 0,
+      "depotResource": "SHIELD"
+    }
   },
   {
+    "cardFront":"leaderCards/front/5_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 5,
     "type": "depot",
     "victoryPoints":3,
@@ -65,6 +78,8 @@
     }
   },
   {
+    "cardFront":"leaderCards/front/6_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 6,
     "type": "depot",
     "victoryPoints":3,
@@ -78,6 +93,8 @@
     }
   },
   {
+    "cardFront":"leaderCards/front/7_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 7,
     "type": "depot",
     "victoryPoints":3,
@@ -91,19 +108,27 @@
     }
   },
   {
+    "cardFront":"leaderCards/front/8_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 8,
-    "type": "depot",
-    "victoryPoints":3,
-    "resourceRequirements":{
-      "SERVANT":5
+    "type": "producer",
+    "victoryPoints":4,
+    "levelRequirements":{
+      "BLUE":2
     },
-    "depot": {
-      "capacity": 2,
-      "counter": 0,
-      "depotResource": "SHIELD"
+    "production":{
+      "ingredients":{
+        "SERVANT":1
+      },
+      "products":{
+        "ANY":1,
+        "FAITH": 1
+      }
     }
   },
   {
+    "cardFront":"leaderCards/front/9_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 9,
     "type": "producer",
     "victoryPoints":4,
@@ -121,6 +146,8 @@
     }
   },
   {
+    "cardFront":"leaderCards/front/10_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 10,
     "type": "producer",
     "victoryPoints":4,
@@ -138,6 +165,8 @@
     }
   },
   {
+    "cardFront":"leaderCards/front/11_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 11,
     "type": "producer",
     "victoryPoints":4,
@@ -155,23 +184,22 @@
     }
   },
   {
+    "cardFront":"leaderCards/front/12_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 12,
-    "type": "producer",
-    "victoryPoints":4,
-    "levelRequirements":{
-      "BLUE":2
+    "type": "discounter",
+    "victoryPoints":2,
+    "cardRequirements":{
+      "GREEN":1,
+      "BLUE":1
     },
-    "production":{
-      "ingredients":{
-        "SERVANT":1
-      },
-      "products":{
-        "ANY":1,
-        "FAITH": 1
-      }
+    "discounts": {
+      "STONE": 1
     }
   },
   {
+    "cardFront":"leaderCards/front/13_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 13,
     "type": "discounter",
     "victoryPoints":2,
@@ -184,6 +212,8 @@
     }
   },
   {
+    "cardFront":"leaderCards/front/14_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 14,
     "type": "discounter",
     "victoryPoints":2,
@@ -196,6 +226,8 @@
     }
   },
   {
+    "cardFront":"leaderCards/front/15_front.png",
+    "cardBack":"leaderCards/back/leader_back.png",
     "id": 15,
     "type": "discounter",
     "victoryPoints":2,

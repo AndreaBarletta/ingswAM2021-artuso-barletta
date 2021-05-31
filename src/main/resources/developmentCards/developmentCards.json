@@ -1,5 +1,7 @@
 [
   {
+    "cardFront":"developmentCards/front/0_front.png",
+    "cardBack":"developmentCards/back/green_1_back.png",
     "id": 0,
     "level":1,
     "cost":{
@@ -17,6 +19,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/1_front.png",
+    "cardBack":"developmentCards/back/green_1_back.png",
     "id": 1,
     "level":1,
     "cost":{
@@ -37,6 +41,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/2_front.png",
+    "cardBack":"developmentCards/back/green_1_back.png",
     "id": 2,
     "level":1,
     "cost":{
@@ -48,7 +54,7 @@
     "cardType":"GREEN",
     "production":{
       "ingredients":{
-        "STONE":2
+        "STONE":1
       },
       "products":{
         "SERVANT":1
@@ -56,6 +62,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/3_front.png",
+    "cardBack":"developmentCards/back/green_1_back.png",
     "id": 3,
     "level":1,
     "cost":{
@@ -75,6 +83,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/4_front.png",
+    "cardBack":"developmentCards/back/blue_1_back.png",
     "id": 4,
     "level":1,
     "cost":{
@@ -94,6 +104,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/5_front.png",
+    "cardBack":"developmentCards/back/blue_1_back.png",
     "id": 5,
     "level":1,
     "cost":{
@@ -114,6 +126,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/6_front.png",
+    "cardBack":"developmentCards/back/blue_1_back.png",
     "id": 6,
     "level":1,
     "cost":{
@@ -131,6 +145,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/7_front.png",
+    "cardBack":"developmentCards/back/blue_1_back.png",
     "id": 7,
     "level":1,
     "cost":{
@@ -150,6 +166,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/8_front.png",
+    "cardBack":"developmentCards/back/yellow_1_back.png",
     "id": 8,
     "level":1,
     "cost":{
@@ -169,6 +187,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/9_front.png",
+    "cardBack":"developmentCards/back/yellow_1_back.png",
     "id": 9,
     "level":1,
     "cost":{
@@ -189,6 +209,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/10_front.png",
+    "cardBack":"developmentCards/back/yellow_1_back.png",
     "id": 10,
     "level":1,
     "cost":{
@@ -206,6 +228,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/11_front.png",
+    "cardBack":"developmentCards/back/yellow_1_back.png",
     "id": 11,
     "level":1,
     "cost":{
@@ -225,6 +249,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/12_front.png",
+    "cardBack":"developmentCards/back/purple_1_back.png",
     "id": 12,
     "level":1,
     "cost":{
@@ -244,6 +270,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/13_front.png",
+    "cardBack":"developmentCards/back/purple_1_back.png",
     "id": 13,
     "level":1,
     "cost":{
@@ -264,6 +292,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/14_front.png",
+    "cardBack":"developmentCards/back/purple_1_back.png",
     "id": 14,
     "level":1,
     "cost":{
@@ -281,6 +311,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/15_front.png",
+    "cardBack":"developmentCards/back/purple_1_back.png",
     "id": 15,
     "level":1,
     "cost":{
@@ -300,6 +332,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/16_front.png",
+    "cardBack":"developmentCards/back/green_2_back.png",
     "id": 16,
     "level":2,
     "cost":{
@@ -317,6 +351,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/17_front.png",
+    "cardBack":"developmentCards/back/green_2_back.png",
     "id": 17,
     "level":2,
     "cost":{
@@ -336,6 +372,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/18_front.png",
+    "cardBack":"developmentCards/back/green_2_back.png",
     "id": 18,
     "level":2,
     "cost":{
@@ -354,6 +392,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/19_front.png",
+    "cardBack":"developmentCards/back/green_2_back.png",
     "id": 19,
     "level":2,
     "cost":{
@@ -373,6 +413,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/20_front.png",
+    "cardBack":"developmentCards/back/blue_2_back.png",
     "id": 20,
     "level":2,
     "cost":{
@@ -390,6 +432,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/21_front.png",
+    "cardBack":"developmentCards/back/blue_2_back.png",
     "id": 21,
     "level":2,
     "cost":{
@@ -409,6 +453,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/22_front.png",
+    "cardBack":"developmentCards/back/blue_2_back.png",
     "id": 22,
     "level":2,
     "cost":{
@@ -427,6 +473,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/23_front.png",
+    "cardBack":"developmentCards/back/blue_2_back.png",
     "id": 23,
     "level":2,
     "cost":{
@@ -446,6 +494,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/24_front.png",
+    "cardBack":"developmentCards/back/yellow_2_back.png",
     "id": 24,
     "level":2,
     "cost":{
@@ -463,6 +513,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/25_front.png",
+    "cardBack":"developmentCards/back/yellow_2_back.png",
     "id": 25,
     "level":2,
     "cost":{
@@ -482,6 +534,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/26_front.png",
+    "cardBack":"developmentCards/back/yellow_2_back.png",
     "id": 26,
     "level":2,
     "cost":{
@@ -500,6 +554,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/27_front.png",
+    "cardBack":"developmentCards/back/yellow_2_back.png",
     "id": 27,
     "level":2,
     "cost":{
@@ -519,6 +575,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/28_front.png",
+    "cardBack":"developmentCards/back/purple_2_back.png",
     "id": 28,
     "level":2,
     "cost":{
@@ -536,6 +594,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/29_front.png",
+    "cardBack":"developmentCards/back/purple_2_back.png",
     "id": 29,
     "level":2,
     "cost":{
@@ -555,6 +615,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/30_front.png",
+    "cardBack":"developmentCards/back/purple_2_back.png",
     "id": 30,
     "level":2,
     "cost":{
@@ -573,6 +635,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/31_front.png",
+    "cardBack":"developmentCards/back/purple_2_back.png",
     "id": 31,
     "level":2,
     "cost":{
@@ -592,6 +656,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/32_front.png",
+    "cardBack":"developmentCards/back/green_3_back.png",
     "id": 32,
     "level":3,
     "cost":{
@@ -610,6 +676,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/33_front.png",
+    "cardBack":"developmentCards/back/green_3_back.png",
     "id": 33,
     "level":3,
     "cost":{
@@ -631,6 +699,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/34_front.png",
+    "cardBack":"developmentCards/back/green_3_back.png",
     "id": 34,
     "level":3,
     "cost":{
@@ -649,6 +719,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/35_front.png",
+    "cardBack":"developmentCards/back/green_3_back.png",
     "id": 35,
     "level":3,
     "cost":{
@@ -668,6 +740,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/36_front.png",
+    "cardBack":"developmentCards/back/blue_3_back.png",
     "id": 36,
     "level":3,
     "cost":{
@@ -686,6 +760,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/37_front.png",
+    "cardBack":"developmentCards/back/blue_3_back.png",
     "id": 37,
     "level":3,
     "cost":{
@@ -707,6 +783,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/38_front.png",
+    "cardBack":"developmentCards/back/blue_3_back.png",
     "id": 38,
     "level":3,
     "cost":{
@@ -725,6 +803,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/39_front.png",
+    "cardBack":"developmentCards/back/blue_3_back.png",
     "id": 39,
     "level":3,
     "cost":{
@@ -744,6 +824,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/40_front.png",
+    "cardBack":"developmentCards/back/yellow_3_back.png",
     "id": 40,
     "level":3,
     "cost":{
@@ -762,6 +844,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/41_front.png",
+    "cardBack":"developmentCards/back/yellow_3_back.png",
     "id": 41,
     "level":3,
     "cost":{
@@ -783,6 +867,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/42_front.png",
+    "cardBack":"developmentCards/back/yellow_3_back.png",
     "id": 42,
     "level":3,
     "cost":{
@@ -801,6 +887,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/43_front.png",
+    "cardBack":"developmentCards/back/yellow_3_back.png",
     "id": 43,
     "level":3,
     "cost":{
@@ -820,6 +908,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/44_front.png",
+    "cardBack":"developmentCards/back/purple_3_back.png",
     "id": 44,
     "level":3,
     "cost":{
@@ -838,6 +928,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/45_front.png",
+    "cardBack":"developmentCards/back/purple_3_back.png",
     "id": 45,
     "level":3,
     "cost":{
@@ -859,6 +951,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/48_front.png",
+    "cardBack":"developmentCards/back/purple_3_back.png",
     "id": 46,
     "level":3,
     "cost":{
@@ -877,6 +971,8 @@
     }
   },
   {
+    "cardFront":"developmentCards/front/47_front.png",
+    "cardBack":"developmentCards/back/purple_3_back.png",
     "id": 47,
     "level":3,
     "cost":{
