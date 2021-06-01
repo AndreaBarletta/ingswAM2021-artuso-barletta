@@ -7,10 +7,11 @@ import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LightPersonalBoard {
     private String playerName;
-    private int[] leaderCards;
+    private List<Integer> leaderCards;
     private FaithTrack faithTrack;
     private Stack<Integer>[] developmentCardSlots;
     private Strongbox strongbox;
@@ -40,24 +41,16 @@ public class LightPersonalBoard {
         return playerName;
     }
 
-    public int[] getLeaderCards() {
+    public List<Integer> getLeaderCards() {
         return leaderCards;
     }
 
-    public void setLeaderCards(int[] leaderCards) {
+    public void setLeaderCards(List<Integer> leaderCards) {
         this.leaderCards = leaderCards;
     }
 
     public Stack<Integer>[] getDevelopmentCardSlots() {
         return developmentCardSlots;
-    }
-
-    public Strongbox getStrongbox() {
-        return strongbox;
-    }
-
-    public List<Depot> getDepots() {
-        return depots;
     }
 
     public void setInkwell(boolean inkwell) {
@@ -88,5 +81,9 @@ public class LightPersonalBoard {
 
     public void setDevCardSlot(int id,int slot){
         developmentCardSlots[slot].push(id);
+    }
+
+    public void discardLeaderCard(int id){
+        leaderCards.remove(Integer.valueOf(id));
     }
 }
