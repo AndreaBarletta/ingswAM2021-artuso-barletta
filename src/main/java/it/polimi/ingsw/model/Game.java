@@ -27,6 +27,7 @@ public class Game implements ControllerEventListener {
     private List<DevelopmentCard> developmentCardsDeck;
     private List<GameEventListener> eventListeners;
     private int maximumPlayers;
+    private boolean hasStarted;
 
     public Game(int maximumPlayers){
         personalBoards=new ArrayList<>();
@@ -36,6 +37,7 @@ public class Game implements ControllerEventListener {
         leaderCardsDeck = new ArrayList<>();
         this.maximumPlayers=maximumPlayers;
         currentPlayerOrdinal=0;
+        hasStarted=false;
     }
 
     /**
@@ -236,11 +238,11 @@ public class Game implements ControllerEventListener {
         return null;
     }
 
-    public boolean addLeaderCards(int playerNumber,String[] leaderCardsId){
+    public boolean addLeaderCards(int playerNumber,int[] leaderCardsId){
         List<LeaderCard> leaderCardsToAdd=new ArrayList<>();
-        for(String s:leaderCardsId){
+        for(int i:leaderCardsId){
             for(LeaderCard l: leaderCardsDeck){
-                if(l.getId()==Integer.parseInt(s)){
+                if(l.getId()==i){
                     leaderCardsToAdd.add(l);
                     break;
                 }
@@ -263,14 +265,14 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public void activateLeaderCards(String playername, String leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException {
+    public void activateLeaderCards(String playername, int leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
         PersonalBoard player=getPersonalBoard(playername);
         if(player!=null){
-            if(Integer.parseInt(leaderCardId)<16&&Integer.parseInt(leaderCardId)>=0){
+            if(leaderCardId<16&&leaderCardId>=0){
                 player.activateLeaderCard(leaderCardsDeck
                         .stream()
                         .filter(
-                                card->card.getId()==Integer.parseInt(leaderCardId))
+                                card->card.getId()==leaderCardId)
                         .collect(Collectors.toList())
                         .get(0)
                 );
@@ -281,11 +283,11 @@ public class Game implements ControllerEventListener {
 
     }
 
-    public void discardLeaderCards(String playername, String leaderCardId) throws CardNotFoundException {
+    public void discardLeaderCards(String playername, int leaderCardId) throws CardNotFoundException {
         PersonalBoard player=getPersonalBoard(playername);
 
         if(player!=null) {
-            player.discardLeaderCard(Integer.parseInt(leaderCardId));
+            player.discardLeaderCard(leaderCardId);
         }
     }
 
@@ -297,11 +299,15 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public void canBuyDevCard(String playername,String devCardId) throws ResourcesException, LevelException{
+    public void canBuyDevCard(String playername,int devCardId) throws ResourcesException, LevelException,CardNotFoundException{
         PersonalBoard player=getPersonalBoard(playername);
 
         if(player!=null){
-            player.canBuyDevCard(developmentCardsDeck.get(Integer.parseInt(devCardId)));
+            DevelopmentCard chosenCard=developmentCardsDeck.get(devCardId);
+            if(chosenCard==developmentCardGrid.getTopCard(chosenCard.getLevel(),chosenCard.getCardType()))
+                player.canBuyDevCard(chosenCard);
+            else
+                throw new CardNotFoundException();
         }
     }
 
@@ -314,14 +320,18 @@ public class Game implements ControllerEventListener {
 
         return new String[]{
                 String.valueOf(level),
-                String.valueOf(cardType.ordinal()),
+                String.valueOf(cardType.name()),
                 String.valueOf(developmentCardGrid.getTopCard(level,cardType).getId())};
     }
 
-    public void addDevCardToSlot(String playername, String devCardId, String slot) throws LevelException{
+    public void buyDevCard(String playername, int devCardId, int slot) throws LevelException{
         PersonalBoard p=getPersonalBoard(playername);
         if(p!=null){
-            p.addDevCardToSlot(developmentCardsDeck.get(Integer.parseInt(devCardId)),Integer.parseInt(slot));
+            p.addDevCardToSlot(developmentCardsDeck.get(devCardId),slot);
+            //If addition was successfull (didn't throw), pay the cost
+            Map<ResType,Integer> cost=developmentCardsDeck.get(devCardId).getCost();
+            for(Map.Entry<ResType,Integer> entry:cost.entrySet())
+                p.payResource(entry.getKey(),entry.getValue());
         }
     }
 
@@ -385,5 +395,13 @@ public class Game implements ControllerEventListener {
 
     public void nextPlayer(){
         currentPlayerOrdinal=(currentPlayerOrdinal+1)%maximumPlayers;
+    }
+
+    public boolean hasStarted() {
+        return hasStarted;
+    }
+
+    public void setHasStarted(boolean hasStarted) {
+        this.hasStarted = hasStarted;
     }
 }
