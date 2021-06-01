@@ -16,28 +16,24 @@ public class StrongboxTest {
         expected.put(ResType.COIN,10);
         expected.put(ResType.SHIELD,20);
 
-        strongbox.add(expected);
+        strongbox.add(ResType.COIN,10);
+        strongbox.add(ResType.SHIELD,20);
 
         assertEquals(strongbox.getContent(),expected);
 
-        HashMap<ResType,Integer> toRemove=new HashMap<>();
-
         //Correct usage
-        toRemove.put(ResType.SHIELD,20);
         expected.put(ResType.SHIELD,0);
-        assertDoesNotThrow(()->strongbox.remove(toRemove));
+        assertDoesNotThrow(()->strongbox.remove(ResType.SHIELD,20));
         assertEquals(strongbox.getContent(),expected);
 
         //Removal of too much of a given resource
-        toRemove.put(ResType.COIN,20);
-        assertThrows(NegQuantityException.class,()->strongbox.remove(toRemove));
+        assertThrows(NegQuantityException.class,()->strongbox.remove(ResType.COIN,20));
 
         //Check if changes reverted after failed remove
         assertEquals(strongbox.getContent(),expected);
 
         //Removal of a resource not present in the storage
-        toRemove.put(ResType.STONE,20);
-        assertThrows(NegQuantityException.class,()->strongbox.remove(toRemove));
+        assertThrows(NegQuantityException.class,()->strongbox.remove(ResType.STONE,10));
 
         //Check if changes reverted after failed remove
         assertEquals(strongbox.getContent(),expected);

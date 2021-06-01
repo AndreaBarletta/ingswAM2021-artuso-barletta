@@ -44,21 +44,20 @@ public class PersonalBoardTest {
           "SERVANT":3,
           "COIN":2
         },*/
-        resources.put(ResType.SERVANT,2);
-        resources.put(ResType.COIN,2);
-        personalBoard.addResourcesToStrongbox(resources);
+        personalBoard.addResourcesToStrongbox(ResType.SERVANT,2);
+        personalBoard.addResourcesToStrongbox(ResType.COIN,2);
         assertThrows(ResourcesException.class,()->personalBoard.canBuyDevCard(developmentCards[29]));
-        personalBoard.addResourcesToStrongbox(resources);
+        personalBoard.addResourcesToStrongbox(ResType.SERVANT,2);
+        personalBoard.addResourcesToStrongbox(ResType.COIN,2);
         assertThrows(LevelException.class,()->personalBoard.canBuyDevCard(developmentCards[29]));
         /*"id": 3,
                 "level":1,
                 "cost":{
             "SHIELD":3
         },*/
-        resources.put(ResType.SHIELD,2);
-        personalBoard.addResourcesToStrongbox(resources);
+        personalBoard.addResourcesToStrongbox(ResType.SHIELD,2);
         assertThrows(ResourcesException.class,()->personalBoard.canBuyDevCard(developmentCards[3]));
-        personalBoard.addResourcesToStrongbox(resources);
+        personalBoard.addResourcesToStrongbox(ResType.SHIELD,2);
         assertDoesNotThrow(()->personalBoard.canBuyDevCard(developmentCards[3]));
     }
 
@@ -83,6 +82,31 @@ public class PersonalBoardTest {
         assertDoesNotThrow(()->pe.addResourceToDepot(ResType.STONE));
     }
 
+    @Test
+    public void testPayResource(){
+        PersonalBoard pe=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
+        pe.addResourcesToStrongbox(ResType.STONE,10);
+        pe.addResourcesToStrongbox(ResType.COIN,10);
+        try{
+            pe.addResourceToDepot(ResType.COIN);
+            pe.addResourceToDepot(ResType.COIN);
+            pe.addResourceToDepot(ResType.COIN);
+            pe.addResourceToDepot(ResType.SERVANT);
+            pe.addResourceToDepot(ResType.SERVANT);
+        }catch(Exception e){}
+        //Remove from strongbox
+        pe.payResource(ResType.STONE,10);
+        assertEquals(pe.getStrongboxContent().get(ResType.STONE),0);
+        assertEquals(pe.getStrongboxContent().get(ResType.COIN),10);
+        //Remove from depot
+        pe.payResource(ResType.SERVANT,1);
+        assertEquals(pe.getDepotsContent().get(ResType.SERVANT),1);
+        //Check if depots get prioritized
+        pe.payResource(ResType.COIN,10);
+        assertEquals(pe.getDepotsContent().get(ResType.COIN),0);
+        assertEquals(pe.getStrongboxContent().get(ResType.COIN),3);
+
+    }
     private DevelopmentCard[] loadDevelopmentCardsFromFile(String path){
         String content;
 

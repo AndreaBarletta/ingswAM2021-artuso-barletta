@@ -194,10 +194,6 @@ public class PersonalBoard implements ControllerEventListener {
         return leaderProductions;
     }
 
-    public void addResourcesToStrongbox(Map<ResType,Integer> newResources){
-        strongbox.add(newResources);
-    }
-
     /**
      * Checks if a card can be bought and placed in the player board
      * @param devCard Development card to buy
@@ -324,13 +320,67 @@ public class PersonalBoard implements ControllerEventListener {
                 added=true;
             }
         }
-        if(!added){
+        if(!added)
             throw new DepotSpaceException();
-        }
     }
 
-    public boolean hasInkwell(){
-        return inkwell;
+    public void addResourcesToStrongbox(ResType resource,int quantity){
+        strongbox.add(resource,quantity);
+    }
+
+    public void payResource(ResType resource,int quantity){
+        int leftToRemove=quantity;
+        //Try to remove from the depots first
+        for(Depot d:depots){
+            try{
+                if(d.getDepotResources()==resource){
+                    if(d.getCounter()>=quantity){
+                        //All the resources can be removed from here
+                        d.remove(resource, quantity);
+                        return;
+                    }else{
+                        //Remove only part of the resources to remove
+                        leftToRemove-=d.getCounter();
+                        d.remove(resource,d.getCounter());
+                        if(leftToRemove==0)
+                            return;
+                    }
+                }
+            }catch(Exception e){}
+        }
+        //Then try to remove from the leader depots
+        for(Depot d:leaderDepots){
+            try{
+                if(d.getDepotResources()==resource){
+                    if(d.getCounter()>=quantity){
+                        //All the resources can be removed from here
+                        d.remove(resource, quantity);
+                        return;
+                    }else{
+                        //Remove only part of the resources to remove
+                        leftToRemove-=d.getCounter();
+                        d.remove(resource,d.getCounter());
+                        if(leftToRemove==0)
+                            return;
+                    }
+                }
+            }catch(Exception e){}
+        }
+        //Lastly, try to remove from the strongbox
+        try{
+            strongbox.remove(resource,leftToRemove);
+        }catch(Exception e){}
+    }
+
+    public Map<ResType,Integer> getStrongboxContent(){
+        return strongbox.getContent();
+    }
+
+    public Map<ResType,Integer> getDepotsContent(){
+        Map<ResType,Integer> content=new HashMap<>();
+        for(Depot d:depots)
+            content.merge(d.getDepotResources(),d.getCounter(),Integer::sum);
+        return content;
     }
 
     public void receiveInkwell(){
@@ -481,7 +531,8 @@ public class PersonalBoard implements ControllerEventListener {
         }
         //add products
         for(Production p : productions) {
-            addResourcesToStrongbox(p.getProducts());
+            for(Map.Entry<ResType,Integer> product:p.getProducts().entrySet())
+                addResourcesToStrongbox(product.getKey(),product.getValue());
         }
     }
 

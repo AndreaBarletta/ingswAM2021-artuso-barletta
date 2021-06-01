@@ -10,6 +10,7 @@ import java.util.AbstractMap;
 public class Depot {
     // Maximum capacity of the depot
     private final int capacity;
+
     // Number of resources currently present in the depot
     private int counter;
     // Type of resource currently present in the depot
@@ -94,5 +95,9 @@ public class Depot {
 
     public int getCapacity(){
         return capacity;
+    }
+
+    public int getCounter() {
+        return counter;
     }
 }

@@ -184,7 +184,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                     testResources.put(ResType.COIN,100);
                     testResources.put(ResType.SERVANT,100);
                     testResources.put(ResType.STONE,100);
-                    game.getPersonalBoard(c.getPlayerName()).addResourcesToStrongbox(testResources);
+                    for(Map.Entry<ResType,Integer> entry:testResources.entrySet())
+                        game.getPersonalBoard(c.getPlayerName()).addResourcesToStrongbox(entry.getKey(),entry.getValue());
                 }
             }
             return true;
