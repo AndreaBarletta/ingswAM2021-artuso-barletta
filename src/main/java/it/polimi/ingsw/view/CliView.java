@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class CliView implements View,Runnable{
     private final CommandParser commandParser;
@@ -172,6 +173,7 @@ public class CliView implements View,Runnable{
 
     @Override
     public void inkwellGiven(String[] playerNamesOrdered) {
+        LBPByName(playerNamesOrdered[0]).setInkwell(true);
         System.out.println("Player \""+playerNamesOrdered[0]+"\" has received the inkwell");
         System.out.print("The turn order is the following:");
         for(String s:playerNamesOrdered){
@@ -251,9 +253,9 @@ public class CliView implements View,Runnable{
         System.out.println("Base production ID 0:\n"+lpb.getBaseProduction());
         //production from Dev Card
         int i = 1;
-        for(int devId : lpb.getDevelopmentCardSlots()) {
-            if(devId!=-1)
-                System.out.println("Dev Card production ID "+i+":\n"+lightModel.getDevelopmentCardDeck()[devId].getProduction());
+        for(Stack<Integer> devStack : lpb.getDevelopmentCardSlots()) {
+            if(!devStack.empty())
+                System.out.println("Dev Card production ID "+i+":\n"+lightModel.getDevelopmentCardDeck()[devStack.peek()].getProduction());
             i++;
         }
         //production from Leader Card
@@ -274,7 +276,7 @@ public class CliView implements View,Runnable{
             }
             if(production==1||production==2||production==3){
                 System.out.println("Development card production\n"+
-                        lightModel.getDevelopmentCardDeck()[lpb.getDevelopmentCardSlots()[production-1]].getProduction()
+                        lightModel.getDevelopmentCardDeck()[lpb.getDevelopmentCardSlots()[production-1].peek()].getProduction()
                 );
             }
             if(production==4||production==5){
@@ -309,8 +311,8 @@ public class CliView implements View,Runnable{
     public void askDevCardSlot() {
         LightPersonalBoard lpb=LBPByName(lightModel.getPlayerName());
         int i=0;
-        for(int d:lpb.getDevelopmentCardSlots()){
-            System.out.println("Slot "+i+"\n"+(d==-1?"Empty":lightModel.getDevelopmentCardDeck()[d]));
+        for(Stack<Integer> d:lpb.getDevelopmentCardSlots()){
+            System.out.println("Slot "+i+"\n"+(d.isEmpty()?"Empty":lightModel.getDevelopmentCardDeck()[d.peek()]));
             i++;
         }
 

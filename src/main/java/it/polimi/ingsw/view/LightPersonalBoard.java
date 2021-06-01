@@ -6,16 +6,13 @@ import it.polimi.ingsw.model.PersonalBoard.Strongbox;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LightPersonalBoard {
     private String playerName;
     private int[] leaderCards;
     private FaithTrack faithTrack;
-    private int[] developmentCardSlots;
+    private Stack<Integer>[] developmentCardSlots;
     private Strongbox strongbox;
     private List<Depot> depots;
     private boolean inkwell = false;
@@ -25,9 +22,10 @@ public class LightPersonalBoard {
 
     public LightPersonalBoard(String playerName) {
         this.playerName=playerName;
-        developmentCardSlots=new int[3];
-        for(int i=0;i<3;i++)
-            developmentCardSlots[i]=-1;
+        developmentCardSlots=new Stack[3];
+        for(int i=0;i<3;i++){
+            developmentCardSlots[i]=new Stack<>();
+        }
         leaderProductions=new ArrayList<>();
         leaderDepots=new ArrayList<>();
         //create base production
@@ -50,30 +48,16 @@ public class LightPersonalBoard {
         this.leaderCards = leaderCards;
     }
 
-    public int[] getDevelopmentCardSlots() {
+    public Stack<Integer>[] getDevelopmentCardSlots() {
         return developmentCardSlots;
     }
-
-    public void setDevelopmentCardSlots(int[] developmentCardSlots) { this.developmentCardSlots = developmentCardSlots; }
 
     public Strongbox getStrongbox() {
         return strongbox;
     }
 
-    public void setStrongbox(Strongbox strongbox) {
-        this.strongbox = strongbox;
-    }
-
     public List<Depot> getDepots() {
         return depots;
-    }
-
-    public void setDepots(List<Depot> depots) {
-        this.depots = depots;
-    }
-
-    public boolean isInkwell() {
-        return inkwell;
     }
 
     public void setInkwell(boolean inkwell) {
@@ -103,6 +87,6 @@ public class LightPersonalBoard {
     }
 
     public void setDevCardSlot(int id,int slot){
-        developmentCardSlots[slot]=id;
+        developmentCardSlots[slot].push(id);
     }
 }
