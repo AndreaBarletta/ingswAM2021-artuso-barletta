@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
@@ -50,6 +51,10 @@ public class LightModel {
 
     public int[][] getDevelopmentCardGrid() {
         return developmentCardGrid;
+    }
+
+    public void setCardInGrid(int level, CardType cardType,int newId) {
+        developmentCardGrid[level-1][cardType.ordinal()]=newId;
     }
 
     public void setDevelopmentCardGrid(int[][] developmentCardGrid) {
