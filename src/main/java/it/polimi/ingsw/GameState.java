@@ -99,11 +99,7 @@ public enum GameState{
                     return true;
                 break;
             case PRODUCTION_CHOSEN:
-                if(input.equals("SHOW_PRODUCTIONS")||input.equals("UPDATE_RESOURCES"))
-                    return true;
-                break;
-            case RESOURCE_UPDATED:
-                if(input.equals("ASK_LEADER_ACTION"))
+                if(input.equals("SHOW_PRODUCTIONS")||input.equals("ASK_LEADER_ACTION"))
                     return true;
                 break;
             case DEV_CARD_GRID_SHOWN:
@@ -198,9 +194,7 @@ public enum GameState{
                 if(input.equals("CHOOSE_PRODUCTIONS"))              return PRODUCTION_CHOSEN;
             case PRODUCTION_CHOSEN:
                 if(input.equals("SHOW_PRODUCTIONS"))                return PRODUCTIONS_SHOWN;
-                if(input.equals("UPDATE_RESOURCES"))                return RESOURCE_UPDATED;
-            case RESOURCE_UPDATED:
-                return LEADER_ACTION_ASKED;
+                if(input.equals("ASK_LEADER_ACTION"))                return LEADER_ACTION_ASKED;
             case DEV_CARD_GRID_SHOWN:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
                 if(input.equals("CHOOSE_DEV_CARD"))                 return DEV_CARD_CHOSEN;

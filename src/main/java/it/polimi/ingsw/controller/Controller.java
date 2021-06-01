@@ -155,7 +155,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * @return Whether or not the leader cards could be added to the personal board (ie. they were among the 4 given)
      */
     public synchronized boolean leaderCardsChosen(ClientHandler clientHandler,String[] leaderCardsId){
-        if(game.addLeaderCards(clientHandlers.indexOf(clientHandler),leaderCardsId)){
+        if(game.addLeaderCards(clientHandlers.indexOf(clientHandler), Arrays.stream(leaderCardsId).mapToInt(Integer::parseInt).toArray())){
             boolean ok=true;
             broadcast(new Message(MessageType.LEADER_CARDS_CHOSEN,
                     Stream.concat(
@@ -230,21 +230,24 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         return false;
     }
 
-    public synchronized void checkIfGameCanStart(){
-        boolean ok=true;
-        for(ClientHandler c:clientHandlers){
-            if(c.getAutomaton().getState()!=GameState.WAITING_FOR_YOUR_TURN){
-                ok=false;
-                break;
-            }
-        }
-        if(ok){
-            //Start the game
-            String activePlayer=game.getCurrentPlayer();
+    public synchronized void playersWaiting(){
+        if(!game.hasStarted()){
+            boolean ok=true;
             for(ClientHandler c:clientHandlers){
-                c.send(new Message(MessageType.TURN_START,new String[]{activePlayer}));
-                if(c.getPlayerName().equals(activePlayer)){
-                    c.getAutomaton().evolve("ASK_LEADER_ACTION",null);
+                if(c.getAutomaton().getState()!=GameState.WAITING_FOR_YOUR_TURN){
+                    ok=false;
+                    break;
+                }
+            }
+            if(ok){
+                //Start the game
+                game.setHasStarted(true);
+                String activePlayer=game.getCurrentPlayer();
+                for(ClientHandler c:clientHandlers){
+                    c.send(new Message(MessageType.TURN_START,new String[]{activePlayer}));
+                    if(c.getPlayerName().equals(activePlayer)){
+                        c.getAutomaton().evolve("ASK_LEADER_ACTION",null);
+                    }
                 }
             }
         }
@@ -258,12 +261,12 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         System.out.println("Player "+playerName+" has won the game");
     }
 
-    public void activateLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException {
-        game.activateLeaderCards(clientHandler.getPlayerName(),id);
+    public void activateLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
+        game.activateLeaderCards(clientHandler.getPlayerName(),Integer.parseInt(id));
     }
 
     public void discardLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException {
-        game.discardLeaderCards(clientHandler.getPlayerName(), id);
+        game.discardLeaderCards(clientHandler.getPlayerName(), Integer.parseInt(id));
     }
 
     public void addedLeaderProduction(String playerName) {
@@ -305,12 +308,12 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.activateProductions(playerName, productions);
     }
 
-    public void canBuyDevCard(ClientHandler clienthandler,String id) throws ResourcesException,LevelException {
-        game.canBuyDevCard(clienthandler.getPlayerName(),id);
+    public void canBuyDevCard(ClientHandler clienthandler,String id) throws ResourcesException,LevelException,CardNotFoundException {
+        game.canBuyDevCard(clienthandler.getPlayerName(),Integer.parseInt(id));
     }
 
-    public void addDevCardToSlot(ClientHandler clientHandler,String id,String slot) throws LevelException{
-        game.addDevCardToSlot(clientHandler.getPlayerName(),id,slot);
+    public void buyDevCard(ClientHandler clientHandler,String id,String slot) throws LevelException{
+        game.buyDevCard(clientHandler.getPlayerName(),Integer.parseInt(id),Integer.parseInt(slot));
     }
 
     public void acquireFromMarket(ClientHandler clientHandler, String rowOrColumn, String index){
@@ -320,5 +323,30 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
     public String[] removeDevCardFromMarket(String id){
         return game.removeDevCardFromMarket(id);
+    }
+
+    public void endTurnAction(ClientHandler clientHandler){
+        PersonalBoard personalBoard= game.getPersonalBoard(clientHandler.getPlayerName());
+        personalBoard.setHasAlreadyPlayedLeaderAction(true);
+    }
+
+    public void endLeaderAction(ClientHandler clientHandler){
+        PersonalBoard personalBoard= game.getPersonalBoard(clientHandler.getPlayerName());
+        if(personalBoard.hasAlreadyPlayedLeaderAction()){
+            personalBoard.setHasAlreadyPlayedLeaderAction(false);
+            clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
+            game.nextPlayer();
+            getClientHandler(game.getCurrentPlayer()).getAutomaton().evolve("ASK_LEADER_ACTION",null);
+        }else{
+            clientHandler.getAutomaton().evolve("ASK_TURN_ACTION",null);
+        }
+    }
+
+    private ClientHandler getClientHandler(String playerName){
+        for(ClientHandler c:clientHandlers)
+            if(c.getPlayerName().equals(playerName))
+                return c;
+
+        return null;
     }
 }

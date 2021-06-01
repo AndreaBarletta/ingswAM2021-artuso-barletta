@@ -2,10 +2,7 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.exceptions.CardNotFoundException;
-import it.polimi.ingsw.exceptions.CardTypeException;
-import it.polimi.ingsw.exceptions.LevelException;
-import it.polimi.ingsw.exceptions.ResourcesException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
@@ -110,7 +107,7 @@ public class GameStateAutomaton {
                     return true;
                 case WAITING_FOR_YOUR_TURN:
                     clientHandler.send(new Message(MessageType.WAIT_YOUR_TURN,null));
-                    controller.checkIfGameCanStart();
+                    controller.playersWaiting();
                     return true;
                 case LEADER_ACTION_ASKED:
                     clientHandler.send(new Message(MessageType.ASK_LEADER_ACTION,null));
@@ -134,9 +131,13 @@ public class GameStateAutomaton {
                         errorMessage = "Not enough card of requested level";
                         state = GameState.LEADER_ACTION_ASKED;
                         return false;
+                    }catch(AlreadyActiveException e){
+                        errorMessage = "The selected card has already been activated";
+                        state = GameState.LEADER_ACTION_ASKED;
+                        return false;
                     }
                     controller.broadcast(new Message(MessageType.LEADER_ACTIVATED,new String[]{clientHandler.getPlayerName(),params[0]}));
-                    evolve("ASK_TURN_ACTION",null);
+                    controller.endLeaderAction(clientHandler);
                     return true;
                 case LEADER_ACTION_DISCARDED:
                     try {
@@ -147,11 +148,11 @@ public class GameStateAutomaton {
                         return false;
                     }
                     controller.broadcast(new Message(MessageType.LEADER_DISCARDED,new String[]{clientHandler.getPlayerName(),params[0]}));
-                    evolve("ASK_TURN_ACTION",null);
+                    controller.endLeaderAction(clientHandler);
                     return true;
                 case LEADER_ACTION_SKIPPED:
                     controller.broadcast(new Message(MessageType.LEADER_SKIPPED,new String[]{clientHandler.getPlayerName()}));
-                    evolve("ASK_TURN_ACTION",null);
+                    controller.endLeaderAction(clientHandler);
                     return true;
                 case TURN_ACTION_ASKED:
                     clientHandler.send(new Message(MessageType.ASK_TURN_ACTION,null));
@@ -193,6 +194,10 @@ public class GameStateAutomaton {
                         state=GameState.DEV_CARD_GRID_SHOWN;
                         errorMessage="You don't have the required cards to buy the selected development card";
                         return false;
+                    }catch(CardNotFoundException e){
+                        state=GameState.DEV_CARD_GRID_SHOWN;
+                        errorMessage="You have selected an invalid card";
+                        return false;
                     }
                     tempId=Integer.parseInt(params[0]);
                     evolve("UPDATE_DEV_CARD_GRID",null);
@@ -207,13 +212,15 @@ public class GameStateAutomaton {
                     return true;
                 case DEV_CARD_SLOT_CHOSEN:
                     try {
-                        controller.addDevCardToSlot(clientHandler, String.valueOf(tempId),params[0]);
+                        controller.buyDevCard(clientHandler, String.valueOf(tempId),params[0]);
                     }catch(LevelException e){
                         errorMessage="Cannot add the card to the selected slot";
                         state=GameState.DEV_CARD_SLOT_ASKED;
                         return false;
                     }
                     controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_SLOT,new String[]{clientHandler.getPlayerName(),String.valueOf(tempId),params[0]}));
+                    controller.endTurnAction(clientHandler);
+                    evolve("ASK_LEADER_ACTION",null);
                     return true;
                 case MARKET_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE, new String[]{clientHandler.getPlayerName(),"visit market"}));
