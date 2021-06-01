@@ -168,7 +168,12 @@ public class GameStateAutomaton {
                         errorMessage="You don't have enough resources to activate the selected productions";
                         return false;
                     }
-                    controller.broadcast(new Message(MessageType.SHOW_CHOSEN_PRODUCTIONS, Stream.concat(Arrays.stream(new String[]{clientHandler.getPlayerName()}), Arrays.stream(params)).toArray(String[]::new)));
+                    controller.broadcast(new Message(MessageType.SHOW_CHOSEN_PRODUCTIONS,
+                            Stream.concat(
+                                    Arrays.stream(new String[]{clientHandler.getPlayerName()}),
+                                    Arrays.stream(params)
+                            ).toArray(String[]::new))
+                    );
                     return true;
                 case RESOURCE_UPDATED:
                     //TODO
