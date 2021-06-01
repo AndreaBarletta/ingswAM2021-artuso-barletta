@@ -1,15 +1,16 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.Message;
 import it.polimi.ingsw.model.CardType;
-import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.view.CliView;
+import it.polimi.ingsw.view.GuiView;
+import it.polimi.ingsw.view.LightMarket;
+import it.polimi.ingsw.view.View;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.reflect.Executable;
 import java.net.Socket;
 import java.util.Arrays;
 
