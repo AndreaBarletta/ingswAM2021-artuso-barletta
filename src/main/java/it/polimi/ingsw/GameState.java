@@ -189,12 +189,14 @@ public enum GameState{
                 if(input.equals("ACTIVATE_PRODUCTIONS"))            return PRODUCTIONS_SHOWN;
                 if(input.equals("BUY_DEV_CARD"))                    return DEV_CARD_GRID_SHOWN;
                 if(input.equals("SHOW_MARKET"))                     return MARKET_SHOWN;
+    //Productions
             case PRODUCTIONS_SHOWN:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
                 if(input.equals("CHOOSE_PRODUCTIONS"))              return PRODUCTION_CHOSEN;
             case PRODUCTION_CHOSEN:
                 if(input.equals("SHOW_PRODUCTIONS"))                return PRODUCTIONS_SHOWN;
                 if(input.equals("ASK_LEADER_ACTION"))                return LEADER_ACTION_ASKED;
+    //Dev card
             case DEV_CARD_GRID_SHOWN:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
                 if(input.equals("CHOOSE_DEV_CARD"))                 return DEV_CARD_CHOSEN;
@@ -208,6 +210,7 @@ public enum GameState{
             case DEV_CARD_SLOT_CHOSEN:
                 if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
                 if(input.equals("ASK_DEV_CARD_SLOT"))               return DEV_CARD_SLOT_ASKED;
+    //Market
             case MARKET_SHOWN:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
                 if(input.equals("CHOOSE_ROW_OR_COLUMN"))            return ROW_OR_COLUMN_CHOSEN;
