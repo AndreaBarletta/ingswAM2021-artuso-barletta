@@ -308,6 +308,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.activateProductions(playerName, productions);
     }
 
+    public String getAllResources(String playerName) {
+        return game.getAllResource(playerName);
+    }
+
     public void canBuyDevCard(ClientHandler clienthandler,String id) throws ResourcesException,LevelException,CardNotFoundException {
         game.canBuyDevCard(clienthandler.getPlayerName(),Integer.parseInt(id));
     }
