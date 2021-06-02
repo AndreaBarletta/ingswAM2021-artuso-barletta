@@ -299,6 +299,16 @@ public class Game implements ControllerEventListener {
         }
     }
 
+    public String getAllResource(String playerName) {
+        PersonalBoard player=getPersonalBoard(playerName);
+
+        if(player!=null) {
+            return player.getAllResources().toString();
+        } else {
+            return null;
+        }
+    }
+
     public void canBuyDevCard(String playername,int devCardId) throws ResourcesException, LevelException,CardNotFoundException{
         PersonalBoard player=getPersonalBoard(playername);
 

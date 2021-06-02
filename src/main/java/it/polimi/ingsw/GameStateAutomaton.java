@@ -177,7 +177,9 @@ public class GameStateAutomaton {
                     );
                     return true;
                 case RESOURCE_UPDATED:
-                    //TODO
+                    controller.broadcast(new Message(MessageType.UPDATE_RESOURCES,new String[]{clientHandler.getPlayerName(),controller.getAllResources(clientHandler.getPlayerName())}));
+                    controller.endTurnAction(clientHandler);
+                    evolve("ASK_LEADER_ACTION",null);
                     return true;
                 case DEV_CARD_GRID_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"buy development card"}));

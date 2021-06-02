@@ -144,6 +144,18 @@ public class PersonalBoard implements ControllerEventListener {
         return resources;
     }
 
+    public Map.Entry<ResType, Integer>[] getAllResources() {
+        List<Map.Entry<ResType, Integer>> resources = new ArrayList<>();
+        for(Depot d : depots) {
+            resources.add(d.getContent());
+        }
+        for(Depot ld : leaderDepots) {
+            resources.add(ld.getContent());
+        }
+        resources.add((Map.Entry<ResType, Integer>) strongbox.getContent());
+        return (Map.Entry<ResType, Integer>[]) resources.toArray();
+    }
+
     private Map<ResType,Integer> getDepotsResource(){
         Map<ResType,Integer> resources=new HashMap<>();
         for(Depot d:depots){
