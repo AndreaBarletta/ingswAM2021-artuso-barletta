@@ -543,7 +543,7 @@ public class PersonalBoard implements ControllerEventListener {
     }
 
     public void activateProductions(Production[] productions) throws ResourcesException {
-        //remove ingredients
+        //Remove ingredients
         if(canProduce(productions)) {
             for(Production p : productions) {
                 p.getIngredients().forEach(this::payResource);
@@ -551,7 +551,7 @@ public class PersonalBoard implements ControllerEventListener {
         } else {
             throw new ResourcesException();
         }
-        //add products
+        //Add products
         for(Production p : productions) {
             for(Map.Entry<ResType,Integer> product:p.getProducts().entrySet())
                 addResourcesToStrongbox(product.getKey(),product.getValue());
