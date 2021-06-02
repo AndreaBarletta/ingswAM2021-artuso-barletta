@@ -22,12 +22,12 @@ import java.io.IOException;
 import java.net.URL;
 public class GuiView extends Application implements View {
     @Override
-    public void run(){
+    public synchronized void run(){
         launch();
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public synchronized void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("test.fxml"));
         Scene newScene = new Scene(root, 1000, 900);
         primaryStage.setTitle("Test");
@@ -36,177 +36,177 @@ public class GuiView extends Application implements View {
     }
 
     @Override
-    public void setPlayerName(String playerName) {
+    public synchronized void setPlayerName(String playerName) {
 
     }
 
     @Override
-    public void newPlayerConnected(String newPlayerName) {
+    public synchronized void newPlayerConnected(String newPlayerName) {
 
     }
 
     @Override
-    public void error(String errorMessage) {
+    public synchronized void error(String errorMessage) {
 
     }
 
     @Override
-    public void waitForOtherPlayers() {
+    public synchronized void waitForOtherPlayers() {
 
     }
 
     @Override
-    public void askForNumberOfPlayers() {
+    public synchronized void askForNumberOfPlayers() {
 
     }
 
     @Override
-    public void gameCreated() {
+    public synchronized void gameCreated() {
 
     }
 
     @Override
-    public void gameJoined(String[] playerNames) {
+    public synchronized void gameJoined(String[] playerNames) {
 
     }
 
     @Override
-    public void gameStarted() {
+    public synchronized void gameStarted() {
 
     }
 
     @Override
-    public void setDevCardGrid(int[][] devCardGridIds) {
+    public synchronized void setDevCardGrid(int[][] devCardGridIds) {
 
     }
 
     @Override
-    public void setMarket(LightMarket lightMarket) {
+    public synchronized void setMarket(LightMarket lightMarket) {
 
     }
 
     @Override
-    public void showInitialLeaderCards(String[] leaderCardsIds) {
+    public synchronized void showInitialLeaderCards(String[] leaderCardsIds) {
 
     }
 
     @Override
-    public void leaderCardsChosen(String playerName, int[] ids) {
+    public synchronized void leaderCardsChosen(String playerName, int[] ids) {
 
     }
 
     @Override
-    public void inkwellGiven(String[] playerNamesOrdered) {
+    public synchronized void inkwellGiven(String[] playerNamesOrdered) {
 
     }
 
     @Override
-    public void askInitialResource() {
+    public synchronized void askInitialResource() {
 
     }
 
     @Override
-    public void initialResourcesChosen(String playerName, ResType resource) {
+    public synchronized void initialResourcesChosen(String playerName, ResType resource) {
 
     }
 
     @Override
-    public void incrementFaithTrack(String playername, int increment) {
+    public synchronized void incrementFaithTrack(String playername, int increment) {
 
     }
 
     @Override
-    public void waitYourTurn() {
+    public synchronized void waitYourTurn() {
 
     }
 
     @Override
-    public void turnStart(String playerName) {
+    public synchronized void turnStart(String playerName) {
 
     }
 
     @Override
-    public void askLeaderAction() {
+    public synchronized void askLeaderAction() {
 
     }
 
     @Override
-    public void leaderActivate(String playerName, int leaderCardId) {
+    public synchronized void leaderActivate(String playerName, int leaderCardId) {
 
     }
 
     @Override
-    public void leaderDiscard(String playerName, int leaderCardId) {
+    public synchronized void leaderDiscard(String playerName, int leaderCardId) {
 
     }
 
     @Override
-    public void leaderSkip(String playerName) {
+    public synchronized void leaderSkip(String playerName) {
 
     }
 
     @Override
-    public void askTurnAction() {
+    public synchronized void askTurnAction() {
 
     }
 
     @Override
-    public void turnChoice(String playerName, String choice) {
+    public synchronized void turnChoice(String playerName, String choice) {
 
     }
 
     @Override
-    public void showProductions() {
+    public synchronized void showProductions() {
 
     }
 
     @Override
-    public void showChosenProductions(String playerName, int[] activatedProductions) {
+    public synchronized void showChosenProductions(String playerName, int[] activatedProductions) {
 
     }
 
     @Override
-    public void updateResources() {
+    public synchronized void updateResources() {
 
     }
 
     @Override
-    public void showDevCardGrid() {
+    public synchronized void showDevCardGrid() {
 
     }
 
     @Override
-    public void updateDevCardGrid(int level, CardType cardType, int newCardId) {
+    public synchronized void updateDevCardGrid(int level, CardType cardType, int newCardId) {
 
     }
 
     @Override
-    public void askDevCardSlot() {
+    public synchronized void askDevCardSlot() {
 
     }
 
     @Override
-    public void updateDevCardSlot(String playerName, int id, int slot) {
+    public synchronized void updateDevCardSlot(String playerName, int id, int slot) {
 
     }
 
     @Override
-    public void showMarket() {
+    public synchronized void showMarket() {
 
     }
 
     @Override
-    public void chooseRowOrColumn() {
+    public synchronized void chooseRowOrColumn() {
 
     }
 
     @Override
-    public void updateMarket(boolean row, int index) {
+    public synchronized void updateMarket(boolean row, int index) {
 
     }
 
     @Override
-    public void disconnected() {
+    public synchronized void disconnected() {
 
     }
 }
