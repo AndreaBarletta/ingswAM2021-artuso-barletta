@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.PersonalBoard;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
@@ -10,36 +9,37 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
-import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderDepot;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
-import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class PersonalBoard implements ControllerEventListener {
+    //Properties
     private String playerName;
-    private List<LeaderCard> initialLeaderCards;
-    private List<LeaderCard> leaderCards;
+    private boolean inkwell;
+    private boolean hasAlreadyChosenInitialResources;
+    private boolean hasAlreadyPlayedLeaderAction;
+    //Components
     private FaithTrack faithTrack;
     private DevelopmentCardSlot[] developmentCardSlots;
     private Production baseProduction;
-    private List<Production> leaderProductions;
+    //Storage
     private Strongbox strongbox;
     private Depot[] depots;
+    //Leader cards
+    private List<LeaderCard> initialLeaderCards;
+    private List<LeaderCard> leaderCards;
     private List<Depot> leaderDepots;
-    private List<PersonalBoardEventListener> eventListeners;
-    private boolean inkwell = false;
-    private boolean hasAlreadyChosenInitialResources;
-    private boolean hasAlreadyPlayedLeaderAction;
+    private List<Production> leaderProductions;
+    private List<ResType> leaderConverts;
+    private List<Map<ResType,Integer>> leaderDiscounts;
 
+    private List<PersonalBoardEventListener> eventListeners;
 
     public PersonalBoard(String playerNickname, DevelopmentCardGrid cardGrid, Market market){
         this.playerName =playerNickname;
@@ -53,6 +53,8 @@ public class PersonalBoard implements ControllerEventListener {
         leaderCards=new ArrayList<>();
         leaderDepots=new ArrayList<>();
         leaderProductions=new ArrayList<>();
+        leaderConverts=new ArrayList<>();
+        leaderDiscounts=new ArrayList<>();
         //Create depots
         depots=new Depot[3];
         for(int i=0;i<3;i++){
@@ -68,6 +70,7 @@ public class PersonalBoard implements ControllerEventListener {
         baseProduction=new Production(baseIngredients,baseProducts);
         hasAlreadyChosenInitialResources=false;
         hasAlreadyPlayedLeaderAction=false;
+        inkwell=false;
     }
 
     /**
@@ -179,9 +182,6 @@ public class PersonalBoard implements ControllerEventListener {
      */
     public void addLeaderProduction(Production newLeaderProduction){
         leaderProductions.add(newLeaderProduction);
-        for(PersonalBoardEventListener pe : eventListeners) {
-            pe.addedLeaderProduction(playerName);
-        }
     }
 
     /**
@@ -190,6 +190,38 @@ public class PersonalBoard implements ControllerEventListener {
      */
     public void removeLeaderProduction(Production leaderProduction){
         leaderProductions.remove(leaderProduction);
+    }
+
+    /**
+     * Adds a leader convert to the leader convert list
+     * @param newLeaderConvert New convert to be added
+     */
+    public void addLeaderConvert(ResType newLeaderConvert){
+        leaderConverts.add(newLeaderConvert);
+    }
+
+    /**
+     * Remove a leader convert from the leader convert list
+     * @param leaderConvert Convert to be removed
+     */
+    public void removeLeaderConvert(ResType leaderConvert){
+        leaderConverts.remove(leaderConvert);
+    }
+
+    /**
+     * Adds a leader discount to the leader discount list
+     * @param newLeaderDiscount New discount to be added
+     */
+    public void addLeaderDiscount(Map<ResType,Integer> newLeaderDiscount){
+        leaderDiscounts.add(newLeaderDiscount);
+    }
+
+    /**
+     * Remove a leader discount from the leader discount list
+     * @param leaderDiscount Discount to be removed
+     */
+    public void removeLeaderDiscount(Map<ResType,Integer> leaderDiscount){
+        leaderDiscounts.remove(leaderDiscount);
     }
 
     public List<Production> getLeaderProductions() {
@@ -510,6 +542,7 @@ public class PersonalBoard implements ControllerEventListener {
         }
         if(leaderCardToDiscard!=null){
             leaderCards.remove(leaderCardToDiscard);
+            leaderCardToDiscard.effectOnDiscard(this);
             faithTrack.incrementFaithTrack(1);
         }else{
             throw new CardNotFoundException();
