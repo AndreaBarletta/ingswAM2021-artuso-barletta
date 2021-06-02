@@ -56,8 +56,8 @@ public class Client {
         if(!view.lightModel.loadResources())
             return;
 
-        Thread recieveThread=new Thread(Client::receiveFromServer);
-        recieveThread.start();
+        Thread receiveThread=new Thread(Client::receiveFromServer);
+        receiveThread.start();
         Thread viewThread=new Thread(view);
         viewThread.setDaemon(true);
         viewThread.start();
@@ -163,7 +163,7 @@ public class Client {
                     );
                     break;
                 case UPDATE_RESOURCES:
-                    //TODO
+                    view.updateResources();
                     break;
                 case SHOW_DEV_CARD_GRID:
                     view.showDevCardGrid();
