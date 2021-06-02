@@ -19,8 +19,6 @@ public class LeaderProduction extends LeaderCard{
 
     public void effectOnActivate(PersonalBoard personalBoard){ personalBoard.addLeaderProduction(production); }
     public void effectOnActivate(LightPersonalBoard lightPersonalBoard) { lightPersonalBoard.addLeaderProduction(production); }
-    public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){}
-    public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
     public void effectOnDiscard(PersonalBoard personalBoard){
         personalBoard.removeLeaderProduction(production);
     }

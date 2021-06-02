@@ -17,13 +17,9 @@ public class LeaderDevCardDiscounter extends LeaderCard {
         this.discounts=discounts;
     }
 
-    public void effectOnActivate(PersonalBoard personalBoard) {}
+    public void effectOnActivate(PersonalBoard personalBoard) {personalBoard.addLeaderDiscount(discounts);}
     public void effectOnActivate(LightPersonalBoard lightPersonalBoard) {}
-    public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){}
-    public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){
-        discounts.forEach((k,v)->developmentCard.getCost().put(k,developmentCard.getCost().get(k)-v));
-    }
-    public void effectOnDiscard(PersonalBoard personalBoard){}
+    public void effectOnDiscard(PersonalBoard personalBoard){personalBoard.removeLeaderDiscount(discounts);}
     public void effectOnDiscard(LightPersonalBoard lightPersonalBoard){}
     public String toString(){
         return super.toString()+"Type:Discounter\nDiscounts: "+discounts;

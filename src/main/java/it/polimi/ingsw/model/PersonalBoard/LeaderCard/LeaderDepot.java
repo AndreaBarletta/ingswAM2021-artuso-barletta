@@ -22,8 +22,6 @@ public class LeaderDepot extends LeaderCard {
         personalBoard.addLeaderDepot(depot);
     }
     public void effectOnActivate(LightPersonalBoard lightPersonalBoard){ lightPersonalBoard.addLeaderDepot(depot);  }
-    public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){}
-    public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
     public void effectOnDiscard(PersonalBoard personalBoard){
         personalBoard.removeLeaderDepot(depot);
     }

@@ -16,17 +16,9 @@ public class LeaderWhiteMarbleConverter extends LeaderCard{
         this.convertedResource=convertedResource;
     }
 
-    public void effectOnActivate(PersonalBoard personalBoard) {}
+    public void effectOnActivate(PersonalBoard personalBoard) {personalBoard.addLeaderConvert(convertedResource);}
     public void effectOnActivate(LightPersonalBoard lightPersonalBoard) {}
-
-    public void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources){
-        for(int i=0;i<newResources.length;i++)
-            if(newResources[i]==ResType.WHITEMARBLE)
-                newResources[i]=convertedResource;
-    }
-
-    public void effectOnDevCardBuy(PersonalBoard personalBoard, DevelopmentCard developmentCard){}
-    public void effectOnDiscard(PersonalBoard personalBoard){}
+    public void effectOnDiscard(PersonalBoard personalBoard){personalBoard.removeLeaderConvert(convertedResource);}
     public void effectOnDiscard(LightPersonalBoard lightPersonalBoard){}
 
     public String toString(){
