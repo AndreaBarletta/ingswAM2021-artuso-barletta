@@ -16,10 +16,8 @@ import java.net.Socket;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CliView implements View,Runnable{
     private final CommandParser commandParser;
@@ -168,7 +166,7 @@ public class CliView implements View,Runnable{
     @Override
     public void leaderCardsChosen(String playerName,int[] ids) {
         System.out.println("Player "+playerName+" has chosen their leader cards");
-        LBPByName(playerName).setLeaderCards(ids);
+        LBPByName(playerName).setLeaderCards(Arrays.stream(ids).boxed().collect(Collectors.toList()));
     }
 
     @Override
@@ -221,13 +219,17 @@ public class CliView implements View,Runnable{
     public void leaderActivate(String playerName,int leaderCardId) {
         LightPersonalBoard lpb=LBPByName(playerName);
         lightModel.getLeaderCardDeck()[leaderCardId].effectOnActivate(lpb);
+        System.out.println("Player "+playerName+" has activated one of their leader cards:");
+        System.out.println(lightModel.getLeaderCardDeck()[leaderCardId]);
     }
 
     @Override
     public void leaderDiscard(String playerName,int leaderCardId) {
-        System.out.println("Player "+playerName+" has discarded leader card "+leaderCardId);
         LightPersonalBoard lpb=LBPByName(playerName);
         lightModel.getLeaderCardDeck()[leaderCardId].effectOnDiscard(lpb);
+        lpb.discardLeaderCard(leaderCardId);
+        System.out.println("Player "+playerName+" has discarded one of their leader cards:");
+        System.out.println(lightModel.getLeaderCardDeck()[leaderCardId]);
     }
 
     @Override
@@ -304,7 +306,7 @@ public class CliView implements View,Runnable{
 
     @Override
     public void updateDevCardGrid(int level,CardType cardType, int newCardId) {
-        lightModel.getDevelopmentCardGrid()[level][cardType.ordinal()]=newCardId;
+        lightModel.setCardInGrid(level,cardType,newCardId);
     }
 
     @Override
@@ -323,6 +325,11 @@ public class CliView implements View,Runnable{
     public void updateDevCardSlot(String playerName,int id,int slot) {
         LightPersonalBoard lpb=LBPByName(playerName);
         lpb.setDevCardSlot(id,slot);
+
+        System.out.println("Player "+playerName+" has bought card "+
+                lightModel.getDevelopmentCardDeck()[id]+
+                "\nand placed it in slot "+slot+ " of their personal board"
+        );
     }
 
     @Override

@@ -44,8 +44,10 @@ public abstract class LeaderCard {
         return isActive;
     }
 
-    public void activate(){ isActive=true;
+    public void activate(){
+        isActive=true;
     }
+
     public abstract void effectOnActivate(PersonalBoard personalBoard);
     public abstract void effectOnActivate(LightPersonalBoard lightPersonalBoard);
     public abstract void effectOnMarketBuy(PersonalBoard personalBoard,ResType[] newResources);

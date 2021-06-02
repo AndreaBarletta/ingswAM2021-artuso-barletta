@@ -38,6 +38,7 @@ public class PersonalBoard implements ControllerEventListener {
     private List<PersonalBoardEventListener> eventListeners;
     private boolean inkwell = false;
     private boolean hasAlreadyChosenInitialResources;
+    private boolean hasAlreadyPlayedLeaderAction;
 
 
     public PersonalBoard(String playerNickname, DevelopmentCardGrid cardGrid, Market market){
@@ -66,6 +67,7 @@ public class PersonalBoard implements ControllerEventListener {
         baseProducts.put(ResType.ANY,1);
         baseProduction=new Production(baseIngredients,baseProducts);
         hasAlreadyChosenInitialResources=false;
+        hasAlreadyPlayedLeaderAction=false;
     }
 
     /**
@@ -464,11 +466,31 @@ public class PersonalBoard implements ControllerEventListener {
         this.hasAlreadyChosenInitialResources=hasAlreadyChosenInitialResources;
     }
 
-    public void activateLeaderCard(LeaderCard leaderCard) throws CardNotFoundException, CardTypeException, ResourcesException, LevelException {
+    /**
+     * If the player has already chosen a leader action during their turn.
+     * If it's false, the player can choose another leader action after the turn action
+     * @return Whether or not the player has already chosen a leader action during their turn
+     */
+    public boolean hasAlreadyPlayedLeaderAction(){
+        return hasAlreadyPlayedLeaderAction;
+    }
+
+    /**
+     * Setter for hasAlreadyPlayedLeaderAction
+     * @param hasAlreadyPlayedLeaderAction Value to assign to hasAlreadyPlayedLeaderAction
+     */
+    public void setHasAlreadyPlayedLeaderAction(boolean hasAlreadyPlayedLeaderAction){
+        this.hasAlreadyPlayedLeaderAction=hasAlreadyPlayedLeaderAction;
+    }
+
+    public void activateLeaderCard(LeaderCard leaderCard) throws CardNotFoundException, CardTypeException, ResourcesException, LevelException,AlreadyActiveException {
         if(leaderCards.contains(leaderCard)){
             List<DevelopmentCard> devCards=new ArrayList<>();
             for(DevelopmentCardSlot ds:developmentCardSlots)
                 devCards.addAll(ds.getCards());
+
+            if(leaderCard.isActive())
+                throw new AlreadyActiveException();
 
             leaderCard.canActivate(getResources(),devCards);
             leaderCard.activate();
@@ -524,7 +546,7 @@ public class PersonalBoard implements ControllerEventListener {
         //remove ingredients
         if(canProduce(productions)) {
             for(Production p : productions) {
-                //takeResource(p.getIngredients());
+                p.getIngredients().forEach(this::payResource);
             }
         } else {
             throw new ResourcesException();
