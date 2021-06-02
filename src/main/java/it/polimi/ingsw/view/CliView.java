@@ -29,7 +29,7 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void run(){
+    public void run(){
         try{
             commandParser.addCommand("playername",1,MessageType.PICK_PLAYERNAME);
             commandParser.addCommand("numberofplayers",1,MessageType.NUMBER_OF_PLAYERS);
@@ -98,39 +98,39 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void setPlayerName(String playerName) {
+    public void setPlayerName(String playerName) {
         lightModel.setPlayerName(playerName);
         lightModel.getLightPersonalBoards().add(new LightPersonalBoard(playerName));
     }
 
     @Override
-    public synchronized void newPlayerConnected(String newPlayerName) {
+    public void newPlayerConnected(String newPlayerName) {
         System.out.println("Player \""+newPlayerName+"\" has joined");
         lightModel.getLightPersonalBoards().add(new LightPersonalBoard(newPlayerName));
     }
 
     @Override
-    public synchronized void error(String errorMessage) {
+    public void error(String errorMessage) {
         System.out.println("Error: "+errorMessage);
     }
 
     @Override
-    public synchronized void waitForOtherPlayers() {
+    public void waitForOtherPlayers() {
         System.out.println("Waiting for other players");
     }
 
     @Override
-    public synchronized void askForNumberOfPlayers() {
+    public void askForNumberOfPlayers() {
         System.out.print("Insert the number of players (numberofplayers {2/3/4}): ");
     }
 
     @Override
-    public synchronized void gameCreated() {
+    public void gameCreated() {
         System.out.println("A new game has been created");
     }
 
     @Override
-    public synchronized void gameJoined(String[] playerNames) {
+    public void gameJoined(String[] playerNames) {
         System.out.print(playerNames.length+" player already in the game:");
         for(String s:playerNames){
             System.out.print(" "+s);
@@ -140,22 +140,22 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void gameStarted() {
+    public void gameStarted() {
         System.out.println("Game has started");
     }
 
     @Override
-    public synchronized void setDevCardGrid(int[][] devCardGridIds) {
+    public void setDevCardGrid(int[][] devCardGridIds) {
         lightModel.setDevelopmentCardGrid(devCardGridIds);
     }
 
     @Override
-    public synchronized void setMarket(LightMarket lightMarket) {
+    public void setMarket(LightMarket lightMarket) {
         lightModel.setLightMarket(lightMarket);
     }
 
     @Override
-    public synchronized void showInitialLeaderCards(String[] leaderCardsIds) {
+    public void showInitialLeaderCards(String[] leaderCardsIds) {
         System.out.println("Pick 2 between the following leader cards: ");
         for(String s: leaderCardsIds){
             System.out.println(lightModel.getLeaderCardDeck()[Integer.parseInt(s)].toString());
@@ -164,13 +164,13 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void leaderCardsChosen(String playerName,int[] ids) {
+    public void leaderCardsChosen(String playerName,int[] ids) {
         System.out.println("Player "+playerName+" has chosen their leader cards");
         LBPByName(playerName).setLeaderCards(Arrays.stream(ids).boxed().collect(Collectors.toList()));
     }
 
     @Override
-    public synchronized void inkwellGiven(String[] playerNamesOrdered) {
+    public void inkwellGiven(String[] playerNamesOrdered) {
         LBPByName(playerNamesOrdered[0]).setInkwell(true);
         System.out.println("Player \""+playerNamesOrdered[0]+"\" has received the inkwell");
         System.out.print("The turn order is the following:");
@@ -181,32 +181,32 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void askInitialResource() {
+    public void askInitialResource() {
         System.out.print("What initial resource do you want to obtain? (initialresource {COIN/STONE/SERVANT/SHIELD}): ");
     }
 
     @Override
-    public synchronized void initialResourcesChosen(String playerName,ResType resource) {
+    public void initialResourcesChosen(String playerName,ResType resource) {
         System.out.println("Player "+playerName+" has received "+resource+" as initial resource");
     }
 
     @Override
-    public synchronized void incrementFaithTrack(String playername, int increment) {
+    public void incrementFaithTrack(String playername, int increment) {
         System.out.println("Player "+playername+" has advanced "+increment+" spaces in the faith track");
     }
 
     @Override
-    public synchronized void waitYourTurn() {
+    public void waitYourTurn() {
         System.out.println("Wait for your turn to begin");
     }
 
     @Override
-    public synchronized void turnStart(String playerName) {
+    public void turnStart(String playerName) {
         System.out.println("Player "+playerName+" has started their turn");
     }
 
     @Override
-    public synchronized void askLeaderAction() {
+    public void askLeaderAction() {
         LightPersonalBoard lpb=LBPByName(lightModel.getPlayerName());
         System.out.println("You have the following leader cards:");
         for (int id : lpb.getLeaderCards()) {
@@ -216,7 +216,7 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void leaderActivate(String playerName,int leaderCardId) {
+    public void leaderActivate(String playerName,int leaderCardId) {
         LightPersonalBoard lpb=LBPByName(playerName);
         lightModel.getLeaderCardDeck()[leaderCardId].effectOnActivate(lpb);
         System.out.println("Player "+playerName+" has activated one of their leader cards:");
@@ -224,7 +224,7 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void leaderDiscard(String playerName,int leaderCardId) {
+    public void leaderDiscard(String playerName,int leaderCardId) {
         LightPersonalBoard lpb=LBPByName(playerName);
         lightModel.getLeaderCardDeck()[leaderCardId].effectOnDiscard(lpb);
         lpb.discardLeaderCard(leaderCardId);
@@ -233,22 +233,22 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void leaderSkip(String playerName) {
+    public void leaderSkip(String playerName) {
         System.out.println("Player "+playerName+" has skipped the leader action");
     }
 
     @Override
-    public synchronized void askTurnAction() {
+    public void askTurnAction() {
         System.out.print("Choose a turn action (visitmarket/activateproductions/buydevcard): ");
     }
 
     @Override
-    public synchronized void turnChoice(String playerName,String choice) {
+    public void turnChoice(String playerName,String choice) {
         System.out.println("Player "+playerName+" has chosen to "+choice);
     }
 
     @Override
-    public synchronized void showProductions() {
+    public void showProductions() {
         LightPersonalBoard lpb=LBPByName(lightModel.getPlayerName());
         System.out.println("You have the following productions:");
         //base production
@@ -269,7 +269,7 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void showChosenProductions(String playerName,int[] activatedProductions) {
+    public void showChosenProductions(String playerName,int[] activatedProductions) {
         LightPersonalBoard lpb=LBPByName(playerName);
         System.out.print("Player "+playerName+" has activated productions: \n");
         for(int production:activatedProductions){
@@ -290,12 +290,12 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void updateResources() {
+    public void updateResources() {
         //TODO
     }
 
     @Override
-    public synchronized void showDevCardGrid() {
+    public void showDevCardGrid() {
         for(int[] row: lightModel.getDevelopmentCardGrid()){
             for(int id:row){
                 System.out.println(lightModel.getDevelopmentCardDeck()[id]);
@@ -305,12 +305,12 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void updateDevCardGrid(int level,CardType cardType, int newCardId) {
+    public void updateDevCardGrid(int level,CardType cardType, int newCardId) {
         lightModel.setCardInGrid(level,cardType,newCardId);
     }
 
     @Override
-    public synchronized void askDevCardSlot() {
+    public void askDevCardSlot() {
         LightPersonalBoard lpb=LBPByName(lightModel.getPlayerName());
         int i=0;
         for(Stack<Integer> d:lpb.getDevelopmentCardSlots()){
@@ -322,7 +322,7 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void updateDevCardSlot(String playerName,int id,int slot) {
+    public void updateDevCardSlot(String playerName,int id,int slot) {
         LightPersonalBoard lpb=LBPByName(playerName);
         lpb.setDevCardSlot(id,slot);
 
@@ -333,17 +333,17 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void showMarket() {
+    public void showMarket() {
         System.out.print(lightModel.getLightMarket()+"Choose a row or a column (choose {row {0/1/2} / column {0/1/2/3}): ");
     }
 
     @Override
-    public synchronized void chooseRowOrColumn() {
+    public void chooseRowOrColumn() {
 
     }
 
     @Override
-    public synchronized void updateMarket(boolean row,int index) {
+    public void updateMarket(boolean row,int index) {
         if(row){
             lightModel.getLightMarket().updateRow(index);
         }else{
@@ -354,7 +354,7 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public synchronized void disconnected() {
+    public void disconnected() {
 
     }
 }
