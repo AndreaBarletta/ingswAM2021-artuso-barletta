@@ -7,9 +7,7 @@ import it.polimi.ingsw.exceptions.DepotSpaceException;
 import it.polimi.ingsw.exceptions.LevelException;
 import it.polimi.ingsw.exceptions.ResourcesException;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
-import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
-import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
@@ -28,14 +26,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PersonalBoardTest {
     @Test
     public void testLoadFaithTrackFromFile(){
-        PersonalBoard personalBoard=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
+        PersonalBoard personalBoard=new PersonalBoard("test");
         assertTrue(personalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath()));
     }
 
     @Test
     public void testCanBuyDevCard(){
-        PersonalBoard personalBoard=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
-        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards/developmentCards.json").getPath());
+        PersonalBoard personalBoard=new PersonalBoard("test");
+        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath());
 
         Map<ResType,Integer> resources=new HashMap<>();
         /*
@@ -63,7 +61,7 @@ public class PersonalBoardTest {
 
     @Test
     public void testAddResourcesToDepot(){
-        PersonalBoard pe=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
+        PersonalBoard pe=new PersonalBoard("test");
         //Without leader depots
         assertDoesNotThrow(()->pe.addResourceToDepot(ResType.COIN));
         assertDoesNotThrow(()->pe.addResourceToDepot(ResType.COIN));
@@ -84,7 +82,7 @@ public class PersonalBoardTest {
 
     @Test
     public void testPayResource(){
-        PersonalBoard pe=new PersonalBoard("test",new DevelopmentCardGrid(),new Market());
+        PersonalBoard pe=new PersonalBoard("test");
         pe.addResourcesToStrongbox(ResType.STONE,10);
         pe.addResourcesToStrongbox(ResType.COIN,10);
         try{
@@ -106,6 +104,26 @@ public class PersonalBoardTest {
         assertEquals(pe.getDepotsContent().get(ResType.COIN),0);
         assertEquals(pe.getStrongboxContent().get(ResType.COIN),3);
 
+    }
+
+    @Test
+    public void testCanAddToDepot(){
+        PersonalBoard personalBoard=new PersonalBoard("test");
+        Map<ResType,Integer> expectedContent=new HashMap<>();
+        expectedContent.put(ResType.COIN,1);
+        expectedContent.put(ResType.STONE,2);
+        expectedContent.put(ResType.ANY,0);
+        assertDoesNotThrow(()->personalBoard.addResourceToDepot(ResType.COIN));
+        assertDoesNotThrow(()->personalBoard.addResourceToDepot(ResType.STONE));
+        assertDoesNotThrow(()->personalBoard.addResourceToDepot(ResType.STONE));
+        //Check function is correct
+        assertTrue(personalBoard.canAddToDepot(new ResType[]{ResType.STONE}));
+        //Check no resource gets added
+        assertEquals(personalBoard.getDepotsContent(),expectedContent);
+        //Check function is correct
+        assertFalse(personalBoard.canAddToDepot(new ResType[]{ResType.STONE,ResType.COIN,ResType.SERVANT,ResType.STONE}));
+        //Check no resource gets added
+        assertEquals(personalBoard.getDepotsContent(),expectedContent);
     }
     private DevelopmentCard[] loadDevelopmentCardsFromFile(String path){
         String content;
