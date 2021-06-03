@@ -18,6 +18,7 @@ public class GameStateAutomaton {
     private ClientHandler clientHandler;
     private Controller controller;
     private int tempId;
+    private int[] tempDiscountIds;
 
     public GameStateAutomaton(Controller controller, ClientHandler clientHandler){
         state=GameState.PLAYER_CONNECTED;
@@ -197,8 +198,14 @@ public class GameStateAutomaton {
                                 state = GameState.DEV_CARD_GRID_SHOWN;
                                 return false;
                             }
+                            tempDiscountIds= Arrays.stream(
+                                    Arrays.asList(params).
+                                    subList(2, params.length).
+                                    toArray(String[]::new)
+                            ).mapToInt(Integer::parseInt).toArray();
                         }else{
                             controller.canBuyDevCard(clientHandler,params[0],null);
+                            tempDiscountIds=null;
                         }
 
                     }catch(ResourcesException e){
@@ -227,7 +234,7 @@ public class GameStateAutomaton {
                     return true;
                 case DEV_CARD_SLOT_CHOSEN:
                     try {
-                        controller.buyDevCard(clientHandler, String.valueOf(tempId),params[0]);
+                        controller.buyDevCard(clientHandler, String.valueOf(tempId),params[0],tempDiscountIds);
                     }catch(LevelException e){
                         errorMessage="Cannot add the card to the selected slot";
                         state=GameState.DEV_CARD_SLOT_ASKED;

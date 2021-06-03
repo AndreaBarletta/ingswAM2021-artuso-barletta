@@ -377,8 +377,13 @@ public class PersonalBoard implements ControllerEventListener {
         strongbox.add(resource,quantity);
     }
 
-    public void payResource(ResType resource,int quantity){
+    public void payResource(ResType resource,int quantity,int[] discountIds){
         int leftToRemove=quantity;
+        if(discountIds!=null){
+            for(int id:discountIds){
+                leftToRemove-=leaderDiscounts.get(id).getOrDefault(resource,0);
+            }
+        }
         //Try to remove from the depots first
         for(Depot d:depots){
             try{
@@ -601,7 +606,7 @@ public class PersonalBoard implements ControllerEventListener {
         //Remove ingredients
         if(canProduce(productions)) {
             for(Production p : productions) {
-                p.getIngredients().forEach(this::payResource);
+                p.getIngredients().forEach((k,v)->payResource(k,v,null));
             }
         } else {
             throw new ResourcesException();

@@ -319,8 +319,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.canBuyDevCard(clienthandler.getPlayerName(),Integer.parseInt(id),discountIds!=null?Arrays.stream(discountIds).mapToInt(Integer::parseInt).toArray():null);
     }
 
-    public void buyDevCard(ClientHandler clientHandler,String id,String slot) throws LevelException{
-        game.buyDevCard(clientHandler.getPlayerName(),Integer.parseInt(id),Integer.parseInt(slot));
+    public void buyDevCard(ClientHandler clientHandler,String id,String slot,int[] discountIds) throws LevelException{
+        game.buyDevCard(clientHandler.getPlayerName(),Integer.parseInt(id),Integer.parseInt(slot),discountIds);
     }
 
     public void acquireFromMarket(ClientHandler clientHandler, String rowOrColumn, String index){

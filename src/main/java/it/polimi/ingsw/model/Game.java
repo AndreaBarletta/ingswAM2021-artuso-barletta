@@ -341,14 +341,14 @@ public class Game implements ControllerEventListener {
                 String.valueOf(developmentCardGrid.getTopCard(level,cardType).getId())};
     }
 
-    public void buyDevCard(String playername, int devCardId, int slot) throws LevelException{
+    public void buyDevCard(String playername, int devCardId, int slot,int[] discountIds) throws LevelException{
         PersonalBoard p=getPersonalBoard(playername);
         if(p!=null){
             p.addDevCardToSlot(developmentCardsDeck.get(devCardId),slot);
             //If addition was successfull (didn't throw), pay the cost
             Map<ResType,Integer> cost=developmentCardsDeck.get(devCardId).getCost();
             for(Map.Entry<ResType,Integer> entry:cost.entrySet())
-                p.payResource(entry.getKey(),entry.getValue());
+                p.payResource(entry.getKey(),entry.getValue(),discountIds);
         }
     }
 

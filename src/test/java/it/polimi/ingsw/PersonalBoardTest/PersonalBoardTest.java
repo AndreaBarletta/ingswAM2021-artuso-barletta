@@ -95,14 +95,14 @@ public class PersonalBoardTest {
             pe.addResourceToDepot(ResType.SERVANT);
         }catch(Exception e){}
         //Remove from strongbox
-        pe.payResource(ResType.STONE,10);
+        pe.payResource(ResType.STONE,10,null);
         assertEquals(pe.getStrongboxContent().get(ResType.STONE),0);
         assertEquals(pe.getStrongboxContent().get(ResType.COIN),10);
         //Remove from depot
-        pe.payResource(ResType.SERVANT,1);
+        pe.payResource(ResType.SERVANT,1,null);
         assertEquals(pe.getDepotsContent().get(ResType.SERVANT),1);
         //Check if depots get prioritized
-        pe.payResource(ResType.COIN,10);
+        pe.payResource(ResType.COIN,10,null);
         assertEquals(pe.getDepotsContent().get(ResType.COIN),0);
         assertEquals(pe.getStrongboxContent().get(ResType.COIN),3);
 
