@@ -1,7 +1,8 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.view.LightMarket;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -31,8 +32,8 @@ public class GuiView extends Application implements View {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("sample.fxml"));
-        Scene newScene = new Scene(root, 1000, 900);
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("homePage.fxml"));
+        Scene newScene = new Scene(root, 720, 480);
         primaryStage.setTitle("Master of Renessaince - AM58");
         primaryStage.setScene(newScene);
         primaryStage.show();

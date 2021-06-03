@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.view.CliView;
-import it.polimi.ingsw.view.GuiView;
+import it.polimi.ingsw.view.gui.GuiView;
 import it.polimi.ingsw.view.LightMarket;
 import it.polimi.ingsw.view.View;
 
