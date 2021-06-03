@@ -302,17 +302,17 @@ public class Game implements ControllerEventListener {
 
     public String getDepotsContent(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
-        assert player != null; //TODO check
+        assert player != null;
         return player.getDepotsContent().toString();
     }
     public String getLeaderDepotsContent(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
-        assert player != null; //TODO check
+        assert player != null;
         return player.getLeaderDepotsContent().toString();
     }
     public String getStrongboxContent(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
-        assert player != null; //TODO check
+        assert player != null;
         return player.getStrongboxContent().toString();
     }
 

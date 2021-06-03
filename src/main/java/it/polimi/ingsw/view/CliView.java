@@ -273,7 +273,7 @@ public class CliView implements View,Runnable{
     @Override
     public void showChosenProductions(String playerName,int[] activatedProductions) {
         LightPersonalBoard lpb=LBPByName(playerName);
-        assert lpb != null; //TODO check
+        assert lpb != null;
         System.out.println("Player "+playerName+" has activated productions:");
         for(int production:activatedProductions){
             if(production==0){
@@ -295,7 +295,7 @@ public class CliView implements View,Runnable{
     @Override
     public void updateResources(String playerName, List<Map.Entry<ResType,Integer>> depots, List<Map.Entry<ResType,Integer>> leaderDepots, Map<ResType,Integer> strongbox) {
         LightPersonalBoard lpb=LBPByName(playerName);
-        assert lpb != null; //TODO check
+        assert lpb != null;
         lpb.setDepots(depots);
         lpb.setLeaderDepots(leaderDepots);
         lpb.setStrongbox(strongbox);
