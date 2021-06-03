@@ -217,6 +217,11 @@ public class GuiView extends Application implements View {
     }
 
     @Override
+    public void askResourceConvert(int leftToConvert) {
+
+    }
+
+    @Override
     public void disconnected() {
 
     }

@@ -240,6 +240,11 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.ASK_DEV_CARD_SLOT,null));
                     return true;
                 case DEV_CARD_SLOT_CHOSEN:
+                    if(Integer.parseInt(params[0])!=0&&Integer.parseInt(params[0])!=1&&Integer.parseInt(params[0])!=2){
+                        errorMessage="Invalid slot selected";
+                        state=GameState.DEV_CARD_SLOT_ASKED;
+                        return false;
+                    }
                     try {
                         controller.buyDevCard(clientHandler, String.valueOf(tempId),params[0],tempDiscountIds);
                     }catch(LevelException e){
@@ -299,7 +304,7 @@ public class GameStateAutomaton {
                     evolve("UPDATE_RESOURCES",null);
                     return true;
                 case RESOURCE_CONVERT_ASKED:
-                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"CONVERT RESOURCES"}));
+                    clientHandler.send(new Message(MessageType.ASK_CONVERT_RESOURCE,new String[]{String.valueOf(tempLeftToConvert)}));
                     return true;
                 case RESOURCE_CONVERTED:
                 case RESOURCE_DISCARD_ASKED:

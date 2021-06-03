@@ -42,7 +42,7 @@ public enum ResType {
             case WHITEMARBLE:
                 ResType converted=personalboard.convert();
                 if(converted!=WHITEMARBLE){
-                    converted.effectOnAcquire(personalboard);
+                    return converted.effectOnAcquire(personalboard);
                 }else
                     return WHITEMARBLE;
             default:

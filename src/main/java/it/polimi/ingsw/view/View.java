@@ -48,6 +48,6 @@ public interface View extends Runnable {
     void chooseRowOrColumn();
     void updateMarket(boolean row,int index);
     void askResourceDiscard(ResType[] resourcesAcquired);
-
+    void askResourceConvert(int leftToConvert);
     void disconnected();
 }
