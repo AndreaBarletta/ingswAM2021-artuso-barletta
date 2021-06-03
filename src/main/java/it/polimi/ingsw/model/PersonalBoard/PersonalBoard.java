@@ -123,7 +123,7 @@ public class PersonalBoard implements ControllerEventListener {
      * Gets the name of the player associated with this player board
      * @return Name of the player
      */
-    public String getplayerName() {
+    public String getPlayerName() {
         return playerName;
     }
 

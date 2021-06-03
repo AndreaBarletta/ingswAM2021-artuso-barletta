@@ -358,8 +358,8 @@ public class Game implements ControllerEventListener {
      * @param row True is a row was selected, false if a column was selected
      * @param index Row / column index
      */
-    public int acquireFromMarket(String playername, boolean row, int index){
-        PersonalBoard p=getPersonalBoard(playername);
+    public int acquireFromMarket(String playerName, boolean row, int index){
+        PersonalBoard p=getPersonalBoard(playerName);
         int numberOfWhiteMarblesToChoose=0;
         if(p!=null){
             ResType[] acquiredResources;
