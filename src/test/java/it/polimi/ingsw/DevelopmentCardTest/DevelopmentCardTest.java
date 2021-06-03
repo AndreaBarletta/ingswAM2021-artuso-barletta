@@ -41,10 +41,16 @@ public class DevelopmentCardTest {
         resources.put(ResType.COIN,1);
         resources.put(ResType.SERVANT,1);
 
-        assertFalse(developmentCard.canBeBought(resources));
+        assertFalse(developmentCard.canBeBought(resources,null));
         resources.put(ResType.COIN,2);
-        assertFalse(developmentCard.canBeBought(resources));
+        assertFalse(developmentCard.canBeBought(resources,null));
         resources.put(ResType.SERVANT,2);
-        assertTrue(developmentCard.canBeBought(resources));
+        assertTrue(developmentCard.canBeBought(resources,null));
+
+        //With discounts
+        Map<ResType,Integer> discounts=new HashMap<>();
+        resources.put(ResType.SERVANT,1);
+        discounts.put(ResType.SERVANT,1);
+        assertTrue(developmentCard.canBeBought(resources,discounts));
     }
 }

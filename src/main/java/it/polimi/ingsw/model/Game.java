@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Game implements ControllerEventListener {
     private List<PersonalBoard> personalBoards;
@@ -309,13 +310,13 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public void canBuyDevCard(String playername,int devCardId) throws ResourcesException, LevelException,CardNotFoundException{
+    public void canBuyDevCard(String playername,int devCardId,int[] discountIds) throws ResourcesException, LevelException,CardNotFoundException{
         PersonalBoard player=getPersonalBoard(playername);
 
         if(player!=null){
             DevelopmentCard chosenCard=developmentCardsDeck.get(devCardId);
             if(chosenCard==developmentCardGrid.getTopCard(chosenCard.getLevel(),chosenCard.getCardType()))
-                player.canBuyDevCard(chosenCard);
+                player.canBuyDevCard(chosenCard,discountIds);
             else
                 throw new CardNotFoundException();
         }
@@ -351,8 +352,9 @@ public class Game implements ControllerEventListener {
      * @param row True is a row was selected, false if a column was selected
      * @param index Row / column index
      */
-    public void acquireFromMarket(String playername, boolean row, int index){
+    public int acquireFromMarket(String playername, boolean row, int index){
         PersonalBoard p=getPersonalBoard(playername);
+        int numberOfWhiteMarblesToChoose=0;
         if(p!=null){
             ResType[] acquiredResources;
             if(row){
@@ -360,15 +362,13 @@ public class Game implements ControllerEventListener {
             }else{
                 acquiredResources=market.acquireColumn(index);
             }
-            for(LeaderCard l:p.getLeaderCards()){
-                l.effectOnMarketBuy(p,acquiredResources);
-            }
             for(ResType r:acquiredResources){
                 try{
                     r.effectOnAcquire(p);
                 }catch(DepotSpaceException e){}
             }
         }
+        return numberOfWhiteMarblesToChoose;
     }
 
     public int getMaximumPlayers(){
@@ -413,5 +413,17 @@ public class Game implements ControllerEventListener {
 
     public void setHasStarted(boolean hasStarted) {
         this.hasStarted = hasStarted;
+    }
+
+    public boolean canDiscount(String playerName,int[] ids){
+        //Check if discount ids are different
+        if(ids.length != IntStream.of(ids).boxed().collect(Collectors.toSet()).size())
+            return false;
+
+        PersonalBoard player=getPersonalBoard(playerName);
+        if(player!=null){
+            return player.canDiscount(ids);
+        }
+        return false;
     }
 }

@@ -94,10 +94,10 @@ public class DevelopmentCard {
         return id;
     }
 
-    public boolean canBeBought(Map<ResType,Integer> resources){
+    public boolean canBeBought(Map<ResType,Integer> resources,Map<ResType,Integer> discounts){
         for(Map.Entry<ResType,Integer> me:cost.entrySet()){
             if(resources.containsKey(me.getKey())){
-                if(resources.get(me.getKey())<me.getValue()){
+                if(resources.get(me.getKey())<me.getValue()-(discounts==null?0:discounts.getOrDefault(me.getKey(),0))){
                     return false;
                 }
             }else{

@@ -18,9 +18,9 @@ public class LeaderDevCardDiscounter extends LeaderCard {
     }
 
     public void effectOnActivate(PersonalBoard personalBoard) {personalBoard.addLeaderDiscount(discounts);}
-    public void effectOnActivate(LightPersonalBoard lightPersonalBoard) {}
+    public void effectOnActivate(LightPersonalBoard lightPersonalBoard) {lightPersonalBoard.addLeaderDiscount(discounts);}
     public void effectOnDiscard(PersonalBoard personalBoard){personalBoard.removeLeaderDiscount(discounts);}
-    public void effectOnDiscard(LightPersonalBoard lightPersonalBoard){}
+    public void effectOnDiscard(LightPersonalBoard lightPersonalBoard){lightPersonalBoard.removeLeaderDiscount(discounts);}
     public String toString(){
         return super.toString()+"Type:Discounter\nDiscounts: "+discounts;
     }

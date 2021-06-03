@@ -42,6 +42,8 @@ public class CliView implements View,Runnable{
             commandParser.addCommand("choose", 2, MessageType.CHOOSE_ROW_OR_COLUMN);
             commandParser.addCommand("buydevcard",0,MessageType.BUY_DEV_CARD);
             commandParser.addCommand("choosedevcard",1,MessageType.CHOOSE_DEV_CARD);
+            commandParser.addCommand("choosedevcard",2,MessageType.CHOOSE_DEV_CARD);
+            commandParser.addCommand("choosedevcard",3,MessageType.CHOOSE_DEV_CARD);
             commandParser.addCommand("chooseslot",1,MessageType.CHOOSE_DEV_CARD_SLOT);
             commandParser.addCommand("activateproductions",0,MessageType.ACTIVATE_PRODUCTIONS);
             commandParser.addCommand("activate",1,MessageType.CHOOSE_PRODUCTIONS);
@@ -301,7 +303,17 @@ public class CliView implements View,Runnable{
                 System.out.println(lightModel.getDevelopmentCardDeck()[id]);
             }
         }
-        System.out.print("Choose a development card to buy (choosedevcard {id}) or go back (cancel): ");
+        List<Map<ResType,Integer>> discounts=LBPByName(lightModel.getPlayerName()).getLeaderDiscounts();
+        if(discounts.size()!=0){
+            System.out.println("You have the following leader discounts:");
+            int i=0;
+            for(Map<ResType,Integer> m:discounts){
+                for(Map.Entry<ResType,Integer> me:m.entrySet()){
+                    System.out.println("Id "+i+": "+me.getKey()+" "+me.getValue());
+                }
+            }
+        }
+        System.out.print("Choose a development card to buy (choosedevcard {id} [discount id] [discount id]) or go back (cancel): ");
     }
 
     @Override

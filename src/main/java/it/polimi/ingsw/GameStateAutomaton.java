@@ -187,7 +187,16 @@ public class GameStateAutomaton {
                     return true;
                 case DEV_CARD_CHOSEN:
                     try{
-                        controller.canBuyDevCard(clientHandler,params[0]);
+                        if(params.length==2||params.length==3) {
+                            if (!controller.canDiscount(clientHandler, Arrays.asList(params).subList(2, params.length).toArray(String[]::new))) {
+                                errorMessage = "Invalid discount id";
+                                state = GameState.DEV_CARD_GRID_SHOWN;
+                                return false;
+                            }
+                        }else{
+                            controller.canBuyDevCard(clientHandler,params[0],null);
+                        }
+
                     }catch(ResourcesException e){
                         state=GameState.DEV_CARD_GRID_SHOWN;
                         errorMessage="You don't have enough resources to buy the selected development card";

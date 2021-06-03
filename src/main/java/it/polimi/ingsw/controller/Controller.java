@@ -269,10 +269,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.discardLeaderCards(clientHandler.getPlayerName(), Integer.parseInt(id));
     }
 
-    public void addedLeaderProduction(String playerName) {
-        broadcast(new Message(MessageType.LEADER_ACTIVATED,new String[]{playerName}));
-    }
-
     public void activateProductions(String playerName, String[] productionsId) throws ResourcesException {
         //convert ids in productions
         Production[]  productions = new Production[productionsId.length];
@@ -312,8 +308,8 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         return game.getAllResource(playerName);
     }
 
-    public void canBuyDevCard(ClientHandler clienthandler,String id) throws ResourcesException,LevelException,CardNotFoundException {
-        game.canBuyDevCard(clienthandler.getPlayerName(),Integer.parseInt(id));
+    public void canBuyDevCard(ClientHandler clienthandler,String id,String[] discountIds) throws ResourcesException,LevelException,CardNotFoundException {
+        game.canBuyDevCard(clienthandler.getPlayerName(),Integer.parseInt(id),discountIds!=null?Arrays.stream(discountIds).mapToInt(Integer::parseInt).toArray():null);
     }
 
     public void buyDevCard(ClientHandler clientHandler,String id,String slot) throws LevelException{
@@ -323,6 +319,10 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     public void acquireFromMarket(ClientHandler clientHandler, String rowOrColumn, String index){
         game.acquireFromMarket(clientHandler.getPlayerName(), rowOrColumn.equals("row"), Integer.parseInt(index));
         broadcast(new Message(MessageType.UPDATE_MARKET,new String[]{rowOrColumn,index}));
+    }
+
+    public boolean canDiscount(ClientHandler clientHandler,String[] ids){
+        return game.canDiscount(clientHandler.getPlayerName(), Arrays.stream(ids).mapToInt(Integer::parseInt).toArray());
     }
 
     public String[] removeDevCardFromMarket(String id){
