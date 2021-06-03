@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.view.LightDepot;
 
 import java.io.File;
 import java.io.IOException;
@@ -433,13 +434,8 @@ public class PersonalBoard implements ControllerEventListener {
         return content;
     }
 
-    public String getDepotsContentAsString(){
-        List<Map.Entry<ResType,Integer>> depotsContent=new ArrayList<>();
-        Gson gson=new Gson();
-        for(Depot d:depots){
-            depotsContent.add(d.getContent());
-        }
-        return gson.toJson(depotsContent);
+    public Depot[] getDepots(){
+        return depots;
     }
 
     public Map<ResType,Integer> getLeaderDepotsContent(){
@@ -449,22 +445,12 @@ public class PersonalBoard implements ControllerEventListener {
         return content;
     }
 
-    public String getLeaderDepotsContentAsString(){
-        List<Map.Entry<ResType,Integer>> leaderDepotsContent=new ArrayList<>();
-        Gson gson=new Gson();
-        for(Depot d:leaderDepots){
-            leaderDepotsContent.add(d.getContent());
-        }
-        return gson.toJson(leaderDepotsContent);
+    public List<Depot> getLeaderDepots(){
+        return leaderDepots;
     }
 
     public Map<ResType,Integer> getStrongboxContent(){
         return strongbox.getContent();
-    }
-
-    public String getStrongboxContentAsString(){
-        Gson gson=new Gson();
-        return gson.toJson(strongbox.getContent());
     }
 
     public void receiveInkwell(){
