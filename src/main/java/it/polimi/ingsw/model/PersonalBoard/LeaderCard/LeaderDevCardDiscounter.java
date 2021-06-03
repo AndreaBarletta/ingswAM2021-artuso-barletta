@@ -22,6 +22,10 @@ public class LeaderDevCardDiscounter extends LeaderCard {
     public void effectOnDiscard(PersonalBoard personalBoard){personalBoard.removeLeaderDiscount(discounts);}
     public void effectOnDiscard(LightPersonalBoard lightPersonalBoard){lightPersonalBoard.removeLeaderDiscount(discounts);}
     public String toString(){
-        return super.toString()+"Type:Discounter\nDiscounts: "+discounts;
+        StringBuilder cardToString= new StringBuilder(super.toString() + "Type:Discounter\nDiscounts:");
+        for(Map.Entry<ResType,Integer> me:discounts.entrySet())
+            cardToString.append(" ").append(me.getValue()).append(me.getKey().getSymbol());
+
+        return cardToString.toString();
     }
 }

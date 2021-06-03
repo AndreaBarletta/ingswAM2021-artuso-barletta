@@ -22,6 +22,6 @@ public class LeaderWhiteMarbleConverter extends LeaderCard{
     public void effectOnDiscard(LightPersonalBoard lightPersonalBoard){lightPersonalBoard.removeLeaderConvert(convertedResource);}
 
     public String toString(){
-        return super.toString()+"Type:Converter\nConverts into: "+convertedResource;
+        return super.toString()+"Type:Converter\nConverts into: "+convertedResource.getSymbol();
     }
 }

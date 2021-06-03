@@ -8,8 +8,7 @@ import it.polimi.ingsw.view.Colors;
 public enum ResType {
     COIN, STONE, SERVANT, SHIELD, FAITH, WHITEMARBLE, ANY;
 
-    @Override
-    public String toString() {
+    public String getSymbol() {
         switch (this) {
             case COIN:
                 return Colors.YELLOW.escape()+"C"+Colors.RESET.escape();

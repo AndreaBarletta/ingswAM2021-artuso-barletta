@@ -29,14 +29,14 @@ public class LightMarket {
 
     @Override
     public String toString(){
-        String marketToString="Market:\n";
-        marketToString += "Leftover Marble: " + leftoverMarble + "\n";
+        StringBuilder marketToString= new StringBuilder("Market:\n");
+        marketToString.append("Leftover Marble: ").append(leftoverMarble.getSymbol()).append("\n");
         for(int i=0; i<3; i++){
             for(int j=0; j<4; j++){
-                marketToString += marketTray[i][j] + " ";
+                marketToString.append(marketTray[i][j].getSymbol()).append(" ");
             }
-            marketToString += "\n";
+            marketToString.append("\n");
         }
-        return marketToString;
+        return marketToString.toString();
     }
 }

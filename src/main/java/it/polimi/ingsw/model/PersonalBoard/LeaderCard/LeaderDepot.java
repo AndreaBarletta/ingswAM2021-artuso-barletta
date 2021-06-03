@@ -27,6 +27,6 @@ public class LeaderDepot extends LeaderCard {
     }
     public void effectOnDiscard(LightPersonalBoard lightPersonalBoard){lightPersonalBoard.removeLeaderDepot(depot);}
     public String toString(){
-        return super.toString()+"Type:Depot\nStores: "+depot.getDepotResources();
+        return super.toString()+"Type:Depot\nStores: "+depot.getDepotResources().getSymbol();
     }
 }

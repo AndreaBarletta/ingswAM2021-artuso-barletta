@@ -117,7 +117,7 @@ public abstract class LeaderCard {
         if(resourceRequirements!=null){
             leaderToString.append("\tResource Requirements: ");
             for(Map.Entry<ResType,Integer> me:resourceRequirements.entrySet()){
-                leaderToString.append(me.getKey()).append("=").append(me.getValue()).append(" ");
+                leaderToString.append(me.getKey().getSymbol()).append("=").append(me.getValue()).append(" ");
             }
             leaderToString.append("\n");
         }

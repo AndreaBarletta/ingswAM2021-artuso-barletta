@@ -35,11 +35,11 @@ public class Production {
 
     @Override
     public String toString(){
-        String productionToString="Ingredients: ";
-        for(Map.Entry<ResType,Integer> me:ingredients.entrySet()) productionToString+=me.getKey()+"="+me.getValue()+" ";
-        productionToString+="\n";
-        productionToString+="Products: ";
-        for(Map.Entry<ResType,Integer> me:products.entrySet()) productionToString+=me.getKey()+"="+me.getValue()+" ";
-        return productionToString;
+        StringBuilder productionToString= new StringBuilder("Ingredients: ");
+        for(Map.Entry<ResType,Integer> me:ingredients.entrySet()) productionToString.append(me.getKey().getSymbol()).append("=").append(me.getValue()).append(" ");
+        productionToString.append("\n");
+        productionToString.append("Products: ");
+        for(Map.Entry<ResType,Integer> me:products.entrySet()) productionToString.append(me.getKey().getSymbol()).append("=").append(me.getValue()).append(" ");
+        return productionToString.toString();
     }
 }
