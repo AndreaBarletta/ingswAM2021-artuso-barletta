@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.view.CliView;
@@ -13,6 +14,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class Client {
     static View view;
@@ -163,7 +166,7 @@ public class Client {
                     );
                     break;
                 case UPDATE_RESOURCES:
-                    view.updateResources();
+                    view.updateResources(message.params[0],gson.fromJson(message.params[1], new TypeToken<List<Map.Entry<ResType,Integer>>>(){}.getType()),gson.fromJson(message.params[2], new TypeToken<List<Map.Entry<ResType,Integer>>>(){}.getType()),gson.fromJson(message.params[3], new TypeToken<Map<ResType,Integer>>(){}.getType()));
                     break;
                 case SHOW_DEV_CARD_GRID:
                     view.showDevCardGrid();

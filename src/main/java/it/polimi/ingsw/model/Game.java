@@ -266,8 +266,8 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public void activateLeaderCards(String playername, int leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
-        PersonalBoard player=getPersonalBoard(playername);
+    public void activateLeaderCards(String playerName, int leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
+        PersonalBoard player=getPersonalBoard(playerName);
         if(player!=null){
             if(leaderCardId<16&&leaderCardId>=0){
                 player.activateLeaderCard(leaderCardsDeck
@@ -284,8 +284,8 @@ public class Game implements ControllerEventListener {
 
     }
 
-    public void discardLeaderCards(String playername, int leaderCardId) throws CardNotFoundException {
-        PersonalBoard player=getPersonalBoard(playername);
+    public void discardLeaderCards(String playerName, int leaderCardId) throws CardNotFoundException {
+        PersonalBoard player=getPersonalBoard(playerName);
 
         if(player!=null) {
             player.discardLeaderCard(leaderCardId);
@@ -300,14 +300,20 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public String getAllResource(String playerName) {
+    public String getDepotsContent(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
-
-        if(player!=null) {
-            return player.getAllResources().toString();
-        } else {
-            return null;
-        }
+        assert player != null; //TODO check
+        return player.getDepotsContent().toString();
+    }
+    public String getLeaderDepotsContent(String playerName) {
+        PersonalBoard player=getPersonalBoard(playerName);
+        assert player != null; //TODO check
+        return player.getLeaderDepotsContent().toString();
+    }
+    public String getStrongboxContent(String playerName) {
+        PersonalBoard player=getPersonalBoard(playerName);
+        assert player != null; //TODO check
+        return player.getStrongboxContent().toString();
     }
 
     public void canBuyDevCard(String playername,int devCardId,int[] discountIds) throws ResourcesException, LevelException,CardNotFoundException{
@@ -348,7 +354,7 @@ public class Game implements ControllerEventListener {
 
     /**
      * Acquires resources from the market
-     * @param playername Name of the player that acquires the resources
+     * @param playerName Name of the player that acquires the resources
      * @param row True is a row was selected, false if a column was selected
      * @param index Row / column index
      */

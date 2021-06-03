@@ -14,8 +14,9 @@ public class LightPersonalBoard {
     private List<Integer> leaderCards;
     private FaithTrack faithTrack;
     private Stack<Integer>[] developmentCardSlots;
-    private Strongbox strongbox;
-    private List<Depot> depots;
+    private List<Map.Entry<ResType, Integer>> depots = new ArrayList<>();
+    private List<Map.Entry<ResType, Integer>> leaderDepots = new ArrayList<>();
+    private Map<ResType, Integer> strongbox = new HashMap<>();
     private boolean inkwell = false;
     private Production baseProduction;
     private List<Production> leaderProductions;
@@ -25,7 +26,7 @@ public class LightPersonalBoard {
 
     public LightPersonalBoard(String playerName) {
         this.playerName=playerName;
-        developmentCardSlots=new Stack[3];
+        developmentCardSlots=new Stack[3]; //TODO check
         for(int i=0;i<3;i++){
             developmentCardSlots[i]=new Stack<>();
         }
@@ -75,14 +76,31 @@ public class LightPersonalBoard {
 
     public void removeLeaderProduction(Production leaderProduction){leaderProductions.remove(leaderProduction);}
 
-    public void addLeaderDepot(Depot newDepot) {
-        leaderDepots.add(newDepot);
+    public List<Map.Entry<ResType, Integer>> getDepots() {
+        return depots;
     }
 
-    public void removeLeaderDepot(Depot leaderDepot){
-        leaderDepots.remove(leaderDepot);
+    public void setDepots(List<Map.Entry<ResType, Integer>> depots) {
+        this.depots = depots;
     }
 
+    public List<Map.Entry<ResType, Integer>> getLeaderDepots() {
+        return leaderDepots;
+    }
+
+    public void setLeaderDepots(List<Map.Entry<ResType, Integer>> leaderDepots) {
+        this.leaderDepots = leaderDepots;
+    }
+
+    public Map<ResType, Integer> getStrongbox() {
+        return strongbox;
+    }
+
+    public void setStrongbox(Map<ResType, Integer> strongbox) {
+        this.strongbox = strongbox;
+    }
+
+    public void setDevCardSlot(int id, int slot){
     public void addLeaderConvert(ResType newLeaderConvert){
         leaderConverts.add(newLeaderConvert);
     }
@@ -113,5 +131,13 @@ public class LightPersonalBoard {
 
     public void discardLeaderCard(int id){
         leaderCards.remove(Integer.valueOf(id));
+    }
+
+    public void addLeaderDepot(Depot depot) {
+        //TODO
+    }
+
+    public void removeLeaderDepot(Depot depot) {
+        //TODO
     }
 }

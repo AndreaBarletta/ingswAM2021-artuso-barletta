@@ -177,7 +177,11 @@ public class GameStateAutomaton {
                     );
                     return true;
                 case RESOURCE_UPDATED:
-                    controller.broadcast(new Message(MessageType.UPDATE_RESOURCES,new String[]{clientHandler.getPlayerName(),controller.getAllResources(clientHandler.getPlayerName())}));
+                    String playerName = clientHandler.getPlayerName();
+                    String depotResources = controller.getDepotContent(playerName);
+                    String leaderResources = controller.getLeaderDepotContent(playerName);
+                    String strongboxResources = controller.getStrongboxContent(playerName);
+                    controller.broadcast(new Message(MessageType.UPDATE_RESOURCES,new String[]{playerName,depotResources,leaderResources,strongboxResources}));
                     controller.endTurnAction(clientHandler);
                     evolve("ASK_LEADER_ACTION",null);
                     return true;

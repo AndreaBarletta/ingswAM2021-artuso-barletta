@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
+
 public class GuiView extends Application implements View {
     @Override
     public void run(){
@@ -166,7 +169,7 @@ public class GuiView extends Application implements View {
     }
 
     @Override
-    public void updateResources() {
+    public void updateResources(String playerName, List<Map.Entry<ResType,Integer>> depots, List<Map.Entry<ResType,Integer>> leaderDepots, Map<ResType,Integer> strongbox) {
 
     }
 

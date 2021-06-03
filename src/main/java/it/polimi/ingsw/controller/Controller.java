@@ -304,8 +304,15 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.activateProductions(playerName, productions);
     }
 
-    public String getAllResources(String playerName) {
-        return game.getAllResource(playerName);
+    public String getDepotContent(String playerName) {
+        return game.getDepotsContent(playerName);
+    }
+
+    public String getLeaderDepotContent(String playerName) {
+        return game.getLeaderDepotsContent(playerName);
+    }
+    public String getStrongboxContent(String playerName) {
+        return game.getStrongboxContent(playerName);
     }
 
     public void canBuyDevCard(ClientHandler clienthandler,String id,String[] discountIds) throws ResourcesException,LevelException,CardNotFoundException {
