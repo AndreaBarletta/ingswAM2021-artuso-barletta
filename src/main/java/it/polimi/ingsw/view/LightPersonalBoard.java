@@ -101,12 +101,8 @@ public class LightPersonalBoard {
     public void setLeaderDepots(List<Map.Entry<ResType, Integer>> leaderDepots) {
         this.leaderDepots = leaderDepots;
     }
-    public void addLeaderDepot(Depot depot) {
-        leaderDepots.add(new AbstractMap.SimpleEntry<>(depot.getDepotResources(),0));
-    }
-    public void removeLeaderDepot(Depot depot) {
-        leaderDepots.removeIf(me -> me.getKey() == depot.getDepotResources());
-    }
+    public void addLeaderDepot(Depot depot) { leaderDepots.add(new AbstractMap.SimpleEntry<>(depot.getDepotResources(),0)); }
+    public void removeLeaderDepot(Depot depot) { leaderDepots.removeIf(me -> me.getKey() == depot.getDepotResources());    }
 
     public void addLeaderConvert(ResType newLeaderConvert){
         leaderConverts.add(newLeaderConvert);
