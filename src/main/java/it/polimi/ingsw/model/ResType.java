@@ -30,7 +30,7 @@ public enum ResType {
         }
     }
 
-    public void effectOnAcquire(PersonalBoard personalboard) throws DepotSpaceException {
+    public ResType effectOnAcquire(PersonalBoard personalboard) throws DepotSpaceException {
         switch(this){
             case COIN:
             case STONE:
@@ -41,8 +41,15 @@ public enum ResType {
             case FAITH:
                 personalboard.incrementFaithTrack(1);
                 break;
+            case WHITEMARBLE:
+                ResType converted=personalboard.convert();
+                if(converted!=WHITEMARBLE)
+                    converted.effectOnAcquire(personalboard);
+                else
+                    return WHITEMARBLE;
             default:
                 break;
         }
+        return null;
     }
 }

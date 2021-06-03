@@ -14,7 +14,7 @@ public enum GameState{
     TURN_ACTION_ASKED,
     PRODUCTIONS_SHOWN,PRODUCTION_CHOSEN,RESOURCE_UPDATED,
     DEV_CARD_GRID_SHOWN,DEV_CARD_CHOSEN,DEV_CARD_GRID_UPDATED,DEV_CARD_SLOT_ASKED,DEV_CARD_SLOT_CHOSEN,
-    MARKET_SHOWN, ROW_OR_COLUMN_CHOSEN;
+    MARKET_SHOWN, ROW_OR_COLUMN_CHOSEN,RESOURCE_CONVERTED;
 
     public boolean canEvolve(String input){
         switch(this){
@@ -127,6 +127,14 @@ public enum GameState{
                     return true;
                 break;
             case ROW_OR_COLUMN_CHOSEN:
+                if(input.equals("UPDATE_RESOURCES")||input.equals("CONVERT_RESOURCE"))
+                    return true;
+                break;
+            case RESOURCE_CONVERTED:
+                if(input.equals("UPDATE_RESOURCES")||input.equals("CONVERT_RESOURCE"))
+                    return true;
+                break;
+            case RESOURCE_UPDATED:
                 if(input.equals("ASK_LEADER_ACTION"))
                     return true;
                 break;
@@ -215,6 +223,12 @@ public enum GameState{
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
                 if(input.equals("CHOOSE_ROW_OR_COLUMN"))            return ROW_OR_COLUMN_CHOSEN;
             case ROW_OR_COLUMN_CHOSEN:
+                if(input.equals("UPDATE_RESOURCES"))                return RESOURCE_UPDATED;
+                if(input.equals("CONVERT_RESOURCE"))                return RESOURCE_CONVERTED;
+            case RESOURCE_CONVERTED:
+                if(input.equals("UPDATE_RESOURCES"))                return RESOURCE_UPDATED;
+                if(input.equals("CONVERT_RESOURCE"))                return RESOURCE_CONVERTED;
+            case RESOURCE_UPDATED:
                 return LEADER_ACTION_ASKED;
         }
         return UNKNOWN;
