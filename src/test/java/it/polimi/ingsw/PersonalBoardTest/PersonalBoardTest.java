@@ -46,19 +46,19 @@ public class PersonalBoardTest {
         },*/
         personalBoard.addResourcesToStrongbox(ResType.SERVANT,2);
         personalBoard.addResourcesToStrongbox(ResType.COIN,2);
-        assertThrows(ResourcesException.class,()->personalBoard.canBuyDevCard(developmentCards[29]));
+        assertThrows(ResourcesException.class,()->personalBoard.canBuyDevCard(developmentCards[29],null));
         personalBoard.addResourcesToStrongbox(ResType.SERVANT,2);
         personalBoard.addResourcesToStrongbox(ResType.COIN,2);
-        assertThrows(LevelException.class,()->personalBoard.canBuyDevCard(developmentCards[29]));
+        assertThrows(LevelException.class,()->personalBoard.canBuyDevCard(developmentCards[29],null));
         /*"id": 3,
                 "level":1,
                 "cost":{
             "SHIELD":3
         },*/
         personalBoard.addResourcesToStrongbox(ResType.SHIELD,2);
-        assertThrows(ResourcesException.class,()->personalBoard.canBuyDevCard(developmentCards[3]));
+        assertThrows(ResourcesException.class,()->personalBoard.canBuyDevCard(developmentCards[3],null));
         personalBoard.addResourcesToStrongbox(ResType.SHIELD,2);
-        assertDoesNotThrow(()->personalBoard.canBuyDevCard(developmentCards[3]));
+        assertDoesNotThrow(()->personalBoard.canBuyDevCard(developmentCards[3],null));
     }
 
     @Test
