@@ -223,6 +223,7 @@ public class CliView implements View,Runnable{
     public void leaderActivate(String playerName,int leaderCardId) {
         LightPersonalBoard lpb=LBPByName(playerName);
         lightModel.getLeaderCardDeck()[leaderCardId].effectOnActivate(lpb);
+        lightModel.getLeaderCardDeck()[leaderCardId].activate();
         System.out.println("Player "+playerName+" has activated one of their leader cards:");
         System.out.println(lightModel.getLeaderCardDeck()[leaderCardId]);
         System.out.print("\n");

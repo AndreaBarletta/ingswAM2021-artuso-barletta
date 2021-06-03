@@ -74,9 +74,9 @@ public class LightModel {
     }
 
     public boolean loadResources(){
-        if((leaderCardDeck=loadLeaderCardDeckFromJson("leaderCards/leaderCards.json"))==null)
+        if((leaderCardDeck=loadLeaderCardDeckFromJson("leaderCards.json"))==null)
             return false;
-        if((developmentCardDeck=loadLDevelopmentCardDeckFromJson("developmentCards/developmentCards.json"))==null)
+        if((developmentCardDeck=loadLDevelopmentCardDeckFromJson("developmentCards.json"))==null)
             return false;
         return true;
     }

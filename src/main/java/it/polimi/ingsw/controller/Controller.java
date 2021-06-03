@@ -78,9 +78,9 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         if(numberOfPlayers>=2&&numberOfPlayers<=4){
             game=new Game(numberOfPlayers);
 
-            if(!game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards/developmentCards.json").getPath())) return false;
+            if(!game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath())) return false;
             if(!game.loadPopeFavourCardsFromFile(getClass().getClassLoader().getResource("popeFavourCards.json").getPath())) return false;
-            if(!game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards/leaderCards.json").getPath())) return false;
+            if(!game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath())) return false;
 
             try{
                 game.addPlayer(clientHandler.getPlayerName());
@@ -305,14 +305,13 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
     }
 
     public String getDepotContent(String playerName) {
-        return game.getDepotsContent(playerName);
+        return game.getDepotsContentAsString(playerName);
     }
-
     public String getLeaderDepotContent(String playerName) {
-        return game.getLeaderDepotsContent(playerName);
+        return game.getLeaderDepotsContentAsString(playerName);
     }
     public String getStrongboxContent(String playerName) {
-        return game.getStrongboxContent(playerName);
+        return game.getStrongboxContentAsString(playerName);
     }
 
     public void canBuyDevCard(ClientHandler clienthandler,String id,String[] discountIds) throws ResourcesException,LevelException,CardNotFoundException {
@@ -323,9 +322,14 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.buyDevCard(clientHandler.getPlayerName(),Integer.parseInt(id),Integer.parseInt(slot),discountIds);
     }
 
-    public void acquireFromMarket(ClientHandler clientHandler, String rowOrColumn, String index){
-        game.acquireFromMarket(clientHandler.getPlayerName(), rowOrColumn.equals("row"), Integer.parseInt(index));
+    public ResType[] acquireFromMarket(ClientHandler clientHandler, String rowOrColumn, String index){
+        ResType[] acquiredResources=game.acquireFromMarket(clientHandler.getPlayerName(), rowOrColumn.equals("row"), Integer.parseInt(index));
         broadcast(new Message(MessageType.UPDATE_MARKET,new String[]{rowOrColumn,index}));
+        return acquiredResources;
+    }
+
+    public boolean canAddToDepot(ClientHandler clientHandler, ResType[] resources){
+        return game.canAddToDepot(clientHandler.getPlayerName(),resources);
     }
 
     public boolean canDiscount(ClientHandler clientHandler,String[] ids){

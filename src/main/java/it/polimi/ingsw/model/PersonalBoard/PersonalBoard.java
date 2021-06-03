@@ -41,7 +41,7 @@ public class PersonalBoard implements ControllerEventListener {
 
     private List<PersonalBoardEventListener> eventListeners;
 
-    public PersonalBoard(String playerNickname, DevelopmentCardGrid cardGrid, Market market){
+    public PersonalBoard(String playerNickname){
         this.playerName =playerNickname;
         //Create components
         eventListeners=new ArrayList<>();
@@ -433,6 +433,15 @@ public class PersonalBoard implements ControllerEventListener {
         return content;
     }
 
+    public String getDepotsContentAsString(){
+        List<Map.Entry<ResType,Integer>> depotsContent=new ArrayList<>();
+        Gson gson=new Gson();
+        for(Depot d:depots){
+            depotsContent.add(d.getContent());
+        }
+        return gson.toJson(depotsContent);
+    }
+
     public Map<ResType,Integer> getLeaderDepotsContent(){
         Map<ResType,Integer> content=new HashMap<>();
         for(Depot ld:leaderDepots)
@@ -440,8 +449,22 @@ public class PersonalBoard implements ControllerEventListener {
         return content;
     }
 
+    public String getLeaderDepotsContentAsString(){
+        List<Map.Entry<ResType,Integer>> leaderDepotsContent=new ArrayList<>();
+        Gson gson=new Gson();
+        for(Depot d:leaderDepots){
+            leaderDepotsContent.add(d.getContent());
+        }
+        return gson.toJson(leaderDepotsContent);
+    }
+
     public Map<ResType,Integer> getStrongboxContent(){
         return strongbox.getContent();
+    }
+
+    public String getStrongboxContentAsString(){
+        Gson gson=new Gson();
+        return gson.toJson(strongbox.getContent());
     }
 
     public void receiveInkwell(){
@@ -623,6 +646,41 @@ public class PersonalBoard implements ControllerEventListener {
             if(id>leaderDiscounts.size())
                 return false;
 
+        return true;
+    }
+
+    public boolean canAddToDepot(ResType[] resources){
+        //Save a copy of the current depots
+        List<Depot> tempLeaderDepots=new ArrayList<>();
+        Depot[] tempDepots=new Depot[3];
+
+        for(int i=0;i<3;i++){
+            tempDepots[i]=new Depot(depots[i].getCapacity());
+            try{
+                tempDepots[i].add(depots[i].getDepotResources(),depots[i].getCounter());
+            }catch(DepotSpaceException e){}catch(DepotResourceTypeException e){}
+        }
+
+        for(Depot leaderDepot:leaderDepots){
+            tempLeaderDepots.add(new Depot(leaderDepot.getCapacity()));
+            try{
+                tempLeaderDepots.get(tempLeaderDepots.size()-1).add(leaderDepot.getDepotResources(),leaderDepot.getCounter());
+            }catch(DepotSpaceException e){}catch(DepotResourceTypeException e){}
+        }
+
+        //Try adding all the new resources
+        for(ResType resource:resources){
+            try{
+                addResourceToDepot(resource);
+            }catch(DepotSpaceException e){
+                //Restore the previous depots condition
+                depots=tempDepots;
+                leaderDepots=tempLeaderDepots;
+                return false;
+            }
+        }
+        depots=tempDepots;
+        leaderDepots=tempLeaderDepots;
         return true;
     }
 }

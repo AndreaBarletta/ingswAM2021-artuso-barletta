@@ -19,6 +19,8 @@ public class GameStateAutomaton {
     private Controller controller;
     private int tempId;
     private int[] tempDiscountIds;
+    private int tempLeftToConvert;
+    private ResType[] tempAcquiredResources;
 
     public GameStateAutomaton(Controller controller, ClientHandler clientHandler){
         state=GameState.PLAYER_CONNECTED;
@@ -182,7 +184,7 @@ public class GameStateAutomaton {
                             ).toArray(String[]::new))
                     );
                     return true;
-                case RESOURCE_UPDATED:
+                case RESOURCES_UPDATED:
                     String playerName = clientHandler.getPlayerName();
                     String depotResources = controller.getDepotContent(playerName);
                     String leaderResources = controller.getLeaderDepotContent(playerName);
@@ -259,20 +261,48 @@ public class GameStateAutomaton {
                         errorMessage="Choose (row) or (column)";
                         return false;
                     }
-                    if(params[0].equals(("row")))
+                    if(params[0].equals(("row"))){
                         if(Integer.parseInt(params[1])>2||Integer.parseInt(params[1])<0){
                             state=GameState.MARKET_SHOWN;
                             errorMessage="Choose a number between 0 and 2";
                             return false;
                         }
-                    else
+                        else
                         if(Integer.parseInt(params[1])>3||Integer.parseInt(params[1])<0){
                             state=GameState.MARKET_SHOWN;
                             errorMessage="Choose a number between 0 and 3";
                             return false;
                         }
-                    controller.acquireFromMarket(clientHandler, params[0],params[1]);
+                    }
+
+                    ResType[] acquiredResources=controller.acquireFromMarket(clientHandler, params[0],params[1]);
+                    tempLeftToConvert=0;
+                    for(ResType r:acquiredResources){
+                        if(r==ResType.WHITEMARBLE){
+                            tempLeftToConvert+=1;
+                        }
+                    }
+
+                    if(tempLeftToConvert!=0){
+                        evolve("ASK_CONVERT_RESOURCE",null);
+                        return true;
+                    }
+
+                    if(!controller.canAddToDepot(clientHandler,acquiredResources)){
+                        evolve("ASK_DISCARD_RESOURCE",null);
+                        return true;
+                    }
+                    evolve("UPDATE_RESOURCES",null);
                     return true;
+                case RESOURCE_CONVERT_ASKED:
+                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"CONVERT RESOURCES"}));
+                    return true;
+                case RESOURCE_CONVERTED:
+                case RESOURCE_DISCARD_ASKED:
+                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"DISCARD RESOURCES"}));
+                    return true;
+                case RESOURCE_DISCARDED:
+
             }
             errorMessage="Unknown state";
             return false;

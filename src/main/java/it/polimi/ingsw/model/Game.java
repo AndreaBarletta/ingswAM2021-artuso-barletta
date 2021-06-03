@@ -161,7 +161,7 @@ public class Game implements ControllerEventListener {
                     throw new DuplicatedIdException();
                 }
             }
-            PersonalBoard newPersonalBoard=new PersonalBoard(playerName,developmentCardGrid,market);
+            PersonalBoard newPersonalBoard=new PersonalBoard(playerName);
             personalBoards.add(newPersonalBoard);
             if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath())){
                 throw new ParsingException();
@@ -300,20 +300,21 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public String getDepotsContent(String playerName) {
+    public String getDepotsContentAsString(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
         assert player != null;
-        return player.getDepotsContent().toString();
+        return player.getDepotsContentAsString();
     }
-    public String getLeaderDepotsContent(String playerName) {
+
+    public String getLeaderDepotsContentAsString(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
         assert player != null;
-        return player.getLeaderDepotsContent().toString();
+        return player.getLeaderDepotsContentAsString();
     }
-    public String getStrongboxContent(String playerName) {
+    public String getStrongboxContentAsString(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
         assert player != null;
-        return player.getStrongboxContent().toString();
+        return player.getStrongboxContentAsString();
     }
 
     public void canBuyDevCard(String playername,int devCardId,int[] discountIds) throws ResourcesException, LevelException,CardNotFoundException{
@@ -358,23 +359,31 @@ public class Game implements ControllerEventListener {
      * @param row True is a row was selected, false if a column was selected
      * @param index Row / column index
      */
-    public int acquireFromMarket(String playerName, boolean row, int index){
+    public ResType[] acquireFromMarket(String playerName, boolean row, int index){
         PersonalBoard p=getPersonalBoard(playerName);
         int numberOfWhiteMarblesToChoose=0;
-        if(p!=null){
-            ResType[] acquiredResources;
-            if(row){
-                acquiredResources=market.acquireRow(index);
-            }else{
-                acquiredResources=market.acquireColumn(index);
-            }
-            for(ResType r:acquiredResources){
-                try{
-                    r.effectOnAcquire(p);
-                }catch(DepotSpaceException e){}
-            }
+        List<ResType> resources=new ArrayList<>();
+
+        assert p!=null;
+        ResType[] acquiredResources;
+        if(row){
+            acquiredResources=market.acquireRow(index);
+        }else{
+            acquiredResources=market.acquireColumn(index);
         }
-        return numberOfWhiteMarblesToChoose;
+
+        for(ResType r:acquiredResources){
+            if(r.effectOnAcquire(p)!=null)
+                resources.add(r.effectOnAcquire(p));
+        }
+
+        return resources.toArray(ResType[]::new);
+    }
+
+    public boolean canAddToDepot(String playerName, ResType[] resources){
+        PersonalBoard p=getPersonalBoard(playerName);
+        assert p!=null;
+        return p.canAddToDepot(resources);
     }
 
     public int getMaximumPlayers(){

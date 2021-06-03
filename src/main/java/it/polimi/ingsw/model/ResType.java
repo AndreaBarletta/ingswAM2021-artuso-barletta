@@ -30,22 +30,21 @@ public enum ResType {
         }
     }
 
-    public ResType effectOnAcquire(PersonalBoard personalboard) throws DepotSpaceException {
+    public ResType effectOnAcquire(PersonalBoard personalboard) {
         switch(this){
             case COIN:
             case STONE:
             case SERVANT:
             case SHIELD:
-                personalboard.addResourceToDepot(this);
-                break;
+                return this;
             case FAITH:
                 personalboard.incrementFaithTrack(1);
                 break;
             case WHITEMARBLE:
                 ResType converted=personalboard.convert();
-                if(converted!=WHITEMARBLE)
+                if(converted!=WHITEMARBLE){
                     converted.effectOnAcquire(personalboard);
-                else
+                }else
                     return WHITEMARBLE;
             default:
                 break;

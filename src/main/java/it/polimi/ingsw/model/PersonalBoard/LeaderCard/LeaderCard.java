@@ -57,7 +57,6 @@ public abstract class LeaderCard {
      * Checks if a leader card can be bought
      * @param resources Resources a player has
      * @param devCards Development cards a players has
-     * @return Whether or not the card can be bought
      */
     public void canActivate(Map<ResType,Integer> resources, List<DevelopmentCard> devCards) throws CardTypeException, LevelException, ResourcesException {
         //Check resource requirements
@@ -100,29 +99,29 @@ public abstract class LeaderCard {
     }
 
     public String toString(){
-        String leaderToString="Id: "+id+"\tVictory points: "+victoryPoints+"\n"+"Requirements: \n";
+        StringBuilder leaderToString= new StringBuilder("Id: " + id + "\tVictory points: " + victoryPoints + "\n" + "Activated: " + isActive + "\nRequirements: \n");
         if(cardRequirements!=null){
-            leaderToString+="\tCard Requirements: ";
+            leaderToString.append("\tCard Requirements: ");
             for(Map.Entry<CardType,Integer> me:cardRequirements.entrySet()){
-                leaderToString+=me.getKey()+"="+me.getValue()+" ";
+                leaderToString.append(me.getKey()).append("=").append(me.getValue()).append(" ");
             }
-            leaderToString+="\n";
+            leaderToString.append("\n");
         }
         if(levelRequirements!=null){
-            leaderToString+="\tLevel Requirements: ";
+            leaderToString.append("\tLevel Requirements: ");
             for(Map.Entry<CardType,Integer> me:levelRequirements.entrySet()){
-                leaderToString+=me.getKey()+"="+me.getValue()+" ";
+                leaderToString.append(me.getKey()).append("=").append(me.getValue()).append(" ");
             }
-            leaderToString+="\n";
+            leaderToString.append("\n");
         }
         if(resourceRequirements!=null){
-            leaderToString+="\tResource Requirements: ";
+            leaderToString.append("\tResource Requirements: ");
             for(Map.Entry<ResType,Integer> me:resourceRequirements.entrySet()){
-                leaderToString+=me.getKey()+"="+me.getValue()+" ";
+                leaderToString.append(me.getKey()).append("=").append(me.getValue()).append(" ");
             }
-            leaderToString+="\n";
+            leaderToString.append("\n");
         }
-        return leaderToString;
+        return leaderToString.toString();
     }
 
     public String getCardBack() {
