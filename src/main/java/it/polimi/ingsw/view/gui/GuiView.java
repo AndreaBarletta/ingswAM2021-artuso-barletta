@@ -32,7 +32,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("homePage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("pages/homePage.fxml"));
         Scene newScene = new Scene(root, 720, 480);
         primaryStage.setTitle("Master of Renessaince - AM58");
         primaryStage.setScene(newScene);
