@@ -281,7 +281,7 @@ public class CliView implements View,Runnable{
             }
             if(production==1||production==2||production==3){
                 System.out.println("Development card production\n"+
-                        lightModel.getDevelopmentCardDeck()[lpb.getDevelopmentCardSlots()[production-1].peek()].getProduction()
+                        lightModel.getDevelopmentCardDeck()[lpb.getDevelopmentCardSlots().get(production-1).peek()].getProduction()
                 );
             }
             if(production==4||production==5){

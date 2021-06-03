@@ -13,7 +13,7 @@ public class LightPersonalBoard {
     private String playerName;
     private List<Integer> leaderCards;
     private FaithTrack faithTrack;
-    private Stack<Integer>[] developmentCardSlots;
+    private List<Stack<Integer>> developmentCardSlots;
     private List<Map.Entry<ResType, Integer>> depots;
     private List<Map.Entry<ResType, Integer>> leaderDepots;
     private Map<ResType, Integer> strongbox;
@@ -25,9 +25,9 @@ public class LightPersonalBoard {
 
     public LightPersonalBoard(String playerName) {
         this.playerName=playerName;
-        //developmentCardSlots=new Stack<>[3];
+        developmentCardSlots= new ArrayList<>();
         for(int i=0;i<3;i++){
-            developmentCardSlots[i]=new Stack<>();
+            developmentCardSlots.add(new Stack<>());
         }
         leaderProductions=new ArrayList<>();
         leaderDepots=new ArrayList<>();
@@ -56,11 +56,11 @@ public class LightPersonalBoard {
         return baseProduction;
     }
 
-    public Stack<Integer>[] getDevelopmentCardSlots() {
+    public List<Stack<Integer>> getDevelopmentCardSlots() {
         return developmentCardSlots;
     }
     public void setDevCardSlot(int id, int slot){
-        developmentCardSlots[slot].push(id);
+        developmentCardSlots.get(slot).push(id);
     }
 
     public List<Map.Entry<ResType, Integer>> getDepots() {
