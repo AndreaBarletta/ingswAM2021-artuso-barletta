@@ -156,7 +156,7 @@ public class Game implements ControllerEventListener {
     public boolean addPlayer(String playerName) throws GameSizeExceeded, ParsingException,DuplicatedIdException {
         if(personalBoards.size()<maximumPlayers){
             for (PersonalBoard personalBoard : personalBoards) {
-                if (personalBoard.getPlayerName().equals(playerName)) {
+                if (personalBoard.getplayerName().equals(playerName)) {
                     throw new DuplicatedIdException();
                 }
             }
@@ -173,7 +173,7 @@ public class Game implements ControllerEventListener {
 
     public void removePlayer(String playerName){
         for(Iterator<PersonalBoard> pbIterator = personalBoards.iterator(); pbIterator.hasNext();){
-            if(pbIterator.next().getPlayerName().equals(playerName)){
+            if(pbIterator.next().getplayerName().equals(playerName)){
                 pbIterator.remove();
                 break;
             }
@@ -257,7 +257,7 @@ public class Game implements ControllerEventListener {
      */
     public synchronized void addInitialResource(String playerName,ResType resource) {
         for(PersonalBoard p:personalBoards){
-            if(p.getPlayerName().equals(playerName)){
+            if(p.getplayerName().equals(playerName)){
                 try {
                     resource.effectOnAcquire(p);
                 }catch(Exception e){}
@@ -265,8 +265,8 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public void activateLeaderCards(String playername, int leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
-        PersonalBoard player=getPersonalBoard(playername);
+    public void activateLeaderCards(String playerName, int leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
+        PersonalBoard player=getPersonalBoard(playerName);
         if(player!=null){
             if(leaderCardId<16&&leaderCardId>=0){
                 player.activateLeaderCard(leaderCardsDeck
@@ -283,8 +283,8 @@ public class Game implements ControllerEventListener {
 
     }
 
-    public void discardLeaderCards(String playername, int leaderCardId) throws CardNotFoundException {
-        PersonalBoard player=getPersonalBoard(playername);
+    public void discardLeaderCards(String playerName, int leaderCardId) throws CardNotFoundException {
+        PersonalBoard player=getPersonalBoard(playerName);
 
         if(player!=null) {
             player.discardLeaderCard(leaderCardId);
@@ -299,18 +299,24 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public String getAllResource(String playerName) {
+    public String getDepotsContent(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
-
-        if(player!=null) {
-            return player.getAllResources().toString();
-        } else {
-            return null;
-        }
+        assert player != null; //TODO check
+        return player.getDepotsContent().toString();
+    }
+    public String getLeaderDepotsContent(String playerName) {
+        PersonalBoard player=getPersonalBoard(playerName);
+        assert player != null; //TODO check
+        return player.getLeaderDepotsContent().toString();
+    }
+    public String getStrongboxContent(String playerName) {
+        PersonalBoard player=getPersonalBoard(playerName);
+        assert player != null; //TODO check
+        return player.getStrongboxContent().toString();
     }
 
-    public void canBuyDevCard(String playername,int devCardId) throws ResourcesException, LevelException,CardNotFoundException{
-        PersonalBoard player=getPersonalBoard(playername);
+    public void canBuyDevCard(String playerName,int devCardId) throws ResourcesException, LevelException,CardNotFoundException{
+        PersonalBoard player=getPersonalBoard(playerName);
 
         if(player!=null){
             DevelopmentCard chosenCard=developmentCardsDeck.get(devCardId);
@@ -334,8 +340,8 @@ public class Game implements ControllerEventListener {
                 String.valueOf(developmentCardGrid.getTopCard(level,cardType).getId())};
     }
 
-    public void buyDevCard(String playername, int devCardId, int slot) throws LevelException{
-        PersonalBoard p=getPersonalBoard(playername);
+    public void buyDevCard(String playerName, int devCardId, int slot) throws LevelException{
+        PersonalBoard p=getPersonalBoard(playerName);
         if(p!=null){
             p.addDevCardToSlot(developmentCardsDeck.get(devCardId),slot);
             //If addition was successfull (didn't throw), pay the cost
@@ -347,12 +353,12 @@ public class Game implements ControllerEventListener {
 
     /**
      * Acquires resources from the market
-     * @param playername Name of the player that acquires the resources
+     * @param playerName Name of the player that acquires the resources
      * @param row True is a row was selected, false if a column was selected
      * @param index Row / column index
      */
-    public void acquireFromMarket(String playername, boolean row, int index){
-        PersonalBoard p=getPersonalBoard(playername);
+    public void acquireFromMarket(String playerName, boolean row, int index){
+        PersonalBoard p=getPersonalBoard(playerName);
         if(p!=null){
             ResType[] acquiredResources;
             if(row){
@@ -361,7 +367,7 @@ public class Game implements ControllerEventListener {
                 acquiredResources=market.acquireColumn(index);
             }
             for(LeaderCard l:p.getLeaderCards()){
-                l.effectOnMarketBuy(p,acquiredResources);
+                //TODO l.effectOnMarketBuy(p,acquiredResources);
             }
             for(ResType r:acquiredResources){
                 try{
@@ -378,7 +384,7 @@ public class Game implements ControllerEventListener {
     public String[] getPlayerOrder(){
         List<String> playerOrder=new ArrayList<>();
         for(PersonalBoard p:personalBoards){
-            playerOrder.add(p.getPlayerName());
+            playerOrder.add(p.getplayerName());
         }
         return playerOrder.toArray(String[]::new);
     }
@@ -386,21 +392,21 @@ public class Game implements ControllerEventListener {
     public int getPlayerOrdinal(String playerName){
         int i=0;
         for(PersonalBoard p:personalBoards){
-            if(p.getPlayerName().equals(playerName)) break;
+            if(p.getplayerName().equals(playerName)) break;
             else i++;
         }
         return i;
     }
 
-    public PersonalBoard getPersonalBoard(String playername){
+    public PersonalBoard getPersonalBoard(String playerName){
         for(PersonalBoard p:personalBoards){
-            if(p.getPlayerName().equals(playername)) return p;
+            if(p.getplayerName().equals(playerName)) return p;
         }
         return null;
     }
 
     public String getCurrentPlayer(){
-        return personalBoards.get(currentPlayerOrdinal).getPlayerName();
+        return personalBoards.get(currentPlayerOrdinal).getplayerName();
     }
 
     public void nextPlayer(){

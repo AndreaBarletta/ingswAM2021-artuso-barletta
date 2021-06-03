@@ -4,11 +4,14 @@ import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
+import java.util.List;
+import java.util.Map;
+
 public interface View extends Runnable {
     LightModel lightModel=new LightModel();
 
     void setPlayerName(String playerName);
-    void newPlayerConnected(String newPlayerName);
+    void newPlayerConnected(String newplayerName);
     void error(String errorMessage);
     void waitForOtherPlayers();
     void askForNumberOfPlayers();
@@ -22,7 +25,7 @@ public interface View extends Runnable {
     void inkwellGiven(String[] playerNamesOrdered);
     void askInitialResource();
     void initialResourcesChosen(String playerName,ResType resource);
-    void incrementFaithTrack(String playername, int increment);
+    void incrementFaithTrack(String playerName, int increment);
     void waitYourTurn();
     void turnStart(String playerName);
     void askLeaderAction();
@@ -34,7 +37,7 @@ public interface View extends Runnable {
     //Productions
     void showProductions();
     void showChosenProductions(String playerName,int[] activatedProductions);
-    void updateResources();
+    void updateResources(String playerName,List<Map.Entry<ResType,Integer>> depots, List<Map.Entry<ResType,Integer>> leaderDepots, Map<ResType,Integer> strongbox);
     //Development cards
     void showDevCardGrid();
     void updateDevCardGrid(int level, CardType cardType, int newCardId);

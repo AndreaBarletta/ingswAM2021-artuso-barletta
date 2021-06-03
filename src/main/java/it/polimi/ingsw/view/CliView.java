@@ -191,8 +191,8 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public void incrementFaithTrack(String playername, int increment) {
-        System.out.println("Player "+playername+" has advanced "+increment+" spaces in the faith track");
+    public void incrementFaithTrack(String playerName, int increment) {
+        System.out.println("Player "+playerName+" has advanced "+increment+" spaces in the faith track");
     }
 
     @Override
@@ -271,7 +271,8 @@ public class CliView implements View,Runnable{
     @Override
     public void showChosenProductions(String playerName,int[] activatedProductions) {
         LightPersonalBoard lpb=LBPByName(playerName);
-        System.out.print("Player "+playerName+" has activated productions: \n");
+        assert lpb != null; //TODO check
+        System.out.println("Player "+playerName+" has activated productions:");
         for(int production:activatedProductions){
             if(production==0){
                 System.out.println("Base production\n"+lpb.getBaseProduction());
@@ -290,8 +291,16 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public void updateResources() {
-        //TODO
+    public void updateResources(String playerName, List<Map.Entry<ResType,Integer>> depots, List<Map.Entry<ResType,Integer>> leaderDepots, Map<ResType,Integer> strongbox) {
+        LightPersonalBoard lpb=LBPByName(playerName);
+        assert lpb != null; //TODO check
+        lpb.setDepots(depots);
+        lpb.setLeaderDepots(leaderDepots);
+        lpb.setStrongbox(strongbox);
+        System.out.println("Player "+playerName+" now has this resources:");
+        System.out.println("Depots: "+lpb.getDepots());
+        System.out.println("Leader Depots: "+lpb.getLeaderDepots());
+        System.out.println("Strongbox: "+lpb.getStrongbox());
     }
 
     @Override

@@ -123,7 +123,7 @@ public class PersonalBoard implements ControllerEventListener {
      * Gets the name of the player associated with this player board
      * @return Name of the player
      */
-    public String getPlayerName() {
+    public String getplayerName() {
         return playerName;
     }
 
@@ -145,18 +145,6 @@ public class PersonalBoard implements ControllerEventListener {
         strongbox.getContent().forEach((k,v)-> resources.merge(k,v,Integer::sum));
         resources.remove(null);
         return resources;
-    }
-
-    public Map.Entry<ResType, Integer>[] getAllResources() {
-        List<Map.Entry<ResType, Integer>> resources = new ArrayList<>();
-        for(Depot d : depots) {
-            resources.add(d.getContent());
-        }
-        for(Depot ld : leaderDepots) {
-            resources.add(ld.getContent());
-        }
-        resources.add((Map.Entry<ResType, Integer>) strongbox.getContent());
-        return (Map.Entry<ResType, Integer>[]) resources.toArray();
     }
 
     private Map<ResType,Integer> getDepotsResource(){
@@ -418,15 +406,22 @@ public class PersonalBoard implements ControllerEventListener {
         }catch(Exception e){}
     }
 
-    public Map<ResType,Integer> getStrongboxContent(){
-        return strongbox.getContent();
-    }
-
     public Map<ResType,Integer> getDepotsContent(){
         Map<ResType,Integer> content=new HashMap<>();
         for(Depot d:depots)
             content.merge(d.getDepotResources(),d.getCounter(),Integer::sum);
         return content;
+    }
+
+    public Map<ResType,Integer> getLeaderDepotsContent(){
+        Map<ResType,Integer> content=new HashMap<>();
+        for(Depot ld:leaderDepots)
+            content.merge(ld.getDepotResources(),ld.getCounter(),Integer::sum);
+        return content;
+    }
+
+    public Map<ResType,Integer> getStrongboxContent(){
+        return strongbox.getContent();
     }
 
     public void receiveInkwell(){
