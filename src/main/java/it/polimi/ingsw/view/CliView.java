@@ -161,6 +161,7 @@ public class CliView implements View,Runnable{
         System.out.println("Pick 2 between the following leader cards: ");
         for(String s: leaderCardsIds){
             System.out.println(lightModel.getLeaderCardDeck()[Integer.parseInt(s)].toString());
+            System.out.print("\n");
         }
         System.out.print("(chooseleaders {id1} {id2}): ");
     }
@@ -213,6 +214,7 @@ public class CliView implements View,Runnable{
         System.out.println("You have the following leader cards:");
         for (int id : lpb.getLeaderCards()) {
             System.out.println(lightModel.getLeaderCardDeck()[id].toString());
+            System.out.print("\n");
         }
         System.out.print("What leader action do you want to play? (leaderskip/leaderactivate {id}/leaderdiscard {id}): ");
     }
@@ -223,6 +225,7 @@ public class CliView implements View,Runnable{
         lightModel.getLeaderCardDeck()[leaderCardId].effectOnActivate(lpb);
         System.out.println("Player "+playerName+" has activated one of their leader cards:");
         System.out.println(lightModel.getLeaderCardDeck()[leaderCardId]);
+        System.out.print("\n");
     }
 
     @Override
@@ -310,6 +313,7 @@ public class CliView implements View,Runnable{
         for(int[] row: lightModel.getDevelopmentCardGrid()){
             for(int id:row){
                 System.out.println(lightModel.getDevelopmentCardDeck()[id]);
+                System.out.print("\n");
             }
         }
         List<Map<ResType,Integer>> discounts=LBPByName(lightModel.getPlayerName()).getLeaderDiscounts();
@@ -318,7 +322,7 @@ public class CliView implements View,Runnable{
             int i=0;
             for(Map<ResType,Integer> m:discounts){
                 for(Map.Entry<ResType,Integer> me:m.entrySet()){
-                    System.out.println("Id "+i+": "+me.getKey()+" "+me.getValue());
+                    System.out.println("Id "+i+": Discount "+me.getValue()+" "+me.getKey());
                 }
             }
         }
