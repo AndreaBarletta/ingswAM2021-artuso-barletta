@@ -21,7 +21,7 @@ public class LightModel {
     private DevelopmentCard[] developmentCardDeck;
     private int[][] developmentCardGrid;
     private LightMarket lightMarket;
-    private List<LightPersonalBoard> lightPersonalBoards;
+    private final List<LightPersonalBoard> lightPersonalBoards;
 
     public LightModel(){
         developmentCardGrid=new int[3][4];
@@ -76,9 +76,7 @@ public class LightModel {
     public boolean loadResources(){
         if((leaderCardDeck=loadLeaderCardDeckFromJson("leaderCards.json"))==null)
             return false;
-        if((developmentCardDeck=loadLDevelopmentCardDeckFromJson("developmentCards.json"))==null)
-            return false;
-        return true;
+        return (developmentCardDeck = loadLDevelopmentCardDeckFromJson("developmentCards.json")) != null;
     }
 
     /**

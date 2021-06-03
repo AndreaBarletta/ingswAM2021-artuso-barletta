@@ -9,18 +9,18 @@ import javafx.scene.effect.Light;
 import java.util.*;
 
 public class LightPersonalBoard {
-    private String playerName;
+    private final String playerName;
     private List<Integer> leaderCards;
     private FaithTrack faithTrack;
-    private List<Stack<Integer>> developmentCardSlots;
+    private final List<Stack<Integer>> developmentCardSlots;
     private LightDepot[] depots;
     private List<LightDepot> leaderDepots;
     private LightStrongbox strongbox;
     private boolean inkwell;
-    private Production baseProduction;
-    private List<Production> leaderProductions;
-    private List<ResType> leaderConverts;
-    private List<Map<ResType,Integer>> leaderDiscounts;
+    private final Production baseProduction;
+    private final List<Production> leaderProductions;
+    private final List<ResType> leaderConverts;
+    private final List<Map<ResType,Integer>> leaderDiscounts;
 
     public LightPersonalBoard(String playerName) {
         this.playerName=playerName;

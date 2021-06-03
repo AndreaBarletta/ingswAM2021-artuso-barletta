@@ -9,8 +9,8 @@ import it.polimi.ingsw.exceptions.UnknownCommandException;
 import java.util.*;
 
 public class CommandParser {
-    private Map<String, List<Integer>> commandArguments;
-    private Map<String, MessageType> commands;
+    private final Map<String, List<Integer>> commandArguments;
+    private final Map<String, MessageType> commands;
 
     public CommandParser(){
         commandArguments=new HashMap<>();

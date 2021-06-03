@@ -10,7 +10,7 @@ import it.polimi.ingsw.view.LightPersonalBoard;
 import java.util.Map;
 
 public class LeaderDepot extends LeaderCard {
-    private Depot depot;
+    private final Depot depot;
 
     public LeaderDepot(int victoryPoints, Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements,Map<ResType, Integer> resourceRequirements, int capacity, ResType resource){
         super(victoryPoints,levelRequirements,cardRequirements,resourceRequirements);

@@ -3,7 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.ResType;
 
 public class LightMarket {
-    private ResType[][] marketTray;
+    private final ResType[][] marketTray;
     private ResType leftoverMarble;
 
     public LightMarket(ResType[][] marketTray,ResType leftoverMarble){

@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.ResType;
 import java.util.Map;
 
 public class LightStrongbox {
-    private Map<ResType,Integer> content;
+    private final Map<ResType,Integer> content;
 
     public LightStrongbox(Map<ResType,Integer> content){
         this.content=content;

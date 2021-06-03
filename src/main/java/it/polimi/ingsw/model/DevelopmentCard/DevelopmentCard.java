@@ -13,15 +13,15 @@ public class DevelopmentCard {
     // Id of the card
     private int id;
     // Level of the card
-    private int level;
+    private final int level;
     // Cost of the card
-    private Map<ResType,Integer> cost;
+    private final Map<ResType,Integer> cost;
     //Victory points given by the card
-    private int victoryPoints;
+    private final int victoryPoints;
     // Card type
-    private CardType cardType;
+    private final CardType cardType;
     // Production of the card
-    private Production production;
+    private final Production production;
 
     /**
      * Creates a new card with the given level, cost, victoryPoints, cardType and production

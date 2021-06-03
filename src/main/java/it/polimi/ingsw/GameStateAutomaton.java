@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 public class GameStateAutomaton {
     private GameState state;
     private String errorMessage;
-    private ClientHandler clientHandler;
-    private Controller controller;
+    private final ClientHandler clientHandler;
+    private final Controller controller;
     private int tempId;
     private int[] tempDiscountIds;
     private int tempLeftToConvert;

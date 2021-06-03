@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.PersonalBoard.FaithTrack;
 
 public class FaithTrack {
     //attributes
-    private int blackCrossMarker;
+    private final int blackCrossMarker;
     private int faithMarker;
     private VaticanReport[] vaticanReports;
     private int[] victoryPoints;

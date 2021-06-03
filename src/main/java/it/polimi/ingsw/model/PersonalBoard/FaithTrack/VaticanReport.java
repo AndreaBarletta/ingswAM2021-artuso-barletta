@@ -19,9 +19,7 @@ public class VaticanReport {
     public boolean canSendReport(int faithMarker){
         if(popeFavourCard.isActive() || popeFavourCard.isDiscarded())
             return false;
-        if(faithMarker<popeSpace)
-            return false;
-        return true;
+        return faithMarker >= popeSpace;
     }
 
     /**
