@@ -52,6 +52,7 @@ public class CliView implements View,Runnable{
             commandParser.addCommand("activate",4,MessageType.CHOOSE_PRODUCTIONS);
             commandParser.addCommand("activate",5,MessageType.CHOOSE_PRODUCTIONS);
             commandParser.addCommand("activate",6,MessageType.CHOOSE_PRODUCTIONS);
+            commandParser.addCommand("discard",1,MessageType.DISCARD_RESOURCE);
             commandParser.addCommand("cancel",0,MessageType.CANCEL);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
@@ -297,15 +298,19 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public void updateResources(String playerName, List<Map.Entry<ResType,Integer>> depots, List<Map.Entry<ResType,Integer>> leaderDepots, Map<ResType,Integer> strongbox) {
+    public void updateResources(String playerName, LightDepot[] depots, List<LightDepot> leaderDepots, LightStrongbox strongbox) {
         LightPersonalBoard lpb=LBPByName(playerName);
         assert lpb != null;
         lpb.setDepots(depots);
         lpb.setLeaderDepots(leaderDepots);
         lpb.setStrongbox(strongbox);
         System.out.println("Player "+playerName+" now has this resources:");
-        System.out.println("Depots: "+lpb.getDepots());
-        System.out.println("Leader Depots: "+lpb.getLeaderDepots());
+        System.out.println("Depots: ");
+        for(LightDepot d:depots)
+            System.out.println(d);
+        System.out.println("Leader Depots: ");
+        for(LightDepot d:leaderDepots)
+            System.out.println(d);
         System.out.println("Strongbox: "+lpb.getStrongbox());
     }
 
@@ -377,6 +382,18 @@ public class CliView implements View,Runnable{
         }
         System.out.println(row?"Row":"Column"+" "+index+" chosen");
         System.out.print("Updated "+lightModel.getLightMarket());
+    }
+
+    @Override
+    public void askResourceDiscard(ResType[] resourcesAcquired) {
+        System.out.println("Resources acquired could not fit in the depots");
+        System.out.println("Current depots content: ");
+        for(LightDepot d:LBPByName(lightModel.getPlayerName()).getDepots())
+            System.out.println(d);
+        System.out.print("You have to place the following resources: ");
+        for(ResType r:resourcesAcquired)
+            System.out.print(r.getSymbol()+" ");
+        System.out.print("\nPick a resource to discard (discard {COIN/STONE/SERVANT/SHIELD}): ");
     }
 
     @Override

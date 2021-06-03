@@ -20,7 +20,7 @@ public class GameStateAutomaton {
     private int tempId;
     private int[] tempDiscountIds;
     private int tempLeftToConvert;
-    private ResType[] tempAcquiredResources;
+    private List<ResType> tempAcquiredResources;
 
     public GameStateAutomaton(Controller controller, ClientHandler clientHandler){
         state=GameState.PLAYER_CONNECTED;
@@ -186,10 +186,10 @@ public class GameStateAutomaton {
                     return true;
                 case RESOURCES_UPDATED:
                     String playerName = clientHandler.getPlayerName();
-                    String depotResources = controller.getDepotContent(playerName);
-                    String leaderResources = controller.getLeaderDepotContent(playerName);
-                    String strongboxResources = controller.getStrongboxContent(playerName);
-                    controller.broadcast(new Message(MessageType.UPDATE_RESOURCES,new String[]{playerName,depotResources,leaderResources,strongboxResources}));
+                    String lightDepotsAsJson = controller.getLightDepotsAsJson(playerName);
+                    String leaderLightDepotsAsJson = controller.getLeaderLightDepotsAsJson(playerName);
+                    String lightStrongboxAsJson = controller.getLightStrongboxAsJson(playerName);
+                    controller.broadcast(new Message(MessageType.UPDATE_RESOURCES,new String[]{playerName,lightDepotsAsJson,leaderLightDepotsAsJson,lightStrongboxAsJson}));
                     controller.endTurnAction(clientHandler);
                     evolve("ASK_LEADER_ACTION",null);
                     return true;
@@ -284,14 +284,18 @@ public class GameStateAutomaton {
                     }
 
                     if(tempLeftToConvert!=0){
+                        tempAcquiredResources=new ArrayList<>(Arrays.asList(acquiredResources));
                         evolve("ASK_CONVERT_RESOURCE",null);
                         return true;
                     }
 
                     if(!controller.canAddToDepot(clientHandler,acquiredResources)){
+                        tempAcquiredResources=new ArrayList<>(Arrays.asList(acquiredResources));
                         evolve("ASK_DISCARD_RESOURCE",null);
                         return true;
                     }
+
+                    controller.addResourcesToDepot(clientHandler,acquiredResources);
                     evolve("UPDATE_RESOURCES",null);
                     return true;
                 case RESOURCE_CONVERT_ASKED:
@@ -299,9 +303,30 @@ public class GameStateAutomaton {
                     return true;
                 case RESOURCE_CONVERTED:
                 case RESOURCE_DISCARD_ASKED:
-                    clientHandler.send(new Message(MessageType.ERROR,new String[]{"DISCARD RESOURCES"}));
+                    clientHandler.send(new Message(MessageType.ASK_DISCARD_RESOURCE,new String[]{tempAcquiredResources.toString()}));
                     return true;
                 case RESOURCE_DISCARDED:
+                    try{
+                        ResType toRemove=ResType.valueOf(params[0]);
+                        if(toRemove!=ResType.WHITEMARBLE){
+                            tempAcquiredResources.remove(ResType.valueOf(params[0]));
+                            if(!controller.canAddToDepot(clientHandler,tempAcquiredResources.toArray(ResType[]::new))){
+                                evolve("ASK_DISCARD_RESOURCE",null);
+                                return true;
+                            }
+                            controller.addResourcesToDepot(clientHandler,tempAcquiredResources.toArray(ResType[]::new));
+                            evolve("UPDATE_RESOURCES",null);
+                            return true;
+                        }else{
+                            errorMessage="Select a valid resource type";
+                            state=GameState.RESOURCE_DISCARD_ASKED;
+                            return false;
+                        }
+                    }catch(IllegalArgumentException e){
+                        errorMessage="Select a valid resource type";
+                        state=GameState.RESOURCE_DISCARD_ASKED;
+                        return false;
+                    }
 
             }
             errorMessage="Unknown state";

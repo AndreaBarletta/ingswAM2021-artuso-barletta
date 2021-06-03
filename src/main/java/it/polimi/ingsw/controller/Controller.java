@@ -1,14 +1,18 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.ClientHandler;
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 import it.polimi.ingsw.model.GameEventListener;
+import it.polimi.ingsw.view.LightDepot;
+import it.polimi.ingsw.view.LightStrongbox;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -200,9 +204,13 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      */
     public synchronized boolean addInitialResource(ClientHandler clientHandler, ResType resource){
         if(resource!=ResType.FAITH&&resource!=ResType.ANY&&resource!=ResType.WHITEMARBLE){
+            addResourcesToDepot(clientHandler,new ResType[]{resource});
             String playerName=clientHandler.getPlayerName();
+            String lightDepotsAsJson = getLightDepotsAsJson(playerName);
+            String leaderLightDepotsAsJson = getLeaderLightDepotsAsJson(playerName);
+            String lightStrongboxAsJson = getLightStrongboxAsJson(playerName);
             broadcast(new Message(MessageType.CHOOSE_INITIAL_RESOURCES,new String[]{playerName,resource.name()}));
-            game.addInitialResource(playerName,resource);
+            broadcast(new Message(MessageType.UPDATE_RESOURCES,new String[]{playerName,lightDepotsAsJson,leaderLightDepotsAsJson,lightStrongboxAsJson}));
 
             //Check based on the player order, if they are allowed another additional resource
             //Third and fourth player are granted a faith point, fourth player is granted an additional resource
@@ -304,14 +312,30 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         game.activateProductions(playerName, productions);
     }
 
-    public String getDepotContent(String playerName) {
-        return game.getDepotsContentAsString(playerName);
+    public String getLightDepotsAsJson(String playerName) {
+        Depot[] depots=game.getDepots(playerName);
+        List<LightDepot> lightDepots=new ArrayList<>();
+        for(Depot d:depots)
+            lightDepots.add(new LightDepot(d.getDepotResources(),d.getCounter(),d.getCapacity()));
+
+        Gson gson=new Gson();
+        return gson.toJson(lightDepots.toArray());
     }
-    public String getLeaderDepotContent(String playerName) {
-        return game.getLeaderDepotsContentAsString(playerName);
+    public String getLeaderLightDepotsAsJson(String playerName) {
+        List<Depot> depots=game.getLeaderDepots(playerName);
+        List<LightDepot> lightDepots=new ArrayList<>();
+        for(Depot d:depots)
+            lightDepots.add(new LightDepot(d.getDepotResources(),d.getCounter(),d.getCapacity()));
+
+        Gson gson=new Gson();
+        return gson.toJson(lightDepots.toArray());
     }
-    public String getStrongboxContent(String playerName) {
-        return game.getStrongboxContentAsString(playerName);
+    public String getLightStrongboxAsJson(String playerName) {
+        Map<ResType,Integer> strongbox=game.getStrongboxContentAsString(playerName);
+        Gson gson=new Gson();
+        String json=gson.toJson(new LightStrongbox(strongbox));
+        gson.fromJson(json,LightStrongbox.class);
+        return json;
     }
 
     public void canBuyDevCard(ClientHandler clienthandler,String id,String[] discountIds) throws ResourcesException,LevelException,CardNotFoundException {
@@ -363,5 +387,12 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                 return c;
 
         return null;
+    }
+
+    public void addResourcesToDepot(ClientHandler clientHandler, ResType[] resources){
+        for(ResType r:resources)
+            try{
+                game.getPersonalBoard(clientHandler.getPlayerName()).addResourceToDepot(r);
+            }catch(Exception e){}
     }
 }

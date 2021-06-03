@@ -2,21 +2,20 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
-import it.polimi.ingsw.model.PersonalBoard.Strongbox;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
+import javafx.scene.effect.Light;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class LightPersonalBoard {
     private String playerName;
     private List<Integer> leaderCards;
     private FaithTrack faithTrack;
     private List<Stack<Integer>> developmentCardSlots;
-    private List<Map.Entry<ResType, Integer>> depots;
-    private List<Map.Entry<ResType, Integer>> leaderDepots;
-    private Map<ResType, Integer> strongbox;
+    private LightDepot[] depots;
+    private List<LightDepot> leaderDepots;
+    private LightStrongbox strongbox;
     private boolean inkwell;
     private Production baseProduction;
     private List<Production> leaderProductions;
@@ -39,8 +38,7 @@ public class LightPersonalBoard {
         Map<ResType,Integer> baseProducts=new HashMap<>();
         baseProducts.put(ResType.ANY,1);
         baseProduction=new Production(baseIngredients,baseProducts);
-        depots = new ArrayList<>();
-        strongbox = new HashMap<>();
+        depots = new LightDepot[3];
         inkwell = false;
     }
 
@@ -63,17 +61,17 @@ public class LightPersonalBoard {
         developmentCardSlots.get(slot).push(id);
     }
 
-    public List<Map.Entry<ResType, Integer>> getDepots() {
+    public LightDepot[] getDepots() {
         return depots;
     }
-    public void setDepots(List<Map.Entry<ResType, Integer>> depots) {
+    public void setDepots(LightDepot[] depots) {
         this.depots = depots;
     }
 
-    public Map<ResType, Integer> getStrongbox() {
+    public LightStrongbox getStrongbox() {
         return strongbox;
     }
-    public void setStrongbox(Map<ResType, Integer> strongbox) {
+    public void setStrongbox(LightStrongbox strongbox) {
         this.strongbox = strongbox;
     }
 
@@ -95,14 +93,14 @@ public class LightPersonalBoard {
     }
     public void removeLeaderProduction(Production leaderProduction){leaderProductions.remove(leaderProduction);}
 
-    public List<Map.Entry<ResType, Integer>> getLeaderDepots() {
+    public List<LightDepot> getLeaderDepots() {
         return leaderDepots;
     }
-    public void setLeaderDepots(List<Map.Entry<ResType, Integer>> leaderDepots) {
+    public void setLeaderDepots(List<LightDepot> leaderDepots) {
         this.leaderDepots = leaderDepots;
     }
-    public void addLeaderDepot(Depot depot) { leaderDepots.add(new AbstractMap.SimpleEntry<>(depot.getDepotResources(),0)); }
-    public void removeLeaderDepot(Depot depot) { leaderDepots.removeIf(me -> me.getKey() == depot.getDepotResources());    }
+    public void addLeaderDepot(Depot depot) { leaderDepots.add(new LightDepot(depot.getDepotResources(),0,depot.getCapacity())); }
+    public void removeLeaderDepot(Depot depot) { leaderDepots.removeIf(d -> d.getResource() == depot.getDepotResources()); }
 
     public void addLeaderConvert(ResType newLeaderConvert){
         leaderConverts.add(newLeaderConvert);

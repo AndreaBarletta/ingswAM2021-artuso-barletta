@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
+import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
@@ -300,21 +301,22 @@ public class Game implements ControllerEventListener {
         }
     }
 
-    public String getDepotsContentAsString(String playerName) {
+    public Depot[] getDepots(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
         assert player != null;
-        return player.getDepotsContentAsString();
+        return player.getDepots();
     }
 
-    public String getLeaderDepotsContentAsString(String playerName) {
+    public List<Depot> getLeaderDepots(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
         assert player != null;
-        return player.getLeaderDepotsContentAsString();
+        return player.getLeaderDepots();
     }
-    public String getStrongboxContentAsString(String playerName) {
+
+    public Map<ResType, Integer> getStrongboxContentAsString(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
         assert player != null;
-        return player.getStrongboxContentAsString();
+        return player.getStrongboxContent();
     }
 
     public void canBuyDevCard(String playername,int devCardId,int[] discountIds) throws ResourcesException, LevelException,CardNotFoundException{

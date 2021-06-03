@@ -4,15 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.view.CliView;
+import it.polimi.ingsw.view.*;
 import it.polimi.ingsw.view.gui.GuiView;
-import it.polimi.ingsw.view.LightMarket;
-import it.polimi.ingsw.view.View;
+import javafx.scene.effect.Light;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -166,7 +166,10 @@ public class Client {
                     );
                     break;
                 case UPDATE_RESOURCES:
-                    view.updateResources(message.params[0],gson.fromJson(message.params[1], new TypeToken<List<Map.Entry<ResType,Integer>>>(){}.getType()),gson.fromJson(message.params[2], new TypeToken<List<Map.Entry<ResType,Integer>>>(){}.getType()),gson.fromJson(message.params[3], new TypeToken<Map<ResType,Integer>>(){}.getType()));
+                    LightDepot[] depots=gson.fromJson(message.params[1],LightDepot[].class);
+                    LightDepot[] leaderDepots=gson.fromJson(message.params[2],LightDepot[].class);
+                    LightStrongbox strongbox=gson.fromJson(message.params[3],LightStrongbox.class);
+                    view.updateResources(message.params[0],depots,Arrays.asList(leaderDepots),strongbox);
                     break;
                 case SHOW_DEV_CARD_GRID:
                     view.showDevCardGrid();
@@ -191,6 +194,9 @@ public class Client {
                     break;
                 case UPDATE_MARKET:
                     view.updateMarket(message.params[0].equals("row"),Integer.parseInt(message.params[1]));
+                    break;
+                case ASK_DISCARD_RESOURCE:
+                    view.askResourceDiscard(gson.fromJson(message.params[0],ResType[].class));
                     break;
                 case DISCONNECTED:
                     System.out.println("Player "+message.params[0]+" has disconnected ");
