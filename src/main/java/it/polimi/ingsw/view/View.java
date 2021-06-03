@@ -37,7 +37,7 @@ public interface View extends Runnable {
     //Productions
     void showProductions();
     void showChosenProductions(String playerName,int[] activatedProductions);
-    void updateResources(String playerName,List<Map.Entry<ResType,Integer>> depots, List<Map.Entry<ResType,Integer>> leaderDepots, Map<ResType,Integer> strongbox);
+    void updateResources(String playerName, LightDepot[] depots, List<LightDepot> leaderDepots, LightStrongbox strongbox);
     //Development cards
     void showDevCardGrid();
     void updateDevCardGrid(int level, CardType cardType, int newCardId);
@@ -47,5 +47,7 @@ public interface View extends Runnable {
     void showMarket();
     void chooseRowOrColumn();
     void updateMarket(boolean row,int index);
+    void askResourceDiscard(ResType[] resourcesAcquired);
+
     void disconnected();
 }

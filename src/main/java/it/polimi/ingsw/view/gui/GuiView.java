@@ -2,7 +2,9 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.view.LightDepot;
 import it.polimi.ingsw.view.LightMarket;
+import it.polimi.ingsw.view.LightStrongbox;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -170,7 +172,7 @@ public class GuiView extends Application implements View {
     }
 
     @Override
-    public void updateResources(String playerName, List<Map.Entry<ResType,Integer>> depots, List<Map.Entry<ResType,Integer>> leaderDepots, Map<ResType,Integer> strongbox) {
+    public void updateResources(String playerName, LightDepot[] depots, List<LightDepot> leaderDepots, LightStrongbox strongbox) {
 
     }
 
@@ -206,6 +208,11 @@ public class GuiView extends Application implements View {
 
     @Override
     public void updateMarket(boolean row, int index) {
+
+    }
+
+    @Override
+    public void askResourceDiscard(ResType[] resourcesAcquired) {
 
     }
 
