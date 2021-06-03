@@ -240,14 +240,29 @@ public class PersonalBoard implements ControllerEventListener {
         return leaderProductions;
     }
 
+    public ResType convert(){
+        if(leaderConverts.size()==1)
+            return leaderConverts.get(0);
+        if(leaderConverts.size()==2)
+            return ResType.WHITEMARBLE;
+
+        return ResType.ANY;
+    }
+
     /**
      * Checks if a card can be bought and placed in the player board
      * @param devCard Development card to buy
      * @throws ResourcesException The player doesn't have enough resources to buy the development card selected
      * @throws LevelException The player doesn't have an high enough card in the selected slot to buy the development card selected
      */
-    public void canBuyDevCard(DevelopmentCard devCard) throws ResourcesException,LevelException {
-        if(!devCard.canBeBought(getResources()))
+    public void canBuyDevCard(DevelopmentCard devCard,int [] discountIds) throws ResourcesException,LevelException {
+        Map<ResType,Integer> discounts=new HashMap<>();
+        if(discountIds!=null)
+            for(int id:discountIds){
+                for(Map.Entry<ResType,Integer> me:leaderDiscounts.get(id).entrySet())
+                    discounts.compute(me.getKey(),(k,v)->v==null?me.getValue():v+me.getValue());
+            }
+        if(!devCard.canBeBought(getResources(),discounts))
             throw new ResourcesException();
 
         boolean canAdd=false;
@@ -603,4 +618,11 @@ public class PersonalBoard implements ControllerEventListener {
         }
     }
 
+    public boolean canDiscount(int[] ids){
+        for(int id:ids)
+            if(id>leaderDiscounts.size())
+                return false;
+
+        return true;
+    }
 }

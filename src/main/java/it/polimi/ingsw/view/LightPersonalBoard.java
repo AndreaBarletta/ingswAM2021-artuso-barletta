@@ -20,6 +20,8 @@ public class LightPersonalBoard {
     private Production baseProduction;
     private List<Production> leaderProductions;
     private List<Depot> leaderDepots;
+    private List<ResType> leaderConverts;
+    private List<Map<ResType,Integer>> leaderDiscounts;
 
     public LightPersonalBoard(String playerName) {
         this.playerName=playerName;
@@ -29,6 +31,8 @@ public class LightPersonalBoard {
         }
         leaderProductions=new ArrayList<>();
         leaderDepots=new ArrayList<>();
+        leaderConverts=new ArrayList<>();
+        leaderDiscounts=new ArrayList<>();
         //create base production
         Map<ResType,Integer> baseIngredients=new HashMap<>();
         baseIngredients.put(ResType.ANY,2);
@@ -79,7 +83,31 @@ public class LightPersonalBoard {
         leaderDepots.remove(leaderDepot);
     }
 
-    public void setDevCardSlot(int id,int slot){
+    public void addLeaderConvert(ResType newLeaderConvert){
+        leaderConverts.add(newLeaderConvert);
+    }
+
+    public void removeLeaderConvert(ResType leaderConvert){
+        leaderConverts.remove(leaderConvert);
+    }
+
+    public List<ResType> getLeaderConverts() {
+        return leaderConverts;
+    }
+
+    public void addLeaderDiscount(Map<ResType,Integer> newLeaderDiscount){
+        leaderDiscounts.add(newLeaderDiscount);
+    }
+
+    public void removeLeaderDiscount(Map<ResType,Integer> leaderDiscount){
+        leaderDiscounts.remove(leaderDiscount);
+    }
+
+    public List<Map<ResType, Integer>> getLeaderDiscounts() {
+        return leaderDiscounts;
+    }
+
+    public void setDevCardSlot(int id, int slot){
         developmentCardSlots[slot].push(id);
     }
 
