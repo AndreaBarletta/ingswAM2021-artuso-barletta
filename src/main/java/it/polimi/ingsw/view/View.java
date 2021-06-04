@@ -4,12 +4,14 @@ import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
 public interface View extends Runnable {
     LightModel lightModel=new LightModel();
 
+    void setOutPrintWriter(PrintWriter out);
     void setPlayerName(String playerName);
     void newPlayerConnected(String newplayerName);
     void error(String errorMessage);

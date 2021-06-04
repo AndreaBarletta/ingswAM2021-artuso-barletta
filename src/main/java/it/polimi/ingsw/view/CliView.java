@@ -21,11 +21,14 @@ import java.util.stream.Collectors;
 
 public class CliView implements View,Runnable{
     private final CommandParser commandParser;
-    private final PrintWriter out;
+    private PrintWriter out;
 
-    public CliView(PrintWriter out){
-        this.out=out;
+    public CliView(){
         commandParser=new CommandParser();
+    }
+
+    public void setOutPrintWriter(PrintWriter out){
+        this.out=out;
     }
 
     @Override

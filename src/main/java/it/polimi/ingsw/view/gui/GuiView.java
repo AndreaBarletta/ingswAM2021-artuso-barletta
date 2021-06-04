@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.LightStrongbox;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -22,12 +23,19 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class GuiView extends Application implements View {
+    private static PrintWriter out;
+
+    public void setOutPrintWriter(PrintWriter out){
+        GuiView.out =out;
+    }
+
     @Override
     public void run(){
         launch();
@@ -35,11 +43,15 @@ public class GuiView extends Application implements View {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("pages/homePage.fxml")));
-        Scene newScene = new Scene(root, 720, 480);
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/homePage.fxml"));
+        Parent root = loader.load();
+        Scene newScene = new Scene(root, 1024, 576);
         primaryStage.setTitle("Master of Renaissance - AM58");
+        primaryStage.setResizable(false);
         primaryStage.setScene(newScene);
         primaryStage.show();
+        GuiController guiController= loader.getController();
+        guiController.setOutPrintWriter(out);
     }
 
     @Override

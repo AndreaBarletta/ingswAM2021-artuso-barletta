@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.sun.glass.ui.Application;
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.view.*;
@@ -49,11 +50,12 @@ public class Client {
         }
 
         if(args[0].equals("cli")){
-            view=new CliView(out);
+            view=new CliView();
         }else if(args[0].equals("gui")){
             view=new GuiView();
         }else{
             System.out.println("Select gui or cli");
+            return;
         }
 
         if(!view.lightModel.loadResources())
@@ -63,8 +65,8 @@ public class Client {
         receiveThread.start();
         Thread viewThread=new Thread(view);
         viewThread.setDaemon(true);
+        view.setOutPrintWriter(out);
         viewThread.start();
-
     }
 
     public static void receiveFromServer(){
