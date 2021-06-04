@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class GuiView extends Application implements View {
     @Override
@@ -34,9 +35,9 @@ public class GuiView extends Application implements View {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("pages/homePage.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("pages/homePage.fxml")));
         Scene newScene = new Scene(root, 720, 480);
-        primaryStage.setTitle("Master of Renessaince - AM58");
+        primaryStage.setTitle("Master of Renaissance - AM58");
         primaryStage.setScene(newScene);
         primaryStage.show();
     }
