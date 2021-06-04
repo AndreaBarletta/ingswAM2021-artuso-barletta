@@ -2,9 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.ResType;
-import it.polimi.ingsw.view.LightDepot;
-import it.polimi.ingsw.view.LightMarket;
-import it.polimi.ingsw.view.LightStrongbox;
+import it.polimi.ingsw.view.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -21,7 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import it.polimi.ingsw.view.View;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
@@ -31,6 +29,7 @@ import java.util.Objects;
 
 public class GuiView extends Application implements View {
     private static PrintWriter out;
+    private static Stage primaryStage;
 
     public void setOutPrintWriter(PrintWriter out){
         GuiView.out =out;
@@ -43,11 +42,12 @@ public class GuiView extends Application implements View {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/homePage.fxml"));
-        Parent root = loader.load();
-        Scene newScene = new Scene(root, 1024, 576);
         primaryStage.setTitle("Master of Renaissance - AM58");
         primaryStage.setResizable(false);
+        GuiView.primaryStage=primaryStage;
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/Nickname.fxml"));
+        Parent root = loader.load();
+        Scene newScene = new Scene(root, 1024, 576);
         primaryStage.setScene(newScene);
         primaryStage.show();
         GuiController guiController= loader.getController();
@@ -56,7 +56,8 @@ public class GuiView extends Application implements View {
 
     @Override
     public void setPlayerName(String playerName) {
-
+        lightModel.setPlayerName(playerName);
+        lightModel.getLightPersonalBoards().add(new LightPersonalBoard(playerName));
     }
 
     @Override
@@ -76,7 +77,13 @@ public class GuiView extends Application implements View {
 
     @Override
     public void askForNumberOfPlayers() {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/NumberOfPlayers.fxml"));
+            Parent root = loader.load();
+            Scene newScene = new Scene(root, 1024, 576);
+            primaryStage.setScene(newScene);
+            primaryStage.show();
+        } catch (Exception e) {}
     }
 
     @Override

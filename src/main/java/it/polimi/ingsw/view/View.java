@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public interface View extends Runnable {
     void newPlayerConnected(String newplayerName);
     void error(String errorMessage);
     void waitForOtherPlayers();
-    void askForNumberOfPlayers();
+    void askForNumberOfPlayers() throws IOException;
     void gameCreated();
     void gameJoined(String[] playerNames);
     void disconnected();
