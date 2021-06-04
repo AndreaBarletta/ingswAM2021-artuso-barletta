@@ -20,6 +20,7 @@ public class GameStateAutomaton {
     private int tempId;
     private int[] tempDiscountIds;
     private int tempLeftToConvert;
+    private int tempDiscarded;
     private List<ResType> tempAcquiredResources;
 
     public GameStateAutomaton(Controller controller, ClientHandler clientHandler){
@@ -296,6 +297,7 @@ public class GameStateAutomaton {
 
                     if(!controller.canAddToDepot(clientHandler,acquiredResources)){
                         tempAcquiredResources=new ArrayList<>(Arrays.asList(acquiredResources));
+                        tempDiscarded=0;
                         evolve("ASK_DISCARD_RESOURCE",null);
                         return true;
                     }
@@ -315,11 +317,14 @@ public class GameStateAutomaton {
                         ResType toRemove=ResType.valueOf(params[0]);
                         if(toRemove!=ResType.WHITEMARBLE){
                             tempAcquiredResources.remove(ResType.valueOf(params[0]));
+                            tempDiscarded++;
+                            controller.broadcast(new Message(MessageType.RESOURCE_DISCARDED,new String[]{clientHandler.getPlayerName(),params[0]}));
                             if(!controller.canAddToDepot(clientHandler,tempAcquiredResources.toArray(ResType[]::new))){
                                 evolve("ASK_DISCARD_RESOURCE",null);
                                 return true;
                             }
                             controller.addResourcesToDepot(clientHandler,tempAcquiredResources.toArray(ResType[]::new));
+                            controller.discardResource(clientHandler,tempDiscarded);
                             evolve("UPDATE_RESOURCES",null);
                             return true;
                         }else{

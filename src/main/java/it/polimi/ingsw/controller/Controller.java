@@ -63,6 +63,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
 
             clientHandler.getAutomaton().evolve("WAIT_FOR_OTHER_PLAYERS",null);
             if(clientHandlers.size() == game.getMaximumPlayers()) {
+                game.addPersonalBoardsEventListener(this);
                 for (ClientHandler c : clientHandlers)
                     c.getAutomaton().evolve( "START_GAME", null);
             }
@@ -217,7 +218,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             switch(game.getPlayerOrdinal(playerName)){
                 case 2:
                     game.getPersonalBoard(playerName).incrementFaithTrack(1);
-                    broadcast(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
                     clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
                     break;
                 case 3:
@@ -226,7 +226,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
                         clientHandler.getAutomaton().evolve("ASK_INITIAL_RESOURCES",null);
                     }else{
                         game.getPersonalBoard(playerName).incrementFaithTrack(1);
-                        broadcast(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playerName,Integer.toString(1)}));
                         clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
                     }
                     break;
@@ -394,5 +393,16 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             try{
                 game.getPersonalBoard(clientHandler.getPlayerName()).addResourceToDepot(r);
             }catch(Exception e){}
+    }
+
+    @Override
+    public void incrementFaithTrack(String playername, int increment) {
+        broadcast(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playername,String.valueOf(increment)}));
+    }
+
+    public void discardResource(ClientHandler clientHandler,int numberOfResourcesDiscarded){
+        for(ClientHandler c:clientHandlers)
+            if(!c.getPlayerName().equals(clientHandler.getPlayerName()))
+                game.getPersonalBoard(c.getPlayerName()).incrementFaithTrack(numberOfResourcesDiscarded);
     }
 }

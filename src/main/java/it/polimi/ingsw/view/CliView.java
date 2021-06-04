@@ -106,13 +106,17 @@ public class CliView implements View,Runnable{
     @Override
     public void setPlayerName(String playerName) {
         lightModel.setPlayerName(playerName);
-        lightModel.getLightPersonalBoards().add(new LightPersonalBoard(playerName));
+        LightPersonalBoard newLPB=new LightPersonalBoard(playerName);
+        newLPB.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath());
+        lightModel.getLightPersonalBoards().add(newLPB);
     }
 
     @Override
     public void newPlayerConnected(String newPlayerName) {
         System.out.println("Player \""+newPlayerName+"\" has joined");
-        lightModel.getLightPersonalBoards().add(new LightPersonalBoard(newPlayerName));
+        LightPersonalBoard newLPB=new LightPersonalBoard(newPlayerName);
+        newLPB.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath());
+        lightModel.getLightPersonalBoards().add(newLPB);
     }
 
     @Override
@@ -140,7 +144,9 @@ public class CliView implements View,Runnable{
         System.out.print(playerNames.length+" player already in the game:");
         for(String s:playerNames){
             System.out.print(" "+s);
-            lightModel.getLightPersonalBoards().add(new LightPersonalBoard(s));
+            LightPersonalBoard newLPB=new LightPersonalBoard(s);
+            newLPB.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath());
+            lightModel.getLightPersonalBoards().add(newLPB);
         }
         System.out.print("\n");
     }
@@ -200,6 +206,9 @@ public class CliView implements View,Runnable{
     @Override
     public void incrementFaithTrack(String playerName, int increment) {
         System.out.println("Player "+playerName+" has advanced "+increment+" spaces in the faith track");
+        LBPByName(playerName).getFaithTrack().incrementFaithTrack(increment);
+        for(LightPersonalBoard lbp: lightModel.getLightPersonalBoards())
+            System.out.println(lbp.getPlayerName()+" "+lbp.getFaithTrack());
     }
 
     @Override
@@ -368,6 +377,12 @@ public class CliView implements View,Runnable{
 
     @Override
     public void showMarket() {
+        System.out.println("Current depots content:");
+        for(LightDepot d:LBPByName(lightModel.getPlayerName()).getDepots())
+            System.out.println(d==null?"Empty":d);
+        System.out.println("Leader Depots: ");
+        for(LightDepot d:LBPByName(lightModel.getPlayerName()).getLeaderDepots())
+            System.out.println(d);
         System.out.print(lightModel.getLightMarket()+"Choose a row or a column (choose {row {0/1/2} / column {0/1/2/3}): ");
     }
 
@@ -409,6 +424,11 @@ public class CliView implements View,Runnable{
         for(ResType r:LBPByName(lightModel.getPlayerName()).getLeaderConverts())
             System.out.print(r+"/");
         System.out.print("\b}): ");
+    }
+
+    @Override
+    public void resourceDiscarded(String playerName, ResType resource) {
+        System.out.println("Player "+playerName+" has discarded "+resource.getSymbol());
     }
 
     @Override

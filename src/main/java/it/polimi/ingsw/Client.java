@@ -203,6 +203,8 @@ public class Client {
                 case ASK_DISCARD_RESOURCE:
                     view.askResourceDiscard(gson.fromJson(message.params[0],ResType[].class));
                     break;
+                case RESOURCE_DISCARDED:
+                    view.resourceDiscarded(message.params[0],ResType.valueOf(message.params[1]));
                 case DISCONNECTED:
                     System.out.println("Player "+message.params[0]+" has disconnected ");
                     break;

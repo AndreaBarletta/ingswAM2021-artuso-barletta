@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model.PersonalBoard.FaithTrack;
 
+import it.polimi.ingsw.view.Colors;
+
+import java.awt.*;
+import java.util.Arrays;
+
 public class FaithTrack {
     //attributes
     private final int blackCrossMarker;
@@ -59,5 +64,16 @@ public class FaithTrack {
         int victoryPoints = this.victoryPoints[faithMarker];
         for (VaticanReport v:vaticanReports)    victoryPoints += v.getVictoryPoints();
         return victoryPoints;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder faithTrackToString= new StringBuilder();
+        for(int i=0;i<victoryPoints.length;i++)
+            faithTrackToString.append(faithMarker>=i?
+                    Colors.RED.escape()+"["+victoryPoints[i]+"]"+ Colors.RESET.escape()
+                    :Colors.GRAY.escape()+"["+victoryPoints[i]+"]"+ Colors.RESET.escape());
+
+        return faithTrackToString.toString();
     }
 }

@@ -17,7 +17,7 @@ public interface View extends Runnable {
     void newPlayerConnected(String newplayerName);
     void error(String errorMessage);
     void waitForOtherPlayers();
-    void askForNumberOfPlayers() throws IOException;
+    void askForNumberOfPlayers();
     void gameCreated();
     void gameJoined(String[] playerNames);
     void disconnected();
@@ -53,4 +53,5 @@ public interface View extends Runnable {
     void updateMarket(boolean row,int index);
     void askResourceDiscard(ResType[] resourcesAcquired);
     void askResourceConvert(int leftToConvert);
+    void resourceDiscarded(String playerName, ResType resource);
 }

@@ -83,17 +83,6 @@ public class PersonalBoard implements ControllerEventListener {
     }
 
     /**
-     * A player has discarded some resources, advance faith track
-     * @param numberOfResources Number of resources discarded
-     * @param playerName Name of the player that discarded the resources
-     */
-    public void discardResources(int numberOfResources,String playerName) {
-        if(!this.playerName.equals(playerName)){
-            faithTrack.incrementFaithTrack(numberOfResources);
-        }
-    }
-
-    /**
      * Loads the faith track from a json file
      * @param path Path of the json file containing the faith track information
      * @return Whether or not the faith track was loaded successfully
@@ -488,6 +477,8 @@ public class PersonalBoard implements ControllerEventListener {
 
     public void incrementFaithTrack(int faithPoint){
         faithTrack.incrementFaithTrack(faithPoint);
+        for(PersonalBoardEventListener p:eventListeners)
+            p.incrementFaithTrack(playerName,faithPoint);
     }
 
     public void setInitialLeaderCards(List<LeaderCard> initialLeaderCards){
