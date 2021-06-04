@@ -5,31 +5,19 @@ import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.view.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class GuiView extends Application implements View {
     private static PrintWriter out;
     private static Stage primaryStage;
+    private static Scene scene;
 
     public void setOutPrintWriter(PrintWriter out){
         GuiView.out =out;
@@ -47,8 +35,9 @@ public class GuiView extends Application implements View {
         GuiView.primaryStage=primaryStage;
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/Nickname.fxml"));
         Parent root = loader.load();
-        Scene newScene = new Scene(root, 1024, 576);
-        primaryStage.setScene(newScene);
+        Scene scene = new Scene(root, 1024, 576);
+        GuiView.scene=scene;
+        primaryStage.setScene(scene);
         primaryStage.show();
         GuiController guiController= loader.getController();
         guiController.setOutPrintWriter(out);
@@ -80,8 +69,7 @@ public class GuiView extends Application implements View {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/NumberOfPlayers.fxml"));
             Parent root = loader.load();
-            Scene newScene = new Scene(root, 1024, 576);
-            primaryStage.setScene(newScene);
+            scene.setRoot(root);
             primaryStage.show();
         } catch (Exception e) {}
     }

@@ -17,7 +17,7 @@ public interface View extends Runnable {
     void newPlayerConnected(String newplayerName);
     void error(String errorMessage);
     void waitForOtherPlayers();
-    void askForNumberOfPlayers() throws IOException;
+    void askForNumberOfPlayers();
     void gameCreated();
     void gameJoined(String[] playerNames);
     void disconnected();
