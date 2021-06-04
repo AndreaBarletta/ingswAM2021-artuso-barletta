@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ClientHandler implements Runnable{
-    private Socket clientSocket;
+    private final Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
     private String playerName;
-    private GameStateAutomaton automaton;
-    private Controller controller;
+    private final GameStateAutomaton automaton;
+    private final Controller controller;
 
     public ClientHandler(Socket clientSocket,Controller controller){
         this.clientSocket=clientSocket;

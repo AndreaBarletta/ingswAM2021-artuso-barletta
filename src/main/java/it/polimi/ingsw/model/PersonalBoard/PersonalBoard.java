@@ -21,26 +21,26 @@ import java.util.*;
 
 public class PersonalBoard implements ControllerEventListener {
     //Properties
-    private String playerName;
+    private final String playerName;
     private boolean inkwell;
     private boolean hasAlreadyChosenInitialResources;
     private boolean hasAlreadyPlayedLeaderAction;
     //Components
     private FaithTrack faithTrack;
-    private DevelopmentCardSlot[] developmentCardSlots;
+    private final DevelopmentCardSlot[] developmentCardSlots;
     private Production baseProduction;
     //Storage
-    private Strongbox strongbox;
+    private final Strongbox strongbox;
     private Depot[] depots;
     //Leader cards
     private List<LeaderCard> initialLeaderCards;
     private List<LeaderCard> leaderCards;
     private List<Depot> leaderDepots;
-    private List<Production> leaderProductions;
-    private List<ResType> leaderConverts;
-    private List<Map<ResType,Integer>> leaderDiscounts;
+    private final List<Production> leaderProductions;
+    private final List<ResType> leaderConverts;
+    private final List<Map<ResType,Integer>> leaderDiscounts;
 
-    private List<PersonalBoardEventListener> eventListeners;
+    private final List<PersonalBoardEventListener> eventListeners;
 
     public PersonalBoard(String playerNickname){
         this.playerName =playerNickname;

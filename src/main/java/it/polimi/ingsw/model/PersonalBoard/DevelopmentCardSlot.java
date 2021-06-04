@@ -8,7 +8,7 @@ import java.util.*;
 
 public class DevelopmentCardSlot {
     //attributes
-    private Stack<DevelopmentCard> devCardsSlot;
+    private final Stack<DevelopmentCard> devCardsSlot;
 
     //constructor
     public DevelopmentCardSlot(){

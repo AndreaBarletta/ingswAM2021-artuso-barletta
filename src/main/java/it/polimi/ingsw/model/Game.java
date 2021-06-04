@@ -20,15 +20,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Game implements ControllerEventListener {
-    private List<PersonalBoard> personalBoards;
+    private final List<PersonalBoard> personalBoards;
     private int currentPlayerOrdinal;
-    private Market market;
-    private DevelopmentCardGrid developmentCardGrid;
+    private final Market market;
+    private final DevelopmentCardGrid developmentCardGrid;
     private PopeFavourCard[] popeFavourCards;
     private List<LeaderCard> leaderCardsDeck;
     private List<DevelopmentCard> developmentCardsDeck;
-    private List<GameEventListener> eventListeners;
-    private int maximumPlayers;
+    private final List<GameEventListener> eventListeners;
+    private final int maximumPlayers;
     private boolean hasStarted;
 
     public Game(int maximumPlayers){
@@ -340,7 +340,7 @@ public class Game implements ControllerEventListener {
 
         return new String[]{
                 String.valueOf(level),
-                String.valueOf(cardType.name()),
+                cardType.name(),
                 String.valueOf(developmentCardGrid.getTopCard(level,cardType).getId())};
     }
 

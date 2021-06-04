@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Stack;
 
 public class DevelopmentCardGridCell {
-    private Stack<DevelopmentCard> cardGridCell;
+    private final Stack<DevelopmentCard> cardGridCell;
 
     public DevelopmentCardGridCell(){
         cardGridCell=new Stack<>();

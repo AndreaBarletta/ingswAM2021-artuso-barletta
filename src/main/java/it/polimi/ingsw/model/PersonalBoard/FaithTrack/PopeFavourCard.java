@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.PersonalBoard.FaithTrack;
 
 public class PopeFavourCard {
-    private int victoryPoints;
+    private final int victoryPoints;
     private boolean isActive;
     private boolean isDiscarded;
 

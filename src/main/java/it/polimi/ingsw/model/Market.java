@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Market {
 
-    private ResType[][] marketTray;
+    private final ResType[][] marketTray;
     private ResType leftoverMarble;
 
     /**

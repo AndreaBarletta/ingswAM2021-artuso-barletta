@@ -10,7 +10,7 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 public class LeaderDevCardDiscounter extends LeaderCard {
-    private Map<ResType,Integer> discounts;
+    private final Map<ResType,Integer> discounts;
 
     public LeaderDevCardDiscounter(int victoryPoints, Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements, Map<ResType, Integer> resourceRequirements, Map<ResType, Integer> discounts){
         super(victoryPoints,levelRequirements,cardRequirements,resourceRequirements);

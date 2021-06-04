@@ -397,6 +397,18 @@ public class CliView implements View,Runnable{
     }
 
     @Override
+    public void askResourceConvert(int leftToConvert) {
+        System.out.println("You have "+leftToConvert+" white marble"+(leftToConvert==1?"":"s")+" left to convert");
+        System.out.print("Available converters: ");
+        for(ResType r:LBPByName(lightModel.getPlayerName()).getLeaderConverts())
+            System.out.print(r.getSymbol()+" ");
+        System.out.print("\nChoose a resource to convert to (convert {");
+        for(ResType r:LBPByName(lightModel.getPlayerName()).getLeaderConverts())
+            System.out.print(r+"/");
+        System.out.print("\b}): ");
+    }
+
+    @Override
     public void disconnected() {
 
     }

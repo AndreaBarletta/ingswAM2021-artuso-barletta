@@ -9,7 +9,7 @@ import it.polimi.ingsw.view.LightPersonalBoard;
 import java.util.Map;
 
 public class LeaderWhiteMarbleConverter extends LeaderCard{
-    private ResType convertedResource;
+    private final ResType convertedResource;
 
     public LeaderWhiteMarbleConverter(int victoryPoints, Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements,Map<ResType, Integer> resourceRequirements, ResType convertedResource){
         super(victoryPoints,levelRequirements,cardRequirements,resourceRequirements);

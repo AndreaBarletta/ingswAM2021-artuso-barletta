@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Strongbox {
     //attributes
-    private Map<ResType,Integer> resources;
+    private final Map<ResType,Integer> resources;
 
     //constructor
     public Strongbox(){

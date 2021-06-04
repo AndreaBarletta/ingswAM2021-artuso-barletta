@@ -10,7 +10,7 @@ import it.polimi.ingsw.view.LightPersonalBoard;
 import java.util.Map;
 
 public class LeaderProduction extends LeaderCard{
-    private Production production;
+    private final Production production;
 
     public LeaderProduction(int victoryPoints, Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements, Map<ResType, Integer> resourceRequirements, Production production){
         super(victoryPoints,levelRequirements,cardRequirements,resourceRequirements);

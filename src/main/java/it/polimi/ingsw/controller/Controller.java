@@ -18,8 +18,8 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class Controller implements PersonalBoardEventListener,GameEventListener {
-    private List<ControllerEventListener> eventListeners;
-    private List<ClientHandler> clientHandlers;
+    private final List<ControllerEventListener> eventListeners;
+    private final List<ClientHandler> clientHandlers;
     private Game game;
     private Thread gameThread;
 

@@ -195,6 +195,9 @@ public class Client {
                 case UPDATE_MARKET:
                     view.updateMarket(message.params[0].equals("row"),Integer.parseInt(message.params[1]));
                     break;
+                case ASK_CONVERT_RESOURCE:
+                    view.askResourceConvert(Integer.valueOf(message.params[0]));
+                    break;
                 case ASK_DISCARD_RESOURCE:
                     view.askResourceDiscard(gson.fromJson(message.params[0],ResType[].class));
                     break;

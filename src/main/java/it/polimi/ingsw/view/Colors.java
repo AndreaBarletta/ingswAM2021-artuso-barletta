@@ -19,7 +19,7 @@ public enum Colors {
     BRIGHT_WHITE("\u001b[37;1m"),
     RESET("\u001B[0m");
 
-    private String escape;
+    private final String escape;
 
     Colors(String escape) {
         this.escape = escape;

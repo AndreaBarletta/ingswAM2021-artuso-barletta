@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DevelopmentCardGrid {
-    private DevelopmentCardGridCell[][] cardGrid;
+    private final DevelopmentCardGridCell[][] cardGrid;
 
     public DevelopmentCardGrid() {
         cardGrid = new DevelopmentCardGridCell[3][4];
