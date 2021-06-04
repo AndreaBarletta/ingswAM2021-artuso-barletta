@@ -29,7 +29,7 @@ import java.util.Objects;
 
 public class GuiView extends Application implements View {
     private static PrintWriter out;
-    private Stage primaryStage;
+    private static Stage primaryStage;
 
     public void setOutPrintWriter(PrintWriter out){
         GuiView.out =out;
@@ -44,7 +44,7 @@ public class GuiView extends Application implements View {
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Master of Renaissance - AM58");
         primaryStage.setResizable(false);
-        this.primaryStage=primaryStage;
+        GuiView.primaryStage=primaryStage;
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/Nickname.fxml"));
         Parent root = loader.load();
         Scene newScene = new Scene(root, 1024, 576);
@@ -77,7 +77,6 @@ public class GuiView extends Application implements View {
 
     @Override
     public void askForNumberOfPlayers() {
-        System.out.println("ASK NUMBEROFPLAYERS");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/NumberOfPlayers.fxml"));
             Parent root = loader.load();
