@@ -17,6 +17,7 @@ public interface View extends Runnable {
     void askForNumberOfPlayers();
     void gameCreated();
     void gameJoined(String[] playerNames);
+    void disconnected();
     void gameStarted();
     void setDevCardGrid(int[][] devCardGridIds);
     void setMarket(LightMarket lightMarket);
@@ -49,5 +50,4 @@ public interface View extends Runnable {
     void updateMarket(boolean row,int index);
     void askResourceDiscard(ResType[] resourcesAcquired);
     void askResourceConvert(int leftToConvert);
-    void disconnected();
 }
