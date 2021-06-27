@@ -54,4 +54,6 @@ public interface View extends Runnable {
     void askResourceDiscard(ResType[] resourcesAcquired);
     void askResourceConvert(int leftToConvert);
     void resourceDiscarded(String playerName, ResType resource);
+    View getRunningView();
+    boolean isReady();
 }

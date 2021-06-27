@@ -432,6 +432,16 @@ public class CliView implements View,Runnable{
     }
 
     @Override
+    public View getRunningView() {
+        return this;
+    }
+
+    @Override
+    public boolean isReady() {
+        return true;
+    }
+
+    @Override
     public void disconnected() {
 
     }
