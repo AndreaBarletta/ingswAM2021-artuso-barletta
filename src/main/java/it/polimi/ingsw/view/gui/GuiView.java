@@ -32,6 +32,7 @@ public class GuiView extends Application implements View {
     private static Stage primaryStage;
     private static GuiView runningView;
     private static boolean isReady;
+    private Scene mainScene;
 
     public View getRunningView() {
         return runningView;
@@ -59,8 +60,8 @@ public class GuiView extends Application implements View {
         GuiView.primaryStage=primaryStage;
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/Nickname.fxml"));
         Parent root = loader.load();
-        Scene newScene = new Scene(root, 1024, 576);
-        primaryStage.setScene(newScene);
+        mainScene = new Scene(root, 1024, 576);
+        primaryStage.setScene(mainScene);
         primaryStage.show();
         GuiController guiController= loader.getController();
         guiController.setOutPrintWriter(out);
@@ -94,9 +95,7 @@ public class GuiView extends Application implements View {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/NumberOfPlayers.fxml"));
             Parent root = loader.load();
-            Scene newScene = new Scene(root, 1024, 576);
-            primaryStage.setScene(newScene);
-            primaryStage.show();
+            mainScene.setRoot(root);
         } catch (Exception e) {}
     }
 
