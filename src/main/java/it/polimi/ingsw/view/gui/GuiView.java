@@ -86,7 +86,13 @@ public class GuiView extends Application implements View {
 
     @Override
     public void waitForOtherPlayers() {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/WaitingForOtherPlayers.fxml"));
+            Parent root = loader.load();
+            Scene newScene = new Scene(root, 1024, 576);
+            primaryStage.setScene(newScene);
+            primaryStage.show();
+        } catch (Exception e) {}
     }
 
     @Override
@@ -111,7 +117,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void gameStarted() {
-
+        System.out.println("Game has started");
     }
 
     @Override
