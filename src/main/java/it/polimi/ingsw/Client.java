@@ -69,7 +69,7 @@ public class Client {
 
         Thread receiveThread=new Thread(Client::receiveFromServer);
         receiveThread.start();
-        boolean ready=false;
+        boolean ready=view.isReady();
         while(!ready){
             try{
                 Thread.sleep(10);
