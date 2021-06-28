@@ -61,12 +61,22 @@ public class Client {
         if(!view.lightModel.loadResources())
             return;
 
-        Thread receiveThread=new Thread(Client::receiveFromServer);
-        receiveThread.start();
+
         Thread viewThread=new Thread(view);
         viewThread.setDaemon(true);
         view.setOutPrintWriter(out);
         viewThread.start();
+
+        Thread receiveThread=new Thread(Client::receiveFromServer);
+        receiveThread.start();
+        boolean ready=view.isReady();
+        while(!ready){
+            try{
+                Thread.sleep(10);
+            }catch(Exception e){}
+            ready=view.isReady();
+        }
+        view=view.getRunningView();
     }
 
     public static void receiveFromServer(){

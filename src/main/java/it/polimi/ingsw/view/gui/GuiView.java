@@ -35,6 +35,17 @@ import java.util.List;
 public class GuiView extends Application implements View {
     private static PrintWriter out;
     private static Stage primaryStage;
+    private static GuiView runningView;
+    private static boolean isReady;
+
+    public View getRunningView() {
+        return runningView;
+    }
+
+    @Override
+    public boolean isReady() {
+        return isReady;
+    }
 
     public void setOutPrintWriter(PrintWriter out){
         GuiView.out =out;
@@ -49,6 +60,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        runningView=this;
         primaryStage.setTitle("Master of Renaissance - AM58");
         primaryStage.setResizable(false);
         GuiView.primaryStage=primaryStage;
@@ -59,6 +71,7 @@ public class GuiView extends Application implements View {
         primaryStage.show();
         GuiController guiController= loader.getController();
         guiController.setOutPrintWriter(out);
+        isReady=true;
     }
 
     @Override
@@ -90,6 +103,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void askForNumberOfPlayers() {
+        System.out.println("ASK NUMBER OF PLAYERS");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/NumberOfPlayers.fxml"));
             Parent root = loader.load();
