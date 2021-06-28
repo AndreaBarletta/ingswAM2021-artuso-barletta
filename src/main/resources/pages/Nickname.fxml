@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" spacing="25.0" styleClass="bodybg" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GuiController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" spacing="25.0" styleClass="bodybg" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GuiControllerConnectPlayer">
    <padding>
       <Insets left="100.0" right="100.0" />
    </padding>
@@ -35,7 +35,7 @@
          </TextField>
       </children>
    </VBox>
-   <Button fx:id="b1" mnemonicParsing="false" onAction="#connectPlayer" text="Connect" textAlignment="JUSTIFY" textFill="#000000bf">
+   <Button fx:id="b" mnemonicParsing="false" onAction="#connectPlayer" text="Connect" textAlignment="JUSTIFY" textFill="#000000bf">
       <font>
          <Font name="Century" size="18.0" />
       </font>

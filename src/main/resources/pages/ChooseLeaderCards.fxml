@@ -21,25 +21,21 @@
                <HBox.margin>
                   <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
                </HBox.margin>
-               <Image url=leaderCardsIds[0]/>
             </ImageView>
             <ImageView fx:id="iv2" fitHeight="300.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
                </HBox.margin>
-               <Image url=leaderCardsIds[1]/>
             </ImageView>
             <ImageView fx:id="iv3" fitHeight="300.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
                </HBox.margin>
-               <Image url=leaderCardsIds[2]/>
             </ImageView>
             <ImageView fx:id="iv4" fitHeight="300.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
                </HBox.margin>
-               <Image url=leaderCardsIds[3]/>
             </ImageView>
          </children>
       </HBox>

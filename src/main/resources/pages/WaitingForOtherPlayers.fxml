@@ -11,7 +11,7 @@
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="576.0" prefWidth="1024.0" spacing="25.0" styleClass="bodybg" stylesheets="@../styles/style.css"
       xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.polimi.ingsw.view.gui.GuiController">
+      fx:controller="it.polimi.ingsw.view.gui.GuiControllerConnectPlayer">
     <padding>
         <Insets left="100.0" right="100.0"/>
     </padding>

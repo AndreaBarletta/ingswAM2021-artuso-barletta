@@ -4,8 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.PrintWriter;
+
 public class GuiControllerLeaderCardChoice {
 
+    private PrintWriter out;
     @FXML
     private ImageView iv1;
     @FXML
@@ -17,7 +20,11 @@ public class GuiControllerLeaderCardChoice {
     @FXML
     private GuiView gui = new GuiView();
 
-    @FXML
+    public void setOutPrintWriter(PrintWriter out) {
+        this.out = out;
+    }
+
+   /* @FXML
     private void initialize(String[] leaderCardsIds) {
         Image lc1 = new Image(leaderCardsIds[0]+"_front.png");
         Image lc2 = new Image(leaderCardsIds[1]+"_front.png");
@@ -27,5 +34,5 @@ public class GuiControllerLeaderCardChoice {
         iv2.setImage(lc2);
         iv3.setImage(lc3);
         iv4.setImage(lc4);
-    }
+    }*/
 }
