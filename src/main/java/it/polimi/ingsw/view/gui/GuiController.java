@@ -55,15 +55,6 @@ public class GuiController {
         System.out.println("Player Connected");
         b1.setText("Connecting..");
         out.println(new Message(MessageType.PICK_PLAYERNAME,new String[]{playername.getText()}));
-        if(gui.getNumberOfPersonalBoards()==0) {
-            gui.setPlayerName(playername.getText());
-            gui.askForNumberOfPlayers();
-        }
-        else {
-            playerNames[counter] = playername.getText();
-            counter++;
-            gui.gameJoined(playerNames);
-        }
     }
 
     public void numberOfPlayers() {
