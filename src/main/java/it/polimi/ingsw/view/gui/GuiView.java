@@ -6,6 +6,8 @@ import it.polimi.ingsw.view.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -20,12 +22,15 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class GuiView extends Application implements View {
     private static PrintWriter out;
@@ -34,6 +39,8 @@ public class GuiView extends Application implements View {
     public void setOutPrintWriter(PrintWriter out){
         GuiView.out =out;
     }
+
+    public int getNumberOfPersonalBoards(){ return lightModel.getLightPersonalBoards().size(); }
 
     @Override
     public void run(){
@@ -62,7 +69,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void newPlayerConnected(String newPlayerName) {
-
+        lightModel.getLightPersonalBoards().add(new LightPersonalBoard(newPlayerName));
     }
 
     @Override
@@ -72,7 +79,13 @@ public class GuiView extends Application implements View {
 
     @Override
     public void waitForOtherPlayers() {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/WaitingForOtherPlayers.fxml"));
+            Parent root = loader.load();
+            Scene newScene = new Scene(root, 1024, 576);
+            primaryStage.setScene(newScene);
+            primaryStage.show();
+        } catch (Exception e) {}
     }
 
     @Override
@@ -83,22 +96,27 @@ public class GuiView extends Application implements View {
             Scene newScene = new Scene(root, 1024, 576);
             primaryStage.setScene(newScene);
             primaryStage.show();
+            GuiController guiController= loader.getController();
+            guiController.setOutPrintWriter(out);
         } catch (Exception e) {}
     }
 
     @Override
     public void gameCreated() {
-
+        waitForOtherPlayers();
     }
 
     @Override
     public void gameJoined(String[] playerNames) {
-
+        for(String s:playerNames) {
+            lightModel.getLightPersonalBoards().add(new LightPersonalBoard(s));
+        }
+        waitForOtherPlayers();
     }
 
     @Override
     public void gameStarted() {
-
+        System.out.println("Game has started");
     }
 
     @Override
@@ -113,7 +131,15 @@ public class GuiView extends Application implements View {
 
     @Override
     public void showInitialLeaderCards(String[] leaderCardsIds) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseLeaderCards.fxml"));
+            Parent root = loader.load();
+            Scene newScene = new Scene(root, 1024, 576);
+            primaryStage.setScene(newScene);
+            primaryStage.show();
+            GuiController guiController= loader.getController();
+            guiController.setOutPrintWriter(out);
+        } catch (Exception e) {}
     }
 
     @Override
