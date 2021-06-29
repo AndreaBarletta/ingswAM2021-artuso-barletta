@@ -4,13 +4,19 @@ import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.view.*;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.List;
 

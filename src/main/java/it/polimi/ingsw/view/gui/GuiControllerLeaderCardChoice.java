@@ -4,7 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 
 public class GuiControllerLeaderCardChoice {
 
@@ -24,15 +28,19 @@ public class GuiControllerLeaderCardChoice {
         this.out = out;
     }
 
-   /* @FXML
-    private void initialize(String[] leaderCardsIds) {
-        Image lc1 = new Image(leaderCardsIds[0]+"_front.png");
-        Image lc2 = new Image(leaderCardsIds[1]+"_front.png");
-        Image lc3 = new Image(leaderCardsIds[2]+"_front.png");
-        Image lc4 = new Image(leaderCardsIds[3]+"_front.png");
+    @FXML
+    private void initialize(String[] leaderCardsIds) throws IOException {
+        Image lc1 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[0])].getCardFront()).toString());
+        Image lc2 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[1])].getCardFront()).toString());
+        Image lc3 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[2])].getCardFront()).toString());
+        Image lc4 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[3])].getCardFront()).toString());
+        ImageView iv1 = new ImageView(lc1);
+        ImageView iv2 = new ImageView(lc2);
+        ImageView iv3 = new ImageView(lc3);
+        ImageView iv4 = new ImageView(lc4);
         iv1.setImage(lc1);
         iv2.setImage(lc2);
         iv3.setImage(lc3);
         iv4.setImage(lc4);
-    }*/
+    }
 }
