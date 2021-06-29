@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.view.LightModel;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,23 +22,20 @@ public class GuiControllerLeaderCardChoice {
     private ImageView iv3;
     @FXML
     private ImageView iv4;
-    @FXML
-    private GuiView gui = new GuiView();
 
     public void setOutPrintWriter(PrintWriter out) {
         this.out = out;
     }
 
-    @FXML
-    private void initialize(String[] leaderCardsIds) throws IOException {
-        Image lc1 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[0])].getCardFront()).toString());
-        Image lc2 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[1])].getCardFront()).toString());
-        Image lc3 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[2])].getCardFront()).toString());
-        Image lc4 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[3])].getCardFront()).toString());
-        ImageView iv1 = new ImageView();
-        ImageView iv2 = new ImageView();
-        ImageView iv3 = new ImageView();
-        ImageView iv4 = new ImageView();
+    public void showLeaderCards(String[] leaderCardsIds, LightModel lightModel) {
+        String img1path=lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[0])].getCardFront();
+        String img2path=lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[1])].getCardFront();
+        String img3path=lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[2])].getCardFront();
+        String img4path=lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[3])].getCardFront();
+        Image lc1 = new Image(getClass().getClassLoader().getResource(img1path).toString());
+        Image lc2 = new Image(getClass().getClassLoader().getResource(img2path).toString());
+        Image lc3 = new Image(getClass().getClassLoader().getResource(img3path).toString());
+        Image lc4 = new Image(getClass().getClassLoader().getResource(img4path).toString());
         iv1.setImage(lc1);
         iv2.setImage(lc2);
         iv3.setImage(lc3);

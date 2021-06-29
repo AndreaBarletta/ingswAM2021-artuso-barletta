@@ -135,7 +135,10 @@ public class GuiView extends Application implements View {
             mainScene.setRoot(root);
             GuiControllerLeaderCardChoice guiControllerLeaderCardChoice = loader.getController();
             guiControllerLeaderCardChoice.setOutPrintWriter(out);
-        } catch (Exception e) {}
+            guiControllerLeaderCardChoice.showLeaderCards(leaderCardsIds,lightModel);
+        } catch (Exception e) {
+            System.out.println("Exception while showing leader cards");
+        }
     }
 
     @Override
