@@ -18,7 +18,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GuiView extends Application implements View {
     private static PrintWriter out;
@@ -59,6 +61,15 @@ public class GuiView extends Application implements View {
         GuiControllerConnectPlayer guiControllerConnectPlayer = loader.getController();
         guiControllerConnectPlayer.setOutPrintWriter(out);
         isReady=true;
+    }
+
+    private LightPersonalBoard LBPByName(String playerName){
+        for(LightPersonalBoard lpb:lightModel.getLightPersonalBoards()){
+            if(lpb.getPlayerName().equals(playerName)){
+                return lpb;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -143,12 +154,12 @@ public class GuiView extends Application implements View {
 
     @Override
     public void leaderCardsChosen(String playerName, int[] ids) {
-
+        LBPByName(playerName).setLeaderCards(Arrays.stream(ids).boxed().collect(Collectors.toList()));
     }
 
     @Override
     public void inkwellGiven(String[] playerNamesOrdered) {
-
+        LBPByName(playerNamesOrdered[0]).setInkwell(true);
     }
 
     @Override
