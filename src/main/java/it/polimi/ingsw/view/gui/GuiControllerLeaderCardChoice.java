@@ -34,10 +34,10 @@ public class GuiControllerLeaderCardChoice {
         Image lc2 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[1])].getCardFront()).toString());
         Image lc3 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[2])].getCardFront()).toString());
         Image lc4 = new Image(getClass().getResource(gui.lightModel.getLeaderCardDeck()[Integer.parseInt(leaderCardsIds[3])].getCardFront()).toString());
-        ImageView iv1 = new ImageView(lc1);
-        ImageView iv2 = new ImageView(lc2);
-        ImageView iv3 = new ImageView(lc3);
-        ImageView iv4 = new ImageView(lc4);
+        ImageView iv1 = new ImageView();
+        ImageView iv2 = new ImageView();
+        ImageView iv3 = new ImageView();
+        ImageView iv4 = new ImageView();
         iv1.setImage(lc1);
         iv2.setImage(lc2);
         iv3.setImage(lc3);
