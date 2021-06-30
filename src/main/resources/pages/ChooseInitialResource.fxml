@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" styleClass="bodybg" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GuiControllerInitialResourceChoice">
+   <children>
+      <Text fill="#ffe81e" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose one resource:" textAlignment="CENTER" wrappingWidth="274.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="375.0" right="375.0" top="75.0" />
+         </VBox.margin>
+      </Text>
+      <Button fx:id="bCoin" mnemonicParsing="false" onMouseClicked="#chooseCoin" prefWidth="224.0" text="Coin" textAlignment="CENTER">
+         <VBox.margin>
+            <Insets bottom="25.0" left="400.0" right="400.0" top="75.0" />
+         </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="bStone" mnemonicParsing="false" onMouseClicked="#chooseStone" prefWidth="224.0" text="Stone">
+         <VBox.margin>
+            <Insets bottom="25.0" left="400.0" right="400.0" top="25.0" />
+         </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="bServant" mnemonicParsing="false" onMouseClicked="#chooseServant" prefWidth="224.0" text="Servant">
+         <VBox.margin>
+            <Insets bottom="25.0" left="400.0" right="400.0" top="25.0" />
+         </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="bShield" mnemonicParsing="false" onMouseClicked="#chooseShield" prefWidth="224.0" text="Shield">
+         <VBox.margin>
+            <Insets bottom="25.0" left="400.0" right="400.0" top="25.0" />
+         </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</VBox>
