@@ -442,6 +442,11 @@ public class CliView implements View,Runnable{
     }
 
     @Override
+    public void lastTurn() {
+        System.out.println(Colors.RED.escape()+"LAST TURNS BEFORE THE END OF THE GAME"+Colors.RESET.escape());
+    }
+
+    @Override
     public void disconnected() {
 
     }

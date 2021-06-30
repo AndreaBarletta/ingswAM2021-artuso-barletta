@@ -56,4 +56,5 @@ public interface View extends Runnable {
     void resourceDiscarded(String playerName, ResType resource);
     View getRunningView();
     boolean isReady();
+    void lastTurn();
 }

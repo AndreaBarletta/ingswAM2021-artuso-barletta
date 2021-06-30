@@ -38,6 +38,8 @@ public class GuiView extends Application implements View {
         return isReady;
     }
 
+
+
     public void setOutPrintWriter(PrintWriter out){
         GuiView.out =out;
     }
@@ -316,6 +318,11 @@ public class GuiView extends Application implements View {
 
     @Override
     public void disconnected() {
+
+    }
+
+    @Override
+    public void lastTurn() {
 
     }
 }

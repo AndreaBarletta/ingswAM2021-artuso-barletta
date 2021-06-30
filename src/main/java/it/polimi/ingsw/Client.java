@@ -215,6 +215,10 @@ public class Client {
                     break;
                 case RESOURCE_DISCARDED:
                     view.resourceDiscarded(message.params[0],ResType.valueOf(message.params[1]));
+                    break;
+                case LAST_TURNS:
+                    view.lastTurn();
+                    break;
                 case DISCONNECTED:
                     System.out.println("Player "+message.params[0]+" has disconnected ");
                     break;

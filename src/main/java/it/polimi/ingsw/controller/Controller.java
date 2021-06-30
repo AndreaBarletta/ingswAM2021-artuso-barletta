@@ -32,7 +32,7 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
      * Adds a new view event listener to the listener list
      * @param newEventListener new view event listener to be added to the listeners list
      */
-    public void addEventListener(ControllerEventListener newEventListener){
+    public synchronized void addEventListener(ControllerEventListener newEventListener){
         eventListeners.add(newEventListener);
     }
 
@@ -260,14 +260,6 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         }
     }
 
-    /**
-     * Tell the other players who won the game
-     * @param playerName Name of the player who won the game
-     */
-    public void announceWinner(String playerName){
-        System.out.println("Player "+playerName+" has won the game");
-    }
-
     public void activateLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
         game.activateLeaderCards(clientHandler.getPlayerName(),Integer.parseInt(id));
     }
@@ -374,7 +366,16 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
             personalBoard.setHasAlreadyPlayedLeaderAction(false);
             clientHandler.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
             game.nextPlayer();
-            getClientHandler(game.getCurrentPlayer()).getAutomaton().evolve("ASK_LEADER_ACTION",null);
+            if(!game.hasEnded()){
+                getClientHandler(game.getCurrentPlayer()).getAutomaton().evolve("ASK_LEADER_ACTION",null);
+            }else{
+                //Announce winner
+                String winner=game.getWinner();
+                for(ClientHandler c:clientHandlers){
+                    c.send(new Message(MessageType.WINNER,new String[]{winner}));
+                    c.getAutomaton().evolve("END_GAME",null);
+                }
+            }
         }else{
             clientHandler.getAutomaton().evolve("ASK_TURN_ACTION",null);
         }
@@ -404,5 +405,15 @@ public class Controller implements PersonalBoardEventListener,GameEventListener 
         for(ClientHandler c:clientHandlers)
             if(!c.getPlayerName().equals(clientHandler.getPlayerName()))
                 game.getPersonalBoard(c.getPlayerName()).incrementFaithTrack(numberOfResourcesDiscarded);
+    }
+
+    public void checkDevCardEnd(ClientHandler clientHandler){
+        int devCards=game.getNumberOfDevCards(clientHandler.getPlayerName());
+        if(devCards>=7){
+            game.lastTurn();
+            for(ClientHandler c:clientHandlers){
+                c.send(new Message(MessageType.LAST_TURNS,null));
+            }
+        }
     }
 }

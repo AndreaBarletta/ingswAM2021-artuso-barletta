@@ -215,7 +215,6 @@ public class GameStateAutomaton {
                             controller.canBuyDevCard(clientHandler,params[0],null);
                             tempDiscountIds=null;
                         }
-
                     }catch(ResourcesException e){
                         state=GameState.DEV_CARD_GRID_SHOWN;
                         errorMessage="You don't have enough resources to buy the selected development card";
@@ -254,6 +253,8 @@ public class GameStateAutomaton {
                         return false;
                     }
                     controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_SLOT,new String[]{clientHandler.getPlayerName(),String.valueOf(tempId),params[0]}));
+                    //Check if the player has acquired his 7th card, hence triggering the end of the game
+                    controller.checkDevCardEnd(clientHandler);
                     controller.endTurnAction(clientHandler);
                     evolve("ASK_LEADER_ACTION",null);
                     return true;

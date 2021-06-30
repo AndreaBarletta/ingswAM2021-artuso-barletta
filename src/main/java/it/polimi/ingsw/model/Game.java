@@ -6,6 +6,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.Depot;
+import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
@@ -30,6 +31,8 @@ public class Game implements ControllerEventListener {
     private final List<GameEventListener> eventListeners;
     private final int maximumPlayers;
     private boolean hasStarted;
+    private boolean isLastTurn;
+    private boolean hasEnded;
 
     public Game(int maximumPlayers){
         personalBoards=new ArrayList<>();
@@ -40,6 +43,8 @@ public class Game implements ControllerEventListener {
         this.maximumPlayers=maximumPlayers;
         currentPlayerOrdinal=0;
         hasStarted=false;
+        isLastTurn=false;
+        hasEnded=false;
     }
 
     /**
@@ -254,19 +259,6 @@ public class Game implements ControllerEventListener {
         return personalBoards.get(playerNumber).setLeaderCards(leaderCardsToAdd);
     }
 
-    /**
-     * add the initial resource selected
-     */
-    public synchronized void addInitialResource(String playerName,ResType resource) {
-        for(PersonalBoard p:personalBoards){
-            if(p.getPlayerName().equals(playerName)){
-                try {
-                    resource.effectOnAcquire(p);
-                }catch(Exception e){}
-            }
-        }
-    }
-
     public void activateLeaderCards(String playerName, int leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
         PersonalBoard player=getPersonalBoard(playerName);
         if(player!=null){
@@ -422,6 +414,9 @@ public class Game implements ControllerEventListener {
 
     public void nextPlayer(){
         currentPlayerOrdinal=(currentPlayerOrdinal+1)%maximumPlayers;
+        if(isLastTurn&&currentPlayerOrdinal==0){
+            hasEnded=true;
+        }
     }
 
     public boolean hasStarted() {
@@ -442,5 +437,34 @@ public class Game implements ControllerEventListener {
             return player.canDiscount(ids);
         }
         return false;
+    }
+
+    public int getNumberOfDevCards(String playerName){
+        DevelopmentCardSlot[] devCardSlots=getPersonalBoard(playerName).getDevelopmentCardSlots();
+        int count=0;
+        for(DevelopmentCardSlot dcs:devCardSlots){
+            count+=dcs.getCardsInSlot();
+        }
+        return count;
+    }
+
+    public void lastTurn(){
+        isLastTurn=true;
+    }
+
+    public boolean hasEnded(){
+        return hasEnded;
+    }
+
+    public String getWinner() {
+        String winner="";
+        int victoryPointsMax=0;
+        for(PersonalBoard pb:personalBoards){
+            if(pb.getVictoryPoints()>victoryPointsMax){
+                victoryPointsMax=pb.getVictoryPoints();
+                winner=pb.getPlayerName();
+            }
+        }
+        return winner;
     }
 }
