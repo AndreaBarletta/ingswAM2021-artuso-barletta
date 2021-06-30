@@ -378,11 +378,18 @@ public class Controller implements PersonalBoardEventListener {
         return null;
     }
 
-    public void addResourcesToDepot(ClientHandler clientHandler, ResType[] resources){
-        for(ResType r:resources)
-            try{
+    public void addResourcesToDepot(ClientHandler clientHandler, ResType[] resources) {
+        for (ResType r : resources) {
+            try {
                 game.getPersonalBoard(clientHandler.getPlayerName()).addResourceToDepot(r);
-            }catch(Exception e){}
+            } catch (Exception e) {}
+        }
+        int k=canSendVaticanReport();
+        if(k!=-1)
+            sendVaticanReport(k);
+
+        isFaithTrackEnd();
+
     }
 
     @Override
@@ -394,11 +401,37 @@ public class Controller implements PersonalBoardEventListener {
         for(ClientHandler c:clientHandlers)
             if(!c.getPlayerName().equals(clientHandler.getPlayerName()))
                 game.getPersonalBoard(c.getPlayerName()).incrementFaithTrack(numberOfResourcesDiscarded);
+
+        //Check if a vatican report can be sent
+        int k=canSendVaticanReport();
+        if(k!=-1)
+            sendVaticanReport(k);
     }
 
     public void checkDevCardEnd(ClientHandler clientHandler){
         int devCards=game.getNumberOfDevCards(clientHandler.getPlayerName());
         if(devCards>=7){
+            game.lastTurn();
+            for(ClientHandler c:clientHandlers){
+                c.send(new Message(MessageType.LAST_TURNS,null));
+            }
+        }
+    }
+
+    public int canSendVaticanReport(){
+        return game.canSendVaticanReport();
+    }
+
+    public void sendVaticanReport(int k){
+        Map<String,Boolean> reportResults=game.sendVaticanReport(k);
+        for(ClientHandler c:clientHandlers){
+            c.send(new Message(MessageType.VATICAN_REPORT_RESULTS,new String[]{reportResults.toString()}));
+        }
+        isFaithTrackEnd();
+    }
+
+    public void isFaithTrackEnd(){
+        if(game.isFaithTrackEnd()){
             game.lastTurn();
             for(ClientHandler c:clientHandlers){
                 c.send(new Message(MessageType.LAST_TURNS,null));

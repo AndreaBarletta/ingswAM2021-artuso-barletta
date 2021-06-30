@@ -316,7 +316,7 @@ public class GameStateAutomaton {
                 case RESOURCE_DISCARDED:
                     try{
                         ResType toRemove=ResType.valueOf(params[0]);
-                        if(toRemove!=ResType.WHITEMARBLE){
+                        if(toRemove!=ResType.WHITEMARBLE&&tempAcquiredResources.contains(toRemove)){
                             tempAcquiredResources.remove(ResType.valueOf(params[0]));
                             tempDiscarded++;
                             controller.broadcast(new Message(MessageType.RESOURCE_DISCARDED,new String[]{clientHandler.getPlayerName(),params[0]}));
@@ -329,7 +329,7 @@ public class GameStateAutomaton {
                             evolve("UPDATE_RESOURCES",null);
                             return true;
                         }else{
-                            errorMessage="Select a valid resource type";
+                            errorMessage="Cannot discard the selected resource";
                             state=GameState.RESOURCE_DISCARD_ASKED;
                             return false;
                         }

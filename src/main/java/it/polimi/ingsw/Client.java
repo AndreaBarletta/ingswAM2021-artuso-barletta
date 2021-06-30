@@ -12,11 +12,9 @@ import javafx.scene.effect.Light;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Client {
     static View view;
@@ -224,6 +222,9 @@ public class Client {
                     view.announceWinner(message.params[0]);
                     end=true;
                     break;
+                case VATICAN_REPORT_RESULTS:
+                    Type mapType=new TypeToken<Map<String,Boolean>>(){}.getType();
+                    view.vaticanReportResults(gson.fromJson(message.params[0],mapType));
                 case DISCONNECTED:
                     System.out.println("Player "+message.params[0]+" has disconnected ");
                     break;

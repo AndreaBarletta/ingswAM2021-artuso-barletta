@@ -657,4 +657,8 @@ public class PersonalBoard {
         leaderDepots=tempLeaderDepots;
         return true;
     }
+
+    public FaithTrack getFaithTrack() {
+        return faithTrack;
+    }
 }

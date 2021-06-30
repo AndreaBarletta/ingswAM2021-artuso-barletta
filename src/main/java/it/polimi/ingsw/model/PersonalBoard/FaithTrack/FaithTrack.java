@@ -47,19 +47,19 @@ public class FaithTrack {
     }
 
     /**
-     *call canSendReport in VaticanReport
+     * Check if there is a vatican report that can be sent.
+     * @return The vatican report that can be sent, or -1
      */
-    public boolean canSendVaticanReport() {
-        for (VaticanReport v:vaticanReports)
-            if(v.canSendReport(faithMarker))    return true;
-
-        return false;
+    public int canSendVaticanReport() {
+        //Search for the first vatican report that is neither activated nor discarded and check if it can be activated
+        for(int i=0;i<vaticanReports.length;i++) {
+            if (vaticanReports[i].canSendReport(faithMarker)) return i;
+        }
+        return -1;
     }
 
-    public void sendVaticanReport() {
-        for (VaticanReport v:vaticanReports)
-            if(v.canSendReport(faithMarker)) v.sendReport(faithMarker);
-
+    public boolean sendVaticanReport(int k) {
+        return vaticanReports[k].sendReport(faithMarker);
     }
 
     /**

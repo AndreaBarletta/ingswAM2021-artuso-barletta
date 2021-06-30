@@ -58,4 +58,5 @@ public interface View extends Runnable {
     boolean isReady();
     void lastTurn();
     void announceWinner(String winnerPlayerName);
+    void vaticanReportResults(Map<String,Boolean> results);
 }

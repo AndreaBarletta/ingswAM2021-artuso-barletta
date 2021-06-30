@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GuiView extends Application implements View {
@@ -328,6 +329,11 @@ public class GuiView extends Application implements View {
 
     @Override
     public void announceWinner(String winnerPlayerName) {
+
+    }
+
+    @Override
+    public void vaticanReportResults(Map<String, Boolean> results) {
 
     }
 }

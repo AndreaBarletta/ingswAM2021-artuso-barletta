@@ -275,7 +275,6 @@ public class Game {
 
     public void discardLeaderCards(String playerName, int leaderCardId) throws CardNotFoundException {
         PersonalBoard player=getPersonalBoard(playerName);
-
         if(player!=null) {
             player.discardLeaderCard(leaderCardId);
         }
@@ -464,7 +463,25 @@ public class Game {
         return winner;
     }
 
-    public void givePopeFavourCards(){
+    public int canSendVaticanReport(){
+        for(PersonalBoard pb:personalBoards){
+            int vaticanReport=pb.getFaithTrack().canSendVaticanReport();
+            if(vaticanReport!=-1) return vaticanReport;
+        }
+        return -1;
+    }
 
+    public Map<String,Boolean> sendVaticanReport(int k){
+        Map<String,Boolean> vaticanReportResults=new HashMap<>();
+        for(PersonalBoard pb:personalBoards){
+            vaticanReportResults.put(pb.getPlayerName(),pb.getFaithTrack().sendVaticanReport(k));
+        }
+        return vaticanReportResults;
+    }
+
+    public boolean isFaithTrackEnd(){
+        for(PersonalBoard pb:personalBoards)
+            if(pb.getFaithTrack().isAtEnd()) return true;
+        return false;
     }
 }

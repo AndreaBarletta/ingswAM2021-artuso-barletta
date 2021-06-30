@@ -26,15 +26,19 @@ public class VaticanReport {
     }
 
     /**
-     *
-     * @param faithMarker
-     * When the report is sent, decides to discard or activate pope favour card
+     * Send the vatican report, either discarding the pope favour card or activating it
+     * @param faithMarker Current position on the faith track of the player
+     * @return True if the report was activated, false if it was discarded
      */
-    public void sendReport(int faithMarker){
-        if(faithMarker>=startPosition)
+    public boolean sendReport(int faithMarker){
+        if(faithMarker>=startPosition){
             popeFavourCard.activate();
-        else
+            return true;
+        }
+        else{
             popeFavourCard.discard();
+            return false;
+        }
     }
 
     /**

@@ -452,6 +452,11 @@ public class CliView implements View,Runnable{
     }
 
     @Override
+    public void vaticanReportResults(Map<String, Boolean> results) {
+
+    }
+
+    @Override
     public void disconnected() {
 
     }
