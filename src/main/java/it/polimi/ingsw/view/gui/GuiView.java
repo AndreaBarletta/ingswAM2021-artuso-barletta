@@ -164,7 +164,14 @@ public class GuiView extends Application implements View {
 
     @Override
     public void askInitialResource() {
-
+        System.out.println("CHOOSE INITIAL RESOURCE");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseInitialResource.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerInitialResourceChoice guiControllerInitialResourceChoice = loader.getController();
+            guiControllerInitialResourceChoice.setOutPrintWriter(out);
+        } catch (Exception e) {}
     }
 
     @Override
