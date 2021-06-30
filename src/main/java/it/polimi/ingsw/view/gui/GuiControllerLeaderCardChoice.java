@@ -19,6 +19,7 @@ import java.util.List;
 
 public class GuiControllerLeaderCardChoice<event> {
 
+    private int counter = 0;
     private String[] cardsIds = new String[4];
     private boolean[] selected = new boolean[4];
     private PrintWriter out;
@@ -64,24 +65,22 @@ public class GuiControllerLeaderCardChoice<event> {
 
     public void pickLeaderCards(){
         ArrayList leaderChosen = new ArrayList();
-        if(selected[0])
-            leaderChosen.add(cardsIds[0]);
-        if(selected[1])
-            leaderChosen.add(cardsIds[1]);
-        if(selected[2])
-            leaderChosen.add(cardsIds[2]);
-        if(selected[3])
-            leaderChosen.add(cardsIds[3]);
+        for(int i=0; i<4; i++){
+            if(selected[i])
+                leaderChosen.add(cardsIds[i]);
+        }
         out.println(new Message(MessageType.CHOOSE_LEADER_CARDS, new String[]{leaderChosen.get(0).toString(), leaderChosen.get(1).toString()}));
     }
 
     public void selectCard1(){
         if(selected[0] == true) {
             selected[0] = false;
+            counter--;
             t1.setText("");
         }
-        else{
+        else if(!selected[0] && counter < 2){
             selected[0] = true;
+            counter++;
             t1.setText("Selected");
         }
     }
@@ -89,10 +88,12 @@ public class GuiControllerLeaderCardChoice<event> {
     public void selectCard2(){
         if(selected[1] == true) {
             selected[1] = false;
+            counter--;
             t2.setText("");
         }
-        else{
+        else if(!selected[1] && counter < 2){
             selected[1] = true;
+            counter++;
             t2.setText("Selected");
         }
     }
@@ -100,10 +101,12 @@ public class GuiControllerLeaderCardChoice<event> {
     public void selectCard3(){
         if(selected[2] == true) {
             selected[2] = false;
+            counter--;
             t3.setText("");
         }
-        else{
+        else if(!selected[2] && counter < 2){
             selected[2] = true;
+            counter++;
             t3.setText("Selected");
         }
     }
@@ -111,10 +114,12 @@ public class GuiControllerLeaderCardChoice<event> {
     public void selectCard4(){
         if(selected[3] == true) {
             selected[3] = false;
+            counter--;
             t4.setText("");
         }
-        else{
+        else if(!selected[3] && counter < 2){
             selected[3] = true;
+            counter++;
             t4.setText("Selected");
         }
     }
