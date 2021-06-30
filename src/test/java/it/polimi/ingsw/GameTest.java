@@ -23,8 +23,9 @@ public class GameTest {
     public void testAddPlayer(){
         Game game=new Game(3);
         Controller controller=new Controller();
+        controller.addEventListener(game);
+        game.addEventListener(controller);
 
-        game.loadPopeFavourCardsFromFile(getClass().getClassLoader().getResource("popeFavourCards.json").getPath());
         //Test if players are added without errors (parsing of the faith track)
         assertDoesNotThrow(()->game.addPlayer("player 1"));
         assertDoesNotThrow(()->game.addPlayer("player 2"));
@@ -43,6 +44,8 @@ public class GameTest {
     public void testGiveLeaderCards(){
         Game game=new Game(4);
         Controller controller=new Controller();
+        controller.addEventListener(game);
+        game.addEventListener(controller);
 
         try{
             game.addPlayer("player 1");

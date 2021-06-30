@@ -29,6 +29,7 @@ public class GuiView extends Application implements View {
     private static GuiView runningView;
     private static boolean isReady;
     private Scene mainScene;
+    GuiControllerMyPersonalBoard guiControllerMyPersonalBoard;
 
     public View getRunningView() {
         return runningView;
@@ -190,7 +191,8 @@ public class GuiView extends Application implements View {
 
     @Override
     public void incrementFaithTrack(String playername, int increment) {
-
+        LBPByName(playername).getFaithTrack().incrementFaithTrack(increment);
+        guiControllerMyPersonalBoard.updateFaithTrack(playername, lightModel);
     }
 
     @Override
@@ -244,7 +246,16 @@ public class GuiView extends Application implements View {
 
     @Override
     public void askTurnAction() {
-
+        System.out.println("CHOOSE A TURN ACTION");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/TurnAction.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerTurnAction guiControllerTurnAction = loader.getController();
+            guiControllerTurnAction.setOutPrintWriter(out);
+        } catch (Exception e) {
+            System.out.println("Exception while asking turn action");
+        }
     }
 
     @Override

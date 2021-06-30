@@ -378,18 +378,11 @@ public class Controller implements PersonalBoardEventListener {
         return null;
     }
 
-    public void addResourcesToDepot(ClientHandler clientHandler, ResType[] resources) {
-        for (ResType r : resources) {
-            try {
+    public void addResourcesToDepot(ClientHandler clientHandler, ResType[] resources){
+        for(ResType r:resources)
+            try{
                 game.getPersonalBoard(clientHandler.getPlayerName()).addResourceToDepot(r);
-            } catch (Exception e) {}
-        }
-        int k=canSendVaticanReport();
-        if(k!=-1)
-            sendVaticanReport(k);
-
-        isFaithTrackEnd();
-
+            }catch(Exception e){}
     }
 
     @Override
@@ -401,11 +394,6 @@ public class Controller implements PersonalBoardEventListener {
         for(ClientHandler c:clientHandlers)
             if(!c.getPlayerName().equals(clientHandler.getPlayerName()))
                 game.getPersonalBoard(c.getPlayerName()).incrementFaithTrack(numberOfResourcesDiscarded);
-
-        //Check if a vatican report can be sent
-        int k=canSendVaticanReport();
-        if(k!=-1)
-            sendVaticanReport(k);
     }
 
     public void checkDevCardEnd(ClientHandler clientHandler){

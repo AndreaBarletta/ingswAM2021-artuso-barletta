@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" styleClass="bodybg" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GuiControllerLeaderActionChoice">
    <children>
       <Text fill="#ffe81e" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a card and choose a leader action:" textAlignment="CENTER" wrappingWidth="524.0">
          <font>
@@ -23,12 +23,12 @@
             <Insets top="20.0" />
          </VBox.margin>
          <children>
-            <ImageView fx:id="iv1" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="iv1" fitHeight="300.0" fitWidth="200.0" onMouseClicked="#selectCard1" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets left="300.0" right="12.0" />
                </HBox.margin>
             </ImageView>
-            <ImageView fx:id="iv2" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="iv2" fitHeight="300.0" fitWidth="200.0" onMouseClicked="#selectCard2" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets left="12.0" right="300.0" />
                </HBox.margin>
@@ -60,17 +60,17 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="bActivate" mnemonicParsing="false" prefWidth="100.0" text="Activate">
+            <Button fx:id="bActivate" mnemonicParsing="false" onMouseClicked="#activateCard" prefWidth="100.0" text="Activate">
                <HBox.margin>
                   <Insets left="312.0" right="25.0" top="25.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="bDiscard" mnemonicParsing="false" prefWidth="100.0" text="Discard">
+            <Button fx:id="bDiscard" mnemonicParsing="false" onMouseClicked="#discardCard" prefWidth="100.0" text="Discard">
                <HBox.margin>
                   <Insets left="25.0" right="25.0" top="25.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="bSkip" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Skip">
+            <Button fx:id="bSkip" mnemonicParsing="false" onMouseClicked="#skip" prefHeight="25.0" prefWidth="100.0" text="Skip">
                <HBox.margin>
                   <Insets left="25.0" right="312.0" top="25.0" />
                </HBox.margin>

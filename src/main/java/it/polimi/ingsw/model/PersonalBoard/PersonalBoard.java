@@ -2,13 +2,16 @@ package it.polimi.ingsw.model.PersonalBoard;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
+import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
-import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
+import it.polimi.ingsw.view.LightDepot;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-public class PersonalBoard {
+public class PersonalBoard implements ControllerEventListener {
     //Properties
     private final String playerName;
     private boolean inkwell;
@@ -84,7 +87,7 @@ public class PersonalBoard {
      * @param path Path of the json file containing the faith track information
      * @return Whether or not the faith track was loaded successfully
      */
-    public boolean loadFaithTrackFromFile(String path,PopeFavourCard[] popeFavourCards){
+    public boolean loadFaithTrackFromFile(String path){
         String content;
 
         File file=new File(path);
@@ -102,7 +105,7 @@ public class PersonalBoard {
             System.out.println("Error parsing json file for faith track");
             return false;
         }
-        faithTrack.addPopeFavourCards(popeFavourCards);
+
         return true;
     }
 

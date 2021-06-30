@@ -27,7 +27,7 @@ public class PersonalBoardTest {
     @Test
     public void testLoadFaithTrackFromFile(){
         PersonalBoard personalBoard=new PersonalBoard("test");
-        assertTrue(personalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath(),null));
+        assertTrue(personalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath()));
     }
 
     @Test

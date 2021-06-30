@@ -41,7 +41,7 @@ public enum GameState{
                     return true;
                 break;
             case WAITING_FOR_OTHER_PLAYERS:
-                if(input.equals(("NEW_PLAYER"))|| input.equals("START_GAME"))
+                if(input.equals(("NEW_PLAYER")) || input.equals("START_GAME"))
                     return true;
                 break;
             case NEW_PLAYER:
@@ -73,7 +73,7 @@ public enum GameState{
                     return true;
                 break;
             case WAITING_FOR_YOUR_TURN:
-                if(input.equals("ASK_LEADER_ACTION")||input.equals("END_GAME"))
+                if(input.equals("ASK_LEADER_ACTION"))
                     return true;
                 break;
             case LEADER_ACTION_ASKED:
@@ -193,8 +193,7 @@ public enum GameState{
                 if(input.equals("ASK_INITIAL_RESOURCES"))           return INITIAL_RESOURCES_ASKED;
                 if(input.equals("WAIT_FOR_YOUR_TURN"))              return WAITING_FOR_YOUR_TURN;
             case WAITING_FOR_YOUR_TURN:
-                if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
-                if(input.equals("END_GAME"))                        return GAME_ENDED;
+                return LEADER_ACTION_ASKED;
             case LEADER_ACTION_ASKED:
                 if(input.equals("LEADER_ACTION_ACTIVATE"))          return LEADER_ACTION_ACTIVATED;
                 if(input.equals("LEADER_ACTION_DISCARD"))           return LEADER_ACTION_DISCARDED;
