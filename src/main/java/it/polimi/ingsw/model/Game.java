@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.*;
-import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
@@ -20,7 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Game implements ControllerEventListener {
+public class Game {
     private final List<PersonalBoard> personalBoards;
     private int currentPlayerOrdinal;
     private final Market market;
@@ -28,7 +27,6 @@ public class Game implements ControllerEventListener {
     private PopeFavourCard[] popeFavourCards;
     private List<LeaderCard> leaderCardsDeck;
     private List<DevelopmentCard> developmentCardsDeck;
-    private final List<GameEventListener> eventListeners;
     private final int maximumPlayers;
     private boolean hasStarted;
     private boolean isLastTurn;
@@ -38,21 +36,12 @@ public class Game implements ControllerEventListener {
         personalBoards=new ArrayList<>();
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();
-        eventListeners=new ArrayList<>();
         leaderCardsDeck = new ArrayList<>();
         this.maximumPlayers=maximumPlayers;
         currentPlayerOrdinal=0;
         hasStarted=false;
         isLastTurn=false;
         hasEnded=false;
-    }
-
-    /**
-     * Adds a new game event listener to the listener list
-     * @param newEventListener new game event listener to be added to the listeners list
-     */
-    public void addEventListener(GameEventListener newEventListener){
-        eventListeners.add(newEventListener);
     }
 
     /**

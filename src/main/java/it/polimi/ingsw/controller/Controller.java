@@ -10,30 +10,19 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
-import it.polimi.ingsw.model.GameEventListener;
 import it.polimi.ingsw.view.LightDepot;
 import it.polimi.ingsw.view.LightStrongbox;
 
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Controller implements PersonalBoardEventListener,GameEventListener {
-    private final List<ControllerEventListener> eventListeners;
+public class Controller implements PersonalBoardEventListener {
     private final List<ClientHandler> clientHandlers;
     private Game game;
     private Thread gameThread;
 
     public Controller(){
-        eventListeners = new ArrayList<>();
         clientHandlers = new ArrayList<>();
-    }
-
-    /**
-     * Adds a new view event listener to the listener list
-     * @param newEventListener new view event listener to be added to the listeners list
-     */
-    public synchronized void addEventListener(ControllerEventListener newEventListener){
-        eventListeners.add(newEventListener);
     }
 
     /**
