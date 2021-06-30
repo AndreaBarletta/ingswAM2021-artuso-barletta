@@ -105,6 +105,9 @@ public class Game {
         Gson gson=new Gson();
         try{
             popeFavourCards=gson.fromJson(content, PopeFavourCard[].class);
+            List<PopeFavourCard> popeFavourCardList=Arrays.asList(popeFavourCards);
+            Collections.shuffle(popeFavourCardList);
+            popeFavourCards=popeFavourCardList.toArray(PopeFavourCard[]::new);
         }catch(JsonSyntaxException e){
             System.out.println("Error parsing json file for pope favour cards");
             return false;
@@ -158,7 +161,11 @@ public class Game {
             }
             PersonalBoard newPersonalBoard=new PersonalBoard(playerName);
             personalBoards.add(newPersonalBoard);
-            if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath())){
+            if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath(),
+                    Arrays.asList(popeFavourCards)
+                            .subList(personalBoards.size()*3,(personalBoards.size()*3)+3)
+                            .toArray(PopeFavourCard[]::new)
+            )){
                 throw new ParsingException();
             }
         }else{
@@ -455,5 +462,9 @@ public class Game {
             }
         }
         return winner;
+    }
+
+    public void givePopeFavourCards(){
+
     }
 }

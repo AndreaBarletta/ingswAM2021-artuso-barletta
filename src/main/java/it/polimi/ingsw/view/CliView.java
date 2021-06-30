@@ -447,6 +447,11 @@ public class CliView implements View,Runnable{
     }
 
     @Override
+    public void announceWinner(String winnerPlayerName) {
+        System.out.print(Colors.BRIGHT_BLUE.escape()+"Player "+winnerPlayerName+" has won the game!"+Colors.RESET.escape());
+    }
+
+    @Override
     public void disconnected() {
 
     }

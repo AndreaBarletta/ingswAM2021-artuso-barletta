@@ -57,4 +57,5 @@ public interface View extends Runnable {
     View getRunningView();
     boolean isReady();
     void lastTurn();
+    void announceWinner(String winnerPlayerName);
 }

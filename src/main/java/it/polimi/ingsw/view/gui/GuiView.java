@@ -325,4 +325,9 @@ public class GuiView extends Application implements View {
     public void lastTurn() {
 
     }
+
+    @Override
+    public void announceWinner(String winnerPlayerName) {
+
+    }
 }

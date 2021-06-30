@@ -82,7 +82,8 @@ public class Client {
     public static void receiveFromServer(){
         Gson gson=new Gson();
         Message message=null;
-        while(true){
+        boolean end=false;
+        while(!end){
             try {
                 message = gson.fromJson(in.readLine(), Message.class);
             }catch(Exception e){
@@ -218,6 +219,10 @@ public class Client {
                     break;
                 case LAST_TURNS:
                     view.lastTurn();
+                    break;
+                case WINNER:
+                    view.announceWinner(message.params[0]);
+                    end=true;
                     break;
                 case DISCONNECTED:
                     System.out.println("Player "+message.params[0]+" has disconnected ");
