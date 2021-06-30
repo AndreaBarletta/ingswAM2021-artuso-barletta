@@ -95,7 +95,9 @@ public class GuiView extends Application implements View {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/WaitingForOtherPlayers.fxml"));
             Parent root = loader.load();
             mainScene.setRoot(root);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println("Exception while waiting for other players");
+        }
     }
 
     @Override
@@ -107,7 +109,9 @@ public class GuiView extends Application implements View {
             mainScene.setRoot(root);
             GuiControllerNumberOfPlayers guiControllerNumberOfPlayers = loader.getController();
             guiControllerNumberOfPlayers.setOutPrintWriter(out);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println("Exception while asking number of players");
+        }
     }
 
     @Override
@@ -148,7 +152,7 @@ public class GuiView extends Application implements View {
             guiControllerLeaderCardChoice.setOutPrintWriter(out);
             guiControllerLeaderCardChoice.showLeaderCards(leaderCardsIds,lightModel);
         } catch (Exception e) {
-            System.out.println("Exception while showing leader cards");
+            System.out.println("Exception while showing initial leader cards");
         }
     }
 
@@ -171,7 +175,9 @@ public class GuiView extends Application implements View {
             mainScene.setRoot(root);
             GuiControllerInitialResourceChoice guiControllerInitialResourceChoice = loader.getController();
             guiControllerInitialResourceChoice.setOutPrintWriter(out);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println("Exception while asking initial resource to acquire");
+        }
     }
 
     @Override
@@ -186,7 +192,16 @@ public class GuiView extends Application implements View {
 
     @Override
     public void waitYourTurn() {
-
+        System.out.println("WAIT YOUR TURN");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/Board.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerBoard guiControllerBoard = loader.getController();
+            guiControllerBoard.setOutPrintWriter(out);
+        } catch (Exception e) {
+            System.out.println("Exception while waiting for your turn to start");
+        }
     }
 
     @Override
@@ -196,7 +211,17 @@ public class GuiView extends Application implements View {
 
     @Override
     public void askLeaderAction() {
-
+        System.out.println("CHOOSE A LEADER ACTION");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseLeaderAction.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerLeaderActionChoice guiControllerLeaderActionChoice = loader.getController();
+            guiControllerLeaderActionChoice.setOutPrintWriter(out);
+            guiControllerLeaderActionChoice.printLeaderCards(lightModel);
+        } catch (Exception e) {
+            System.out.println("Exception while asking leader action");
+        }
     }
 
     @Override
