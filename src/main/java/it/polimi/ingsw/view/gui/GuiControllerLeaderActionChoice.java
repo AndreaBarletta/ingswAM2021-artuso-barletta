@@ -62,7 +62,7 @@ public class GuiControllerLeaderActionChoice {
     }
 
     public void activateCard(){
-        //out.println(new Message(MessageType.LEADER_ACTION_ACTIVATE, );
+        ///out.println(new Message(MessageType.LEADER_ACTION_ACTIVATE, );
     }
 
     public void discardCard(){
