@@ -8,8 +8,7 @@ import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 import javafx.scene.effect.Light;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
@@ -48,20 +47,17 @@ public class LightPersonalBoard {
         inkwell = false;
     }
 
-    public boolean loadFaithTrackFromFile(String path){
-        String content;
-
-        File file=new File(path);
-        try{
-            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        }catch(IOException e){
+    public boolean loadFaithTrackFromFile(String fileString){
+        InputStream inputStream=getClass().getResourceAsStream(fileString);
+        if(inputStream==null){
             System.out.println("Error reading from file while loading faith track i.e. wrong path");
             return false;
         }
+        Reader reader=new InputStreamReader(inputStream);
 
         Gson gson=new Gson();
         try{
-            faithTrack=gson.fromJson(content, FaithTrack.class);
+            faithTrack=gson.fromJson(reader, FaithTrack.class);
         }catch(JsonSyntaxException e){
             System.out.println("Error parsing json file for faith track");
             return false;

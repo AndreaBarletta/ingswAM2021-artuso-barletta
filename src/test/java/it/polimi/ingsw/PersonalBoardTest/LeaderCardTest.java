@@ -12,8 +12,7 @@ import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.ResType;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
@@ -28,8 +27,8 @@ public class LeaderCardTest {
 
         resources.put(ResType.SHIELD,4);
 
-        LeaderCard[] leaderCards=loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath());
-        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath());
+        LeaderCard[] leaderCards=loadLeaderCardsFromFile("/leaderCards.json");
+        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile("/developmentCards.json");
         /*"resourceRequirements":{
             "SHIELD":5
         }*/
@@ -55,42 +54,38 @@ public class LeaderCardTest {
         assertDoesNotThrow(()->leaderCards[10].canActivate(resources,devCards));
     }
 
-    private LeaderCard[] loadLeaderCardsFromFile(String path){
-        String content;
-
-        File file=new File(path);
-        try{
-            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        }catch(IOException e){
-            return null;
+    private LeaderCard[] loadLeaderCardsFromFile(String fileString){
+        InputStream inputStream=getClass().getResourceAsStream(fileString);
+        if(inputStream==null){
+            System.out.println("Error reading from file while loading leader cards i.e. wrong path");
+            fail();
         }
+        Reader reader=new InputStreamReader(inputStream);
 
         GsonBuilder gsonBuilder=new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LeaderCard.class,new LeaderCardDeserializer());
         Gson gson=gsonBuilder.create();
         try{
-            LeaderCard[] leaderCardsArray=gson.fromJson(content, LeaderCard[].class);
+            LeaderCard[] leaderCardsArray=gson.fromJson(reader, LeaderCard[].class);
             return leaderCardsArray;
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for leader cards");
             return null;
         }
     }
-    private DevelopmentCard[] loadDevelopmentCardsFromFile(String path){
-        String content;
-
-        File file=new File(path);
-        try{
-            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        }catch(IOException e){
-            return null;
+    private DevelopmentCard[] loadDevelopmentCardsFromFile(String fileString){
+        InputStream inputStream=getClass().getResourceAsStream(fileString);
+        if(inputStream==null){
+            System.out.println("Error reading from file while loading development cards i.e. wrong path");
+            fail();
         }
+        Reader reader=new InputStreamReader(inputStream);
 
         GsonBuilder gsonBuilder=new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LeaderCard.class,new LeaderCardDeserializer());
         Gson gson=gsonBuilder.create();
         try{
-            DevelopmentCard[] developmentCardArray=gson.fromJson(content, DevelopmentCard[].class);
+            DevelopmentCard[] developmentCardArray=gson.fromJson(reader, DevelopmentCard[].class);
             return developmentCardArray;
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for develompent cards");

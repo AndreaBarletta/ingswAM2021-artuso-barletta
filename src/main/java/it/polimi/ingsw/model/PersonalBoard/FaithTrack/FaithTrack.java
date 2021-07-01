@@ -32,8 +32,8 @@ public class FaithTrack {
      */
     public void incrementFaithTrack(int faithPoint) {
         faithMarker+=faithPoint;
-        if(faithMarker>=victoryPoints.length){
-            faithMarker=victoryPoints.length;
+        if(faithMarker>=victoryPoints.length-1){
+            faithMarker=victoryPoints.length-1;
             isAtEnd=true;
         }
     }

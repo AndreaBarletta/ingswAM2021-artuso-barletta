@@ -83,6 +83,11 @@ public class GameStateAutomaton {
                         controller.showInitialLeaderCards(clientHandler);
                         return true;
                 case LEADER_CARDS_CHOSEN:
+                    if(params[0].equals(params[1])){
+                        errorMessage="Choose two different leader cards";
+                        state=GameState.LEADER_CARDS_SHOWN;
+                        return false;
+                    }
                     if(!controller.leaderCardsChosen(clientHandler,params)) {
                         errorMessage = "Invalid leader cards chosen";
                         state=GameState.LEADER_CARDS_SHOWN;
