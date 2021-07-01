@@ -255,6 +255,11 @@ public class Controller implements PersonalBoardEventListener {
 
     public void discardLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException {
         game.discardLeaderCards(clientHandler.getPlayerName(), Integer.parseInt(id));
+        //Check if a vatican report can be activated
+        int result=canSendVaticanReport();
+        if(result!=-1){
+            sendVaticanReport(result);
+        }
     }
 
     public void activateProductions(String playerName, String[] productionsId) throws ResourcesException {
@@ -383,6 +388,12 @@ public class Controller implements PersonalBoardEventListener {
             try{
                 game.getPersonalBoard(clientHandler.getPlayerName()).addResourceToDepot(r);
             }catch(Exception e){}
+
+        //Check if a vatican report can be activated
+        int result=canSendVaticanReport();
+        if(result!=-1){
+            sendVaticanReport(result);
+        }
     }
 
     @Override
@@ -394,6 +405,12 @@ public class Controller implements PersonalBoardEventListener {
         for(ClientHandler c:clientHandlers)
             if(!c.getPlayerName().equals(clientHandler.getPlayerName()))
                 game.getPersonalBoard(c.getPlayerName()).incrementFaithTrack(numberOfResourcesDiscarded);
+
+        //Check if a vatican report can be activated
+        int result=canSendVaticanReport();
+        if(result!=-1){
+            sendVaticanReport(result);
+        }
     }
 
     public void checkDevCardEnd(ClientHandler clientHandler){
