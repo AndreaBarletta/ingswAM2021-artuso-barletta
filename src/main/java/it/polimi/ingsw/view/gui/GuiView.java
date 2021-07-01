@@ -143,7 +143,8 @@ public class GuiView extends Application implements View {
 
     @Override
     public void setMarket(LightMarket lightMarket) {
-
+        guiControllerMarket.createMarketImageViews();
+        guiControllerMarket.update(lightModel);
     }
 
     @Override
