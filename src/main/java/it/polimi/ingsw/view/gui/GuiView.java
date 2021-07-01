@@ -30,6 +30,7 @@ public class GuiView extends Application implements View {
     private static boolean isReady;
     private Scene mainScene;
     GuiControllerMyPersonalBoard guiControllerMyPersonalBoard;
+    GuiControllerMarket guiControllerMarket;
 
     public View getRunningView() {
         return runningView;
@@ -310,7 +311,12 @@ public class GuiView extends Application implements View {
 
     @Override
     public void updateMarket(boolean row, int index) {
-
+        if(row){
+            lightModel.getLightMarket().updateRow(index);
+        }else{
+            lightModel.getLightMarket().updateColumn(index);
+        }
+        guiControllerMarket.update(lightModel);
     }
 
     @Override
