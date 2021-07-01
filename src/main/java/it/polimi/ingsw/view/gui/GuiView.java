@@ -29,8 +29,8 @@ public class GuiView extends Application implements View {
     private static GuiView runningView;
     private static boolean isReady;
     private Scene mainScene;
-    GuiControllerMyPersonalBoard guiControllerMyPersonalBoard;
-    GuiControllerMarket guiControllerMarket;
+    GuiControllerMyPersonalBoard guiControllerMyPersonalBoard = new GuiControllerMyPersonalBoard();
+    GuiControllerMarket guiControllerMarket = new GuiControllerMarket();
 
     public View getRunningView() {
         return runningView;
@@ -143,7 +143,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void setMarket(LightMarket lightMarket) {
-        guiControllerMarket.setMarketImageViews();
+        lightModel.setLightMarket(lightMarket);
         guiControllerMarket.update(lightModel);
     }
 

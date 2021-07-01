@@ -23,7 +23,7 @@
                         <Insets bottom="25.0" top="25.0" />
                      </VBox.margin>
                   </Text>
-                  <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                  <fx:include fx:id="Market" source="Market.fxml" />
                </children>
                <HBox.margin>
                   <Insets left="18.5" right="18.5" />
