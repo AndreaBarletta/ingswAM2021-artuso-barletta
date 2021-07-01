@@ -6,9 +6,9 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="194.0" styleClass="bodybg" stylesheets="@../styles/market.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GuiControllerMarket">
    <children>
-       <ImageView fitHeight="250.0" fitWidth="219.0" pickOnBounds="true" preserveRatio="true">
+       <!--ImageView fitHeight="250.0" fitWidth="219.0" pickOnBounds="true" preserveRatio="true">
            <Image url="@../gui_images/market/market.png" />
-       </ImageView>
+       </ImageView-->
        <ImageView fx:id="b11" fitHeight="20.0" fitWidth="20.0" layoutX="59.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" />
        <ImageView fx:id="b12" fitHeight="20.0" fitWidth="20.0" layoutX="79.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" />
        <ImageView fx:id="b13" fitHeight="20.0" fitWidth="20.0" layoutX="99.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" />

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -11,27 +10,28 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" styleClass="bodybg" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GuiControllerBoard">
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="326.0" prefWidth="1023.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="200.0" prefWidth="250.0">
+            <VBox prefWidth="194.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Market:" textAlignment="CENTER" wrappingWidth="250.0">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Market:" textAlignment="CENTER" wrappingWidth="194.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="25.0" top="25.0" />
+                        <Insets bottom="10.0" />
                      </VBox.margin>
                   </Text>
                   <fx:include fx:id="Market" source="Market.fxml" />
                </children>
                <HBox.margin>
-                  <Insets left="18.5" right="18.5" />
+                  <Insets left="30.75" right="30.75" top="10.0" />
                </HBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </VBox>
-            <ImageView fitHeight="326.0" fitWidth="457.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../gui_images/personalBoard.jpg" />
-            </ImageView>
+            <fx:include fx:id="MyPersonalBoard" source="MyPersonalBoard.fxml" />
             <VBox prefHeight="200.0" prefWidth="250.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Development Card Grid:" textAlignment="CENTER" wrappingWidth="250.0">
@@ -42,20 +42,23 @@
                         <Insets bottom="25.0" top="25.0" />
                      </VBox.margin>
                   </Text>
-                  <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                  <fx:include fx:id="DevelopmentCardsGrid" source="DevelopmentCardsGrid.fxml" />
                </children>
                <HBox.margin>
-                  <Insets left="18.5" right="18.5" />
+                  <Insets left="30.75" right="30.75" />
                </HBox.margin>
             </VBox>
          </children>
       </HBox>
    </bottom>
    <center>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Your personal board:" textAlignment="CENTER" wrappingWidth="200.0" BorderPane.alignment="CENTER">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Your personal board:" textAlignment="CENTER" wrappingWidth="456.0" BorderPane.alignment="CENTER_LEFT">
          <font>
             <Font size="18.0" />
          </font>
+         <BorderPane.margin>
+            <Insets left="255.5" />
+         </BorderPane.margin>
       </Text>
    </center>
    <top>

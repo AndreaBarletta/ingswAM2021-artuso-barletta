@@ -333,7 +333,11 @@ public class CliView implements View,Runnable{
     public void showDevCardGrid() {
         for(int[] row: lightModel.getDevelopmentCardGrid()){
             for(int id:row){
-                System.out.println(lightModel.getDevelopmentCardDeck()[id]);
+                if(id==-1){
+                    System.out.println(Colors.RED.escape()+"Empty Slot");
+                }else{
+                    System.out.println(lightModel.getDevelopmentCardDeck()[id]);
+                }
                 System.out.print("\n");
             }
         }
