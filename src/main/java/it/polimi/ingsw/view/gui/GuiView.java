@@ -309,11 +309,6 @@ public class GuiView extends Application implements View {
 
     @Override
     public void showMarket() {
-
-    }
-
-    @Override
-    public void chooseRowOrColumn() {
         System.out.println("CHOOSE RESOURCES");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseResourcesToAcquire.fxml"));
@@ -324,6 +319,11 @@ public class GuiView extends Application implements View {
         } catch (Exception e) {
             System.out.println("Exception while visiting market");
         }
+    }
+
+    @Override
+    public void chooseRowOrColumn() {
+
     }
 
     @Override
