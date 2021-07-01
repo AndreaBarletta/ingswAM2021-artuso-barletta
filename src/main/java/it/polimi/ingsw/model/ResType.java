@@ -29,25 +29,40 @@ public enum ResType {
         }
     }
 
-    public String getPath(){
+    public String getMurblesPath(){
         switch (this){
             case COIN:
-                return "";
+                return "gui_images/market/marbles/coin_marble.png";
             case STONE:
-                return "";
+                return "gui_images/market/marbles/stone_marble.png";
             case SERVANT:
-                return "";
+                return "gui_images/market/marbles/servant_marble.png";
             case SHIELD:
-                return "";
+                return "gui_images/market/marbles/shield_marble.png";
             case FAITH:
-                return "";
+                return "gui_images/market/marbles/faith_marble.png";
             case WHITEMARBLE:
-                return "";
-            case ANY:
-                return "";
+                return "gui_images/market/marbles/whitemarble.png";
             default:
                 return "";
 
+        }
+    }
+
+    public String getResourcesPath(){
+        switch (this){
+            case COIN:
+                return "gui_images/resources/coin.png";
+            case STONE:
+                return "gui_images/resources/stone.png";
+            case SHIELD:
+                return "gui_images/resources/shield.png";
+            case SERVANT:
+                return "gui_images/resources/servant.png";
+            case ANY:
+                return null;
+            default:
+                return "";
         }
     }
 
