@@ -3,13 +3,11 @@ package it.polimi.ingsw;
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.stream.Stream;
 
 public class GameStateAutomaton {
@@ -238,7 +236,7 @@ public class GameStateAutomaton {
                     evolve("UPDATE_DEV_CARD_GRID",null);
                     return true;
                 case DEV_CARD_GRID_UPDATED:
-                    String[] messageParams=controller.removeDevCardFromMarket(String.valueOf(tempId));
+                    String[] messageParams=controller.removeDevCardFromGrid(String.valueOf(tempId));
                     controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_GRID,messageParams));
                     evolve("ASK_DEV_CARD_SLOT",null);
                     return true;

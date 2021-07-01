@@ -2,10 +2,7 @@ package it.polimi.ingsw.model.DevelopmentCard;
 
 import it.polimi.ingsw.model.CardType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class DevelopmentCardGrid {
     private final DevelopmentCardGridCell[][] cardGrid;
@@ -78,5 +75,22 @@ public class DevelopmentCardGrid {
         }
 
         return topCardsIds;
+    }
+
+    public boolean removeBottomCard(CardType cardType) {
+        try {
+            cardGrid[2][cardType.ordinal()].removeBottomCard();
+        } catch (EmptyStackException e0){
+            try {
+                cardGrid[1][cardType.ordinal()].removeBottomCard();
+            } catch (EmptyStackException e1){
+                try {
+                    cardGrid[0][cardType.ordinal()].removeBottomCard();
+                } catch (EmptyStackException e2){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

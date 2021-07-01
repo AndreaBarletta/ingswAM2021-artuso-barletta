@@ -49,7 +49,6 @@ public interface View extends Runnable {
     void updateDevCardSlot(String playerName,int id,int slot);
     //Market
     void showMarket();
-    void chooseRowOrColumn();
     void updateMarket(boolean row,int index);
     void askResourceDiscard(ResType[] resourcesAcquired);
     void askResourceConvert(int leftToConvert);
@@ -58,5 +57,8 @@ public interface View extends Runnable {
     boolean isReady();
     void lastTurn();
     void announceWinner(String winnerPlayerName);
+    void lorenzoDiscard(String cardType);
+    void lorenzoIncrementFaithTrack(int increment);
+    void lorenzoWon();
     void vaticanReportResults(Map<String,Boolean> results);
 }

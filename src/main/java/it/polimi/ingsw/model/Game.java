@@ -4,9 +4,10 @@ import com.google.gson.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
+import it.polimi.ingsw.model.Lorenzo.Lorenzo;
+import it.polimi.ingsw.model.Lorenzo.LorenzoEventListener;
 import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.DevelopmentCardSlot;
-import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
@@ -25,17 +26,18 @@ public class Game {
     private final DevelopmentCardGrid developmentCardGrid;
     private List<LeaderCard> leaderCardsDeck;
     private List<DevelopmentCard> developmentCardsDeck;
-    private final int maximumPlayers;
+    private final int numOfPlayers;
     private boolean hasStarted;
     private boolean isLastTurn;
     private boolean hasEnded;
+    private Lorenzo lorenzo;
 
-    public Game(int maximumPlayers){
+    public Game(int numOfPlayers){
         personalBoards=new ArrayList<>();
         market=new Market();
         developmentCardGrid=new DevelopmentCardGrid();
         leaderCardsDeck = new ArrayList<>();
-        this.maximumPlayers=maximumPlayers;
+        this.numOfPlayers = numOfPlayers;
         currentPlayerOrdinal=0;
         hasStarted=false;
         isLastTurn=false;
@@ -51,6 +53,15 @@ public class Game {
             p.addEventListener(newEventListener);
         }
     }
+
+    /**
+     * Adds a new personal board event listener to all the listener lists of the personal boards
+     * @param newEventListener New event listener
+     */
+    public void addLorenzoEventListener(LorenzoEventListener newEventListener){
+        lorenzo.addEventListener(newEventListener);
+    }
+
     /**
      * Loads developments cards from a json file and creates the development card grid,
      * putting the cards in the right cells based on the level and card type
@@ -114,7 +125,7 @@ public class Game {
      * @return Whether or not the maximum number of players has been reached
      */
     public boolean addPlayer(String playerName) throws GameSizeExceeded, ParsingException,DuplicatedIdException {
-        if(personalBoards.size()<maximumPlayers){
+        if(personalBoards.size()< numOfPlayers){
             for (PersonalBoard personalBoard : personalBoards) {
                 if (personalBoard.getPlayerName().equals(playerName)) {
                     throw new DuplicatedIdException();
@@ -129,7 +140,14 @@ public class Game {
         }else{
             throw new GameSizeExceeded();
         }
-        return personalBoards.size()==maximumPlayers;
+        return personalBoards.size()== numOfPlayers;
+    }
+
+    public void addLorenzo() throws ParsingException {
+        lorenzo=new Lorenzo(developmentCardGrid);
+        if(!lorenzo.loadFaithTrackFromFile("/faithTrack.json")){
+            throw new ParsingException();
+        }
     }
 
     public void removePlayer(String playerName){
@@ -334,8 +352,8 @@ public class Game {
         return p.canAddToDepot(resources);
     }
 
-    public int getMaximumPlayers(){
-        return maximumPlayers;
+    public int getNumOfPlayers(){
+        return numOfPlayers;
     }
 
     public String[] getPlayerOrder(){
@@ -367,9 +385,13 @@ public class Game {
     }
 
     public void nextPlayer(){
-        currentPlayerOrdinal=(currentPlayerOrdinal+1)%maximumPlayers;
-        if(isLastTurn&&currentPlayerOrdinal==0){
-            hasEnded=true;
+        if(numOfPlayers ==1) {
+            lorenzo.lorenzoAction();
+        } else {
+            currentPlayerOrdinal = (currentPlayerOrdinal + 1) % numOfPlayers;
+            if (isLastTurn && currentPlayerOrdinal == 0) {
+                hasEnded = true;
+            }
         }
     }
 
