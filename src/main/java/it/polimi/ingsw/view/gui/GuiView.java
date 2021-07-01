@@ -338,7 +338,17 @@ public class GuiView extends Application implements View {
 
     @Override
     public void askResourceDiscard(ResType[] resourcesAcquired) {
-
+        System.out.println("CHOOSE THE RESOURCE YOU WANT TO DISCARD");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseResourcesToDiscard.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerDiscardResourceChoice guiControllerDiscardResourceChoice = loader.getController();
+            guiControllerDiscardResourceChoice.setOutPrintWriter(out);
+            guiControllerDiscardResourceChoice.printResources();
+        } catch (Exception e) {
+            System.out.println("Exception while discarding resource");
+        }
     }
 
     @Override
