@@ -31,6 +31,7 @@ public class GuiView extends Application implements View {
     private Scene mainScene;
     GuiControllerMyPersonalBoard guiControllerMyPersonalBoard = new GuiControllerMyPersonalBoard();
     GuiControllerMarket guiControllerMarket = new GuiControllerMarket();
+    //GuiControllerDevelopmentCardsGrid guiControllerDevelopmentCardsGrid= new GuiControllerDevelopmentCardsGrid();
 
     public View getRunningView() {
         return runningView;
@@ -138,7 +139,8 @@ public class GuiView extends Application implements View {
 
     @Override
     public void setDevCardGrid(int[][] devCardGridIds) {
-
+        lightModel.setDevelopmentCardGrid(devCardGridIds);
+        //guiControllerDevelopmentCardsGrid.updateGrid(lightModel);
     }
 
     @Override
@@ -294,7 +296,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void updateDevCardGrid(int level, CardType cardType, int newCardId) {
-
+        //guiControllerDevelopmentCardsGrid.updateGrid(lightModel);
     }
 
     @Override
@@ -333,6 +335,8 @@ public class GuiView extends Application implements View {
         }else{
             lightModel.getLightMarket().updateColumn(index);
         }
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/Market.fxml"));
+        GuiControllerMarket guiControllerMarket = loader.getController();
         guiControllerMarket.update(lightModel);
     }
 
