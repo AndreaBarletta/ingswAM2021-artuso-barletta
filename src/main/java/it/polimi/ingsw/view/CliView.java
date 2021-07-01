@@ -457,10 +457,9 @@ public class CliView implements View,Runnable{
         for(Map.Entry<String,Boolean> me:results.entrySet()){
             System.out.println("Player "+me.getKey()+" "+(
                     me.getValue()?
-                            Colors.MAGENTA.escape()+"Activated":
-                            Colors.RED.escape()+"Discarded"
-                    +" the pope favour card")
-            );
+                            Colors.BRIGHT_GREEN.escape()+"activated"+Colors.RESET.escape():
+                            Colors.RED.escape()+"discarded"+Colors.RESET.escape()
+            )+" the pope favour card");
         }
     }
 

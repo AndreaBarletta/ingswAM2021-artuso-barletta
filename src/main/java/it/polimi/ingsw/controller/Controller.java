@@ -73,7 +73,6 @@ public class Controller implements PersonalBoardEventListener {
             game=new Game(numberOfPlayers);
 
             if(!game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath())) return false;
-            if(!game.loadPopeFavourCardsFromFile(getClass().getClassLoader().getResource("popeFavourCards.json").getPath())) return false;
             if(!game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath())) return false;
 
             try{
@@ -255,6 +254,7 @@ public class Controller implements PersonalBoardEventListener {
 
     public void discardLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException {
         game.discardLeaderCards(clientHandler.getPlayerName(), Integer.parseInt(id));
+        incrementFaithTrack(clientHandler.getPlayerName(),1);
         //Check if a vatican report can be activated
         int result=canSendVaticanReport();
         if(result!=-1){
