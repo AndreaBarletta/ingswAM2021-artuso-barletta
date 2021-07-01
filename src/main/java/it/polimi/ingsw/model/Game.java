@@ -302,10 +302,11 @@ public class Game {
 
         developmentCardGrid.removeCard(level,cardType);
 
+        DevelopmentCard devCard=developmentCardGrid.getTopCard(level,cardType);
         return new String[]{
                 String.valueOf(level),
                 cardType.name(),
-                String.valueOf(developmentCardGrid.getTopCard(level,cardType).getId())};
+                String.valueOf(devCard==null?-1:devCard.getId())};
     }
 
     public void buyDevCard(String playername, int devCardId, int slot,int[] discountIds) throws LevelException{

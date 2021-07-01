@@ -470,3 +470,5 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         }
     }
 }
+//TODO: check faith track discard and acquire order
+//TODO: last card picked from card rid\
