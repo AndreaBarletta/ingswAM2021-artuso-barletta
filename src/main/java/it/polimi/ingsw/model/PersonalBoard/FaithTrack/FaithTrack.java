@@ -18,6 +18,7 @@ public class FaithTrack {
         isAtEnd=false;
         this.faithMarker=0;
         this.blackCrossMarker=0;
+        vaticanReports=new VaticanReport[3];
         for(int i=0;i<vaticanReports.length;i++){
             vaticanReports[i].addPopeFavourCard(new PopeFavourCard(i+2));
         }
@@ -72,11 +73,18 @@ public class FaithTrack {
     @Override
     public String toString() {
         StringBuilder faithTrackToString= new StringBuilder();
-        for(int i=0;i<victoryPoints.length;i++)
-            faithTrackToString.append(faithMarker==i?
-                    Colors.RED.escape()+"["+i+":"+victoryPoints[i]+"]"+ Colors.RESET.escape()
-                    :Colors.GRAY.escape()+"["+i+":"+victoryPoints[i]+"]"+ Colors.RESET.escape());
+        for(int i=0;i<victoryPoints.length;i++){
+            for(VaticanReport v:vaticanReports){
+                if(i>=v.getStartPosition()&&i<=v.getPopeSpace())
+                    faithTrackToString.append(Colors.BRIGHT_CYAN.escape());
+            }
+            if(faithMarker==i)
+                faithTrackToString.append(Colors.RED.escape());
+            else
+                faithTrackToString.append(Colors.GRAY.escape());
 
+            faithTrackToString.append("["+i+":"+victoryPoints[i]+"]");
+        }
 
         return faithTrackToString.toString();
     }
