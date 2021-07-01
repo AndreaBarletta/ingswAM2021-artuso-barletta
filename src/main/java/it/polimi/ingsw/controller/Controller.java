@@ -345,7 +345,7 @@ public class Controller implements PersonalBoardEventListener {
         return game.canDiscount(clientHandler.getPlayerName(), Arrays.stream(ids).mapToInt(Integer::parseInt).toArray());
     }
 
-    public String[] removeDevCardFromMarket(String id){
+    public String[] removeDevCardFromGrid(String id){
         return game.removeDevCardFromGrid(id);
     }
 
@@ -444,3 +444,5 @@ public class Controller implements PersonalBoardEventListener {
         }
     }
 }
+//TODO: check faith track discard and acquire order
+//TODO: last card picked from card rid\

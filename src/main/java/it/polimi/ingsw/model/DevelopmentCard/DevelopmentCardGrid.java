@@ -73,7 +73,8 @@ public class DevelopmentCardGrid {
         String[][] topCardsIds=new String[3][4];
         for(int i=0;i<3;i++) {
             for (int j = 0; j < 4; j++) {
-                topCardsIds[i][j] = String.valueOf(cardGrid[i][j].getTopCard().getId());
+                DevelopmentCard topCard=cardGrid[i][j].getTopCard();
+                topCardsIds[i][j] = topCard==null?String.valueOf(-1):String.valueOf(topCard.getId());
             }
         }
 
