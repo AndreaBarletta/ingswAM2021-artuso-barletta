@@ -20,6 +20,13 @@ public class FaithTrack {
         this.blackCrossMarker=0;
     }
 
+
+    public void addPopeFavourCards(PopeFavourCard[] popeFavourCards){
+        if(popeFavourCards!=null)
+            for(int i=0;i<popeFavourCards.length;i++){
+                vaticanReports[i].addPopeFavourCard(popeFavourCards[i]);
+            }
+    }
     /**
      * move the faithMarker forward of faithPoint's number
      * @param faithPoint number of faith point made

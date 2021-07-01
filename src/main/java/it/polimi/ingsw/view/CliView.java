@@ -453,7 +453,15 @@ public class CliView implements View,Runnable{
 
     @Override
     public void vaticanReportResults(Map<String, Boolean> results) {
-
+        System.out.println("Vatican report triggered");
+        for(Map.Entry<String,Boolean> me:results.entrySet()){
+            System.out.println("Player "+me.getKey()+" "+(
+                    me.getValue()?
+                            Colors.MAGENTA.escape()+"Activated":
+                            Colors.RED.escape()+"Discarded"
+                    +" the pope favour card")
+            );
+        }
     }
 
     @Override

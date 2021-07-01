@@ -11,6 +11,9 @@ public class VaticanReport {
         this.popeSpace = popeSpace;
     }
 
+    public void addPopeFavourCard(PopeFavourCard popeFavourCard){
+        this.popeFavourCard=popeFavourCard;
+    }
     /**
      *
      * @param faithMarker

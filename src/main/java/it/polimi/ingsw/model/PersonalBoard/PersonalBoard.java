@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
+import it.polimi.ingsw.model.PersonalBoard.FaithTrack.PopeFavourCard;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
@@ -87,7 +88,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param path Path of the json file containing the faith track information
      * @return Whether or not the faith track was loaded successfully
      */
-    public boolean loadFaithTrackFromFile(String path){
+    public boolean loadFaithTrackFromFile(String path, PopeFavourCard[] popeFavourCards){
         String content;
 
         File file=new File(path);
@@ -105,7 +106,7 @@ public class PersonalBoard implements ControllerEventListener {
             System.out.println("Error parsing json file for faith track");
             return false;
         }
-
+        faithTrack.addPopeFavourCards(popeFavourCards);
         return true;
     }
 

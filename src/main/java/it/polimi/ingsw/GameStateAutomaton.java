@@ -255,6 +255,8 @@ public class GameStateAutomaton {
                     }
                     controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_SLOT,new String[]{clientHandler.getPlayerName(),String.valueOf(tempId),params[0]}));
                     controller.endTurnAction(clientHandler);
+                    //Check if the 7th development card as been picked
+                    controller.checkDevCardEnd(clientHandler);
                     evolve("ASK_LEADER_ACTION",null);
                     return true;
                 case MARKET_SHOWN:
