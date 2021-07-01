@@ -23,13 +23,13 @@
                         <Insets bottom="25.0" top="25.0" />
                      </VBox.margin>
                   </Text>
-                  <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                  <fx:include fx:id="Market" source="Market.fxml" />
                </children>
                <HBox.margin>
                   <Insets left="18.5" right="18.5" />
                </HBox.margin>
             </VBox>
-            <ImageView fitHeight="350.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="326.0" fitWidth="457.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../gui_images/personalBoard.jpg" />
             </ImageView>
             <VBox prefHeight="200.0" prefWidth="250.0">

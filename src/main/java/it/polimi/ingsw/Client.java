@@ -241,6 +241,8 @@ public class Client {
                     break;
             }
         }
-        System.out.println("Disconnected from server");
+        if(!end){
+            System.out.println("Disconnected from server");
+        }
     }
 }

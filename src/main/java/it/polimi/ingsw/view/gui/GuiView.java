@@ -29,8 +29,8 @@ public class GuiView extends Application implements View {
     private static GuiView runningView;
     private static boolean isReady;
     private Scene mainScene;
-    GuiControllerMyPersonalBoard guiControllerMyPersonalBoard;
-    GuiControllerMarket guiControllerMarket;
+    GuiControllerMyPersonalBoard guiControllerMyPersonalBoard = new GuiControllerMyPersonalBoard();
+    GuiControllerMarket guiControllerMarket = new GuiControllerMarket();
 
     public View getRunningView() {
         return runningView;
@@ -143,7 +143,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void setMarket(LightMarket lightMarket) {
-        guiControllerMarket.setMarketImageViews();
+        lightModel.setLightMarket(lightMarket);
         guiControllerMarket.update(lightModel);
     }
 
@@ -309,7 +309,16 @@ public class GuiView extends Application implements View {
 
     @Override
     public void showMarket() {
-
+        System.out.println("CHOOSE RESOURCES");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseResourcesToAcquire.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerAcquireResourcesChoice guiControllerAcquireResourcesChoice = loader.getController();
+            guiControllerAcquireResourcesChoice.setOutPrintWriter(out);
+        } catch (Exception e) {
+            System.out.println("Exception while visiting market");
+        }
     }
 
     @Override
@@ -324,7 +333,17 @@ public class GuiView extends Application implements View {
 
     @Override
     public void askResourceDiscard(ResType[] resourcesAcquired) {
-
+        System.out.println("CHOOSE THE RESOURCE YOU WANT TO DISCARD");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseResourcesToDiscard.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerDiscardResourceChoice guiControllerDiscardResourceChoice = loader.getController();
+            guiControllerDiscardResourceChoice.setOutPrintWriter(out);
+            guiControllerDiscardResourceChoice.printResources();
+        } catch (Exception e) {
+            System.out.println("Exception while discarding resource");
+        }
     }
 
     @Override
