@@ -203,9 +203,6 @@ public class Client {
                 case SHOW_MARKET:
                     view.showMarket();
                     break;
-                case CHOOSE_ROW_OR_COLUMN:
-                    //System.out.println("Player "+message.params[0]+"has acquired resources to the market. The market has been updated");
-                    break;
                 case UPDATE_MARKET:
                     view.updateMarket(message.params[0].equals("row"),Integer.parseInt(message.params[1]));
                     break;
@@ -228,6 +225,16 @@ public class Client {
                 case VATICAN_REPORT_RESULTS:
                     Type mapType=new TypeToken<Map<String,Boolean>>(){}.getType();
                     view.vaticanReportResults(gson.fromJson(message.params[0],mapType));
+                    break;
+                case LORENZO_DISCARD:
+                    view.lorenzoDiscard(message.params[0]);
+                    break;
+                case LORENZO_INCREMENT_FAITH_TRACK:
+                    view.lorenzoIncrementFaithTrack(Integer.parseInt(message.params[0]));
+                    break;
+                case LORENZO_WON:
+                    view.lorenzoWon();
+                    end=true;
                     break;
                 case DISCONNECTED:
                     System.out.println("Player "+message.params[0]+" has disconnected ");

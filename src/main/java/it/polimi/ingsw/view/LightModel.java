@@ -6,6 +6,7 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.model.CardType;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
+import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 
 import java.io.*;
@@ -19,6 +20,7 @@ public class LightModel {
     private int[][] developmentCardGrid;
     private LightMarket lightMarket;
     private final List<LightPersonalBoard> lightPersonalBoards;
+    private FaithTrack lorenzoFaithTrack;
 
     public LightModel(){
         developmentCardGrid=new int[3][4];
@@ -28,6 +30,8 @@ public class LightModel {
             }
         }
         lightPersonalBoards=new ArrayList<>();
+
+        loadFaithTrackFromFile("/faithTrack.json");
     }
 
     public void setPlayerName(String playerName) {
@@ -122,5 +126,31 @@ public class LightModel {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean loadFaithTrackFromFile(String fileString){
+        InputStream inputStream=getClass().getResourceAsStream(fileString);
+        if(inputStream==null){
+            System.out.println("Error reading from file while loading faith track i.e. wrong path");
+            return false;
+        }
+        Reader reader=new InputStreamReader(inputStream);
+
+        Gson gson=new Gson();
+        try{
+            lorenzoFaithTrack=gson.fromJson(reader, FaithTrack.class);
+        }catch(JsonSyntaxException e){
+            System.out.println("Error parsing json file for faith track");
+            return false;
+        }
+        return true;
+    }
+
+    public void incrementLorenzoFaithTrack(int increment) {
+        lorenzoFaithTrack.incrementFaithTrack(increment);
+    }
+
+    public FaithTrack getLorenzoFaithTrack() {
+        return lorenzoFaithTrack;
     }
 }

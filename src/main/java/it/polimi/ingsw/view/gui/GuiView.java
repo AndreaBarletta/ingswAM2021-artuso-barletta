@@ -313,11 +313,6 @@ public class GuiView extends Application implements View {
     }
 
     @Override
-    public void chooseRowOrColumn() {
-
-    }
-
-    @Override
     public void updateMarket(boolean row, int index) {
         if(row){
             lightModel.getLightMarket().updateRow(index);
@@ -359,6 +354,21 @@ public class GuiView extends Application implements View {
 
     @Override
     public void vaticanReportResults(Map<String, Boolean> results) {
+
+    }
+
+    @Override
+    public void lorenzoDiscard(String cardType) {
+
+    }
+
+    @Override
+    public void lorenzoIncrementFaithTrack(int increment) {
+
+    }
+
+    @Override
+    public void lorenzoWon() {
 
     }
 }
