@@ -13,7 +13,6 @@ public class GameTest {
     public void testLoadFromFile(){
         Game game=new Game(4);
         assertTrue(game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath()));
-        assertTrue(game.loadPopeFavourCardsFromFile(getClass().getClassLoader().getResource("popeFavourCards.json").getPath()));
         assertTrue(game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath()));
 
         assertEquals(game.getDevelopmentCardGrid().size(),48);
@@ -24,7 +23,6 @@ public class GameTest {
         Game game=new Game(3);
         Controller controller=new Controller();
 
-        game.loadPopeFavourCardsFromFile(getClass().getClassLoader().getResource("popeFavourCards.json").getPath());
         //Test if players are added without errors (parsing of the faith track)
         assertDoesNotThrow(()->game.addPlayer("player 1"));
         assertDoesNotThrow(()->game.addPlayer("player 2"));

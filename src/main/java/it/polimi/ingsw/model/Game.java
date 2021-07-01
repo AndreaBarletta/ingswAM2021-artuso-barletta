@@ -24,7 +24,6 @@ public class Game {
     private int currentPlayerOrdinal;
     private final Market market;
     private final DevelopmentCardGrid developmentCardGrid;
-    private PopeFavourCard[] popeFavourCards;
     private List<LeaderCard> leaderCardsDeck;
     private List<DevelopmentCard> developmentCardsDeck;
     private final int maximumPlayers;
@@ -86,37 +85,6 @@ public class Game {
     }
 
     /**
-     * Loads the pope favour cards from a json file, which are then assigned to the players at the beginning
-     * of the game
-     * @param path Path of the json file containing the list of pope favour cards
-     * @return Whether or not the pope favour cards were loaded successfully
-     */
-    public boolean loadPopeFavourCardsFromFile(String path) {
-        String content;
-
-        File file=new File(path);
-        try{
-            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        }catch(IOException e){
-            System.out.println("Error reading from file while loading pope favour cards i.e. wrong path");
-            return false;
-        }
-
-        Gson gson=new Gson();
-        try{
-            popeFavourCards=gson.fromJson(content, PopeFavourCard[].class);
-            List<PopeFavourCard> popeFavourCardList=Arrays.asList(popeFavourCards);
-            Collections.shuffle(popeFavourCardList);
-            popeFavourCards=popeFavourCardList.toArray(PopeFavourCard[]::new);
-        }catch(JsonSyntaxException e){
-            System.out.println("Error parsing json file for pope favour cards");
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Loads the leader cards from a json file
      * @param path Path of the json file containing the list of leader cards
      * @return Whether or not the leader cards were loaded successfully
@@ -161,13 +129,10 @@ public class Game {
             }
             PersonalBoard newPersonalBoard=new PersonalBoard(playerName);
             personalBoards.add(newPersonalBoard);
-            if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath(),
-                    Arrays.asList(popeFavourCards)
-                            .subList(personalBoards.size()*3,(personalBoards.size()*3)+3)
-                            .toArray(PopeFavourCard[]::new)
-            )){
+            if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath())){
                 throw new ParsingException();
             }
+            newPersonalBoard.getFaithTrack().setVaticanReports();
         }else{
             throw new GameSizeExceeded();
         }

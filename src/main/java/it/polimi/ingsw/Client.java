@@ -228,6 +228,7 @@ public class Client {
                 case VATICAN_REPORT_RESULTS:
                     Type mapType=new TypeToken<Map<String,Boolean>>(){}.getType();
                     view.vaticanReportResults(gson.fromJson(message.params[0],mapType));
+                    break;
                 case DISCONNECTED:
                     System.out.println("Player "+message.params[0]+" has disconnected ");
                     break;
