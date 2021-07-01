@@ -32,17 +32,17 @@ public enum ResType {
     public String getMarblesPath(){
         switch (this){
             case COIN:
-                return "gui_images/market/marbles/coin_marble.png";
+                return getClass().getClassLoader().getResource("gui_images/market/marbles/coin_marble.png").getPath();
             case STONE:
-                return "gui_images/market/marbles/stone_marble.png";
+                return getClass().getClassLoader().getResource("gui_images/market/marbles/stone_marble.png").getPath();
             case SERVANT:
-                return "gui_images/market/marbles/servant_marble.png";
+                return getClass().getClassLoader().getResource("gui_images/market/marbles/servant_marble.png").getPath();
             case SHIELD:
-                return "gui_images/market/marbles/shield_marble.png";
+                return getClass().getClassLoader().getResource("gui_images/market/marbles/shield_marble.png").getPath();
             case FAITH:
-                return "gui_images/market/marbles/faith_marble.png";
+                return getClass().getClassLoader().getResource("gui_images/market/marbles/faith_marble.png").getPath();
             case WHITEMARBLE:
-                return "gui_images/market/marbles/whitemarble.png";
+                return getClass().getClassLoader().getResource("gui_images/market/marbles/whitemarble.png").getPath();
             default:
                 return "";
 
@@ -52,13 +52,13 @@ public enum ResType {
     public String getResourcesPath(){
         switch (this){
             case COIN:
-                return "gui_images/resources/coin.png";
+                return getClass().getClassLoader().getResource("gui_images/resources/coin.png").getPath();
             case STONE:
-                return "gui_images/resources/stone.png";
+                return getClass().getClassLoader().getResource("gui_images/resources/stone.png").getPath();
             case SHIELD:
-                return "gui_images/resources/shield.png";
+                return getClass().getClassLoader().getResource("gui_images/resources/shield.png").getPath();
             case SERVANT:
-                return "gui_images/resources/servant.png";
+                return getClass().getClassLoader().getResource("gui_images/resources/servant.png").getPath();
             case ANY:
                 return null;
             default:
