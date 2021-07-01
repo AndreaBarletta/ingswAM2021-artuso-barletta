@@ -132,6 +132,7 @@ public class Game {
             if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath())){
                 throw new ParsingException();
             }
+            newPersonalBoard.getFaithTrack().setVaticanReports();
         }else{
             throw new GameSizeExceeded();
         }
