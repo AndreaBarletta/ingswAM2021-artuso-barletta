@@ -108,6 +108,7 @@ public class CliView implements View,Runnable{
         lightModel.setPlayerName(playerName);
         LightPersonalBoard newLPB=new LightPersonalBoard(playerName);
         newLPB.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath());
+        newLPB.getFaithTrack().setVaticanReports();
         lightModel.getLightPersonalBoards().add(newLPB);
     }
 
@@ -116,6 +117,7 @@ public class CliView implements View,Runnable{
         System.out.println("Player \""+newPlayerName+"\" has joined");
         LightPersonalBoard newLPB=new LightPersonalBoard(newPlayerName);
         newLPB.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath());
+        newLPB.getFaithTrack().setVaticanReports();
         lightModel.getLightPersonalBoards().add(newLPB);
     }
 
@@ -146,6 +148,7 @@ public class CliView implements View,Runnable{
             System.out.print(" "+s);
             LightPersonalBoard newLPB=new LightPersonalBoard(s);
             newLPB.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath());
+            newLPB.getFaithTrack().setVaticanReports();
             lightModel.getLightPersonalBoards().add(newLPB);
         }
         System.out.print("\n");
@@ -457,10 +460,9 @@ public class CliView implements View,Runnable{
         for(Map.Entry<String,Boolean> me:results.entrySet()){
             System.out.println("Player "+me.getKey()+" "+(
                     me.getValue()?
-                            Colors.MAGENTA.escape()+"Activated":
-                            Colors.RED.escape()+"Discarded"
-                    +" the pope favour card")
-            );
+                            Colors.BRIGHT_GREEN.escape()+"activated"+Colors.RESET.escape():
+                            Colors.RED.escape()+"discarded"+Colors.RESET.escape()
+            )+" the pope favour card");
         }
     }
 

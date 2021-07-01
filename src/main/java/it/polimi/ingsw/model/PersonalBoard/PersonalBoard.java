@@ -88,7 +88,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param path Path of the json file containing the faith track information
      * @return Whether or not the faith track was loaded successfully
      */
-    public boolean loadFaithTrackFromFile(String path, PopeFavourCard[] popeFavourCards){
+    public boolean loadFaithTrackFromFile(String path){
         String content;
 
         File file=new File(path);
@@ -106,7 +106,6 @@ public class PersonalBoard implements ControllerEventListener {
             System.out.println("Error parsing json file for faith track");
             return false;
         }
-        faithTrack.addPopeFavourCards(popeFavourCards);
         return true;
     }
 

@@ -48,4 +48,12 @@ public class VaticanReport {
     public int getVictoryPoints(){
         return popeFavourCard.getVictoryPoints();
     }
+
+    public int getStartPosition() {
+        return startPosition;
+    }
+
+    public int getPopeSpace() {
+        return popeSpace;
+    }
 }

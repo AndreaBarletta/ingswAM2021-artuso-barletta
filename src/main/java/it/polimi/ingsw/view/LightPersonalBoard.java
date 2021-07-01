@@ -66,7 +66,6 @@ public class LightPersonalBoard {
             System.out.println("Error parsing json file for faith track");
             return false;
         }
-
         return true;
     }
 
