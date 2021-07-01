@@ -332,7 +332,7 @@ public class Game {
         }
     }
 
-    public String[] removeDevCardFromMarket(String devCardId){
+    public String[] removeDevCardFromGrid(String devCardId){
         DevelopmentCard devCardToRemove= developmentCardsDeck.get(Integer.parseInt(devCardId));
         int level=devCardToRemove.getLevel();
         CardType cardType=devCardToRemove.getCardType();

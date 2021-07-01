@@ -346,7 +346,7 @@ public class Controller implements PersonalBoardEventListener {
     }
 
     public String[] removeDevCardFromMarket(String id){
-        return game.removeDevCardFromMarket(id);
+        return game.removeDevCardFromGrid(id);
     }
 
     public void endTurnAction(ClientHandler clientHandler){

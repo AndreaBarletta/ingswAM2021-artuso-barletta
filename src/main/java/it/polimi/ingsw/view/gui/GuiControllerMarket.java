@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.view.LightModel;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -33,11 +32,11 @@ public class GuiControllerMarket {
     public void update(LightModel lightModel){
         for(int i=0; i<3; i++){
             for(int j=0; j<4; j++){
-                Image murble = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[i][j].getMurblesPath()).toString());
+                Image murble = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[i][j].getMarblesPath()).toString());
                 marketTray[i][j].setImage(murble);
                 }
             }
-        Image leftoverMurble = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getLeftoverMarble().getMurblesPath()).toString());
+        Image leftoverMurble = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getLeftoverMarble().getMarblesPath()).toString());
         leftover.setImage(leftoverMurble);
     }
 }
