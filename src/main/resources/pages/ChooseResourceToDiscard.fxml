@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" styleClass="bodybg" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GuiControllerDiscardResourceChoice">
+   <children>
+      <Text fill="#ffe81e" strokeType="OUTSIDE" strokeWidth="0.0" text="Resources acquired could not fit in the depots" textAlignment="CENTER" wrappingWidth="424.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" left="300.0" right="300.0" top="40.0" />
+         </VBox.margin>
+      </Text>
+      <Text fill="#ffe81e" strokeType="OUTSIDE" strokeWidth="0.0" text="Click the resource you want to discard:" textAlignment="CENTER" wrappingWidth="424.0">
+         <VBox.margin>
+            <Insets bottom="20.0" left="300.0" right="300.0" top="20.0" />
+         </VBox.margin>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <HBox prefHeight="100.0" prefWidth="1024.0">
+         <VBox.margin>
+            <Insets top="100.0" />
+         </VBox.margin>
+         <children>
+            <ImageView fx:id="coin" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#discardCoin" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="192.0" right="40.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fx:id="servant" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#discardServant" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="40.0" right="40.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fx:id="shield" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#discardShield" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="40.0" right="40.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fx:id="stone" fitHeight="100.0" fitWidth="100.0" onMouseClicked="#discardStone" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="40.0" right="192.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+      </HBox>
+   </children>
+</VBox>

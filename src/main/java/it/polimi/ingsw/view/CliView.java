@@ -133,7 +133,7 @@ public class CliView implements View,Runnable{
 
     @Override
     public void askForNumberOfPlayers() {
-        System.out.print("Insert the number of players (numberofplayers {2/3/4}): ");
+        System.out.print("Insert the number of players (numberofplayers {1/2/3/4}): ");
     }
 
     @Override
@@ -394,11 +394,6 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public void chooseRowOrColumn() {
-
-    }
-
-    @Override
     public void updateMarket(boolean row,int index) {
         if(row){
             lightModel.getLightMarket().updateRow(index);
@@ -468,6 +463,25 @@ public class CliView implements View,Runnable{
                             Colors.RED.escape()+"discarded"+Colors.RESET.escape()
             )+" the pope favour card");
         }
+    }
+
+    @Override
+    public void lorenzoDiscard(String cardType){
+        System.out.println("Lorenzo has discarded 2 "+cardType+" dev card");
+    }
+
+    @Override
+    public void lorenzoIncrementFaithTrack(int increment) {
+        System.out.println("Lorenzo has advanced "+increment+" spaces in the faith track");
+        lightModel.incrementLorenzoFaithTrack(increment);
+        for(LightPersonalBoard lbp: lightModel.getLightPersonalBoards())
+            System.out.println(lbp.getPlayerName()+" "+lbp.getFaithTrack());
+        System.out.println("Lorenzo "+lightModel.getLorenzoFaithTrack());
+    }
+
+    @Override
+    public void lorenzoWon() {
+        System.out.println("Lorenzo won :(");
     }
 
     @Override

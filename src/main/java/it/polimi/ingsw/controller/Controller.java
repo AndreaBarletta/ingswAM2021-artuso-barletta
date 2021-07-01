@@ -7,6 +7,7 @@ import it.polimi.ingsw.Message;
 import it.polimi.ingsw.MessageType;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Lorenzo.LorenzoEventListener;
 import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
@@ -16,7 +17,7 @@ import it.polimi.ingsw.view.LightStrongbox;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Controller implements PersonalBoardEventListener {
+public class Controller implements PersonalBoardEventListener, LorenzoEventListener {
     private final List<ClientHandler> clientHandlers;
     private Game game;
     private Thread gameThread;
@@ -51,7 +52,7 @@ public class Controller implements PersonalBoardEventListener {
             clientHandlers.add(clientHandler);
 
             clientHandler.getAutomaton().evolve("WAIT_FOR_OTHER_PLAYERS",null);
-            if(clientHandlers.size() == game.getMaximumPlayers()) {
+            if(clientHandlers.size() == game.getNumOfPlayers()) {
                 game.addPersonalBoardsEventListener(this);
                 for (ClientHandler c : clientHandlers)
                     c.getAutomaton().evolve( "START_GAME", null);
@@ -69,7 +70,7 @@ public class Controller implements PersonalBoardEventListener {
             ch.send(message);
     }
     public synchronized boolean createGame(ClientHandler clientHandler,int numberOfPlayers){
-        if(numberOfPlayers>=2&&numberOfPlayers<=4){
+        if(numberOfPlayers>=1&&numberOfPlayers<=4){
             game=new Game(numberOfPlayers);
 
             if(!game.loadDevelopmentCardGridFromFile("/developmentCards.json")) return false;
@@ -80,7 +81,17 @@ public class Controller implements PersonalBoardEventListener {
             }catch(Exception e){
                 return false;
             }
-            clientHandler.getAutomaton().evolve("WAIT_FOR_OTHER_PLAYERS",null);
+            if(numberOfPlayers==1){
+                try {
+                    game.addLorenzo();
+                    game.addLorenzoEventListener(this);
+                }catch(Exception e){
+                    return false;
+                }
+                clientHandler.getAutomaton().evolve("START_GAME",null);
+            } else {
+                clientHandler.getAutomaton().evolve("WAIT_FOR_OTHER_PLAYERS",null);
+            }
             return true;
         }
         return false;
@@ -401,7 +412,22 @@ public class Controller implements PersonalBoardEventListener {
         broadcast(new Message(MessageType.INCREMENT_FAITH_TRACK,new String[]{playername,String.valueOf(increment)}));
     }
 
-    public void discardResource(ClientHandler clientHandler,int numberOfResourcesDiscarded){
+    @Override
+    public void incrementLorenzoFaithTrack(int increment) {
+        broadcast(new Message(MessageType.LORENZO_INCREMENT_FAITH_TRACK,new String[]{(String.valueOf(increment))}));
+    }
+
+    @Override
+    public void removeBottomCard(String cardType){
+        broadcast((new Message(MessageType.LORENZO_DISCARD,new String[]{cardType})));
+    }
+
+    @Override
+    public void lorenzoWon() {
+        broadcast(new Message(MessageType.LORENZO_WON, null));
+    }
+
+    public void discardResource(ClientHandler clientHandler, int numberOfResourcesDiscarded){
         for(ClientHandler c:clientHandlers)
             if(!c.getPlayerName().equals(clientHandler.getPlayerName()))
                 game.getPersonalBoard(c.getPlayerName()).incrementFaithTrack(numberOfResourcesDiscarded);

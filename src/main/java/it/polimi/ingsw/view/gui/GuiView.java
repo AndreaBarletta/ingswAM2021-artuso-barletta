@@ -29,8 +29,9 @@ public class GuiView extends Application implements View {
     private static GuiView runningView;
     private static boolean isReady;
     private Scene mainScene;
-    GuiControllerMyPersonalBoard guiControllerMyPersonalBoard;
-    GuiControllerMarket guiControllerMarket;
+    GuiControllerMyPersonalBoard guiControllerMyPersonalBoard = new GuiControllerMyPersonalBoard();
+    GuiControllerMarket guiControllerMarket = new GuiControllerMarket();
+    //GuiControllerDevelopmentCardsGrid guiControllerDevelopmentCardsGrid= new GuiControllerDevelopmentCardsGrid();
 
     public View getRunningView() {
         return runningView;
@@ -138,12 +139,13 @@ public class GuiView extends Application implements View {
 
     @Override
     public void setDevCardGrid(int[][] devCardGridIds) {
-
+        lightModel.setDevelopmentCardGrid(devCardGridIds);
+        //guiControllerDevelopmentCardsGrid.updateGrid(lightModel);
     }
 
     @Override
     public void setMarket(LightMarket lightMarket) {
-        guiControllerMarket.setMarketImageViews();
+        lightModel.setLightMarket(lightMarket);
         guiControllerMarket.update(lightModel);
     }
 
@@ -294,7 +296,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void updateDevCardGrid(int level, CardType cardType, int newCardId) {
-
+        //guiControllerDevelopmentCardsGrid.updateGrid(lightModel);
     }
 
     @Override
@@ -309,12 +311,16 @@ public class GuiView extends Application implements View {
 
     @Override
     public void showMarket() {
-
-    }
-
-    @Override
-    public void chooseRowOrColumn() {
-
+        System.out.println("CHOOSE RESOURCES");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseResourcesToAcquire.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerAcquireResourcesChoice guiControllerAcquireResourcesChoice = loader.getController();
+            guiControllerAcquireResourcesChoice.setOutPrintWriter(out);
+        } catch (Exception e) {
+            System.out.println("Exception while visiting market");
+        }
     }
 
     @Override
@@ -324,12 +330,24 @@ public class GuiView extends Application implements View {
         }else{
             lightModel.getLightMarket().updateColumn(index);
         }
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/Market.fxml"));
+        GuiControllerMarket guiControllerMarket = loader.getController();
         guiControllerMarket.update(lightModel);
     }
 
     @Override
     public void askResourceDiscard(ResType[] resourcesAcquired) {
-
+        System.out.println("CHOOSE THE RESOURCE YOU WANT TO DISCARD");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseResourcesToDiscard.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerDiscardResourceChoice guiControllerDiscardResourceChoice = loader.getController();
+            guiControllerDiscardResourceChoice.setOutPrintWriter(out);
+            guiControllerDiscardResourceChoice.printResources();
+        } catch (Exception e) {
+            System.out.println("Exception while discarding resource");
+        }
     }
 
     @Override
@@ -359,6 +377,21 @@ public class GuiView extends Application implements View {
 
     @Override
     public void vaticanReportResults(Map<String, Boolean> results) {
+
+    }
+
+    @Override
+    public void lorenzoDiscard(String cardType) {
+
+    }
+
+    @Override
+    public void lorenzoIncrementFaithTrack(int increment) {
+
+    }
+
+    @Override
+    public void lorenzoWon() {
 
     }
 }

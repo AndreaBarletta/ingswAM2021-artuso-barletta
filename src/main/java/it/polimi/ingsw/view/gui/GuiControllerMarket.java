@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.view.LightModel;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -8,35 +9,59 @@ import javafx.scene.image.ImageView;
 public class GuiControllerMarket {
 
     @FXML
-    private ImageView b11, b12, b13, b14, b21, b22, b23, b24, b31, b32, b33, b34;
+    private ImageView b11 = new ImageView();
     @FXML
-    private ImageView leftover;
+    private ImageView b12 = new ImageView();
     @FXML
-    ImageView[][] marketTray = new ImageView[3][4];
+    private ImageView b13 = new ImageView();
+    @FXML
+    private ImageView b14 = new ImageView();
+    @FXML
+    private ImageView b21 = new ImageView();
+    @FXML
+    private ImageView b22 = new ImageView();
+    @FXML
+    private ImageView b23 = new ImageView();
+    @FXML
+    private ImageView b24 = new ImageView();
+    @FXML
+    private ImageView b31 = new ImageView();
+    @FXML
+    private ImageView b32 = new ImageView();
+    @FXML
+    private ImageView b33 = new ImageView();
+    @FXML
+    private ImageView b34 = new ImageView();
+    @FXML
+    private ImageView leftover = new ImageView();
 
-    public void setMarketImageViews(){
-        marketTray[0][0] = b11;
-        marketTray[0][1] = b12;
-        marketTray[0][2] = b13;
-        marketTray[0][3] = b14;
-        marketTray[1][0] = b21;
-        marketTray[1][1] = b22;
-        marketTray[1][2] = b23;
-        marketTray[1][3] = b24;
-        marketTray[2][0] = b31;
-        marketTray[2][1] = b32;
-        marketTray[2][2] = b33;
-        marketTray[2][3] = b34;
-    }
 
     public void update(LightModel lightModel){
-        for(int i=0; i<3; i++){
-            for(int j=0; j<4; j++){
-                Image murble = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[i][j].getMarblesPath()).toString());
-                marketTray[i][j].setImage(murble);
-                }
-            }
-        Image leftoverMurble = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getLeftoverMarble().getMarblesPath()).toString());
+        Image murble11 = new Image(lightModel.getLightMarket().getMarketTray()[0][0].getMarblesPath());
+        b11.setImage(murble11);
+        Image murble12 = new Image(lightModel.getLightMarket().getMarketTray()[0][1].getMarblesPath());
+        b12.setImage(murble12);
+        Image murble13 = new Image(lightModel.getLightMarket().getMarketTray()[0][2].getMarblesPath());
+        b13.setImage(murble13);
+        Image murble14 = new Image(lightModel.getLightMarket().getMarketTray()[0][3].getMarblesPath());
+        b14.setImage(murble14);
+        Image murble21 = new Image(lightModel.getLightMarket().getMarketTray()[1][0].getMarblesPath());
+        b21.setImage(murble21);
+        Image murble22 = new Image(lightModel.getLightMarket().getMarketTray()[1][1].getMarblesPath());
+        b22.setImage(murble22);
+        Image murble23 = new Image(lightModel.getLightMarket().getMarketTray()[1][2].getMarblesPath());
+        b23.setImage(murble23);
+        Image murble24 = new Image(lightModel.getLightMarket().getMarketTray()[1][3].getMarblesPath());
+        b24.setImage(murble24);
+        Image murble31 = new Image(lightModel.getLightMarket().getMarketTray()[2][0].getMarblesPath());
+        b31.setImage(murble31);
+        Image murble32 = new Image(lightModel.getLightMarket().getMarketTray()[2][1].getMarblesPath());
+        b32.setImage(murble32);
+        Image murble33 = new Image(lightModel.getLightMarket().getMarketTray()[2][2].getMarblesPath());
+        b33.setImage(murble33);
+        Image murble34 = new Image(lightModel.getLightMarket().getMarketTray()[2][3].getMarblesPath());
+        b34.setImage(murble34);
+        Image leftoverMurble = new Image(lightModel.getLightMarket().getLeftoverMarble().getMarblesPath());
         leftover.setImage(leftoverMurble);
     }
 }

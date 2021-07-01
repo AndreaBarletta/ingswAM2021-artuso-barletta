@@ -54,4 +54,8 @@ public class DevelopmentCardGridCell {
     public void shuffle(){
         Collections.shuffle(cardGridCell);
     }
+
+    public void removeBottomCard() {
+        cardGridCell.remove(cardGridCell.lastElement());
+    }
 }
