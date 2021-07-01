@@ -39,4 +39,9 @@ public class LightMarket {
         }
         return marketToString.toString();
     }
+
+    public ResType[][] getMarketTray(){ return marketTray; }
+
+    public ResType getLeftoverMarble(){ return leftoverMarble; }
+
 }
