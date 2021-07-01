@@ -143,7 +143,7 @@ public class GuiView extends Application implements View {
 
     @Override
     public void setMarket(LightMarket lightMarket) {
-        guiControllerMarket.createMarketImageViews();
+        guiControllerMarket.setMarketImageViews();
         guiControllerMarket.update(lightModel);
     }
 
@@ -188,13 +188,14 @@ public class GuiView extends Application implements View {
 
     @Override
     public void initialResourcesChosen(String playerName, ResType resource) {
-
+        guiControllerMyPersonalBoard.setPersonalBoardResources();
+        guiControllerMyPersonalBoard.updateResources(lightModel);
     }
 
     @Override
     public void incrementFaithTrack(String playername, int increment) {
         LBPByName(playername).getFaithTrack().incrementFaithTrack(increment);
-        guiControllerMyPersonalBoard.updateFaithTrack(playername, lightModel);
+        //guiControllerMyPersonalBoard.updateFaithTrack(playername, lightModel);
     }
 
     @Override
@@ -277,7 +278,13 @@ public class GuiView extends Application implements View {
 
     @Override
     public void updateResources(String playerName, LightDepot[] depots, List<LightDepot> leaderDepots, LightStrongbox strongbox) {
-
+        LightPersonalBoard lpb=LBPByName(playerName);
+        assert lpb != null;
+        lpb.setDepots(depots);
+        lpb.setLeaderDepots(leaderDepots);
+        lpb.setStrongbox(strongbox);
+        guiControllerMyPersonalBoard.setPersonalBoardResources();
+        guiControllerMyPersonalBoard.updateResources(lightModel);
     }
 
     @Override
