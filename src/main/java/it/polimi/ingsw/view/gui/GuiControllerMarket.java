@@ -15,7 +15,7 @@ public class GuiControllerMarket {
     @FXML
     ImageView[][] marketTray = new ImageView[3][4];
 
-    public void createMarketImageViews(){
+    public void setMarketImageViews(){
         marketTray[0][0] = b11;
         marketTray[0][1] = b12;
         marketTray[0][2] = b13;
@@ -33,11 +33,11 @@ public class GuiControllerMarket {
     public void update(LightModel lightModel){
         for(int i=0; i<3; i++){
             for(int j=0; j<4; j++){
-                Image murble = new Image(lightModel.getLightMarket().getMarketTray()[i][j].getPath());
+                Image murble = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[i][j].getMurblesPath()).toString());
                 marketTray[i][j].setImage(murble);
                 }
             }
-        Image leftoverMurble = new Image(lightModel.getLightMarket().getLeftoverMarble().getPath());
+        Image leftoverMurble = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getLeftoverMarble().getMurblesPath()).toString());
         leftover.setImage(leftoverMurble);
     }
 }
