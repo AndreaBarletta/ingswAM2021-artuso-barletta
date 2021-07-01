@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane dividerPositions="0.2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" styleClass="bodybg" stylesheets="@../styles/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="it.polimi.ingsw.view.gui.GuiControllerAcquireResourcesChoice">
+   <items>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Button fx:id="r1" mnemonicParsing="false" onMouseClicked="#row1" prefHeight="50.0" prefWidth="175.0" text="Choose Row 1" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="16.14" left="14.9" right="14.9" top="16.14" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="r2" mnemonicParsing="false" onMouseClicked="#row2" prefHeight="50.0" prefWidth="175.0" text="Choose Row 2" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="16.14" left="14.9" right="14.9" top="16.14" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="r3" mnemonicParsing="false" onMouseClicked="#row3" prefHeight="50.0" prefWidth="175.0" text="Choose Row 3" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="16.14" left="14.9" right="14.9" top="16.14" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="c1" mnemonicParsing="false" onMouseClicked="#column1" prefHeight="50.0" prefWidth="175.0" text="Choose Column 1" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="16.14" left="14.9" right="14.9" top="16.14" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="c2" mnemonicParsing="false" onMouseClicked="#column2" prefHeight="50.0" prefWidth="175.0" text="Choose Column 2" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="16.14" left="14.9" right="14.9" top="16.14" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="c3" mnemonicParsing="false" onMouseClicked="#column3" prefHeight="50.0" prefWidth="175.0" text="Choose Column 3" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="16.14" left="14.9" right="14.9" top="16.14" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="c4" mnemonicParsing="false" onMouseClicked="#column4" prefHeight="50.0" prefWidth="175.0" text="Choose Column 4" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="16.14" left="14.9" right="14.9" top="16.14" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <HBox prefHeight="574.0" prefWidth="738.0"/>
+         <!--fx:include fx:id="Market" source="Market.fxml" />
+         <fx:include fx:id="MyPersonalBoard" source="MyPersonalBoard.fxml" />
+      </HBox-->
+   </items>
+</SplitPane>

@@ -37,31 +37,31 @@ public class GuiControllerMarket {
 
 
     public void update(LightModel lightModel){
-        Image murble11 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[0][0].getMurblesPath()).toString());
+        Image murble11 = new Image(lightModel.getLightMarket().getMarketTray()[0][0].getMurblesPath());
         b11.setImage(murble11);
-        Image murble12 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[0][1].getMurblesPath()).toString());
+        Image murble12 = new Image(lightModel.getLightMarket().getMarketTray()[0][1].getMurblesPath());
         b12.setImage(murble12);
-        Image murble13 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[0][2].getMurblesPath()).toString());
+        Image murble13 = new Image(lightModel.getLightMarket().getMarketTray()[0][2].getMurblesPath());
         b13.setImage(murble13);
-        Image murble14 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[0][3].getMurblesPath()).toString());
+        Image murble14 = new Image(lightModel.getLightMarket().getMarketTray()[0][3].getMurblesPath());
         b14.setImage(murble14);
-        Image murble21 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[1][0].getMurblesPath()).toString());
+        Image murble21 = new Image(lightModel.getLightMarket().getMarketTray()[1][0].getMurblesPath());
         b21.setImage(murble21);
-        Image murble22 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[1][1].getMurblesPath()).toString());
+        Image murble22 = new Image(lightModel.getLightMarket().getMarketTray()[1][1].getMurblesPath());
         b22.setImage(murble22);
-        Image murble23 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[1][2].getMurblesPath()).toString());
+        Image murble23 = new Image(lightModel.getLightMarket().getMarketTray()[1][2].getMurblesPath());
         b23.setImage(murble23);
-        Image murble24 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[1][3].getMurblesPath()).toString());
+        Image murble24 = new Image(lightModel.getLightMarket().getMarketTray()[1][3].getMurblesPath());
         b24.setImage(murble24);
-        Image murble31 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[2][0].getMurblesPath()).toString());
+        Image murble31 = new Image(lightModel.getLightMarket().getMarketTray()[2][0].getMurblesPath());
         b31.setImage(murble31);
-        Image murble32 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[2][1].getMurblesPath()).toString());
+        Image murble32 = new Image(lightModel.getLightMarket().getMarketTray()[2][1].getMurblesPath());
         b32.setImage(murble32);
-        Image murble33 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[2][2].getMurblesPath()).toString());
+        Image murble33 = new Image(lightModel.getLightMarket().getMarketTray()[2][2].getMurblesPath());
         b33.setImage(murble33);
-        Image murble34 = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getMarketTray()[2][3].getMurblesPath()).toString());
+        Image murble34 = new Image(lightModel.getLightMarket().getMarketTray()[2][3].getMurblesPath());
         b34.setImage(murble34);
-        Image leftoverMurble = new Image(getClass().getClassLoader().getResource(lightModel.getLightMarket().getLeftoverMarble().getMurblesPath()).toString());
+        Image leftoverMurble = new Image(lightModel.getLightMarket().getLeftoverMarble().getMurblesPath());
         leftover.setImage(leftoverMurble);
     }
 }

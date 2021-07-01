@@ -314,7 +314,16 @@ public class GuiView extends Application implements View {
 
     @Override
     public void chooseRowOrColumn() {
-
+        System.out.println("CHOOSE RESOURCES");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("pages/ChooseResourcesToAcquire.fxml"));
+            Parent root = loader.load();
+            mainScene.setRoot(root);
+            GuiControllerAcquireResourcesChoice guiControllerAcquireResourcesChoice = loader.getController();
+            guiControllerAcquireResourcesChoice.setOutPrintWriter(out);
+        } catch (Exception e) {
+            System.out.println("Exception while visiting market");
+        }
     }
 
     @Override
