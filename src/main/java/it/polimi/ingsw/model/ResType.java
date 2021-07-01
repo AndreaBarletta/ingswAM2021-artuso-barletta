@@ -29,7 +29,7 @@ public enum ResType {
         }
     }
 
-    public String getMurblesPath(){
+    public String getMarblesPath(){
         switch (this){
             case COIN:
                 return getClass().getClassLoader().getResource("gui_images/market/marbles/coin_marble.png").getPath();
