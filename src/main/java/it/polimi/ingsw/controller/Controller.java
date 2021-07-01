@@ -273,23 +273,23 @@ public class Controller implements PersonalBoardEventListener {
                 i++;
             }
             else if(p.equals("1")) {
-                productions[i]=pb.getDevelopmentCardSlots()[1].getTopCard().getProduction();
+                productions[i]=pb.getDevelopmentCardSlots()[0].getTopCard().getProduction();
                 i++;
             }
             else if(p.equals("2")) {
-                productions[i]=pb.getDevelopmentCardSlots()[2].getTopCard().getProduction();
+                productions[i]=pb.getDevelopmentCardSlots()[1].getTopCard().getProduction();
                 i++;
             }
             else if(p.equals("3")) {
-                productions[i]=pb.getDevelopmentCardSlots()[3].getTopCard().getProduction();
+                productions[i]=pb.getDevelopmentCardSlots()[2].getTopCard().getProduction();
                 i++;
             }
             else if(p.equals("4")) {
-                productions[i]=pb.getLeaderProductions().get(1);
+                productions[i]=pb.getLeaderProductions().get(0);
                 i++;
             }
             else if(p.equals("5")) {
-                productions[i]=pb.getLeaderProductions().get(2);
+                productions[i]=pb.getLeaderProductions().get(1);
                 i++;
             }
         }

@@ -590,6 +590,8 @@ public class PersonalBoard implements ControllerEventListener {
 
         //Checks if there are enough resources
         for (Map.Entry<ResType, Integer> entry : resources.entrySet()) {
+            if(requirements.get(entry.getKey())==null)
+                return false;
             if(requirements.get(entry.getKey())>entry.getValue()){
                 return false;
             }

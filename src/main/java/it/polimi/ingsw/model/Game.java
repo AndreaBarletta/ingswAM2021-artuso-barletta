@@ -213,19 +213,6 @@ public class Game {
         return personalBoards.get(playerNumber).setLeaderCards(leaderCardsToAdd);
     }
 
-    /**
-     * add the initial resource selected
-     */
-    public synchronized void addInitialResource(String playerName,ResType resource) {
-        for(PersonalBoard p:personalBoards){
-            if(p.getPlayerName().equals(playerName)){
-                try {
-                    resource.effectOnAcquire(p);
-                }catch(Exception e){}
-            }
-        }
-    }
-
     public void activateLeaderCards(String playerName, int leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
         PersonalBoard player=getPersonalBoard(playerName);
         if(player!=null){

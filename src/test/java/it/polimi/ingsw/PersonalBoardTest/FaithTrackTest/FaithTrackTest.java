@@ -43,7 +43,7 @@ public class FaithTrackTest {
             faithTrack.incrementFaithTrack(30);
 
             //Check if increment is blocked at 25 (max of faithTrack)
-            assertEquals(faithTrack.getPosition(), 25);
+            assertEquals(faithTrack.getPosition(), 24);
 
             //Check isAtEnd boolean
             assertTrue(faithTrack.isAtEnd());
