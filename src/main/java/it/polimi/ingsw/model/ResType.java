@@ -29,6 +29,28 @@ public enum ResType {
         }
     }
 
+    public String getPath(){
+        switch (this){
+            case COIN:
+                return "";
+            case STONE:
+                return "";
+            case SERVANT:
+                return "";
+            case SHIELD:
+                return "";
+            case FAITH:
+                return "";
+            case WHITEMARBLE:
+                return "";
+            case ANY:
+                return "";
+            default:
+                return "";
+
+        }
+    }
+
     public ResType effectOnAcquire(PersonalBoard personalboard) {
         switch(this){
             case COIN:
