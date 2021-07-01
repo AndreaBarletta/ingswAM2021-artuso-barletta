@@ -58,10 +58,10 @@ public class Game {
      * @param path Path of the json file containing the  list of development cards
      * @return Whether or not the development cards were loaded successfully and the card grid was created
      */
-    public boolean loadDevelopmentCardGridFromFile(String path){
+    public boolean loadDevelopmentCardGridFromFile(String fileString){
         String content;
 
-        File file=new File(path);
+        File file=new File(fileString);
         try{
             content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         }catch(IOException e){
@@ -89,10 +89,10 @@ public class Game {
      * @param path Path of the json file containing the list of leader cards
      * @return Whether or not the leader cards were loaded successfully
      */
-    public boolean loadLeaderCardsFromFile(String path){
+    public boolean loadLeaderCardsFromFile(String fileString){
         String content;
 
-        File file=new File(path);
+        File file=new File(fileString);
         try{
             content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         }catch(IOException e){
@@ -129,7 +129,7 @@ public class Game {
             }
             PersonalBoard newPersonalBoard=new PersonalBoard(playerName);
             personalBoards.add(newPersonalBoard);
-            if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath())){
+            if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getFile())){
                 throw new ParsingException();
             }
             newPersonalBoard.getFaithTrack().setVaticanReports();

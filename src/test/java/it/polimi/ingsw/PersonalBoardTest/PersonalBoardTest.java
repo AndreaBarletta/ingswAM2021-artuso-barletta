@@ -33,7 +33,7 @@ public class PersonalBoardTest {
     @Test
     public void testCanBuyDevCard(){
         PersonalBoard personalBoard=new PersonalBoard("test");
-        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath());
+        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getFile());
 
         Map<ResType,Integer> resources=new HashMap<>();
         /*
@@ -125,10 +125,10 @@ public class PersonalBoardTest {
         //Check no resource gets added
         assertEquals(personalBoard.getDepotsContent(),expectedContent);
     }
-    private DevelopmentCard[] loadDevelopmentCardsFromFile(String path){
+    private DevelopmentCard[] loadDevelopmentCardsFromFile(String fileString){
         String content;
 
-        File file=new File(path);
+        File file=new File(fileString);
         try{
             content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         }catch(IOException e){

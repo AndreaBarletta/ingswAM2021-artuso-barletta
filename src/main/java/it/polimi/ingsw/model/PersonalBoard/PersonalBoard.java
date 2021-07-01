@@ -88,10 +88,10 @@ public class PersonalBoard implements ControllerEventListener {
      * @param path Path of the json file containing the faith track information
      * @return Whether or not the faith track was loaded successfully
      */
-    public boolean loadFaithTrackFromFile(String path){
+    public boolean loadFaithTrackFromFile(String fileString){
         String content;
 
-        File file=new File(path);
+        File file=new File(fileString);
         try{
             content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         }catch(IOException e){

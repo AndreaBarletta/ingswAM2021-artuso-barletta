@@ -28,8 +28,8 @@ public class LeaderCardTest {
 
         resources.put(ResType.SHIELD,4);
 
-        LeaderCard[] leaderCards=loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getPath());
-        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getPath());
+        LeaderCard[] leaderCards=loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getFile());
+        DevelopmentCard[] developmentCards=loadDevelopmentCardsFromFile(getClass().getClassLoader().getResource("developmentCards.json").getFile());
         /*"resourceRequirements":{
             "SHIELD":5
         }*/
@@ -55,10 +55,10 @@ public class LeaderCardTest {
         assertDoesNotThrow(()->leaderCards[10].canActivate(resources,devCards));
     }
 
-    private LeaderCard[] loadLeaderCardsFromFile(String path){
+    private LeaderCard[] loadLeaderCardsFromFile(String fileString){
         String content;
 
-        File file=new File(path);
+        File file=new File(fileString);
         try{
             content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         }catch(IOException e){
@@ -76,10 +76,10 @@ public class LeaderCardTest {
             return null;
         }
     }
-    private DevelopmentCard[] loadDevelopmentCardsFromFile(String path){
+    private DevelopmentCard[] loadDevelopmentCardsFromFile(String fileString){
         String content;
 
-        File file=new File(path);
+        File file=new File(fileString);
         try{
             content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         }catch(IOException e){

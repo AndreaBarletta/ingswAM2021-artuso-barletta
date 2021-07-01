@@ -107,7 +107,7 @@ public class CliView implements View,Runnable{
     public void setPlayerName(String playerName) {
         lightModel.setPlayerName(playerName);
         LightPersonalBoard newLPB=new LightPersonalBoard(playerName);
-        newLPB.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath());
+        newLPB.loadFaithTrackFromFile(this.getClass().getClassLoader().getResource("faithTrack.json").getFile());
         newLPB.getFaithTrack().setVaticanReports();
         lightModel.getLightPersonalBoards().add(newLPB);
     }
@@ -116,7 +116,7 @@ public class CliView implements View,Runnable{
     public void newPlayerConnected(String newPlayerName) {
         System.out.println("Player \""+newPlayerName+"\" has joined");
         LightPersonalBoard newLPB=new LightPersonalBoard(newPlayerName);
-        newLPB.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath());
+        newLPB.loadFaithTrackFromFile(this.getClass().getClassLoader().getResource("faithTrack.json").getFile());
         newLPB.getFaithTrack().setVaticanReports();
         lightModel.getLightPersonalBoards().add(newLPB);
     }
@@ -147,7 +147,7 @@ public class CliView implements View,Runnable{
         for(String s:playerNames){
             System.out.print(" "+s);
             LightPersonalBoard newLPB=new LightPersonalBoard(s);
-            newLPB.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getPath());
+            newLPB.loadFaithTrackFromFile(this.getClass().getClassLoader().getResource("faithTrack.json").getFile());
             newLPB.getFaithTrack().setVaticanReports();
             lightModel.getLightPersonalBoards().add(newLPB);
         }
