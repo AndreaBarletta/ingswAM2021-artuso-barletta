@@ -14,8 +14,7 @@ import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 import it.polimi.ingsw.view.LightDepot;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
@@ -85,23 +84,20 @@ public class PersonalBoard implements ControllerEventListener {
 
     /**
      * Loads the faith track from a json file
-     * @param path Path of the json file containing the faith track information
+     * @param fileString Path of the json file containing the faith track information
      * @return Whether or not the faith track was loaded successfully
      */
     public boolean loadFaithTrackFromFile(String fileString){
-        String content;
-
-        File file=new File(fileString);
-        try{
-            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        }catch(IOException e){
+        InputStream inputStream=getClass().getResourceAsStream(fileString);
+        if(inputStream==null){
             System.out.println("Error reading from file while loading faith track i.e. wrong path");
             return false;
         }
+        Reader reader=new InputStreamReader(inputStream);
 
         Gson gson=new Gson();
         try{
-            faithTrack=gson.fromJson(content, FaithTrack.class);
+            faithTrack=gson.fromJson(reader, FaithTrack.class);
         }catch(JsonSyntaxException e){
             System.out.println("Error parsing json file for faith track");
             return false;

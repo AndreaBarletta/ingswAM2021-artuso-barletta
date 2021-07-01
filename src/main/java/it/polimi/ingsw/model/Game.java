@@ -11,8 +11,7 @@ import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
@@ -55,23 +54,20 @@ public class Game {
     /**
      * Loads developments cards from a json file and creates the development card grid,
      * putting the cards in the right cells based on the level and card type
-     * @param path Path of the json file containing the  list of development cards
+     * @param fileString Path of the json file containing the  list of development cards
      * @return Whether or not the development cards were loaded successfully and the card grid was created
      */
     public boolean loadDevelopmentCardGridFromFile(String fileString){
-        String content;
-
-        File file=new File(fileString);
-        try{
-            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        }catch(IOException e){
+        InputStream inputStream=getClass().getResourceAsStream(fileString);
+        if(inputStream==null){
             System.out.println("Error reading from file while loading development cards i.e. wrong path");
             return false;
         }
+        Reader reader=new InputStreamReader(inputStream);
 
         Gson gson=new Gson();
         try{
-            DevelopmentCard[] developmentCards=gson.fromJson(content, DevelopmentCard[].class);
+            DevelopmentCard[] developmentCards=gson.fromJson(reader, DevelopmentCard[].class);
             this.developmentCardsDeck =Arrays.asList(developmentCards);
             for(DevelopmentCard d:developmentCards){
                 developmentCardGrid.addCard(d);
@@ -86,25 +82,22 @@ public class Game {
 
     /**
      * Loads the leader cards from a json file
-     * @param path Path of the json file containing the list of leader cards
+     * @param fileString Path of the json file containing the list of leader cards
      * @return Whether or not the leader cards were loaded successfully
      */
     public boolean loadLeaderCardsFromFile(String fileString){
-        String content;
-
-        File file=new File(fileString);
-        try{
-            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        }catch(IOException e){
+        InputStream inputStream=getClass().getResourceAsStream(fileString);
+        if(inputStream==null){
             System.out.println("Error reading from file while loading leader cards i.e. wrong path");
             return false;
         }
+        Reader reader=new InputStreamReader(inputStream);
 
         GsonBuilder gsonBuilder=new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LeaderCard.class,new LeaderCardDeserializer());
         Gson gson=gsonBuilder.create();
         try{
-            LeaderCard[] leaderCardsArray=gson.fromJson(content, LeaderCard[].class);
+            LeaderCard[] leaderCardsArray=gson.fromJson(reader, LeaderCard[].class);
             leaderCardsDeck =Arrays.asList(leaderCardsArray);
             //Shuffle the cards
             Collections.shuffle(leaderCardsDeck);
@@ -129,7 +122,7 @@ public class Game {
             }
             PersonalBoard newPersonalBoard=new PersonalBoard(playerName);
             personalBoards.add(newPersonalBoard);
-            if(!newPersonalBoard.loadFaithTrackFromFile(getClass().getClassLoader().getResource("faithTrack.json").getFile())){
+            if(!newPersonalBoard.loadFaithTrackFromFile("/faithTrack.json")){
                 throw new ParsingException();
             }
             newPersonalBoard.getFaithTrack().setVaticanReports();

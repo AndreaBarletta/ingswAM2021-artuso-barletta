@@ -12,8 +12,8 @@ public class GameTest {
     @Test
     public void testLoadFromFile(){
         Game game=new Game(4);
-        assertTrue(game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards.json").getFile()));
-        assertTrue(game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getFile()));
+        assertTrue(game.loadDevelopmentCardGridFromFile("/developmentCards.json"));
+        assertTrue(game.loadLeaderCardsFromFile("/leaderCards.json"));
 
         assertEquals(game.getDevelopmentCardGrid().size(),48);
     }
@@ -48,6 +48,6 @@ public class GameTest {
         }catch(Exception e){}
 
 
-        game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getFile());
+        game.loadLeaderCardsFromFile("leaderCards.json");
     }
 }

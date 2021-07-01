@@ -5,8 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
@@ -16,18 +15,17 @@ public class FaithTrackTest {
 
     @Test
     public void testIncrementFaithTrack(){
-        String content="";
-        File file=new File(getClass().getClassLoader().getResource("faithTrack.json").getFile());
-        try{
-            content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        }catch(IOException e){
+        InputStream inputStream=getClass().getResourceAsStream("/faithTrack.json");
+        if(inputStream==null){
+            System.out.println("Error reading from file while loading faith track i.e. wrong path");
             fail();
         }
+        Reader reader=new InputStreamReader(inputStream);
 
         Gson gson=new Gson();
         FaithTrack faithTrack;
         try{
-            faithTrack=gson.fromJson(content, FaithTrack.class);
+            faithTrack=gson.fromJson(reader, FaithTrack.class);
 
             //Increment faithMarker of 5
             faithTrack.incrementFaithTrack(5);

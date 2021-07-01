@@ -72,8 +72,8 @@ public class Controller implements PersonalBoardEventListener {
         if(numberOfPlayers>=2&&numberOfPlayers<=4){
             game=new Game(numberOfPlayers);
 
-            if(!game.loadDevelopmentCardGridFromFile(getClass().getClassLoader().getResource("developmentCards.json").getFile())) return false;
-            if(!game.loadLeaderCardsFromFile(getClass().getClassLoader().getResource("leaderCards.json").getFile())) return false;
+            if(!game.loadDevelopmentCardGridFromFile("/developmentCards.json")) return false;
+            if(!game.loadLeaderCardsFromFile("/leaderCards.json")) return false;
 
             try{
                 game.addPlayer(clientHandler.getPlayerName());

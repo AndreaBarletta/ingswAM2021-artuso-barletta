@@ -8,10 +8,7 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.LeaderCardDeserializer;
 import it.polimi.ingsw.model.PersonalBoard.LeaderCard.LeaderCard;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,9 +71,9 @@ public class LightModel {
     }
 
     public boolean loadResources(){
-        if((leaderCardDeck=loadLeaderCardDeckFromJson("leaderCards.json"))==null)
+        if((leaderCardDeck=loadLeaderCardDeckFromJson("/leaderCards.json"))==null)
             return false;
-        return (developmentCardDeck = loadLDevelopmentCardDeckFromJson("developmentCards.json")) != null;
+        return (developmentCardDeck = loadLDevelopmentCardDeckFromJson("/developmentCards.json")) != null;
     }
 
     /**
@@ -85,34 +82,18 @@ public class LightModel {
      * @return Whether or not the leader cards were loaded successfully
      */
     private LeaderCard[] loadLeaderCardDeckFromJson(String fileName){
-        InputStream inputStream = null;
-        inputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
-        BufferedReader buf = new BufferedReader(new InputStreamReader(inputStream));
-
-        String line = null;
-        try {
-            line = buf.readLine();
-        } catch (IOException e) {
-            System.out.println("Error while loading leader cards");
-            e.printStackTrace();
+        InputStream inputStream=getClass().getResourceAsStream(fileName);
+        if(inputStream==null){
+            System.out.println("Error reading from file while loading leader cards i.e. wrong path");
+            return null;
         }
-        StringBuilder stringBuilder = new StringBuilder();
+        Reader reader=new InputStreamReader(inputStream);
 
-        while (line != null) {
-            stringBuilder.append(line).append("\n");
-            try {
-                line = buf.readLine();
-            } catch (IOException e) {
-                System.out.println("Error while reading leader cards file");
-                e.printStackTrace();
-            }
-        }
-        String fileAsString = stringBuilder.toString();
         GsonBuilder gsonBuilder=new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LeaderCard.class,new LeaderCardDeserializer());
         Gson gson=gsonBuilder.create();
         try{
-            return gson.fromJson(fileAsString, LeaderCard[].class);
+            return gson.fromJson(reader, LeaderCard[].class);
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for leader cards");
             e.printStackTrace();
@@ -126,32 +107,16 @@ public class LightModel {
      * @return Whether or not the development cards were loaded successfully
      */
     private DevelopmentCard[] loadLDevelopmentCardDeckFromJson(String fileName){
-        InputStream inputStream = null;
-        inputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
-        BufferedReader buf = new BufferedReader(new InputStreamReader(inputStream));
-
-        String line = null;
-        try {
-            line = buf.readLine();
-        } catch (IOException e) {
-            System.out.println("Error while loading development cards");
-            e.printStackTrace();
+        InputStream inputStream=getClass().getResourceAsStream(fileName);
+        if(inputStream==null){
+            System.out.println("Error reading from file while loading development cards i.e. wrong path");
+            return null;
         }
-        StringBuilder stringBuilder = new StringBuilder();
+        Reader reader=new InputStreamReader(inputStream);
 
-        while (line != null) {
-            stringBuilder.append(line).append("\n");
-            try {
-                line = buf.readLine();
-            } catch (IOException e) {
-                System.out.println("Error while reading development cards file");
-                e.printStackTrace();
-            }
-        }
-        String fileAsString = stringBuilder.toString();
         Gson gson=new Gson();
         try{
-            return gson.fromJson(fileAsString, DevelopmentCard[].class);
+            return gson.fromJson(reader, DevelopmentCard[].class);
         }catch(JsonSyntaxException e){
             System.out.println("Error loading json file for leader cards");
             e.printStackTrace();
