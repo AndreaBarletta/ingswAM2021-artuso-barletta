@@ -423,6 +423,11 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
     }
 
     @Override
+    public void lorenzoShuffle() {
+        broadcast((new Message(MessageType.LORENZO_SHUFFLE, null)));
+    }
+
+    @Override
     public void lorenzoWon() {
         broadcast(new Message(MessageType.LORENZO_WON, null));
     }

@@ -19,6 +19,7 @@ public class Lorenzo {
     private FaithTrack faithTrack;
     private SoloActionTokens[] tokens;
     private int i; // signs which action Lorenzo has already done
+    private int firstShuffle=0;
 
     private final List<LorenzoEventListener> eventListeners;
 
@@ -86,6 +87,11 @@ public class Lorenzo {
         Collections.shuffle(tokenList);
         tokens = tokenList.toArray(SoloActionTokens[]::new);
         i=0;
+        if(firstShuffle==0){
+            firstShuffle=1;
+            for(LorenzoEventListener l:eventListeners)
+                l.lorenzoShuffle();
+        }
     }
 
     public void removeBottomCard(CardType cardType) {

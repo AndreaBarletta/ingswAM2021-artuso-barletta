@@ -59,6 +59,7 @@ public interface View extends Runnable {
     void announceWinner(String winnerPlayerName);
     void lorenzoDiscard(String cardType);
     void lorenzoIncrementFaithTrack(int increment);
+    void lorenzoShuffle();
     void lorenzoWon();
     void vaticanReportResults(Map<String,Boolean> results);
 }

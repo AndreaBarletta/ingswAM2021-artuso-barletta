@@ -476,6 +476,11 @@ public class CliView implements View,Runnable{
     }
 
     @Override
+    public void lorenzoShuffle() {
+        System.out.println("Lorenzo has shuffled");
+    }
+
+    @Override
     public void lorenzoWon() {
         System.out.println("Lorenzo won :(");
     }
