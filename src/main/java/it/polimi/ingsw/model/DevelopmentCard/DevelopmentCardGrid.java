@@ -17,11 +17,9 @@ public class DevelopmentCardGrid {
     }
 
     /**
-     *
-     * @param level level of the card to remove
-     * @param cardType card type of the card to remove
-     * @return returns the card removed
-     * Remove a card from the selected pile of the grid
+     * Remove  card from the grid
+     * @param level Level of the card
+     * @param cardType Type of the card
      */
     public void removeCard(int level, CardType cardType){
         cardGrid[level-1][cardType.ordinal()].removeCard();
@@ -66,6 +64,10 @@ public class DevelopmentCardGrid {
         return size;
     }
 
+    /**
+     * Gets the top card as a matrix of strings
+     * @return The string matrix
+     */
     public String[][] getTopCardsIds(){
         String[][] topCardsIds=new String[3][4];
         for(int i=0;i<3;i++) {
@@ -78,6 +80,12 @@ public class DevelopmentCardGrid {
         return topCardsIds;
     }
 
+    /**
+     * Remove a card from the bottom of the stack given a card type. Cards of lower levels are prioritized.
+     * If a level is not available, next level will be removed
+     * @param cardType Card type of the card to remove
+     * @return The level of the card remove, or -1 if no card of the given type are present in the board
+     */
     public int removeBottomCard(CardType cardType) {
         try {
             cardGrid[0][cardType.ordinal()].removeBottomCard();

@@ -42,6 +42,10 @@ public class PersonalBoard implements ControllerEventListener {
 
     private final List<PersonalBoardEventListener> eventListeners;
 
+    /**
+     * Create a new personalboard, initialize the depots and the strongbox, add the base production
+     * @param playerNickname
+     */
     public PersonalBoard(String playerNickname){
         this.playerName =playerNickname;
         //Create components
@@ -105,10 +109,6 @@ public class PersonalBoard implements ControllerEventListener {
         return true;
     }
 
-    /**
-     * Gets the name of the player associated with this player board
-     * @return Name of the player
-     */
     public String getPlayerName() {
         return playerName;
     }
@@ -133,6 +133,10 @@ public class PersonalBoard implements ControllerEventListener {
         return resources;
     }
 
+    /**
+     * Get the resources stored in the depots and leader depots
+     * @return A sum of the resources stored
+     */
     private Map<ResType,Integer> getDepotsResource(){
         Map<ResType,Integer> resources=new HashMap<>();
         for(Depot d:depots){
@@ -214,6 +218,10 @@ public class PersonalBoard implements ControllerEventListener {
         return leaderProductions;
     }
 
+    /**
+     * Convert a while marble based
+     * @return The resource it has been converted into, or whitemarble if there are multiple choices
+     */
     public ResType convert(){
         if(leaderConverts.size()==1)
             return leaderConverts.get(0);
@@ -251,13 +259,21 @@ public class PersonalBoard implements ControllerEventListener {
             throw new LevelException();
     }
 
+    /**
+     * Add a development card to a slot
+     * @param card Card to be added
+     * @param slot Index of the slot
+     * @throws LevelException Level requirement not met
+     */
     public void addDevCardToSlot(DevelopmentCard card, int slot) throws LevelException{
+        developmentCardSlots[slot].canAddCard(card);
         developmentCardSlots[slot].addCard(card);
     }
 
     /**
-     * Add a resource to a depot (automatically makes space if possible by moving the resources around)
+     * Add a resource to the depot
      * @param newResource Resource to be added
+     * @throws DepotSpaceException The depot is full
      */
     public void addResourceToDepot(ResType newResource) throws DepotSpaceException {
         boolean added=false;
@@ -363,6 +379,12 @@ public class PersonalBoard implements ControllerEventListener {
         strongbox.add(resource,quantity);
     }
 
+    /**
+     * Pay an amout of a certain type of resources. Resources are first moved from the depot, then from the leader depots, then from the strongbox
+     * @param resource Type of resource to be removed
+     * @param quantity Quantity of the resource to remove
+     * @param discountIds Optional discounts
+     */
     public void payResource(ResType resource,int quantity,int[] discountIds){
         int leftToRemove=quantity;
         if(discountIds!=null){
@@ -538,6 +560,15 @@ public class PersonalBoard implements ControllerEventListener {
         this.hasAlreadyPlayedLeaderAction=hasAlreadyPlayedLeaderAction;
     }
 
+    /**
+     * Activate a leader card
+     * @param leaderCard leader card to be activated
+     * @throws CardNotFoundException The player doesn't have the selected leader card
+     * @throws CardTypeException The player doesn't have enough development cards of a type required by the leader card
+     * @throws ResourcesException The player doesn't have enough resources of a type required by the leader card
+     * @throws LevelException The player doesn't have enough development cards of a level required by the leader card
+     * @throws AlreadyActiveException The leader card has already been activated
+     */
     public void activateLeaderCard(LeaderCard leaderCard) throws CardNotFoundException, CardTypeException, ResourcesException, LevelException,AlreadyActiveException {
         if(leaderCards.contains(leaderCard)){
             List<DevelopmentCard> devCards=new ArrayList<>();
@@ -555,6 +586,11 @@ public class PersonalBoard implements ControllerEventListener {
         }
     }
 
+    /**
+     * Discard a leader card, removeing all it's effects
+     * @param id Id of the card to discard
+     * @throws CardNotFoundException The player doesn't have the selected leader card
+     */
     public void discardLeaderCard(int id) throws CardNotFoundException {
         LeaderCard leaderCardToDiscard=null;
         for(LeaderCard l:leaderCards){
@@ -599,6 +635,12 @@ public class PersonalBoard implements ControllerEventListener {
         return true;
     }
 
+    /**
+     * Activate the selected productions
+     * @param productions Productions ot activate
+     * @throws ResourcesException The player doesn't have enough ingredients to activate all the productions
+     * @throws AnyResourceException A production has a chooseable resource as ingredient or product
+     */
     public void activateProductions(Production[] productions) throws ResourcesException,AnyResourceException {
         //Check if the productions contain an ANY resource, which has to be chosen by the player
         for(Production p:productions){
@@ -633,6 +675,11 @@ public class PersonalBoard implements ControllerEventListener {
         return true;
     }
 
+    /**
+     * Check if the player can add the selected resources to the depots
+     * @param resources Resources to be added
+     * @return Whether or not the resources could be added to the depots
+     */
     public boolean canAddToDepot(ResType[] resources){
         //Save a copy of the current depots
         List<Depot> tempLeaderDepots=new ArrayList<>();

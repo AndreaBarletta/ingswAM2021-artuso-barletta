@@ -40,20 +40,22 @@ public class DevelopmentCardSlotTest {
         DevelopmentCard devCard3 = new DevelopmentCard(3, cost, 3, CardType.BLUE, production);
 
         //Error adding wrong level card to an empty slot
-        assertThrows(LevelException.class,()->devCardSlot.addCard(devCard3));
+        assertThrows(LevelException.class,()->devCardSlot.canAddCard(devCard3));
 
         //Correct card's level add
-        assertDoesNotThrow(() -> devCardSlot.addCard(devCard1));
+        assertDoesNotThrow(() -> devCardSlot.canAddCard(devCard1));
+        devCardSlot.addCard(devCard1);
 
         //Error adding wrong level card (3) to a slot with 1 card
-        assertThrows(LevelException.class,()->devCardSlot.addCard(devCard3));
+        assertThrows(LevelException.class,()->devCardSlot.canAddCard(devCard3));
 
         //Now adding the correct level 2 card
-        assertDoesNotThrow(() -> devCardSlot.addCard(devCard2));
+        assertDoesNotThrow(() -> devCardSlot.canAddCard(devCard2));
+        devCardSlot.addCard(devCard2);
 
         //Adding last card (level 3)
-        assertDoesNotThrow(() -> devCardSlot.addCard(devCard3));
-
+        assertDoesNotThrow(() -> devCardSlot.canAddCard(devCard3));
+        devCardSlot.addCard(devCard3);
 
         int expectedNum = 3;
 

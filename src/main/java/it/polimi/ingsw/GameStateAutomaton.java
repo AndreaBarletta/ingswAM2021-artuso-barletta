@@ -3,7 +3,6 @@ package it.polimi.ingsw;
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
 import java.util.ArrayList;
@@ -208,7 +207,7 @@ public class GameStateAutomaton {
                         ResType chooseAny=ResType.valueOf(params[0]);
                         if(chooseAny!=ResType.WHITEMARBLE&&chooseAny!=ResType.FAITH){
                             //Update the productions
-                            controller.chooseAnyResource(clientHandler,chooseAny);
+                            controller.chooseAnyResource(chooseAny);
                             //Tro to produce
                             try {
                                 controller.activateProductions(clientHandler.getPlayerName(), new String[]{});

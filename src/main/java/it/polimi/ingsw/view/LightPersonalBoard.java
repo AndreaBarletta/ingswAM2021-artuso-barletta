@@ -44,6 +44,10 @@ public class LightPersonalBoard {
         baseProducts.put(ResType.ANY,1);
         baseProduction=new Production(baseIngredients,baseProducts);
         depots = new LightDepot[3];
+        depots[0]=new LightDepot(ResType.ANY,0,1);
+        depots[1]=new LightDepot(ResType.ANY,0,2);
+        depots[2]=new LightDepot(ResType.ANY,0,3);
+        strongbox=new LightStrongbox(new HashMap<>());
         inkwell = false;
     }
 

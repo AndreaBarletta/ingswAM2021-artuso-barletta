@@ -7,6 +7,10 @@ import it.polimi.ingsw.view.Colors;
 public enum SoloActionTokens {
     DISCARDGREEN, DISCARDYELLOW, DISCARDBLUE, DISCARDPURPLE, MOVE, SHUFFLE;
 
+    /**
+     * Gets the symbol usd to represent the token in the cliview
+     * @return String representing the symbol to use to visualize the token in the cliview
+     */
     public String getSymbol() {
         switch (this) {
             case DISCARDGREEN:
@@ -26,6 +30,10 @@ public enum SoloActionTokens {
         }
     }
 
+    /**
+     * Activates an effect when the token is picked from the token stack
+     * @param lorenzo Lorenzo
+     */
     public void effectOnDraw (Lorenzo lorenzo) {
         switch (this) {
             case DISCARDGREEN:

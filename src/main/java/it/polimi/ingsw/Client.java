@@ -80,6 +80,9 @@ public class Client {
         view=view.getRunningView();
     }
 
+    /**
+     * Receive a message from the server and call the appropriate function of the view based on the type of the message
+     */
     public static void receiveFromServer(){
         Gson gson=new Gson();
         Message message=null;

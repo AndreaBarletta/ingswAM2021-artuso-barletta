@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.*;
-import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
@@ -14,8 +13,6 @@ import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoardEventListener;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -34,6 +31,10 @@ public class Game {
     private Production[] tempProduction;
     private Lorenzo lorenzo;
 
+    /**
+     * Create a game
+     * @param numOfPlayers Number of players in the game
+     */
     public Game(int numOfPlayers){
         personalBoards=new ArrayList<>();
         market=new Market();
@@ -57,8 +58,8 @@ public class Game {
     }
 
     /**
-     * Adds a new personal board event listener to all the listener lists of the personal boards
-     * @param newEventListener New event listener
+     * Adds a new lorezno event listener to the listener's list
+     * @param newEventListener New listener to be added
      */
     public void addLorenzoEventListener(LorenzoEventListener newEventListener){
         lorenzo.addEventListener(newEventListener);
@@ -126,6 +127,14 @@ public class Game {
      * @param playerName Name of the new player
      * @return Whether or not the maximum number of players has been reached
      */
+    /**
+     * Adds a new player to the game and create their personal board
+     * @param playerName Name of the new player
+     * @return Whether or not the game can start
+     * @throws GameSizeExceeded Game has already reached the maximum amount of players
+     * @throws ParsingException Error parsing the jsons
+     * @throws DuplicatedIdException Another player with the same name already exists
+     */
     public boolean addPlayer(String playerName) throws GameSizeExceeded, ParsingException,DuplicatedIdException {
         if(personalBoards.size()< numOfPlayers){
             for (PersonalBoard personalBoard : personalBoards) {
@@ -145,13 +154,22 @@ public class Game {
         return personalBoards.size()== numOfPlayers;
     }
 
+    /**
+     * Add lorenzo to the game
+     * @throws ParsingException Error while parsing the jsons
+     */
     public void addLorenzo() throws ParsingException {
         lorenzo=new Lorenzo(developmentCardGrid);
         if(!lorenzo.loadFaithTrackFromFile("/faithTrack.json")){
             throw new ParsingException();
         }
+        lorenzo.setVaticanReports();
     }
 
+    /**
+     * Remove a player from the game
+     * @param playerName Name of the player to be removed
+     */
     public void removePlayer(String playerName){
         for(Iterator<PersonalBoard> pbIterator = personalBoards.iterator(); pbIterator.hasNext();){
             if(pbIterator.next().getPlayerName().equals(playerName)){
@@ -195,7 +213,7 @@ public class Game {
      * @return Array containing the 4 leaders cards
      */
     public String[] getInitialLeaderCards(int playerNumber){
-        List<LeaderCard> leaderCardsToShow = new ArrayList<>();
+        List<LeaderCard> leaderCardsToShow;
         leaderCardsToShow= leaderCardsDeck.subList(playerNumber*4, (playerNumber+1)*4);
         personalBoards.get(playerNumber).setInitialLeaderCards(leaderCardsToShow);
         List<String> ids=new ArrayList<>();
@@ -207,18 +225,12 @@ public class Game {
         return ids.toArray(String[]::new);
     }
 
-    public String[] getLeaderCards(String playerName) {
-        PersonalBoard player=getPersonalBoard(playerName);
-        if(player!=null) {
-            List<String> ids=new ArrayList<>();
-            for (LeaderCard l : player.getLeaderCards()) {
-                ids.add(Integer.toString(l.getId()));
-            }
-            return ids.toArray(String[]::new);
-        }
-        return null;
-    }
-
+    /**
+     * Add leader cards to a player given it's ordinal
+     * @param playerNumber Ordinal of the player
+     * @param leaderCardsId Ids of the leader cards
+     * @return whether or not the cards were among the 4 choosen initially
+     */
     public boolean addLeaderCards(int playerNumber,int[] leaderCardsId){
         List<LeaderCard> leaderCardsToAdd=new ArrayList<>();
         for(int i:leaderCardsId){
@@ -234,6 +246,16 @@ public class Game {
         return personalBoards.get(playerNumber).setLeaderCards(leaderCardsToAdd);
     }
 
+    /**
+     * Activate a player's leader card
+     * @param playerName Name of the player
+     * @param leaderCardId leader card to be activated
+     * @throws CardNotFoundException The player doesn't have the selected leader card
+     * @throws CardTypeException The player doesn't have enough development cards of a type required by the leader card
+     * @throws ResourcesException The player doesn't have enough resources of a type required by the leader card
+     * @throws LevelException The player doesn't have enough development cards of a level required by the leader card
+     * @throws AlreadyActiveException The leader card has already been activated
+     */
     public void activateLeaderCards(String playerName, int leaderCardId) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
         PersonalBoard player=getPersonalBoard(playerName);
         if(player!=null){
@@ -252,6 +274,12 @@ public class Game {
 
     }
 
+    /**
+     * Discard a player's leader card
+     * @param playerName Name of the player
+     * @param leaderCardId leader card to be discarded
+     * @throws CardNotFoundException The player doesn't have the selected leader card
+     */
     public void discardLeaderCards(String playerName, int leaderCardId) throws CardNotFoundException {
         PersonalBoard player=getPersonalBoard(playerName);
 
@@ -260,6 +288,13 @@ public class Game {
         }
     }
 
+    /**
+     * Activate a player's productions
+     * @param playerName Name of the player
+     * @param productions Productions to activate
+     * @throws ResourcesException The player doesn't have enough ingredients to activate all the productions
+     * @throws AnyResourceException A production has a chooseable resource as ingredient or product
+     */
     public void activateProductions(String playerName, Production[] productions) throws ResourcesException,AnyResourceException {
         PersonalBoard player=getPersonalBoard(playerName);
 
@@ -276,7 +311,11 @@ public class Game {
         }
     }
 
-    public void chooseAnyResource(String playerName,ResType anyResource){
+    /**
+     * Choose a resource to replace the chooseable resource in the productions, the productions are saved only within a player's turn
+     * @param anyResource Resource to replace
+     */
+    public void chooseAnyResource(ResType anyResource){
         for(Production p:tempProduction){
             if(p.getIngredients().containsKey(ResType.ANY)){
                 p.getIngredients().put(ResType.ANY,p.getIngredients().get(ResType.ANY)-1);
@@ -309,12 +348,20 @@ public class Game {
         return player.getLeaderDepots();
     }
 
-    public Map<ResType, Integer> getStrongboxContentAsString(String playerName) {
+    public Map<ResType, Integer> getStrongboxContent(String playerName) {
         PersonalBoard player=getPersonalBoard(playerName);
         assert player != null;
         return player.getStrongboxContent();
     }
 
+    /**
+     * Checks if a card can be bought and placed in the player board
+     * @param playername Name of the player
+     * @param devCardId Id of the card to be bought
+     * @param discountIds Optional discounts
+     * @throws ResourcesException The player doesn't have enough resources to buy the development card selected
+     * @throws LevelException The player doesn't have an high enough card in the selected slot to buy the development card selected
+     */
     public void canBuyDevCard(String playername,int devCardId,int[] discountIds) throws ResourcesException, LevelException,CardNotFoundException{
         PersonalBoard player=getPersonalBoard(playername);
 
@@ -327,6 +374,11 @@ public class Game {
         }
     }
 
+    /**
+     * Remove a dev card from the grid
+     * @param devCardId Id of the card
+     * @return Level, card type and id of the new card on top of the stack, -1 if the stack is empty
+     */
     public String[] removeDevCardFromGrid(String devCardId){
         DevelopmentCard devCardToRemove= developmentCardsDeck.get(Integer.parseInt(devCardId));
         int level=devCardToRemove.getLevel();
@@ -341,11 +393,19 @@ public class Game {
                 String.valueOf(devCard==null?-1:devCard.getId())};
     }
 
+    /**
+     * Buy a dev card
+     * @param playername Name of the player that buys the dev card
+     * @param devCardId Id of the card
+     * @param slot Slot where to put the car
+     * @param discountIds Optional discounts
+     * @throws LevelException Cannot add the card to the selected slot
+     */
     public void buyDevCard(String playername, int devCardId, int slot,int[] discountIds) throws LevelException{
         PersonalBoard p=getPersonalBoard(playername);
         if(p!=null){
             p.addDevCardToSlot(developmentCardsDeck.get(devCardId),slot);
-            //If addition was successfull (didn't throw), pay the cost
+            //If addition was successful (didn't throw), pay the cost
             Map<ResType,Integer> cost=developmentCardsDeck.get(devCardId).getCost();
             for(Map.Entry<ResType,Integer> entry:cost.entrySet())
                 p.payResource(entry.getKey(),entry.getValue(),discountIds);
@@ -379,6 +439,12 @@ public class Game {
         return resources.toArray(ResType[]::new);
     }
 
+    /**
+     * Check if a player can add resources to their depots
+     * @param playerName Name of the player
+     * @param resources Resources to be added
+     * @return Whether or not the resources can be added
+     */
     public boolean canAddToDepot(String playerName, ResType[] resources){
         PersonalBoard p=getPersonalBoard(playerName);
         assert p!=null;
@@ -389,6 +455,10 @@ public class Game {
         return numOfPlayers;
     }
 
+    /**
+     * Get the order of the players
+     * @return The name of the players, ordered from the first (the one with the inkwell) to the last
+     */
     public String[] getPlayerOrder(){
         List<String> playerOrder=new ArrayList<>();
         for(PersonalBoard p:personalBoards){
@@ -397,6 +467,11 @@ public class Game {
         return playerOrder.toArray(String[]::new);
     }
 
+    /**
+     * Get the amount of turns the player has to wait after the player with the inkwell plays their turn
+     * @param playerName Name of the player
+     * @return The amount of turns the player has to wait after the player with the inkwell plays their turn
+     */
     public int getPlayerOrdinal(String playerName){
         int i=0;
         for(PersonalBoard p:personalBoards){
@@ -406,6 +481,11 @@ public class Game {
         return i;
     }
 
+    /**
+     * Get a personal board
+     * @param playername Name of the player
+     * @return Personal board of the player
+     */
     public PersonalBoard getPersonalBoard(String playername){
         for(PersonalBoard p:personalBoards){
             if(p.getPlayerName().equals(playername)) return p;
@@ -417,6 +497,9 @@ public class Game {
         return personalBoards.get(currentPlayerOrdinal).getPlayerName();
     }
 
+    /**
+     * Changes the current player to the next player. If it's a singleplayer game, lorenzo does his action, and the current player stays the same
+     */
     public void nextPlayer(){
         if(numOfPlayers ==1) {
             lorenzo.lorenzoAction();
@@ -436,6 +519,12 @@ public class Game {
         this.hasStarted = hasStarted;
     }
 
+    /**
+     * Chec if the player can activate the discounts
+     * @param playerName Name of the player
+     * @param ids id of the discounts
+     * @return Whether or not the player can activate the discounts (they are avaiable and different)
+     */
     public boolean canDiscount(String playerName,int[] ids){
         //Check if discount ids are different
         if(ids.length != IntStream.of(ids).boxed().collect(Collectors.toSet()).size())
@@ -448,6 +537,11 @@ public class Game {
         return false;
     }
 
+    /**
+     * Get the number of development cards a player has
+     * @param playerName Name of the player
+     * @return Amount of development cards
+     */
     public int getNumberOfDevCards(String playerName){
         DevelopmentCardSlot[] devCardSlots=getPersonalBoard(playerName).getDevelopmentCardSlots();
         int count=0;
@@ -465,6 +559,10 @@ public class Game {
         return hasEnded;
     }
 
+    /**
+     * Calculate the victory points of each player and get the winner
+     * @return The name of the winner
+     */
     public String getWinner() {
         String winner="";
         int victoryPointsMax=0;
@@ -477,27 +575,49 @@ public class Game {
         return winner;
     }
 
+    /**
+     * Check if a player or lorenzo can activate a vatican report
+     * @return Index of the vatican report that can be activated, or -1 if none can be activated
+     */
     public int canSendVaticanReport(){
         for(PersonalBoard pb:personalBoards){
             int vaticanReport=pb.getFaithTrack().canSendVaticanReport();
             if(vaticanReport!=-1) return vaticanReport;
         }
-        int lvr=lorenzo.canSendVaticanReport();
-        if(lvr!=-1) return lvr;
+        if(lorenzo!=null){
+            int lvr=lorenzo.canSendVaticanReport();
+            if(lvr!=-1) return lvr;
+        }
         return -1;
     }
 
+    /**
+     * Send a vatican report, activating or discarding the pope cards
+     * @param k index of the vatican report to send
+     * @return Map containing the name of the players and whether or not they activated the pope favour card (lorenzo
+     */
     public Map<String,Boolean> sendVaticanReport(int k){
         Map<String,Boolean> vaticanReportResults=new HashMap<>();
         for(PersonalBoard pb:personalBoards){
             vaticanReportResults.put(pb.getPlayerName(),pb.getFaithTrack().sendVaticanReport(k));
         }
+        if(lorenzo!=null){
+            lorenzo.sendVaticanReport(k);
+        }
         return vaticanReportResults;
     }
 
+    /**
+     * Check if any player has reached the end of their faith track
+     * @return Whether or not a player has reached the end of their faith track
+     */
     public boolean isFaithTrackEnd(){
         for(PersonalBoard pb:personalBoards)
             if(pb.getFaithTrack().isAtEnd()) return true;
+
+        if(lorenzo!=null){
+            return lorenzo.isAtEnd();
+        }
         return false;
     }
 }

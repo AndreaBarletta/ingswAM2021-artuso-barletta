@@ -64,7 +64,7 @@ public class Depot {
     }
 
     /**
-     * remove a specified quantity and type of resources from the depot
+     * Remove a specified quantity and type of resources from the depot
      * @param resourceType Type of the resource to be removed
      * @param quantity Quantity of the resource to be removed
      * @throws NegQuantityException Trying to delete more resources than there are in the depot

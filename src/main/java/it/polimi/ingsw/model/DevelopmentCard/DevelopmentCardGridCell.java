@@ -23,16 +23,11 @@ public class DevelopmentCardGridCell {
 
     /**
      * Removes a card from the stack
-     * @return The card removed from the stack
      */
     public void removeCard(){
         cardGridCell.pop();
     }
 
-    /**
-     *
-     * @return Whether or not the cell is empty
-     */
     public boolean isEmpty(){
         return cardGridCell.empty();
     }
@@ -61,6 +56,9 @@ public class DevelopmentCardGridCell {
         Collections.shuffle(cardGridCell);
     }
 
+    /**
+     * Remove a card from the bottom of the stack
+     */
     public void removeBottomCard() {
         cardGridCell.remove(cardGridCell.lastElement());
     }

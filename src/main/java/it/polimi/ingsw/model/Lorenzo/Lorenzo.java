@@ -21,6 +21,10 @@ public class Lorenzo {
 
     private final List<LorenzoEventListener> eventListeners;
 
+    /**
+     * Creates Lorenzo
+     * @param developmentCardGrid The development card grid being used
+     */
     public Lorenzo(DevelopmentCardGrid developmentCardGrid){
         this.developmentCardGrid=developmentCardGrid;
         this.eventListeners = new ArrayList<>();
@@ -37,8 +41,8 @@ public class Lorenzo {
     }
 
     /**
-     * Adds a new personal board event listener to the listener list
-     * @param newEventListener new personal board event listener to be added to the listeners list
+     * Adds a new lorenzo board event listener to the listener list
+     * @param newEventListener new lorenzo board event listener to be added to the listeners list
      */
     public void addEventListener(LorenzoEventListener newEventListener){
         eventListeners.add(newEventListener);
@@ -67,18 +71,28 @@ public class Lorenzo {
         return true;
     }
 
+    /**
+     * Plays a lorenzo action
+     */
     public void lorenzoAction(){
         SoloActionTokens action = tokens[i];
         i++;
         action.effectOnDraw(this);
     }
 
+    /**
+     * Increment lorenzo's faith track
+     * @param faithPoint number of slots to increment of
+     */
     public void incrementFaithTrack(int faithPoint){
         faithTrack.incrementFaithTrack(faithPoint);
         for(LorenzoEventListener l:eventListeners)
             l.incrementLorenzoFaithTrack(faithPoint);
     }
 
+    /**
+     * Shuffle the solo action token array. Activated at the start of the game, and everytime the shuffle token gets picked
+     */
     public void shuffle(){
         List<SoloActionTokens> tokenList = Arrays.asList(tokens);
         Collections.shuffle(tokenList);
@@ -91,6 +105,10 @@ public class Lorenzo {
         if(firstShuffle) firstShuffle=false;
     }
 
+    /**
+     * Remove two cards from the bottom the card grid
+     * @param cardType Card type to remove
+     */
     public void removeBottomCard(CardType cardType) {
         int removedLevels[]=new int[2];
         removedLevels[0]= developmentCardGrid.removeBottomCard(cardType);
@@ -108,5 +126,22 @@ public class Lorenzo {
 
     public int canSendVaticanReport(){
         return faithTrack.canSendVaticanReport();
+    }
+
+    /**
+     * Send the k-th vatican report
+     * @param k Index of the vatican report to send
+     * @return Whether or not the report was activated
+     */
+    public boolean sendVaticanReport(int k) {
+        return faithTrack.sendVaticanReport(k);
+    }
+
+    public void setVaticanReports(){
+        faithTrack.setVaticanReports();
+    }
+
+    public boolean isAtEnd(){
+        return faithTrack.isAtEnd();
     }
 }

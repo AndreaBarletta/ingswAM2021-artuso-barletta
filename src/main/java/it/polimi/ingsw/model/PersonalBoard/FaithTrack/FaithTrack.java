@@ -12,12 +12,14 @@ public class FaithTrack {
     private int[] victoryPoints;
     private boolean isAtEnd;
 
-    //constructor
     public FaithTrack() {
         isAtEnd=false;
         this.faithMarker=0;
     }
 
+    /**
+     * Initiallizes the vatican reports
+     */
     public void setVaticanReports(){
         for(int i=0;i<vaticanReports.length;i++){
             vaticanReports[i].addPopeFavourCard(new PopeFavourCard(i+2));
@@ -25,8 +27,8 @@ public class FaithTrack {
     }
 
     /**
-     * move the faithMarker forward of faithPoint's number
-     * @param faithPoint number of faith point made
+     * Move the faith marker forward on the faith track
+     * @param faithPoint Number of placed to move forward
      */
     public void incrementFaithTrack(int faithPoint) {
         faithMarker+=faithPoint;
@@ -56,13 +58,18 @@ public class FaithTrack {
         return -1;
     }
 
+    /**
+     * Send the k-th vatican report
+     * @param k Index of the vatican report to send
+     * @return Whether or not the report was activated
+     */
     public boolean sendVaticanReport(int k) {
         return vaticanReports[k].sendReport(faithMarker);
     }
 
     /**
-     * sums the points earned by advancements and the points of each vatican report
-     * @return total points
+     * Sum of the points acquired by advancing on the faith track, plus the activated vatican reports
+     * @return The number of victory points gained from the faith track
      */
     public int getVictoryPoints(){
         int victoryPoints = this.victoryPoints[faithMarker];

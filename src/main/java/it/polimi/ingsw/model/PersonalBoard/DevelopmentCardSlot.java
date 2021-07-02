@@ -7,19 +7,21 @@ import it.polimi.ingsw.exceptions.LevelException;
 import java.util.*;
 
 public class DevelopmentCardSlot {
-    //attributes
     private final Stack<DevelopmentCard> devCardsSlot;
 
-    //constructor
     public DevelopmentCardSlot(){
         devCardsSlot = new Stack<>();
     }
 
-    //methods
     public int getCardsInSlot() {
-        return devCardsSlot.size();     //devCardsSlot.capacity();
+        return devCardsSlot.size();
     }
 
+    /**
+     * Add a card to the card slot
+     * @param devCard The card to be added
+     * @throws LevelException The slot contains a card that is not a level lower
+     */
     public void canAddCard(DevelopmentCard devCard) throws LevelException {
         if (devCardsSlot.size() == 0) {
             if (devCard.getLevel() != 1)
@@ -29,20 +31,18 @@ public class DevelopmentCardSlot {
         }
     }
 
-    public void addCard(DevelopmentCard devCard) throws LevelException {
-        if(devCardsSlot.size()==0){
-            if(devCard.getLevel()==1){
-                devCardsSlot.push(devCard);
-            }else{
-                throw new LevelException();
-            }
-        }else if(devCard.getLevel() == devCardsSlot.peek().getLevel() + 1){
-            devCardsSlot.push(devCard);
-        }else{
-            throw new LevelException();
-        }
+    /**
+     * Add a card to the card slot
+     * @param devCard Card to be added
+     */
+    public void addCard(DevelopmentCard devCard) {
+        devCardsSlot.push(devCard);
     }
 
+    /**
+     * Gets the ingredients of the production of the top card
+     * @return Ingredients of the production of the top card
+     */
     public Map<ResType, Integer> getIngredients() {
         return devCardsSlot.peek().getProduction().getIngredients();
     }

@@ -39,42 +39,22 @@ public class DevelopmentCard {
         this.production=production;
     }
 
-    /**
-     * Gets the level of the card
-     * @return Level of the card
-     */
     public int getLevel() {
         return level;
     }
 
-    /**
-     * Gets the resources requires to buy the card
-     * @return Resources requires to buy the card
-     */
     public Map<ResType, Integer> getCost() {
         return cost;
     }
 
-    /**
-     * Gets the victory points of the card
-     * @return Victory points of the card
-     */
     public int getVictoryPoints() {
         return victoryPoints;
     }
 
-    /**
-     * Gets the type of the card
-     * @return Type of the card
-     */
     public CardType getCardType() {
         return cardType;
     }
 
-    /**
-     * Gets the production of the card
-     * @return The production of the card
-     */
     public Production getProduction(){
         return production;
     }
@@ -94,6 +74,12 @@ public class DevelopmentCard {
         return id;
     }
 
+    /**
+     * Check if the development card an be bought
+     * @param resources Resources available
+     * @param discounts Additional discounts
+     * @return Whether or not the card can be bought
+     */
     public boolean canBeBought(Map<ResType,Integer> resources,Map<ResType,Integer> discounts){
         for(Map.Entry<ResType,Integer> me:cost.entrySet()){
             if(resources.containsKey(me.getKey())){

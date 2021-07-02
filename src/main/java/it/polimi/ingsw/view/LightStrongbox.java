@@ -18,6 +18,8 @@ public class LightStrongbox {
     @Override
     public String toString() {
         StringBuilder strongboxToString= new StringBuilder();
+        if(content.isEmpty())
+            return "Empty";
         for(Map.Entry<ResType,Integer> me:content.entrySet())
             strongboxToString.append(me.getKey().getSymbol()).append("x").append(me.getValue()).append(" ");
 

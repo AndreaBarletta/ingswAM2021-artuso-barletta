@@ -24,6 +24,13 @@ public abstract class LeaderCard {
     protected Map<ResType, Integer> resourceRequirements;
     protected int id;
 
+    /**
+     * Create a leadercard
+     * @param victoryPoints Victory points the leader card gives
+     * @param levelRequirements Card level requirements needed to activate the leader card
+     * @param cardRequirements Card type requirements needed to activate the leader card
+     * @param resourceRequirements Resource requirements needed to activate the leader card
+     */
     public LeaderCard(int victoryPoints,Map<CardType, Integer> levelRequirements, Map<CardType, Integer> cardRequirements,Map<ResType, Integer> resourceRequirements){
         this.victoryPoints=victoryPoints;
         isActive=false;
@@ -54,7 +61,7 @@ public abstract class LeaderCard {
     public abstract void effectOnDiscard(LightPersonalBoard lightPersonalBoard);
 
     /**
-     * Checks if a leader card can be bought
+     * Checks if a leader card can be activated
      * @param resources Resources a player has
      * @param devCards Development cards a players has
      */

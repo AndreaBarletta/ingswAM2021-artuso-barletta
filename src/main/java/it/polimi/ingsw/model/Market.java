@@ -39,34 +39,17 @@ public class Market {
         leftoverMarble = marbles.get(12);
     }
 
-    /**
-     *
-     * @return Actual market tray
-     */
     public ResType[][] getMarketTray() {
         return marketTray;
     }
 
     public ResType getLeftoverMarble(){ return leftoverMarble;}
 
-    public ResType[] getRow(int row) {
-        ResType[] rowToGet = new ResType[4];
-        System.arraycopy(marketTray[row], 0, rowToGet, 0, 4);
-        return rowToGet;
-    }
-
-    public ResType[] getColumn(int column) {
-        ResType[] columnToGet = new ResType[3];
-        System.arraycopy(marketTray[column], 0, columnToGet, 0, 3);
-        return columnToGet;
-    }
-
     /**
-     *
-     * @param row
-     * Update market tray after buying a row
+     * Update market tray after acquiring a row
+     * @param row Row acquired
      */
-    public void updateRow(int row) {
+    private void updateRow(int row) {
         ResType newLeftoverMarble = marketTray[row][0];
         System.arraycopy(marketTray[row], 1, marketTray[row], 0, 3);
         marketTray[row][3] = leftoverMarble;
@@ -74,11 +57,10 @@ public class Market {
     }
 
     /**
-     *
-     * @param column
-     * Update market tray after buying a column
+     * Update market tray after acquiring a column
+     * @param column Column acquired
      */
-    public void updateColumn(int column) {
+    private void updateColumn(int column) {
         ResType newLeftoverMarble = marketTray[0][column];
         for (int i = 0; i < 2; i++) {
             marketTray[i][column] = marketTray[i + 1][column];
@@ -88,9 +70,9 @@ public class Market {
     }
 
     /**
-     *
-     * @param row
-     * @return Resources player is acquiring
+     * Acquires the resources on a row, and update the row
+     * @param row Row to acquire the resources from
+     * @return The resources acquired
      */
     public ResType[] acquireRow(int row){
         ResType[] acquiredRow = new ResType[4];
@@ -100,9 +82,9 @@ public class Market {
     }
 
     /**
-     *
-     * @param column
-     * @return Resources player is acquiring
+     * Acquires the resources on a column, and update the column
+     * @param column Column to acquire the resources from
+     * @return The resources acquired
      */
     public ResType[] acquireColumn(int column){
         ResType[] acquiredColumn = new ResType[3];

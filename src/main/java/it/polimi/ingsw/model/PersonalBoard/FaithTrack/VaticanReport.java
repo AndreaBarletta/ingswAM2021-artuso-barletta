@@ -6,18 +6,28 @@ public class VaticanReport {
     private final int popeSpace;
     private PopeFavourCard popeFavourCard;
 
+    /**
+     * Create a vatican report space
+     * @param startPosition Start position of the report on the faith track
+     * @param popeSpace Pope space on the faith track (which is also the last space of the vatican report)
+     */
     public VaticanReport(int startPosition, int popeSpace) {
         this.startPosition = startPosition;
         this.popeSpace = popeSpace;
     }
 
+    /**
+     * Add a pope favour card to the vatican report
+     * @param popeFavourCard Pope favour card to be added
+     */
     public void addPopeFavourCard(PopeFavourCard popeFavourCard){
         this.popeFavourCard=popeFavourCard;
     }
+
     /**
-     *
-     * @param faithMarker
-     * @return Whether or not the player can send report
+     * Check if a vatican report can be sent
+     * @param faithMarker Current position of the faith marker on the faith track
+     * @return WHether or not the report can be sent
      */
     public boolean canSendReport(int faithMarker){
         if(popeFavourCard.isActive() || popeFavourCard.isDiscarded())
@@ -41,10 +51,6 @@ public class VaticanReport {
         }
     }
 
-    /**
-     *
-     * @return Victory points from pope favour card
-     */
     public int getVictoryPoints(){
         return popeFavourCard.getVictoryPoints();
     }

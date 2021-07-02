@@ -12,6 +12,11 @@ public class Production {
         ingredients=new HashMap<>();
     }
 
+    /**
+     * Create a production given existing ingredients and products, used to create copies of productions
+     * @param ingredients Ingredients
+     * @param products Products
+     */
     public Production(Map<ResType,Integer> ingredients,Map<ResType,Integer> products){
         this.ingredients=new HashMap<>(ingredients);
         this.products=new HashMap<>(products);
@@ -21,16 +26,8 @@ public class Production {
         return ingredients;
     }
 
-    public void setIngredients(Map<ResType, Integer> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public Map<ResType, Integer> getProducts() {
         return products;
-    }
-
-    public void setProducts(Map<ResType, Integer> products) {
-        this.products = products;
     }
 
     @Override

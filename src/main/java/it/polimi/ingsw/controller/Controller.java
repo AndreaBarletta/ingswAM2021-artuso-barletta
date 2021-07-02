@@ -18,14 +18,13 @@ import java.util.stream.Stream;
 public class Controller implements PersonalBoardEventListener, LorenzoEventListener {
     private final List<ClientHandler> clientHandlers;
     private Game game;
-    private Thread gameThread;
 
     public Controller(){
         clientHandlers = new ArrayList<>();
     }
 
     /**
-     * Adds a new client handler to the client handler list
+     * Adds a new client handler to the client handler list, also check if a new game has to be created, joined or started
      * @param clientHandler New client handler
      * @return Whether or not another client handler with the same name is not already present
      */
@@ -67,6 +66,13 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         for(ClientHandler ch:clientHandlers)
             ch.send(message);
     }
+
+    /**
+     * Create a new game. If the game is singleplayer, start the game
+     * @param clientHandler Client handler
+     * @param numberOfPlayers Number of players
+     * @return Whether or not the game was created successfully (number of players correct, resources loaded correctly etc.)
+     */
     public synchronized boolean createGame(ClientHandler clientHandler,int numberOfPlayers){
         if(numberOfPlayers>=1&&numberOfPlayers<=4){
             game=new Game(numberOfPlayers);
@@ -136,20 +142,13 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         return game.getLeftoverMarble();
     }
 
+    /**
+     * Show the initial leader cards to the player
+     * @param clientHandler Client handler of the player
+     */
     public synchronized void showInitialLeaderCards(ClientHandler clientHandler){
         String[] ids=game.getInitialLeaderCards(clientHandlers.indexOf(clientHandler));
         clientHandler.send(new Message(MessageType.SHOW_LEADER_CARDS,ids));
-    }
-
-    /**
-     * Inform the other player who has received the inkwell
-     * @param playerName name of the player that received the inkwell
-     */
-    public void inkwellGiven(String playerName){
-        game.giveInkwell();
-        for(ClientHandler c:clientHandlers){
-            c.getAutomaton().evolve("INKWELL_DISTRIBUTED",new String[]{c.getPlayerName()});
-        }
     }
 
     /**
@@ -236,6 +235,9 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         return false;
     }
 
+    /**
+     * Check if a game can start
+     */
     public synchronized void playersWaiting(){
         if(!game.hasStarted()){
             boolean ok=true;
@@ -259,10 +261,26 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         }
     }
 
+    /**
+     * Activate a player's leader card
+     * @param clientHandler Client handler of the player
+     * @param id id of the leader card to be activated
+     * @throws CardNotFoundException The player doesn't have the selected leader card
+     * @throws CardTypeException The player doesn't have enough development cards of a type required by the leader card
+     * @throws ResourcesException The player doesn't have enough resources of a type required by the leader card
+     * @throws LevelException The player doesn't have enough development cards of a level required by the leader card
+     * @throws AlreadyActiveException The leader card has already been activated
+     */
     public void activateLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException, CardTypeException, LevelException, ResourcesException,AlreadyActiveException {
         game.activateLeaderCards(clientHandler.getPlayerName(),Integer.parseInt(id));
     }
 
+    /**
+     * Discard a player's leader card, advance on the faith track and check if a vatican report can be sent or the game can be terminated
+     * @param clientHandler Client handler of the player
+     * @param id id of the leader card to be discarded
+     * @throws CardNotFoundException The player doesn't have the selected leader card
+     */
     public void discardLeaderCard(ClientHandler clientHandler, String id) throws CardNotFoundException {
         game.discardLeaderCards(clientHandler.getPlayerName(), Integer.parseInt(id));
         incrementFaithTrack(clientHandler.getPlayerName(),1);
@@ -273,6 +291,13 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         }
     }
 
+    /**
+     * Activate a player's productions and check if a vatican report can be sent or the game can be terminated
+     * @param playerName Name of the player
+     * @param productionsId Productions to activate, 0 for base production, 1 to 3 for development cards, 4 and 5 for leader cards
+     * @throws ResourcesException The player doesn't have enough ingredients to activate all the productions
+     * @throws AnyResourceException A production has a chooseable resource as ingredient or product
+     */
     public void activateProductions(String playerName, String[] productionsId) throws ResourcesException,AnyResourceException {
         //convert ids in productions
         Production[]  productions = new Production[productionsId.length];
@@ -329,6 +354,7 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         Gson gson=new Gson();
         return gson.toJson(lightDepots.toArray());
     }
+
     public String getLeaderLightDepotsAsJson(String playerName) {
         List<Depot> depots=game.getLeaderDepots(playerName);
         List<LightDepot> lightDepots=new ArrayList<>();
@@ -338,22 +364,46 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         Gson gson=new Gson();
         return gson.toJson(lightDepots.toArray());
     }
+
     public String getLightStrongboxAsJson(String playerName) {
-        Map<ResType,Integer> strongbox=game.getStrongboxContentAsString(playerName);
+        Map<ResType,Integer> strongbox=game.getStrongboxContent(playerName);
         Gson gson=new Gson();
         String json=gson.toJson(new LightStrongbox(strongbox));
         gson.fromJson(json,LightStrongbox.class);
         return json;
     }
 
+    /**
+     * Checks if a card can be bought and placed in the player board
+     * @param clienthandler Client handler of the player
+     * @param id Id of the card to be bought
+     * @param discountIds Optional discounts
+     * @throws ResourcesException The player doesn't have enough resources to buy the development card selected
+     * @throws LevelException The player doesn't have an high enough card in the selected slot to buy the development card selected
+     */
     public void canBuyDevCard(ClientHandler clienthandler,String id,String[] discountIds) throws ResourcesException,LevelException,CardNotFoundException {
         game.canBuyDevCard(clienthandler.getPlayerName(),Integer.parseInt(id),discountIds!=null?Arrays.stream(discountIds).mapToInt(Integer::parseInt).toArray():null);
     }
 
+    /**
+     * Buy a dev card
+     * @param clientHandler Client handler of the player that buys the dev card
+     * @param id Id of the card
+     * @param slot Slot where to put the car
+     * @param discountIds Optional discounts
+     * @throws LevelException Cannot add the card to the selected slot
+     */
     public void buyDevCard(ClientHandler clientHandler,String id,String slot,int[] discountIds) throws LevelException{
         game.buyDevCard(clientHandler.getPlayerName(),Integer.parseInt(id),Integer.parseInt(slot),discountIds);
     }
 
+    /**
+     * Acquire resources from the market
+     * @param clientHandler Client handler of the player
+     * @param rowOrColumn Whether the player wants to acquire a row or a column
+     * @param index Index of the row or column
+     * @return Resources acquired
+     */
     public ResType[] acquireFromMarket(ClientHandler clientHandler, String rowOrColumn, String index){
         ResType[] acquiredResources=game.acquireFromMarket(clientHandler.getPlayerName(), rowOrColumn.equals("row"), Integer.parseInt(index));
         broadcast(new Message(MessageType.UPDATE_MARKET,new String[]{rowOrColumn,index}));
@@ -377,6 +427,10 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         personalBoard.setHasAlreadyPlayedLeaderAction(true);
     }
 
+    /**
+     * End the leader action, if it's the last leader action, let the next player play its turn
+     * @param clientHandler Client handler of the player
+     */
     public void endLeaderAction(ClientHandler clientHandler){
         PersonalBoard personalBoard= game.getPersonalBoard(clientHandler.getPlayerName());
         if(personalBoard.hasAlreadyPlayedLeaderAction()){
@@ -461,6 +515,7 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
             if(!c.getPlayerName().equals(clientHandler.getPlayerName()))
                 game.getPersonalBoard(c.getPlayerName()).incrementFaithTrack(numberOfResourcesDiscarded);
 
+        incrementLorenzoFaithTrack(numberOfResourcesDiscarded);
         //Check if a vatican report can be activated
         int result=canSendVaticanReport();
         if(result!=-1){
@@ -468,6 +523,10 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         }
     }
 
+    /**
+     * Check if a player has bought 7 development cards, hence trigger the end of the game
+     * @param clientHandler Client handler that just bought a development card
+     */
     public void checkDevCardEnd(ClientHandler clientHandler){
         int devCards=game.getNumberOfDevCards(clientHandler.getPlayerName());
         if(devCards>=7){
@@ -482,6 +541,10 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         return game.canSendVaticanReport();
     }
 
+    /**
+     * Send a vatican report and tell all the clients
+     * @param k index of the vatican report to send
+     */
     public void sendVaticanReport(int k){
         Map<String,Boolean> reportResults=game.sendVaticanReport(k);
         for(ClientHandler c:clientHandlers){
@@ -490,6 +553,9 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         isFaithTrackEnd();
     }
 
+    /**
+     * Check if a player is at the end of the faith track
+     */
     public void isFaithTrackEnd(){
         if(game.isFaithTrackEnd()){
             game.lastTurn();
@@ -499,10 +565,18 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         }
     }
 
-    public void chooseAnyResource(ClientHandler clientHandler,ResType anyResource){
-        game.chooseAnyResource(clientHandler.getPlayerName(),anyResource);
+    /**
+     * Choose a resource to replace the chooseable resource in productions
+     * @param anyResource Resource to replace the chooseable resource
+     */
+    public void chooseAnyResource(ResType anyResource){
+        game.chooseAnyResource(anyResource);
     }
 
+    /**
+     * Get the game mode
+     * @return "single" for singleplayer, "multi" for multiplayer
+     */
     public String getGameMode(){
         return game.getNumberOfPlayer()==1?"single":"multi";
     }
