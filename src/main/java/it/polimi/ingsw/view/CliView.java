@@ -156,8 +156,11 @@ public class CliView implements View,Runnable{
     }
 
     @Override
-    public void gameStarted() {
+    public void gameStarted(String gameType) {
         System.out.println("Game has started");
+        if(gameType.equals("single")){
+            lightModel.createLorenzo();
+        }
     }
 
     @Override
@@ -213,9 +216,9 @@ public class CliView implements View,Runnable{
         LBPByName(playerName).getFaithTrack().incrementFaithTrack(increment);
         for(LightPersonalBoard lbp: lightModel.getLightPersonalBoards())
             System.out.println(lbp.getPlayerName()+" "+lbp.getFaithTrack());
-//TODO        if(lightModel.getLorenzoFaithTrack()!=null) {
-            System.out.println(Colors.RED.escape()+"Lorenzo "+Colors.RESET.escape()+lightModel.getLorenzoFaithTrack());
-//        }
+            if(lightModel.getLorenzoFaithTrack()!=null) {
+                System.out.println(Colors.RED.escape()+"Lorenzo "+Colors.RESET.escape()+lightModel.getLorenzoFaithTrack());
+            }
     }
 
     @Override

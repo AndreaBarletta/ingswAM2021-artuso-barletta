@@ -114,7 +114,7 @@ public class Client {
                     view.gameJoined(message.params);
                     break;
                 case GAME_STARTED:
-                    view.gameStarted();
+                    view.gameStarted(message.params[0]);
                     break;
                 case SET_DEV_CARD_GRID:
                     view.setDevCardGrid(gson.fromJson(message.params[0],int[][].class));

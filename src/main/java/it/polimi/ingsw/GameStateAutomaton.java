@@ -72,7 +72,7 @@ public class GameStateAutomaton {
                     state=GameState.WAITING_FOR_OTHER_PLAYERS;
                     return true;
                 case GAME_STARTED:
-                    clientHandler.send(new Message(MessageType.GAME_STARTED,null));
+                    clientHandler.send(new Message(MessageType.GAME_STARTED,new String[]{controller.getGameMode()}));
                     Gson gson=new Gson();
                     clientHandler.send(new Message(MessageType.SET_DEV_CARD_GRID,new String[]{gson.toJson(controller.getDevCardsGridIds())}));
                     clientHandler.send(new Message(MessageType.SET_MARKET,new String[]{gson.toJson(controller.getMarketTray()),controller.getLeftoverMarble().name()}));

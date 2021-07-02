@@ -498,4 +498,8 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
     public void chooseAnyResource(ClientHandler clientHandler,ResType anyResource){
         game.chooseAnyResource(clientHandler.getPlayerName(),anyResource);
     }
+
+    public String getGameMode(){
+        return game.getNumberOfPlayer()==1?"single":"multi";
+    }
 }

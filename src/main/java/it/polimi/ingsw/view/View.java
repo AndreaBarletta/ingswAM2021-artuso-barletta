@@ -21,7 +21,7 @@ public interface View extends Runnable {
     void gameCreated();
     void gameJoined(String[] playerNames);
     void disconnected();
-    void gameStarted();
+    void gameStarted(String gameType);
     void setDevCardGrid(int[][] devCardGridIds);
     void setMarket(LightMarket lightMarket);
     void showInitialLeaderCards(String[] leaderCardsIds);

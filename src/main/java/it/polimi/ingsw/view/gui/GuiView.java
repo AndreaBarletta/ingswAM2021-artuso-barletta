@@ -133,7 +133,7 @@ public class GuiView extends Application implements View {
     }
 
     @Override
-    public void gameStarted() {
+    public void gameStarted(String gameType) {
         System.out.println("Game has started");
     }
 

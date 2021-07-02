@@ -30,7 +30,9 @@ public class LightModel {
             }
         }
         lightPersonalBoards=new ArrayList<>();
+    }
 
+    public void createLorenzo(){
         if(!loadLorenzoFaithTrackFromFile("/faithTrack.json")) {
             System.out.println("Error while loading lorenzo faithtrack");
         }
