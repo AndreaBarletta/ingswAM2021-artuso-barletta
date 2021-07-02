@@ -481,10 +481,6 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
     @Override
     public void incrementLorenzoFaithTrack(int increment) {
         broadcast(new Message(MessageType.LORENZO_INCREMENT_FAITH_TRACK,new String[]{(String.valueOf(increment))}));
-        int k=canSendVaticanReport();
-        if(k!=-1){
-            sendVaticanReport(k);
-        }
     }
 
     @Override
