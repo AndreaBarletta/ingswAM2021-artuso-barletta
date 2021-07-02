@@ -182,13 +182,6 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
                     }else{
                         c.getAutomaton().evolve("WAIT_FOR_YOUR_TURN",null);
                     }
-                    Map<ResType,Integer> testResources=new HashMap<>();
-                    testResources.put(ResType.SHIELD,100);
-                    testResources.put(ResType.COIN,100);
-                    testResources.put(ResType.SERVANT,100);
-                    testResources.put(ResType.STONE,100);
-                    for(Map.Entry<ResType,Integer> entry:testResources.entrySet())
-                        game.getPersonalBoard(c.getPlayerName()).addResourcesToStrongbox(entry.getKey(),entry.getValue());
                 }
             }
             return true;

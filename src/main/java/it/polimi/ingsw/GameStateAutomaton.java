@@ -164,11 +164,6 @@ public class GameStateAutomaton {
                 case TURN_ACTION_ASKED:
                     clientHandler.send(new Message(MessageType.ASK_TURN_ACTION,null));
                     return true;
-        //DEBUG ONLY
-                case TURN_SKIPPED:
-                    controller.endTurnAction(clientHandler);
-                    evolve("ASK_LEADER_ACTION",null);
-                    return true;
                 case PRODUCTIONS_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE,new String[]{clientHandler.getPlayerName(),"activate productions"}));
                     clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,new String[]{}));
