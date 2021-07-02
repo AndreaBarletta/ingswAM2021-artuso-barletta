@@ -7,8 +7,6 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -67,16 +65,14 @@ public class Lorenzo {
         }
         return true;
     }
-
-    public SoloActionTokens lorenzoAction(){
+    public void lorenzoAction(){
         SoloActionTokens action = tokens[i];
         i++;
         action.effectOnDraw(this);
-        return action;
     }
 
     public void incrementFaithTrack(int faithPoint){
-        faithTrack.incrementFaithTrack(faithPoint);
+        //TODO faithTrack.incrementFaithTrack(faithPoint);
         for(LorenzoEventListener l:eventListeners)
             l.incrementLorenzoFaithTrack(faithPoint);
     }

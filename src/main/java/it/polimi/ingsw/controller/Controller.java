@@ -86,6 +86,7 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
                     game.addLorenzo();
                     game.addLorenzoEventListener(this);
                 }catch(Exception e){
+                    System.out.println("Error while loading faithtrack");
                     return false;
                 }
                 clientHandler.getAutomaton().evolve("START_GAME",null);
