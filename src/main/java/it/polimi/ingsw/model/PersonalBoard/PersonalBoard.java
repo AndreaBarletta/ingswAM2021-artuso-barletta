@@ -260,32 +260,32 @@ public class PersonalBoard implements ControllerEventListener {
      * @param newResource Resource to be added
      */
     public void addResourceToDepot(ResType newResource) throws DepotSpaceException {
-        //Try to place the new resource in the board depot
         boolean added=false;
-        for(Depot d:depots){
+        //Try to place the new resource in the leader depots
+        for(Depot d:leaderDepots){
             try{
-                boolean canPlaceInAny=true;
-                for(Depot dep:depots){
-                    if(dep.getDepotResources()==newResource){
-                        canPlaceInAny=false;
-                        break;
-                    }
-                }
-                if(canPlaceInAny){
-                    d.add(newResource,1);
-                    added=true;
-                }
+                d.add(newResource,1);
+                added=true;
             }catch(DepotResourceTypeException e) {}catch(DepotSpaceException e){}
             if(added) {
                 break;
             }
         }
-        //Try to place the new resource in the leader depots
+        //Try to place the new resource in the board depots
         if(!added){
-            for(Depot d:leaderDepots){
+            for(Depot d:depots){
                 try{
-                    d.add(newResource,1);
-                    added=true;
+                    boolean canPlaceInAny=true;
+                    for(Depot dep:depots){
+                        if(dep.getDepotResources()==newResource){
+                            canPlaceInAny=false;
+                            break;
+                        }
+                    }
+                    if(canPlaceInAny){
+                        d.add(newResource,1);
+                        added=true;
+                    }
                 }catch(DepotResourceTypeException e) {}catch(DepotSpaceException e){}
                 if(added) {
                     break;
@@ -629,17 +629,17 @@ public class PersonalBoard implements ControllerEventListener {
         List<Depot> tempLeaderDepots=new ArrayList<>();
         Depot[] tempDepots=new Depot[3];
 
-        for(int i=0;i<3;i++){
-            tempDepots[i]=new Depot(depots[i].getCapacity());
-            try{
-                tempDepots[i].add(depots[i].getDepotResources(),depots[i].getCounter());
-            }catch(DepotSpaceException e){}catch(DepotResourceTypeException e){}
-        }
-
         for(Depot leaderDepot:leaderDepots){
             tempLeaderDepots.add(new Depot(leaderDepot.getCapacity()));
             try{
                 tempLeaderDepots.get(tempLeaderDepots.size()-1).add(leaderDepot.getDepotResources(),leaderDepot.getCounter());
+            }catch(DepotSpaceException e){}catch(DepotResourceTypeException e){}
+        }
+
+        for(int i=0;i<3;i++){
+            tempDepots[i]=new Depot(depots[i].getCapacity());
+            try{
+                tempDepots[i].add(depots[i].getDepotResources(),depots[i].getCounter());
             }catch(DepotSpaceException e){}catch(DepotResourceTypeException e){}
         }
 

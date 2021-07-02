@@ -347,7 +347,7 @@ public class CliView implements View,Runnable{
             int i=0;
             for(Map<ResType,Integer> m:discounts){
                 for(Map.Entry<ResType,Integer> me:m.entrySet()){
-                    System.out.println("Id "+i+": Discount "+me.getValue()+" "+me.getKey());
+                    System.out.println("Id "+i+": Discount "+me.getValue()+" "+me.getKey().getSymbol());
                 }
             }
         }
@@ -390,7 +390,7 @@ public class CliView implements View,Runnable{
         System.out.println("Leader Depots: ");
         for(LightDepot d:LBPByName(lightModel.getPlayerName()).getLeaderDepots())
             System.out.println(d);
-        System.out.print(lightModel.getLightMarket()+"Choose a row or a column (choose {row {0/1/2} / column {0/1/2/3}): ");
+        System.out.print(lightModel.getLightMarket()+"Choose a row or a column (choose {row {0/1/2} / column {0/1/2/3}) or go back (cancel): ");
     }
 
     @Override
