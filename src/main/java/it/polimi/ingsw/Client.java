@@ -171,6 +171,9 @@ public class Client {
                 case SHOW_PRODUCTIONS:
                     view.showProductions();
                     break;
+                case ASK_ANY_RESOURCE:
+                    view.askAnyResource();
+                    break;
                 case SHOW_CHOSEN_PRODUCTIONS:
                     view.showChosenProductions(
                             message.params[0],

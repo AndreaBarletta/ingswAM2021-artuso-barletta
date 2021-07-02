@@ -41,6 +41,7 @@ public interface View extends Runnable {
     //Productions
     void showProductions();
     void showChosenProductions(String playerName,int[] activatedProductions);
+    void askAnyResource();
     void updateResources(String playerName, LightDepot[] depots, List<LightDepot> leaderDepots, LightStrongbox strongbox);
     //Development cards
     void showDevCardGrid();

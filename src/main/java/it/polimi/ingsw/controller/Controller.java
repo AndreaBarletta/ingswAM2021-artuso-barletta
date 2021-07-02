@@ -1,10 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.ClientHandler;
-import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.Message;
-import it.polimi.ingsw.MessageType;
+import it.polimi.ingsw.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Lorenzo.LorenzoEventListener;
@@ -275,39 +272,51 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
         }
     }
 
-    public void activateProductions(String playerName, String[] productionsId) throws ResourcesException {
+    public void activateProductions(String playerName, String[] productionsId) throws ResourcesException,AnyResourceException {
         //convert ids in productions
         Production[]  productions = new Production[productionsId.length];
         PersonalBoard pb=game.getPersonalBoard(playerName);
         int i=0;
         for(String p : productionsId) {
+            Production tempProd;
             if(p.equals("0")) {
-                productions[i]=pb.getBaseProduction();
+                tempProd=pb.getBaseProduction();
+                productions[i]=new Production(tempProd.getIngredients(),tempProd.getProducts());
                 i++;
             }
             else if(p.equals("1")) {
-                productions[i]=pb.getDevelopmentCardSlots()[0].getTopCard().getProduction();
+                tempProd=pb.getDevelopmentCardSlots()[0].getTopCard().getProduction();
+                productions[i]=new Production(tempProd.getIngredients(),tempProd.getProducts());
                 i++;
             }
             else if(p.equals("2")) {
-                productions[i]=pb.getDevelopmentCardSlots()[1].getTopCard().getProduction();
+                tempProd=pb.getDevelopmentCardSlots()[1].getTopCard().getProduction();
+                productions[i]=new Production(tempProd.getIngredients(),tempProd.getProducts());
                 i++;
             }
             else if(p.equals("3")) {
-                productions[i]=pb.getDevelopmentCardSlots()[2].getTopCard().getProduction();
+                tempProd=pb.getDevelopmentCardSlots()[2].getTopCard().getProduction();
+                productions[i]=new Production(tempProd.getIngredients(),tempProd.getProducts());
                 i++;
             }
             else if(p.equals("4")) {
-                productions[i]=pb.getLeaderProductions().get(0);
+                tempProd=pb.getLeaderProductions().get(0);
+                productions[i]=new Production(tempProd.getIngredients(),tempProd.getProducts());
                 i++;
             }
             else if(p.equals("5")) {
-                productions[i]=pb.getLeaderProductions().get(1);
+                tempProd=pb.getLeaderProductions().get(1);
+                productions[i]=new Production(tempProd.getIngredients(),tempProd.getProducts());
                 i++;
             }
         }
 
         game.activateProductions(playerName, productions);
+        //Check if a vatican report can be triggered
+        int result=canSendVaticanReport();
+        if(result!=-1){
+            sendVaticanReport(result);
+        }
     }
 
     public String getLightDepotsAsJson(String playerName) {
@@ -476,6 +485,8 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
             }
         }
     }
+
+    public void chooseAnyResource(ClientHandler clientHandler,ResType anyResource){
+        game.chooseAnyResource(clientHandler.getPlayerName(),anyResource);
+    }
 }
-//TODO: check faith track discard and acquire order
-//TODO: last card picked from card rid\

@@ -57,6 +57,7 @@ public class CliView implements View,Runnable{
             commandParser.addCommand("activate",6,MessageType.CHOOSE_PRODUCTIONS);
             commandParser.addCommand("discard",1,MessageType.DISCARD_RESOURCE);
             commandParser.addCommand("cancel",0,MessageType.CANCEL);
+            commandParser.addCommand("chooseany",1,MessageType.CHOOSE_ANY_RESOURCE);
         }catch(DuplicatedIdException e){
             System.out.println("Error adding commands");
             return;
@@ -310,6 +311,11 @@ public class CliView implements View,Runnable{
                 );
             }
         }
+    }
+
+    @Override
+    public void askAnyResource() {
+        System.out.print("A production has a chooseable resource in its ingredients or products. Choose the resource to use or produce (chooseany {COIN/STONE/SERVANT/SHIELD}): ");
     }
 
     @Override
