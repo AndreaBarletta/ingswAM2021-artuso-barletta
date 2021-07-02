@@ -42,7 +42,7 @@ public class GameStateAutomaton {
                     return true;
                 case NICKNAME_CHOSEN:
                     clientHandler.setPlayerName(params[0]);
-                    if(!controller. addClientHandler(clientHandler)){
+                    if(!controller.addClientHandler(clientHandler)){
                         errorMessage="Player with the same name already exists";
                         state=GameState.PLAYER_CONNECTED;
                         return false;

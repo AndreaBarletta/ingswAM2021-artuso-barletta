@@ -234,6 +234,7 @@ public class Client {
                     break;
                 case LORENZO_SHUFFLE:
                     view.lorenzoShuffle();
+                    break;
                 case LORENZO_WON:
                     view.lorenzoWon();
                     end=true;

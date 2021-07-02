@@ -31,7 +31,9 @@ public class LightModel {
         }
         lightPersonalBoards=new ArrayList<>();
 
-        loadFaithTrackFromFile("/faithTrack.json");
+        if(!loadLorenzoFaithTrackFromFile("/faithTrack.json")) {
+            System.out.println("Error while loading lorenzo faithtrack");
+        }
     }
 
     public void setPlayerName(String playerName) {
@@ -128,7 +130,7 @@ public class LightModel {
         return null;
     }
 
-    public boolean loadFaithTrackFromFile(String fileString){
+    public boolean loadLorenzoFaithTrackFromFile(String fileString){
         InputStream inputStream=getClass().getResourceAsStream(fileString);
         if(inputStream==null){
             System.out.println("Error reading from file while loading faith track i.e. wrong path");

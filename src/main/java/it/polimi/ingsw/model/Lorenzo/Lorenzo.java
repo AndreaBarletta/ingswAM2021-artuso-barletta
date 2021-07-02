@@ -80,7 +80,6 @@ public class Lorenzo {
     }
 
     public void shuffle(){
-        this.incrementFaithTrack(1);
         List<SoloActionTokens> tokenList = Arrays.asList(tokens);
         Collections.shuffle(tokenList);
         tokens = tokenList.toArray(SoloActionTokens[]::new);

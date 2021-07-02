@@ -212,6 +212,9 @@ public class CliView implements View,Runnable{
         LBPByName(playerName).getFaithTrack().incrementFaithTrack(increment);
         for(LightPersonalBoard lbp: lightModel.getLightPersonalBoards())
             System.out.println(lbp.getPlayerName()+" "+lbp.getFaithTrack());
+//TODO        if(lightModel.getLorenzoFaithTrack()!=null) {
+            System.out.println(Colors.RED.escape()+"Lorenzo "+Colors.RESET.escape()+lightModel.getLorenzoFaithTrack());
+//        }
     }
 
     @Override
@@ -467,12 +470,12 @@ public class CliView implements View,Runnable{
 
     @Override
     public void lorenzoDiscard(String cardType){
-        System.out.println("Lorenzo has discarded 2 "+cardType+" dev card");
+        System.out.println(Colors.RED.escape()+"Lorenzo has discarded 2 "+Colors.RESET.escape()+cardType+Colors.RED.escape()+" dev card"+Colors.RESET.escape());
     }
 
     @Override
     public void lorenzoIncrementFaithTrack(int increment) {
-        System.out.println("Lorenzo has advanced "+increment+" spaces in the faith track");
+        System.out.println(Colors.RED.escape()+"Lorenzo has advanced "+increment+" spaces in the faith track"+Colors.RESET.escape());
         lightModel.incrementLorenzoFaithTrack(increment);
         for(LightPersonalBoard lbp: lightModel.getLightPersonalBoards())
             System.out.println(lbp.getPlayerName()+" "+lbp.getFaithTrack());
@@ -481,12 +484,12 @@ public class CliView implements View,Runnable{
 
     @Override
     public void lorenzoShuffle() {
-        System.out.println("Lorenzo has shuffled");
+        System.out.println(Colors.RED.escape()+"Lorenzo has shuffled"+Colors.RESET.escape());
     }
 
     @Override
     public void lorenzoWon() {
-        System.out.println("Lorenzo won :(");
+        System.out.println(Colors.RED.escape()+"Lorenzo won :("+Colors.RESET.escape());
     }
 
     @Override

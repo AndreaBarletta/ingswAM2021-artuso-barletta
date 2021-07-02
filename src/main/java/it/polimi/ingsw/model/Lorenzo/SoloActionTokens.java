@@ -45,6 +45,7 @@ public enum SoloActionTokens {
                 break;
             case SHUFFLE:
                 lorenzo.shuffle();
+                lorenzo.incrementFaithTrack(1);
                 break;
         }
     }
