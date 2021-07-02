@@ -187,6 +187,7 @@ public class GameStateAutomaton {
                                     Arrays.stream(params)
                             ).toArray(String[]::new))
                     );
+                    evolve("UPDATE_RESOURCES",null);
                     return true;
                 case RESOURCES_UPDATED:
                     String playerName = clientHandler.getPlayerName();

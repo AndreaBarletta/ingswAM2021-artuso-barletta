@@ -103,7 +103,7 @@ public enum GameState{
                     return true;
                 break;
             case PRODUCTION_CHOSEN:
-                if(input.equals("SHOW_PRODUCTIONS")||input.equals("ASK_LEADER_ACTION"))
+                if(input.equals("SHOW_PRODUCTIONS")||input.equals("UPDATE_RESOURCES"))
                     return true;
                 break;
             case DEV_CARD_GRID_SHOWN:
@@ -123,7 +123,7 @@ public enum GameState{
                     return true;
                 break;
             case DEV_CARD_SLOT_CHOSEN:
-                if(input.equals("ASK_LEADER_ACTION")||input.equals("ASK_DEV_CARD_SLOT"))
+                if(input.equals("UPDATE_RESOURCES")||input.equals("ASK_DEV_CARD_SLOT"))
                     return true;
                 break;
             case MARKET_SHOWN:
@@ -223,7 +223,7 @@ public enum GameState{
                 if(input.equals("CHOOSE_PRODUCTIONS"))              return PRODUCTION_CHOSEN;
             case PRODUCTION_CHOSEN:
                 if(input.equals("SHOW_PRODUCTIONS"))                return PRODUCTIONS_SHOWN;
-                if(input.equals("ASK_LEADER_ACTION"))                return LEADER_ACTION_ASKED;
+                if(input.equals("UPDATE_RESOURCES"))                return RESOURCES_UPDATED;
     //Dev card
             case DEV_CARD_GRID_SHOWN:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;
@@ -236,7 +236,7 @@ public enum GameState{
             case DEV_CARD_SLOT_ASKED:
                 return DEV_CARD_SLOT_CHOSEN;
             case DEV_CARD_SLOT_CHOSEN:
-                if(input.equals("ASK_LEADER_ACTION"))               return LEADER_ACTION_ASKED;
+                if(input.equals("UPDATE_RESOURCES"))                return RESOURCES_UPDATED;
                 if(input.equals("ASK_DEV_CARD_SLOT"))               return DEV_CARD_SLOT_ASKED;
     //Market
             case MARKET_SHOWN:

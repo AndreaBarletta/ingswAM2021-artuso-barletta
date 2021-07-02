@@ -589,12 +589,11 @@ public class PersonalBoard implements ControllerEventListener {
         }
 
         //Checks if there are enough resources
-        for (Map.Entry<ResType, Integer> entry : resources.entrySet()) {
-            if(requirements.get(entry.getKey())==null)
-                return false;
-            if(requirements.get(entry.getKey())>entry.getValue()){
-                return false;
-            }
+        for (Map.Entry<ResType, Integer> entry : requirements.entrySet()) {
+            //Resource of the requirement not present
+            if(resources.get(entry.getKey())==null) return false;
+            //Resource of the requirement not present enough in the resources
+            if(resources.get(entry.getKey())<entry.getValue()) return false;
         }
 
         return true;
@@ -611,8 +610,13 @@ public class PersonalBoard implements ControllerEventListener {
         }
         //Add products
         for(Production p : productions) {
-            for(Map.Entry<ResType,Integer> product:p.getProducts().entrySet())
-                addResourcesToStrongbox(product.getKey(),product.getValue());
+            for(Map.Entry<ResType,Integer> product:p.getProducts().entrySet()){
+                for(int i=0;i<product.getValue();i++){
+                    ResType res=product.getKey().effectOnAcquire(this);
+                    if(res!=null)
+                        addResourcesToStrongbox(res,1);
+                }
+            }
         }
     }
 
