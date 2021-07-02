@@ -17,7 +17,7 @@ public class Lorenzo {
     private FaithTrack faithTrack;
     private SoloActionTokens[] tokens;
     private int i; // signs which action Lorenzo has already done
-    private int firstShuffle=0;
+    private boolean firstShuffle=true;
 
     private final List<LorenzoEventListener> eventListeners;
 
@@ -35,6 +35,7 @@ public class Lorenzo {
 
         shuffle();
     }
+
     /**
      * Adds a new personal board event listener to the listener list
      * @param newEventListener new personal board event listener to be added to the listeners list
@@ -65,6 +66,7 @@ public class Lorenzo {
         }
         return true;
     }
+
     public void lorenzoAction(){
         SoloActionTokens action = tokens[i];
         i++;
@@ -72,7 +74,7 @@ public class Lorenzo {
     }
 
     public void incrementFaithTrack(int faithPoint){
-        //TODO faithTrack.incrementFaithTrack(faithPoint);
+        faithTrack.incrementFaithTrack(faithPoint);
         for(LorenzoEventListener l:eventListeners)
             l.incrementLorenzoFaithTrack(faithPoint);
     }
@@ -83,11 +85,11 @@ public class Lorenzo {
         Collections.shuffle(tokenList);
         tokens = tokenList.toArray(SoloActionTokens[]::new);
         i=0;
-        if(firstShuffle==0){
-            firstShuffle=1;
+        if(!firstShuffle){
             for(LorenzoEventListener l:eventListeners)
                 l.lorenzoShuffle();
         }
+        if(firstShuffle) firstShuffle=false;
     }
 
     public void removeBottomCard(CardType cardType) {
