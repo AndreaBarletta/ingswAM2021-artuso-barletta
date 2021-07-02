@@ -366,11 +366,6 @@ public class GuiView extends Application implements View {
     }
 
     @Override
-    public void disconnected() {
-
-    }
-
-    @Override
     public void lastTurn() {
 
     }

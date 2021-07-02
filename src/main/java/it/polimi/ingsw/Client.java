@@ -91,7 +91,7 @@ public class Client {
             try {
                 message = gson.fromJson(in.readLine(), Message.class);
             }catch(Exception e){
-                System.out.println("\nException while receiving message from server");
+                System.out.println("\nServer disconected");
                 break;
             }
             switch(message.messageType){
@@ -247,6 +247,7 @@ public class Client {
                     break;
                 case DISCONNECTED:
                     System.out.println("Player "+message.params[0]+" has disconnected ");
+                    end=true;
                     break;
             }
         }

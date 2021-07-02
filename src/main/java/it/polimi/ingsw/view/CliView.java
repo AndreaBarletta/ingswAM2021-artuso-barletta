@@ -532,9 +532,4 @@ public class CliView implements View,Runnable{
     public void lorenzoWon() {
         System.out.println(Colors.RED.escape()+"Lorenzo won :("+Colors.RESET.escape());
     }
-
-    @Override
-    public void disconnected() {
-
-    }
 }
