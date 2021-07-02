@@ -227,7 +227,8 @@ public class Game {
                 }
             }
         }
-
+        if(leaderCardsToAdd.size()!=2)
+            return false;
         return personalBoards.get(playerNumber).setLeaderCards(leaderCardsToAdd);
     }
 

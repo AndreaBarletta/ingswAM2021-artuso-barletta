@@ -85,6 +85,7 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
                 try {
                     game.addLorenzo();
                     game.addLorenzoEventListener(this);
+                    game.addPersonalBoardsEventListener(this);
                 }catch(Exception e){
                     System.out.println("Error while loading faithtrack");
                     return false;

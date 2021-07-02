@@ -42,7 +42,7 @@ public class GameStateAutomaton {
                     return true;
                 case NICKNAME_CHOSEN:
                     clientHandler.setPlayerName(params[0]);
-                    if(!controller.addClientHandler(clientHandler)){
+                    if(!controller. addClientHandler(clientHandler)){
                         errorMessage="Player with the same name already exists";
                         state=GameState.PLAYER_CONNECTED;
                         return false;
@@ -257,7 +257,6 @@ public class GameStateAutomaton {
                         return false;
                     }
                     controller.broadcast(new Message(MessageType.UPDATE_DEV_CARD_SLOT,new String[]{clientHandler.getPlayerName(),String.valueOf(tempId),params[0]}));
-                    controller.endTurnAction(clientHandler);
                     //Check if the 7th development card as been picked
                     controller.checkDevCardEnd(clientHandler);
                     evolve("UPDATE_RESOURCES",null);
