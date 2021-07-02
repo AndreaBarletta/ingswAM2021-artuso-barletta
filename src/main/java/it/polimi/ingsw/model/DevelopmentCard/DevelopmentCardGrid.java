@@ -82,15 +82,15 @@ public class DevelopmentCardGrid {
         try {
             cardGrid[0][cardType.ordinal()].removeBottomCard();
             return 1;
-        } catch (EmptyStackException e0){
+        } catch (NoSuchElementException e0){
             try {
                 cardGrid[1][cardType.ordinal()].removeBottomCard();
                 return 2;
-            } catch (EmptyStackException e1){
+            } catch (NoSuchElementException e1){
                 try {
                     cardGrid[2][cardType.ordinal()].removeBottomCard();
                     return 3;
-                } catch (EmptyStackException e2){
+                } catch (NoSuchElementException e2){
                     return -1;
                 }
             }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.*;
+import it.polimi.ingsw.controller.ControllerEventListener;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
@@ -481,6 +482,8 @@ public class Game {
             int vaticanReport=pb.getFaithTrack().canSendVaticanReport();
             if(vaticanReport!=-1) return vaticanReport;
         }
+        int lvr=lorenzo.canSendVaticanReport();
+        if(lvr!=-1) return lvr;
         return -1;
     }
 

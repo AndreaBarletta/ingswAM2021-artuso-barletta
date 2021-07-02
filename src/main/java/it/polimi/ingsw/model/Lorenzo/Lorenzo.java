@@ -105,4 +105,8 @@ public class Lorenzo {
         for(LorenzoEventListener l:eventListeners)
             l.removeBottomCard(cardType,removedLevels);
     }
+
+    public int canSendVaticanReport(){
+        return faithTrack.canSendVaticanReport();
+    }
 }

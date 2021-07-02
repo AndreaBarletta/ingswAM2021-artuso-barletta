@@ -427,15 +427,19 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
     @Override
     public void incrementLorenzoFaithTrack(int increment) {
         broadcast(new Message(MessageType.LORENZO_INCREMENT_FAITH_TRACK,new String[]{(String.valueOf(increment))}));
+        int k=canSendVaticanReport();
+        if(k!=-1){
+            sendVaticanReport(k);
+        }
     }
 
     @Override
     public void removeBottomCard(CardType cardType,int[] level){
         broadcast((new Message(MessageType.LORENZO_DISCARD,new String[]{cardType.toString()})));
         for(int i:level){
-            DevelopmentCard removedCard=game.getDevelopmentCardGrid().getTopCard(level[i],cardType);
+            DevelopmentCard removedCard=game.getDevelopmentCardGrid().getTopCard(i,cardType);
             broadcast((new Message(MessageType.UPDATE_DEV_CARD_GRID,new String[]{
-                    String.valueOf(level[i]),
+                    String.valueOf(i),
                     cardType.name(),
                     String.valueOf(removedCard==null?-1:removedCard.getId())
             })));
