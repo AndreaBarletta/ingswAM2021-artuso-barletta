@@ -232,6 +232,8 @@ public class Client {
                 case LORENZO_INCREMENT_FAITH_TRACK:
                     view.lorenzoIncrementFaithTrack(Integer.parseInt(message.params[0]));
                     break;
+                case LORENZO_SHUFFLE:
+                    view.lorenzoShuffle();
                 case LORENZO_WON:
                     view.lorenzoWon();
                     end=true;

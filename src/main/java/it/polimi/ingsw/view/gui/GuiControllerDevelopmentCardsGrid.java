@@ -39,19 +39,19 @@ public class GuiControllerDevelopmentCardsGrid {
         this.out = out;
     }
 
-    /*public void updateGrid(LightModel lightModel){
-        String card11path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[0][0]].getCardFront();
-        String card12path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[0][1]].getCardFront();
-        String card13path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[0][2]].getCardFront();
-        String card14path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[0][3]].getCardFront();
-        String card21path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[1][0]].getCardFront();
-        String card22path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[1][1]].getCardFront();
-        String card23path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[1][2]].getCardFront();
-        String card24path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[1][3]].getCardFront();
-        String card31path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[2][0]].getCardFront();
-        String card32path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[2][1]].getCardFront();
-        String card33path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[2][2]].getCardFront();
-        String card34path = lightModel.getLeaderCardDeck()[lightModel.getDevelopmentCardGrid()[2][3]].getCardFront();
+    public void updateGrid(LightModel lightModel){
+        String card11path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[0][0]].getCardFront();
+        String card12path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[0][1]].getCardFront();
+        String card13path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[0][2]].getCardFront();
+        String card14path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[0][3]].getCardFront();
+        String card21path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[1][0]].getCardFront();
+        String card22path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[1][1]].getCardFront();
+        String card23path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[1][2]].getCardFront();
+        String card24path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[1][3]].getCardFront();
+        String card31path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[2][0]].getCardFront();
+        String card32path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[2][1]].getCardFront();
+        String card33path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[2][2]].getCardFront();
+        String card34path = lightModel.getDevelopmentCardDeck()[lightModel.getDevelopmentCardGrid()[2][3]].getCardFront();
         Image card11 = new Image(getClass().getClassLoader().getResource(card11path).toString());
         Image card12 = new Image(getClass().getClassLoader().getResource(card12path).toString());
         Image card13 = new Image(getClass().getClassLoader().getResource(card13path).toString());
@@ -76,5 +76,5 @@ public class GuiControllerDevelopmentCardsGrid {
         dc32.setImage(card32);
         dc33.setImage(card33);
         dc34.setImage(card34);
-    }*/
+    }
 }

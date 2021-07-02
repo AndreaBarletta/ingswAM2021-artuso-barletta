@@ -391,6 +391,11 @@ public class GuiView extends Application implements View {
     }
 
     @Override
+    public void lorenzoShuffle() {
+
+    }
+
+    @Override
     public void lorenzoWon() {
 
     }

@@ -7,8 +7,6 @@ import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCardGrid;
 import it.polimi.ingsw.model.PersonalBoard.FaithTrack.FaithTrack;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +17,7 @@ public class Lorenzo {
     private FaithTrack faithTrack;
     private SoloActionTokens[] tokens;
     private int i; // signs which action Lorenzo has already done
+    private int firstShuffle=0;
 
     private final List<LorenzoEventListener> eventListeners;
 
@@ -66,16 +65,14 @@ public class Lorenzo {
         }
         return true;
     }
-
-    public SoloActionTokens lorenzoAction(){
+    public void lorenzoAction(){
         SoloActionTokens action = tokens[i];
         i++;
         action.effectOnDraw(this);
-        return action;
     }
 
     public void incrementFaithTrack(int faithPoint){
-        faithTrack.incrementFaithTrack(faithPoint);
+        //TODO faithTrack.incrementFaithTrack(faithPoint);
         for(LorenzoEventListener l:eventListeners)
             l.incrementLorenzoFaithTrack(faithPoint);
     }
@@ -86,6 +83,11 @@ public class Lorenzo {
         Collections.shuffle(tokenList);
         tokens = tokenList.toArray(SoloActionTokens[]::new);
         i=0;
+        if(firstShuffle==0){
+            firstShuffle=1;
+            for(LorenzoEventListener l:eventListeners)
+                l.lorenzoShuffle();
+        }
     }
 
     public void removeBottomCard(CardType cardType) {

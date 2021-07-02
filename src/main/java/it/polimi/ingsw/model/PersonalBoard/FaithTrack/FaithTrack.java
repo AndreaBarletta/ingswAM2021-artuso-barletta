@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 public class FaithTrack {
     //attributes
-    private final int blackCrossMarker;
     private int faithMarker;
     private VaticanReport[] vaticanReports;
     private int[] victoryPoints;
@@ -17,7 +16,6 @@ public class FaithTrack {
     public FaithTrack() {
         isAtEnd=false;
         this.faithMarker=0;
-        this.blackCrossMarker=0;
     }
 
     public void setVaticanReports(){

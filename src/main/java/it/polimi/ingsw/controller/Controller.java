@@ -86,6 +86,7 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
                     game.addLorenzo();
                     game.addLorenzoEventListener(this);
                 }catch(Exception e){
+                    System.out.println("Error while loading faithtrack");
                     return false;
                 }
                 clientHandler.getAutomaton().evolve("START_GAME",null);
@@ -420,6 +421,11 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
     @Override
     public void removeBottomCard(String cardType){
         broadcast((new Message(MessageType.LORENZO_DISCARD,new String[]{cardType})));
+    }
+
+    @Override
+    public void lorenzoShuffle() {
+        broadcast((new Message(MessageType.LORENZO_SHUFFLE, null)));
     }
 
     @Override
