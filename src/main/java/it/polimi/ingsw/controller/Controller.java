@@ -504,7 +504,6 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
             if(!c.getPlayerName().equals(clientHandler.getPlayerName()))
                 game.getPersonalBoard(c.getPlayerName()).incrementFaithTrack(numberOfResourcesDiscarded);
 
-        incrementLorenzoFaithTrack(numberOfResourcesDiscarded);
         //Check if a vatican report can be activated
         int result=canSendVaticanReport();
         if(result!=-1){
