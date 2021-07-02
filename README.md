@@ -9,3 +9,5 @@ java -jar AM58Server.jar
 
 For the client:
 java -jar AM58Client.jar cli [ip/localhost]
+
+Use Windows CMD for CLI
