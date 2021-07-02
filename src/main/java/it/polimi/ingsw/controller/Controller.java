@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 import it.polimi.ingsw.model.Lorenzo.LorenzoEventListener;
 import it.polimi.ingsw.model.PersonalBoard.Depot;
 import it.polimi.ingsw.model.PersonalBoard.PersonalBoard;
@@ -429,8 +430,16 @@ public class Controller implements PersonalBoardEventListener, LorenzoEventListe
     }
 
     @Override
-    public void removeBottomCard(String cardType){
-        broadcast((new Message(MessageType.LORENZO_DISCARD,new String[]{cardType})));
+    public void removeBottomCard(CardType cardType,int[] level){
+        broadcast((new Message(MessageType.LORENZO_DISCARD,new String[]{cardType.toString()})));
+        for(int i:level){
+            DevelopmentCard removedCard=game.getDevelopmentCardGrid().getTopCard(level[i],cardType);
+            broadcast((new Message(MessageType.UPDATE_DEV_CARD_GRID,new String[]{
+                    String.valueOf(level[i]),
+                    cardType.name(),
+                    String.valueOf(removedCard==null?-1:removedCard.getId())
+            })));
+        }
     }
 
     @Override

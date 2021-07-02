@@ -78,20 +78,22 @@ public class DevelopmentCardGrid {
         return topCardsIds;
     }
 
-    public boolean removeBottomCard(CardType cardType) {
+    public int removeBottomCard(CardType cardType) {
         try {
-            cardGrid[2][cardType.ordinal()].removeBottomCard();
+            cardGrid[0][cardType.ordinal()].removeBottomCard();
+            return 1;
         } catch (EmptyStackException e0){
             try {
                 cardGrid[1][cardType.ordinal()].removeBottomCard();
+                return 2;
             } catch (EmptyStackException e1){
                 try {
-                    cardGrid[0][cardType.ordinal()].removeBottomCard();
+                    cardGrid[2][cardType.ordinal()].removeBottomCard();
+                    return 3;
                 } catch (EmptyStackException e2){
-                    return true;
+                    return -1;
                 }
             }
         }
-        return false;
     }
 }

@@ -92,13 +92,17 @@ public class Lorenzo {
     }
 
     public void removeBottomCard(CardType cardType) {
-        if(developmentCardGrid.removeBottomCard(cardType))
+        int removedLevels[]=new int[2];
+        removedLevels[0]= developmentCardGrid.removeBottomCard(cardType);
+        if(removedLevels[0]==-1)
             for(LorenzoEventListener l:eventListeners)
                 l.lorenzoWon();
-        if(developmentCardGrid.removeBottomCard(cardType))
+
+        removedLevels[1]= developmentCardGrid.removeBottomCard(cardType);
+        if(removedLevels[1]==-1)
             for(LorenzoEventListener l:eventListeners)
                 l.lorenzoWon();
         for(LorenzoEventListener l:eventListeners)
-            l.removeBottomCard(cardType.toString());
+            l.removeBottomCard(cardType,removedLevels);
     }
 }
