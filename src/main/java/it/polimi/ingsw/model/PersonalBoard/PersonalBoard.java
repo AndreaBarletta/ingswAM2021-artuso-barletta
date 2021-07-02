@@ -599,7 +599,12 @@ public class PersonalBoard implements ControllerEventListener {
         return true;
     }
 
-    public void activateProductions(Production[] productions) throws ResourcesException {
+    public void activateProductions(Production[] productions) throws ResourcesException,AnyResourceException {
+        //Check if the productions contain an ANY resource, which has to be chosen by the player
+        for(Production p:productions){
+            if(p.getIngredients().containsKey(ResType.ANY))     throw new AnyResourceException();
+            if(p.getProducts().containsKey(ResType.ANY))        throw new AnyResourceException();
+        }
         //Remove ingredients
         if(canProduce(productions)) {
             for(Production p : productions) {

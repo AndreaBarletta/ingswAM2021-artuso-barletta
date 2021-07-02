@@ -12,7 +12,7 @@ public enum GameState{
     LEADER_ACTION_ASKED,
     LEADER_ACTION_ACTIVATED,LEADER_ACTION_DISCARDED,LEADER_ACTION_SKIPPED,
     TURN_ACTION_ASKED,TURN_SKIPPED,
-    PRODUCTIONS_SHOWN,PRODUCTION_CHOSEN,RESOURCES_UPDATED,
+    PRODUCTIONS_SHOWN,PRODUCTION_CHOSEN,ANY_RESOURCE_ASKED,ANY_RESOURCE_CHOSEN,RESOURCES_UPDATED,
     DEV_CARD_GRID_SHOWN,DEV_CARD_CHOSEN,DEV_CARD_GRID_UPDATED,DEV_CARD_SLOT_ASKED,DEV_CARD_SLOT_CHOSEN,
     MARKET_SHOWN, ROW_OR_COLUMN_CHOSEN,RESOURCE_CONVERT_ASKED,RESOURCE_CONVERTED,RESOURCE_DISCARD_ASKED,RESOURCE_DISCARDED,
     VATICAN_REPORT_ACTIVATED,
@@ -103,7 +103,15 @@ public enum GameState{
                     return true;
                 break;
             case PRODUCTION_CHOSEN:
-                if(input.equals("SHOW_PRODUCTIONS")||input.equals("UPDATE_RESOURCES"))
+                if(input.equals("SHOW_PRODUCTIONS")||input.equals("UPDATE_RESOURCES")||input.equals("ASK_ANY_RESOURCE"))
+                    return true;
+                break;
+            case ANY_RESOURCE_ASKED:
+                if(input.equals("CHOOSE_ANY_RESOURCE"))
+                    return true;
+                break;
+            case ANY_RESOURCE_CHOSEN:
+                if(input.equals("UPDATE_RESOURCES")||input.equals("ASK_ANY_RESOURCE"))
                     return true;
                 break;
             case DEV_CARD_GRID_SHOWN:
@@ -224,6 +232,14 @@ public enum GameState{
             case PRODUCTION_CHOSEN:
                 if(input.equals("SHOW_PRODUCTIONS"))                return PRODUCTIONS_SHOWN;
                 if(input.equals("UPDATE_RESOURCES"))                return RESOURCES_UPDATED;
+                if(input.equals("ASK_ANY_RESOURCE"))                return ANY_RESOURCE_ASKED;
+            case ANY_RESOURCE_ASKED:
+                if(input.equals("CHOOSE_ANY_RESOURCE"))             return ANY_RESOURCE_CHOSEN;
+                break;
+            case ANY_RESOURCE_CHOSEN:
+                if(input.equals("UPDATE_RESOURCES"))                return RESOURCES_UPDATED;
+                if(input.equals("ASK_ANY_RESOURCE"))                return ANY_RESOURCE_ASKED;
+                break;
     //Dev card
             case DEV_CARD_GRID_SHOWN:
                 if(input.equals("CANCEL"))                          return TURN_ACTION_ASKED;

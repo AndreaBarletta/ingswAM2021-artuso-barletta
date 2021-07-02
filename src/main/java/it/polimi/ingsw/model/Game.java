@@ -30,6 +30,7 @@ public class Game {
     private boolean hasStarted;
     private boolean isLastTurn;
     private boolean hasEnded;
+    private Production[] tempProduction;
     private Lorenzo lorenzo;
 
     public Game(int numOfPlayers){
@@ -258,11 +259,40 @@ public class Game {
         }
     }
 
-    public void activateProductions(String playerName, Production[] productions) throws ResourcesException {
+    public void activateProductions(String playerName, Production[] productions) throws ResourcesException,AnyResourceException {
         PersonalBoard player=getPersonalBoard(playerName);
 
         if(player!=null) {
-            player.activateProductions(productions);
+            try {
+                player.activateProductions(tempProduction != null ? tempProduction : productions);
+                tempProduction=null;
+            }catch(AnyResourceException e){
+                if(tempProduction==null)
+                    tempProduction=productions;
+
+                throw new AnyResourceException();
+            }
+        }
+    }
+
+    public void chooseAnyResource(String playerName,ResType anyResource){
+        for(Production p:tempProduction){
+            if(p.getIngredients().containsKey(ResType.ANY)){
+                p.getIngredients().put(ResType.ANY,p.getIngredients().get(ResType.ANY)-1);
+                p.getIngredients().compute(anyResource,(k,v)->v==null?1:v+1);
+                if(p.getIngredients().get(ResType.ANY)==0){
+                    p.getIngredients().remove(ResType.ANY);
+                }
+                break;
+            }
+            if(p.getProducts().containsKey(ResType.ANY)){
+                p.getProducts().put(ResType.ANY,p.getProducts().get(ResType.ANY)-1);
+                p.getProducts().compute(anyResource,(k,v)->v==null?1:v+1);
+                if(p.getProducts().get(ResType.ANY)==0){
+                    p.getProducts().remove(ResType.ANY);
+                }
+                break;
+            }
         }
     }
 

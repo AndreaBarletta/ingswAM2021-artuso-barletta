@@ -13,8 +13,8 @@ public class Production {
     }
 
     public Production(Map<ResType,Integer> ingredients,Map<ResType,Integer> products){
-        this.ingredients=ingredients;
-        this.products=products;
+        this.ingredients=new HashMap<>(ingredients);
+        this.products=new HashMap<>(products);
     }
 
     public Map<ResType, Integer> getIngredients() {

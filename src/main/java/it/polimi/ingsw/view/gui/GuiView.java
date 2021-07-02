@@ -279,6 +279,11 @@ public class GuiView extends Application implements View {
     }
 
     @Override
+    public void askAnyResource() {
+
+    }
+
+    @Override
     public void updateResources(String playerName, LightDepot[] depots, List<LightDepot> leaderDepots, LightStrongbox strongbox) {
         LightPersonalBoard lpb=LBPByName(playerName);
         assert lpb != null;

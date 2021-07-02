@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.Production;
 import it.polimi.ingsw.model.ResType;
 
 import java.util.ArrayList;
@@ -174,12 +175,22 @@ public class GameStateAutomaton {
                     clientHandler.send(new Message(MessageType.SHOW_PRODUCTIONS,new String[]{}));
                     return true;
                 case PRODUCTION_CHOSEN:
+                    for(String p:params){
+                        if(Integer.parseInt(p)<0||Integer.parseInt(p)>5){
+                            state=GameState.PRODUCTIONS_SHOWN;
+                            errorMessage="Select a valid production";
+                            return false;
+                        }
+                    }
                     try {
                         controller.activateProductions(clientHandler.getPlayerName(), params);
                     } catch (ResourcesException e) {
                         state=GameState.PRODUCTIONS_SHOWN;
                         errorMessage="You don't have enough resources to activate the selected productions";
                         return false;
+                    } catch(AnyResourceException e){
+                        evolve("ASK_ANY_RESOURCE",null);
+                        return true;
                     }
                     controller.broadcast(new Message(MessageType.SHOW_CHOSEN_PRODUCTIONS,
                             Stream.concat(
@@ -188,6 +199,37 @@ public class GameStateAutomaton {
                             ).toArray(String[]::new))
                     );
                     evolve("UPDATE_RESOURCES",null);
+                    return true;
+                case ANY_RESOURCE_ASKED:
+                    clientHandler.send(new Message(MessageType.ASK_ANY_RESOURCE,null));
+                    return true;
+                case ANY_RESOURCE_CHOSEN:
+                    try{
+                        ResType chooseAny=ResType.valueOf(params[0]);
+                        if(chooseAny!=ResType.WHITEMARBLE&&chooseAny!=ResType.FAITH){
+                            //Update the productions
+                            controller.chooseAnyResource(clientHandler,chooseAny);
+                            //Tro to produce
+                            try {
+                                controller.activateProductions(clientHandler.getPlayerName(), new String[]{});
+                                evolve("UPDATE_RESOURCES",null);
+                            } catch (ResourcesException e) {
+                                state=GameState.PRODUCTIONS_SHOWN;
+                                errorMessage="You don't have enough resources to activate the selected productions";
+                                return false;
+                            } catch(AnyResourceException e){
+                                evolve("ASK_ANY_RESOURCE",null);
+                            }
+                        }else{
+                            errorMessage="Cannot produce or use faith, choose another resource to use or produce";
+                            state=GameState.ANY_RESOURCE_ASKED;
+                            return false;
+                        }
+                    }catch(IllegalArgumentException e){
+                        errorMessage="Choose a valid resource to use or produce";
+                        state=GameState.ANY_RESOURCE_ASKED;
+                        return false;
+                    }
                     return true;
                 case RESOURCES_UPDATED:
                     String playerName = clientHandler.getPlayerName();
