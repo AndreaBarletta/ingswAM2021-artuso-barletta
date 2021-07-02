@@ -260,7 +260,7 @@ public class GameStateAutomaton {
                     controller.endTurnAction(clientHandler);
                     //Check if the 7th development card as been picked
                     controller.checkDevCardEnd(clientHandler);
-                    evolve("ASK_LEADER_ACTION",null);
+                    evolve("UPDATE_RESOURCES",null);
                     return true;
                 case MARKET_SHOWN:
                     controller.broadcast(new Message(MessageType.TURN_CHOICE, new String[]{clientHandler.getPlayerName(),"visit market"}));
