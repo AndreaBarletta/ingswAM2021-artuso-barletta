@@ -236,6 +236,17 @@ public class CliView implements View,Runnable{
             System.out.println(lightModel.getLeaderCardDeck()[id].toString());
             System.out.print("\n");
         }
+
+        //Show resources
+        System.out.println("Resources available:");
+        System.out.println("Depots: ");
+        for(LightDepot d: lpb.getDepots())
+            System.out.println(d);
+        System.out.println("Leader Depots: ");
+        for(LightDepot d:lpb.getLeaderDepots())
+            System.out.println(d);
+        System.out.println("Strongbox: "+lpb.getStrongbox());
+
         System.out.print("What leader action do you want to play? (leaderskip/leaderactivate {id}/leaderdiscard {id}): ");
     }
 
@@ -291,6 +302,16 @@ public class CliView implements View,Runnable{
             System.out.println("Leader Card production ID "+i+":\n"+p);
             i++;
         }
+
+        //Show resources
+        System.out.println("Resources available:");
+        System.out.println("Depots: ");
+        for(LightDepot d: lpb.getDepots())
+            System.out.println(d);
+        System.out.println("Leader Depots: ");
+        for(LightDepot d:lpb.getLeaderDepots())
+            System.out.println(d);
+        System.out.println("Strongbox: "+lpb.getStrongbox());
         System.out.print("Choose which productions to activate (activate {id}) or go back (cancel): ");
     }
 
@@ -360,6 +381,17 @@ public class CliView implements View,Runnable{
                 }
             }
         }
+        //Show resources
+        LightPersonalBoard lpb=LBPByName(lightModel.getPlayerName());
+        System.out.println("Resources available:");
+        System.out.println("Depots: ");
+        for(LightDepot d: lpb.getDepots())
+            System.out.println(d);
+        System.out.println("Leader Depots: ");
+        for(LightDepot d:lpb.getLeaderDepots())
+            System.out.println(d);
+        System.out.println("Strongbox: "+lpb.getStrongbox());
+
         System.out.print("Choose a development card to buy (choosedevcard {id} [discount id] [discount id]) or go back (cancel): ");
     }
 
