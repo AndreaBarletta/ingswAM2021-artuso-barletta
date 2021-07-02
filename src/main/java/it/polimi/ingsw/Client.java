@@ -183,7 +183,7 @@ public class Client {
                     LightDepot[] depots=gson.fromJson(message.params[1],LightDepot[].class);
                     LightDepot[] leaderDepots=gson.fromJson(message.params[2],LightDepot[].class);
                     LightStrongbox strongbox=gson.fromJson(message.params[3],LightStrongbox.class);
-                    view.updateResources(message.params[0],depots,Arrays.asList(leaderDepots),strongbox);
+                    view.updateResources(message.params[0],depots,new ArrayList<>(Arrays.asList(leaderDepots)),strongbox);
                     break;
                 case SHOW_DEV_CARD_GRID:
                     view.showDevCardGrid();
