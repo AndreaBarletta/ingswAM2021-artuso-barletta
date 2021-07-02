@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.DevelopmentCard;
 import it.polimi.ingsw.model.DevelopmentCard.DevelopmentCard;
 
 import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class DevelopmentCardGridCell {
@@ -45,7 +46,12 @@ public class DevelopmentCardGridCell {
      * @return The first card on top of the stack
      */
     public DevelopmentCard getTopCard(){
-        return cardGridCell.peek();
+        try{
+            return cardGridCell.peek();
+        }catch(EmptyStackException e){
+            return null;
+        }
+
     }
 
     /**

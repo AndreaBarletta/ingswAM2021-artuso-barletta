@@ -114,7 +114,7 @@ public class LightPersonalBoard {
     public void addLeaderProduction(Production newLeaderProduction) {
         leaderProductions.add(newLeaderProduction);
     }
-    public void removeLeaderProduction(Production leaderProduction){leaderProductions.remove(leaderProduction);}
+    public void removeLeaderProduction(Production leaderProduction){leaderProductions.removeIf((d)->d.equals(leaderProduction));}
 
     public List<LightDepot> getLeaderDepots() {
         return leaderDepots;
@@ -122,14 +122,16 @@ public class LightPersonalBoard {
     public void setLeaderDepots(List<LightDepot> leaderDepots) {
         this.leaderDepots = leaderDepots;
     }
-    public void addLeaderDepot(Depot depot) { leaderDepots.add(new LightDepot(depot.getDepotResources(),0,depot.getCapacity())); }
-    public void removeLeaderDepot(Depot depot) { leaderDepots.removeIf(d -> d.getResource() == depot.getDepotResources()); }
+    public void addLeaderDepot(Depot depot) {
+        leaderDepots.add(new LightDepot(depot.getDepotResources(),0,depot.getCapacity()));
+    }
+    public void removeLeaderDepot(Depot depot) { leaderDepots.removeIf(d -> d.getResource().equals(depot.getDepotResources())); }
 
     public void addLeaderConvert(ResType newLeaderConvert){
         leaderConverts.add(newLeaderConvert);
     }
     public void removeLeaderConvert(ResType leaderConvert){
-        leaderConverts.remove(leaderConvert);
+        leaderConverts.removeIf((d)->d.equals(leaderConvert));
     }
     public List<ResType> getLeaderConverts() {
         return leaderConverts;
@@ -139,7 +141,7 @@ public class LightPersonalBoard {
         leaderDiscounts.add(newLeaderDiscount);
     }
     public void removeLeaderDiscount(Map<ResType,Integer> leaderDiscount){
-        leaderDiscounts.remove(leaderDiscount);
+        leaderDiscounts.removeIf((d)->d.equals(leaderDiscount));
     }
     public List<Map<ResType, Integer>> getLeaderDiscounts() {
         return leaderDiscounts;

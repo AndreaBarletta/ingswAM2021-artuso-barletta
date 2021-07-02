@@ -159,7 +159,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param leaderDepot Depot to be removed
      */
     public void removeLeaderDepot(Depot leaderDepot){
-        leaderDepots.remove(leaderDepot);
+        leaderDepots.removeIf((d)->d.getDepotResources().equals(leaderDepot.getDepotResources()));
     }
 
     /**
@@ -175,7 +175,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param leaderProduction Production to be removed
      */
     public void removeLeaderProduction(Production leaderProduction){
-        leaderProductions.remove(leaderProduction);
+        leaderProductions.removeIf((d)->d.equals(leaderProduction));
     }
 
     /**
@@ -191,7 +191,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param leaderConvert Convert to be removed
      */
     public void removeLeaderConvert(ResType leaderConvert){
-        leaderConverts.remove(leaderConvert);
+        leaderConverts.removeIf((d)->d.equals(leaderConvert));
     }
 
     /**
@@ -207,7 +207,7 @@ public class PersonalBoard implements ControllerEventListener {
      * @param leaderDiscount Discount to be removed
      */
     public void removeLeaderDiscount(Map<ResType,Integer> leaderDiscount){
-        leaderDiscounts.remove(leaderDiscount);
+        leaderDiscounts.removeIf((d)->d.equals(leaderDiscount));
     }
 
     public List<Production> getLeaderProductions() {
